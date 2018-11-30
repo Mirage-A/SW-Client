@@ -16,23 +16,29 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mirage.model.ModelFacade;
+import com.mirage.view.View;
 
 public class Controller extends ApplicationAdapter {
-    private Texture dropImage;
-    private Texture bucketImage;
-    private Sound dropSound;
-    private Music rainMusic;
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
     private Rectangle bucket;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
+    private Sound dropSound;
+    private Music rainMusic;
+    private View view;
+    private ModelFacade model;
 
     @Override
     public void create() {
-        // load the images for the droplet and the bucket, 64x64 pixels each
-        dropImage = new Texture(Gdx.files.internal("droplet.png"));
-        bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+        // create a Rectangle to logically represent the bucket
+        bucket = new Rectangle();
+        bucket.x = 800 / 2 - 64 / 2; // center the bucket horizontally
+        bucket.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
+        bucket.width = 64;
+        bucket.height = 64;
+
+        model = new ModelFacade();
+        view = new View();
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -42,21 +48,10 @@ public class Controller extends ApplicationAdapter {
         rainMusic.setLooping(true);
         rainMusic.play();
 
-        // create the camera and the SpriteBatch
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
-        batch = new SpriteBatch();
-
-        // create a Rectangle to logically represent the bucket
-        bucket = new Rectangle();
-        bucket.x = 800 / 2 - 64 / 2; // center the bucket horizontally
-        bucket.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
-        bucket.width = 64;
-        bucket.height = 64;
-
         // create the raindrops array and spawn the first raindrop
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
+
     }
 
     private void spawnRaindrop() {
@@ -71,34 +66,12 @@ public class Controller extends ApplicationAdapter {
 
     @Override
     public void render() {
-        // clear the screen with a dark blue color. The
-        // arguments to glClearColor are the red, green
-        // blue and alpha component in the range [0,1]
-        // of the color to be used to clear the screen.
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // tell the camera to update its matrices.
-        camera.update();
-
-        // tell the SpriteBatch to render in the
-        // coordinate system specified by the camera.
-        batch.setProjectionMatrix(camera.combined);
-
-        // begin a new batch and draw the bucket and
-        // all drops
-        batch.begin();
-        batch.draw(bucketImage, bucket.x, bucket.y);
-        for(Rectangle raindrop: raindrops) {
-            batch.draw(dropImage, raindrop.x, raindrop.y);
-        }
-        batch.end();
-
         // process user input
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
+            view.camera.unproject(touchPos); //Этот метод переводит координаты на экране в координаты игры
+            // (без учета всяких передвижений камеры). Нам этот метод не нужен, т.к. мы обрабатываем UI
             bucket.x = touchPos.x - 64 / 2;
         }
         if(Gdx.input.isKeyPressed(Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
@@ -123,15 +96,15 @@ public class Controller extends ApplicationAdapter {
                 iter.remove();
             }
         }
+
+        view.render(bucket, raindrops);
     }
 
     @Override
     public void dispose() {
         // dispose of all the native resources
-        dropImage.dispose();
-        bucketImage.dispose();
         dropSound.dispose();
         rainMusic.dispose();
-        batch.dispose();
+        view.dispose();
     }
 }
