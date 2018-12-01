@@ -47,12 +47,11 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
-        //implementation "org.lwjgl:lwjgl:${lwjglVersion}"
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-        //implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     }
 }
 

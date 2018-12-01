@@ -1,6 +1,6 @@
 package com.mirage.model
 
-public class ModelFacade {
+class ModelFacade {
     private val logic = LogicThread()
 
     public fun startLogic() {

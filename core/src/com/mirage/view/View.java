@@ -7,17 +7,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.mirage.model.ModelFacade;
 
 public class View {
     private Texture dropImage;
     private Texture bucketImage;
     private SpriteBatch batch;
     public OrthographicCamera camera;
+    private ModelFacade model;
 
-    public View() {
+    public View(ModelFacade model) {
+        this.model = model;
+
         // load the images for the droplet and the bucket, 64x64 pixels each
-        dropImage = new Texture(Gdx.files.internal("droplet.png"));
-        bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+        dropImage = new Texture(Gdx.files.internal("android/assets/droplet.png"));
+        bucketImage = new Texture(Gdx.files.internal("android/assets/bucket.png"));
 
 
         // create the camera and the SpriteBatch
