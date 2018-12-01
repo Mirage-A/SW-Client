@@ -7,6 +7,7 @@ class LogicThread : Thread() {
 
     override fun run() {
         super.run()
+        scene.c;
     }
 
 }

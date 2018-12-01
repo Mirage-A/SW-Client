@@ -47,7 +47,7 @@ public class Controller extends ApplicationAdapter {
         // create the raindrops array and spawn the first raindrop
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
-
+        model.startLogic();
     }
 
     private void spawnRaindrop() {
