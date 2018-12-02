@@ -26,6 +26,7 @@ public class Controller extends ApplicationAdapter {
 
     @Override
     public void create() {
+
         // create a Rectangle to logically represent the bucket
         bucket = new Rectangle();
         bucket.x = 800 / 2 - 64 / 2; // center the bucket horizontally
@@ -47,6 +48,8 @@ public class Controller extends ApplicationAdapter {
         // create the raindrops array and spawn the first raindrop
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
+
+
         model.startLogic();
     }
 
