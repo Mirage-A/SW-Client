@@ -12,10 +12,9 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.5'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-
+        classpath ("org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4")
     }
 }
-
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
@@ -42,6 +41,7 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "kotlin"
+    apply plugin: 'org.junit.platform.gradle.plugin'
 
     project.ext.lwjglVersion = "3.0.0a"
 
@@ -52,6 +52,19 @@ project(":desktop") {
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+        testCompile("junit:junit:4.12")
+        testRuntime("org.junit.vintage:junit-vintage-engine:4.12.0-M4")
+
+        testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0-M4")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")
+
+        // Enable use of the JUnitPlatform Runner within the IDE
+        testCompile("org.junit.platform:junit-platform-runner:1.0.0-M4")
+    }
+
+    junitPlatform {
+        details 'tree'
     }
 }
 
@@ -60,7 +73,6 @@ project(":android") {
     apply plugin: "kotlin-android"
 
     configurations { natives }
-
     dependencies {
         implementation project(":core")
         implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
@@ -90,7 +102,6 @@ project(":ios") {
 
 project(":core") {
     apply plugin: "kotlin"
-
 
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

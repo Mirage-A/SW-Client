@@ -6,7 +6,6 @@ sourceCompatibility = '1.7'
 ext {
 	mainClassName = "com.mirage.IOSLauncher"
 }
-
 launchIPhoneSimulator.dependsOn build
 launchIPadSimulator.dependsOn build
 launchIOSDevice.dependsOn build

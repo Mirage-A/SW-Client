@@ -16,9 +16,30 @@ public class View {
     public OrthographicCamera camera;
     private ModelFacade model;
 
+    /**
+     * Вычисляет размер одного тайла на экране в зависимости от параметров экрана
+     * Размеры тайла подбираются таким образом, чтобы сумма
+     * (tilesInWidth - defaultTilesInHeight) ^ 2 + (tilesInHeight - defaultTilesInHeight) ^ 2
+     * была минимальной (tilesInHeight - кол-во тайлов в высоту, т.е scrH / tileH),
+     * тогда разность обзора на данном экране и на стандартном экране минимальна.
+     * Учитывается, что отношение ширины и высоты тайла равно 2
+     * //TODO Можно доделать так, чтобы минимизировать лишние площади, а не длины
+     * //TODO (чтобы площадь симметрической разности двух прямоугольников была минимальна)
+     * @param scrW Ширина экрана
+     * @param scrH Высота экрана
+     * @return Оптимальный размер одного тайла (хранится как ширина и высота прямоугольника)
+     */
+    public Rectangle calculateTileSize(int scrW, int scrH) {
+        float tileH = Math.round(2 * (scrW * scrW + 4 * scrH * scrH) / (float) (15 * (4 * scrW + 9 * scrH)));
+        Rectangle res = new Rectangle(0, 0, 2 * tileH, tileH);
+        System.out.println("Размеры экрана: " + scrW + " x " + scrH + " px");
+        System.out.println("Размеры тайла: " + res.width + " x " + res.height + " px");
+        System.out.println("Кол-во тайлов на экране: " + scrW/res.width + " x " + scrH/res.height);
+        return res;
+    }
+
     public View(ModelFacade model) {
         this.model = model;
-
         // load the images for the droplet and the bucket, 64x64 pixels each
         dropImage = new Texture(Gdx.files.internal("android/assets/droplet.png"));
         bucketImage = new Texture(Gdx.files.internal("android/assets/bucket.png"));
@@ -26,10 +47,13 @@ public class View {
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1920, 1080);
         batch = new SpriteBatch();
 
     }
+
+    public View() {}
+
 
     public void render(Rectangle bucket, Array<Rectangle> raindrops) {
         // clear the screen with a dark blue color. The
