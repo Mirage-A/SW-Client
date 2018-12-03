@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.mirage.model.ModelFacade;
 import com.mirage.model.scene.Scene;
 
@@ -37,14 +36,17 @@ public class View {
      */
     public static final float X_MARGIN = 1500;
     public static final float Y_MARGIN = 1000;
+    /**
+     * Разница y - координаты между координатами игрока и координатами центра экрана
+     * (точка под игроком находится на DELTA_CENTER_Y пикселей ниже центра экрана).
+     */
+    public static final float DELTA_CENTER_Y = 32;
 
     /**
      * Список текстур, используемых на данной сцене (карте)
      */
     private List<Texture> tileTextures;
 
-    private Texture dropImage;
-    private Texture bucketImage;
     private SpriteBatch batch;
     public OrthographicCamera camera;
     private ModelFacade model;
@@ -57,11 +59,8 @@ public class View {
 
     public View(ModelFacade model) {
         this.model = model;
-        // load the images for the droplet and the bucket, 64x64 pixels each
-        dropImage = new Texture(Gdx.files.internal("android/assets/droplet.png"));
-        bucketImage = new Texture(Gdx.files.internal("android/assets/bucket.png"));
         //TODO получить сцену из модели
-        loadTileTextures(new Scene());
+        loadTileTextures(model.getScene());
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
@@ -75,15 +74,19 @@ public class View {
      */
     private float lastRealScreenWidth = 0;
     private float lastRealScreenHeight = 0;
-    public void render(Rectangle bucket, Array<Rectangle> raindrops) {
+
+    /**
+     * Отрисовка экрана
+     */
+    public void render() {
         if (lastRealScreenWidth != Gdx.graphics.getWidth() || lastRealScreenHeight != Gdx.graphics.getHeight()) {
             setScreenSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
-        //TODO получить сцену из модели
-        Scene scene = new Scene();
+        Scene scene = model.getScene();
+        Point playerPos = BasisSwitcher.getVirtualScreenPoint(model.getPlayerPosition(), scene);
         //TODO Вычислить положение экрана из положения персонажа в сцене
-        float scrX = X_MARGIN;
-        float scrY = Y_MARGIN;
+        float scrX = playerPos.getX() - scrW / 2;
+        float scrY = playerPos.getY() - scrH / 2 + DELTA_CENTER_Y;
 
         Gdx.gl.glClearColor(0, 1f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -106,9 +109,10 @@ public class View {
     }
 
     public void dispose() {
-        dropImage.dispose();
-        bucketImage.dispose();
         batch.dispose();
+        for (Texture t : tileTextures) {
+            t.dispose();
+        }
     }
 
     /**

@@ -108,6 +108,8 @@ project(":core") {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
         implementation "log4j:log4j:1.2.9"
+        implementation "com.badlogicgames.gdx:gdx-box2d:1.9.9"
+        implementation "com.badlogicgames.gdx:gdx-box2d-platform:1.9.9"
     }
 }
 
