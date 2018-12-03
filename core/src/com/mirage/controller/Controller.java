@@ -36,7 +36,6 @@ public class Controller extends ApplicationAdapter {
 
         model = new ModelFacade();
         view = new View(model);
-        view.setScreenSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("android/assets/drop.wav"));
