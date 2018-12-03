@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mirage.model.ModelFacade;
 import com.mirage.model.scene.Scene;
 
+import com.mirage.model.scene.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +23,20 @@ public class View {
      * но при этом чтобы изображения не сплющивались и не растягивались,
      * т.е. отношение ширины и высоты всех изображений сохранялось.
      */
-    private final int DEFAULT_SCREEN_WIDTH = 1920;
-    private final int DEFAULT_SCREEN_HEIGHT = 1080;
+    protected final float DEFAULT_SCREEN_WIDTH = 1920;
+    protected final float DEFAULT_SCREEN_HEIGHT = 1080;
     /**
      * Размер одного тайла на виртуальном экране
      */
-    private final int TILE_WIDTH = 128;
-    private final int TILE_HEIGHT = 64;
+    protected final float TILE_WIDTH = 128;
+    protected final float TILE_HEIGHT = 64;
+
+    /**
+     * Отступы в пикселях осей координат виртуального экрана от углов тайловой сетки
+     * (запас для фона, если игрок подошёл к краю сцены).
+     */
+    protected final float X_MARGIN = 1500;
+    protected final float Y_MARGIN = 1000;
 
     /**
      * Список текстур, используемых на данной сцене (карте)
@@ -43,8 +51,8 @@ public class View {
     /**
      * Размеры виртуального экрана
      */
-    protected int scrW;
-    protected int scrH;
+    protected float scrW;
+    protected float scrH;
 
 
     public View(ModelFacade model) {
@@ -62,11 +70,11 @@ public class View {
 
 
     public void render(Rectangle bucket, Array<Rectangle> raindrops) {
-        // clear the screen with a dark blue color. The
-        // arguments to glClearColor are the red, green
-        // blue and alpha component in the range [0,1]
-        // of the color to be used to clear the screen.
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        //TODO Получить положение экрана из модели
+        int scrX = 0;
+        int scrY = 0;
+
+        Gdx.gl.glClearColor(0, 1f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell the camera to update its matrices.
@@ -76,14 +84,12 @@ public class View {
         // coordinate system specified by the camera.
         batch.setProjectionMatrix(camera.combined);
 
-        // begin a new batch and draw the bucket and
-        // all drops
         batch.begin();
-        batch.draw(bucketImage, bucket.x, bucket.y);
-        for(Rectangle raindrop: raindrops) {
-            batch.draw(dropImage, raindrop.x, raindrop.y);
-        }
+
+        //TODO отрисовка
+
         batch.end();
+
 
     }
 
@@ -98,11 +104,64 @@ public class View {
      * @param realWidth Ширина реального экрана
      * @param realHeight Высота реального экрана
      */
-    public void setScreenSize(int realWidth, int realHeight) {
+    public void setScreenSize(float realWidth, float realHeight) {
         Rectangle viewportSize = calculateViewportSize(realWidth, realHeight);
         scrW = (int) viewportSize.width;
         scrH = (int) viewportSize.height;
         camera.setToOrtho(false, scrW, scrH);
+    }
+
+    /**
+     * Загружает текстуры тайлов, используемых в данной сцене
+     * //TODO
+     */
+    protected void loadTileTextures(Scene scene) {
+        tileTextures = new ArrayList<Texture>();
+        tileTextures.add(new Texture(Gdx.files.internal("android/assets/tiles/0000.png")));
+    }
+
+    /**
+     * Отрисовывает тайлы, попадающие в обзор
+     * @param scrX Координаты экрана
+     * @param scrY Координаты экрана
+     * @param scene Текущая сцена
+     */
+    private void drawTiles(float scrX, float scrY, Scene scene) {
+        //TODO загружать тайлы из сцены
+        int[][] tileMatrix = new int[5][5];
+        for (int i = 0; i < 5; ++i)
+            for (int j = 0; j < 5; ++j)
+                tileMatrix[i][j] = 0;
+
+
+    }
+
+    /**
+     * Переводит координаты точки в базисе сцены в базис виртуального экрана
+     * @param modelPoint Точка в базисе сцены
+     * @param scene Сцена
+     * @return Точка в базисе виртуального экрана
+     */
+    protected Point getVirtualScreenPoint(Point modelPoint, Scene scene) {
+        float x = TILE_WIDTH / 2 * modelPoint.getX() + TILE_WIDTH / 2 * modelPoint.getY() +
+                X_MARGIN;
+        float y = - TILE_HEIGHT / 2 * modelPoint.getX() + TILE_HEIGHT / 2 * modelPoint.getY() +
+                Y_MARGIN + scene.getWidth() * TILE_HEIGHT / 2;
+        return new Point(x, y);
+    }
+
+    /**
+     * Переводит координаты точки в базисе виртуального экрана в базис сцены
+     * @param virtialScreenPoint Точка в базисе виртуального экрана
+     * @param scene Сцена
+     * @return Точка в базисе сцены
+     */
+    protected Point getScenePoint(Point virtialScreenPoint, Scene scene) {
+        float x = virtialScreenPoint.getX() / TILE_WIDTH - virtialScreenPoint.getY() / TILE_HEIGHT -
+                X_MARGIN / TILE_WIDTH + Y_MARGIN / TILE_HEIGHT + scene.getWidth() / 2;
+        float y = virtialScreenPoint.getX() / TILE_WIDTH + virtialScreenPoint.getY() / TILE_HEIGHT -
+                X_MARGIN / TILE_WIDTH - Y_MARGIN / TILE_HEIGHT - scene.getWidth() / 2;
+        return new Point(x, y);
     }
 
     /**
@@ -114,10 +173,10 @@ public class View {
      * @param realHeight Высота реального экрана
      * @return Оптимальный размер виртуального экрана
      */
-    protected Rectangle calculateViewportSize(int realWidth, int realHeight) {
+    protected Rectangle calculateViewportSize(float realWidth, float realHeight) {
         Rectangle tileSize = calculateTileSize(realWidth, realHeight);
-        int width = evenRound(realWidth / tileSize.width * TILE_WIDTH);
-        int height = evenRound(realHeight / tileSize.height * TILE_HEIGHT);
+        float width = evenRound(realWidth / tileSize.width * TILE_WIDTH);
+        float height = evenRound(realHeight / tileSize.height * TILE_HEIGHT);
         Log.i("Размеры виртуального экрана: " + width + " x " + height + " px");
         return new Rectangle(0, 0, width, height);
     }
@@ -132,7 +191,7 @@ public class View {
      * @param realHeight Высота реального экрана
      * @return Оптимальный размер одного тайла (хранится как ширина и высота прямоугольника)
      */
-    protected Rectangle calculateTileSize(int realWidth, int realHeight) {
+    protected Rectangle calculateTileSize(float realWidth, float realHeight) {
         // Используем тернарный поиск по высоте тайла
         float L = 0f;
         float R = 512f;
@@ -167,11 +226,11 @@ public class View {
      * @param realHeight Высота реального экрана
      * @return Площадь симметрической разности обзоров
      */
-    private float visionsSymmetricDifference(float tileH, int realWidth, int realHeight) {
+    private float visionsSymmetricDifference(float tileH, float realWidth, float realHeight) {
         float w = realWidth / (2 * tileH);
         float h = realHeight / tileH;
-        float dw = DEFAULT_SCREEN_WIDTH / (float) TILE_WIDTH;
-        float dh = DEFAULT_SCREEN_HEIGHT / (float) TILE_HEIGHT;
+        float dw = DEFAULT_SCREEN_WIDTH / TILE_WIDTH;
+        float dh = DEFAULT_SCREEN_HEIGHT / TILE_HEIGHT;
 
         if (w <= dw && h <= dh) {
             return dw * dh - w * h;
@@ -201,14 +260,6 @@ public class View {
         return res + 1;
     }
 
-    /**
-     * Загружает текстуры тайлов, используемых в данной сцене
-     * //TODO
-     */
-    protected void loadTileTextures(Scene scene) {
-        tileTextures = new ArrayList<Texture>();
-        tileTextures.add(new Texture(Gdx.files.internal("android/assets/tiles/0000.png")));
-    }
 
     /**
      * Пустой protected конструктор, нужен только для тестов

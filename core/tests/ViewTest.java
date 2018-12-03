@@ -1,17 +1,16 @@
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
+import com.mirage.model.scene.Point;
+import com.mirage.model.scene.Scene;
+import com.mirage.view.Log;
 import com.mirage.view.View;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ViewTest extends View {
+class ViewTest extends View {
     @Test
-    public void test() {
-        System.out.println("Test!");
-
+    void testScreenScaling() {
         assertEquals(new Rectangle(0, 0, 128, 64), calculateTileSize(1920, 1080));
         assertEquals(new Rectangle(0, 0, 1920, 1080), calculateViewportSize(1920, 1080));
 
@@ -23,5 +22,20 @@ public class ViewTest extends View {
 
         assertEquals(new Rectangle(0, 0, 36, 18), calculateTileSize(480, 320));
         assertEquals(new Rectangle(0, 0, 1706, 1138), calculateViewportSize(480, 320));
+    }
+
+    @Test
+    void testBasisSwitching() {
+        Scene scene = new Scene();
+        assertEquals(new Point(X_MARGIN, Y_MARGIN + scene.getWidth() * TILE_HEIGHT / 2),
+                getVirtualScreenPoint(new Point(0, 0), scene));
+        Log.d(new Point(0, 0));
+        Log.d(getVirtualScreenPoint(new Point(0, 0), scene));
+        Log.d(getScenePoint(getVirtualScreenPoint(new Point(0, 0), scene), scene));
+        assertEquals(new Point(0, 0), getScenePoint(getVirtualScreenPoint(new Point(0, 0), scene), scene));
+        Log.d(new Point(0, 0));
+        Log.d(getScenePoint(new Point(0, 0), scene));
+        Log.d(getVirtualScreenPoint(getScenePoint(new Point(0, 0), scene), scene));
+        assertEquals(new Point(0, 0), getVirtualScreenPoint(getScenePoint(new Point(0, 0), scene), scene));
     }
 }

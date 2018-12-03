@@ -1,8 +1,6 @@
 package com.mirage.model.scene
 
 class Scene {
-
-    init {
-
-    }
+    var width = 5f
+    var height = 5f
 }
