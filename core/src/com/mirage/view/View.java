@@ -10,6 +10,10 @@ import com.mirage.model.ModelFacade;
 import com.mirage.model.scene.Scene;
 
 import com.mirage.model.scene.Point;
+import com.mirage.view.scene.objects.Animation;
+import com.mirage.view.scene.objects.ObjectDrawer;
+import com.mirage.view.scene.objects.humanoid.HumanoidDrawer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +92,7 @@ public class View {
         float scrX = playerPos.getX() - scrW / 2;
         float scrY = playerPos.getY() - scrH / 2 + DELTA_CENTER_Y;
 
-        Gdx.gl.glClearColor(0, 1f, 0, 1);
+        Gdx.gl.glClearColor(0.25f, 0.25f, 1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell the camera to update its matrices.
@@ -160,6 +164,8 @@ public class View {
                         cameraPoint.getX() - TILE_WIDTH / 2, cameraPoint.getY() - TILE_HEIGHT / 2);
             }
         }
+        ObjectDrawer d = new HumanoidDrawer(null);
+        d.draw(batch, 100, 100);
 
     }
 
