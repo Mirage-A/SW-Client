@@ -2,7 +2,10 @@ package com.mirage.view.scene.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class Animation extends ObjectDrawer{
+/**
+ * Анимированный объект
+ */
+public abstract class AnimatedObjectDrawer extends ObjectDrawer{
     private long startTime;
 
     @Override
@@ -10,11 +13,11 @@ public abstract class Animation extends ObjectDrawer{
         draw(batch, x, y, System.currentTimeMillis() - startTime);
     }
 
-    public Animation() {
+    public AnimatedObjectDrawer() {
         startTime = System.currentTimeMillis();
     }
 
-    public Animation(long startTime) {
+    public AnimatedObjectDrawer(long startTime) {
         this.startTime = startTime;
     }
 

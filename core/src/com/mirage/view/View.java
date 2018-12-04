@@ -10,7 +10,6 @@ import com.mirage.model.ModelFacade;
 import com.mirage.model.scene.Scene;
 
 import com.mirage.model.scene.Point;
-import com.mirage.view.scene.objects.Animation;
 import com.mirage.view.scene.objects.ObjectDrawer;
 import com.mirage.view.scene.objects.humanoid.HumanoidDrawer;
 
@@ -142,6 +141,7 @@ public class View {
         tileTextures.add(new Texture(Gdx.files.internal("android/assets/tiles/0000.png")));
     }
 
+    ObjectDrawer d = new HumanoidDrawer();
     /**
      * Отрисовывает тайлы, попадающие в обзор
      * @param scrX Координаты экрана
@@ -164,7 +164,6 @@ public class View {
                         cameraPoint.getX() - TILE_WIDTH / 2, cameraPoint.getY() - TILE_HEIGHT / 2);
             }
         }
-        ObjectDrawer d = new HumanoidDrawer(null);
         d.draw(batch, 100, 100);
 
     }

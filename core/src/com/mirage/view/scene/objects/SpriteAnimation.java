@@ -3,8 +3,10 @@ package com.mirage.view.scene.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-
-public abstract class SpriteAnimation extends Animation{
+/**
+ * Анимированный объект, анимация которого задаётся покадрово
+ */
+public abstract class SpriteAnimation extends AnimatedObjectDrawer{
 
     @Override
     protected void draw(SpriteBatch batch, float x, float y, long timePassed) {
