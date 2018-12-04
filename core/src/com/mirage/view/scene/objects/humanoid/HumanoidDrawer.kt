@@ -70,21 +70,52 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                         when (weaponType) {
                             WeaponType.ONE_HANDED ->
                             {
-                                if (timePassed < 501)
+                                if (timePassed < 251)
                                 {
-                                    val progress = (timePassed - 0) / 501f
-                                    batch.draw(textures["cloak"]!!.getTexture(timePassedSinceStart), x + curValue(1.0f, 1.0f, progress) - DefaultSizes.defaultWidth["cloak"]!!/2f, y + curValue(3.0f, 3.0f, progress) - DefaultSizes.defaultHeight["cloak"]!!/2f, DefaultSizes.defaultWidth["cloak"]!!/2f, DefaultSizes.defaultHeight["cloak"]!!/2f, DefaultSizes.defaultWidth["cloak"]!! + 0f, DefaultSizes.defaultHeight["cloak"]!! + 0f, curValue(120.0f, 54.0f, progress) / (DefaultSizes.defaultWidth["cloak"]!! + 0f), curValue(109.0f, 49.0f, progress) / (DefaultSizes.defaultHeight["cloak"]!! + 0f), curValue(-0.3237381f, 89.526474f, progress), 0, 0, DefaultSizes.defaultWidth["cloak"]!!, DefaultSizes.defaultHeight["cloak"]!!, false, false)
+                                    val progress = (timePassed - 0) / 251f
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(-6.0f, -16.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-9.0f, -16.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(76.551346f, 34.76519f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(-3.0f, -6.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-23.0f, -25.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(84.88954f, 55.813824f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+                                    batch.draw(textures["body"]!!.getTexture(timePassedSinceStart), x + curValue(1.0f, 3.0f, progress) - DefaultSizes.defaultWidth["body"]!!/2f, y - curValue(-42.0f, -43.0f, progress) - DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!!/2f, DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!! + 0f, DefaultSizes.defaultHeight["body"]!! + 0f, curValue(35.0f, 35.0f, progress) / (DefaultSizes.defaultWidth["body"]!! + 0f), curValue(19.0f, 19.0f, progress) / (DefaultSizes.defaultHeight["body"]!! + 0f), curValue(89.10479f, 81.214645f, progress), 0, 0, DefaultSizes.defaultWidth["body"]!!, DefaultSizes.defaultHeight["body"]!!, false, false)
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(4.0f, 6.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-9.0f, -10.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(83.04703f, 74.53877f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(4.0f, 6.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-23.0f, -23.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(92.54478f, 113.62933f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+
                                 }
-                                else if (timePassed < 1002)
+                                else if (timePassed < 502)
                                 {
-                                    val progress = (timePassed - 501) / 501f
-                                    batch.draw(textures["cloak"]!!.getTexture(timePassedSinceStart), x + curValue(1.0f, 1.0f, progress) - DefaultSizes.defaultWidth["cloak"]!!/2f, y + curValue(3.0f, 3.0f, progress) - DefaultSizes.defaultHeight["cloak"]!!/2f, DefaultSizes.defaultWidth["cloak"]!!/2f, DefaultSizes.defaultHeight["cloak"]!!/2f, DefaultSizes.defaultWidth["cloak"]!! + 0f, DefaultSizes.defaultHeight["cloak"]!! + 0f, curValue(54.0f, 120.0f, progress) / (DefaultSizes.defaultWidth["cloak"]!! + 0f), curValue(49.0f, 109.0f, progress) / (DefaultSizes.defaultHeight["cloak"]!! + 0f), curValue(89.526474f, -0.3237381f, progress), 0, 0, DefaultSizes.defaultWidth["cloak"]!!, DefaultSizes.defaultHeight["cloak"]!!, false, false)
+                                    val progress = (timePassed - 251) / 251f
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(-16.0f, 3.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-16.0f, -9.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(34.76519f, 81.469215f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(-6.0f, 3.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-25.0f, -24.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(55.813824f, 103.19056f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+                                    batch.draw(textures["body"]!!.getTexture(timePassedSinceStart), x + curValue(3.0f, 1.0f, progress) - DefaultSizes.defaultWidth["body"]!!/2f, y - curValue(-43.0f, -42.0f, progress) - DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!!/2f, DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!! + 0f, DefaultSizes.defaultHeight["body"]!! + 0f, curValue(35.0f, 35.0f, progress) / (DefaultSizes.defaultWidth["body"]!! + 0f), curValue(19.0f, 19.0f, progress) / (DefaultSizes.defaultHeight["body"]!! + 0f), curValue(81.214645f, 89.10479f, progress), 0, 0, DefaultSizes.defaultWidth["body"]!!, DefaultSizes.defaultHeight["body"]!!, false, false)
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(6.0f, -5.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-10.0f, -8.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(74.53877f, 83.04703f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(6.0f, -3.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-23.0f, -22.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(113.62933f, 81.362816f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+
+                                }
+                                else if (timePassed < 753)
+                                {
+                                    val progress = (timePassed - 502) / 251f
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(3.0f, 9.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-9.0f, -11.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(81.469215f, 75.73545f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(3.0f, 7.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-24.0f, -24.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(103.19056f, 114.77513f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+                                    batch.draw(textures["body"]!!.getTexture(timePassedSinceStart), x + curValue(1.0f, 3.0f, progress) - DefaultSizes.defaultWidth["body"]!!/2f, y - curValue(-42.0f, -43.0f, progress) - DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!!/2f, DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!! + 0f, DefaultSizes.defaultHeight["body"]!! + 0f, curValue(35.0f, 35.0f, progress) / (DefaultSizes.defaultWidth["body"]!! + 0f), curValue(19.0f, 19.0f, progress) / (DefaultSizes.defaultHeight["body"]!! + 0f), curValue(89.10479f, 81.214645f, progress), 0, 0, DefaultSizes.defaultWidth["body"]!!, DefaultSizes.defaultHeight["body"]!!, false, false)
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(-5.0f, -16.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-8.0f, -15.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(83.04703f, 42.06427f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(-3.0f, -7.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-22.0f, -25.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(81.362816f, 51.801285f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+
+                                }
+                                else if (timePassed < 1004)
+                                {
+                                    val progress = (timePassed - 753) / 251f
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(9.0f, -6.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-11.0f, -9.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(75.73545f, 76.551346f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(7.0f, -3.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-24.0f, -23.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(114.77513f, 84.88954f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+                                    batch.draw(textures["body"]!!.getTexture(timePassedSinceStart), x + curValue(3.0f, 1.0f, progress) - DefaultSizes.defaultWidth["body"]!!/2f, y - curValue(-43.0f, -42.0f, progress) - DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!!/2f, DefaultSizes.defaultHeight["body"]!!/2f, DefaultSizes.defaultWidth["body"]!! + 0f, DefaultSizes.defaultHeight["body"]!! + 0f, curValue(35.0f, 35.0f, progress) / (DefaultSizes.defaultWidth["body"]!! + 0f), curValue(19.0f, 19.0f, progress) / (DefaultSizes.defaultHeight["body"]!! + 0f), curValue(81.214645f, 89.10479f, progress), 0, 0, DefaultSizes.defaultWidth["body"]!!, DefaultSizes.defaultHeight["body"]!!, false, false)
+                                    batch.draw(textures["legbottom"]!!.getTexture(timePassedSinceStart), x + curValue(-16.0f, 4.0f, progress) - DefaultSizes.defaultWidth["legbottom"]!!/2f, y - curValue(-15.0f, -9.0f, progress) - DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!!/2f, DefaultSizes.defaultHeight["legbottom"]!!/2f, DefaultSizes.defaultWidth["legbottom"]!! + 0f, DefaultSizes.defaultHeight["legbottom"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legbottom"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legbottom"]!! + 0f), curValue(42.06427f, 83.04703f, progress), 0, 0, DefaultSizes.defaultWidth["legbottom"]!!, DefaultSizes.defaultHeight["legbottom"]!!, false, false)
+                                    batch.draw(textures["legtop"]!!.getTexture(timePassedSinceStart), x + curValue(-7.0f, 4.0f, progress) - DefaultSizes.defaultWidth["legtop"]!!/2f, y - curValue(-25.0f, -23.0f, progress) - DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!!/2f, DefaultSizes.defaultHeight["legtop"]!!/2f, DefaultSizes.defaultWidth["legtop"]!! + 0f, DefaultSizes.defaultHeight["legtop"]!! + 0f, curValue(21.0f, 21.0f, progress) / (DefaultSizes.defaultWidth["legtop"]!! + 0f), curValue(9.0f, 9.0f, progress) / (DefaultSizes.defaultHeight["legtop"]!! + 0f), curValue(51.801285f, 92.54478f, progress), 0, 0, DefaultSizes.defaultWidth["legtop"]!!, DefaultSizes.defaultHeight["legtop"]!!, false, false)
+
                                 }
                             }
                             WeaponType.ONE_HANDED_AND_SHIELD ->
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -92,6 +123,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -99,6 +131,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -106,6 +139,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -113,6 +147,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -123,6 +158,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -130,6 +166,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -137,6 +174,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -144,6 +182,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -151,6 +190,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -158,6 +198,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -168,6 +209,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -175,6 +217,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -182,6 +225,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -189,6 +233,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -196,6 +241,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -203,6 +249,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -213,6 +260,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -220,6 +268,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -227,6 +276,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -234,6 +284,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -241,6 +292,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -248,6 +300,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -258,6 +311,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -265,6 +319,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -272,6 +327,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -279,6 +335,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -286,6 +343,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -293,6 +351,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -303,6 +362,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -310,6 +370,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -317,6 +378,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -324,6 +386,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -331,6 +394,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -338,6 +402,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -348,6 +413,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -355,6 +421,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -362,6 +429,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -369,6 +437,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -376,6 +445,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -383,6 +453,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -393,6 +464,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -400,6 +472,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -407,6 +480,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -414,6 +488,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -421,6 +496,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
@@ -428,6 +504,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                             {
                                 if (timePassed < 1001)
                                 {
+                                    val progress = (timePassed - 0) / 1001f
 
                                 }
                             }
