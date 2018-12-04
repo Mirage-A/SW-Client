@@ -8,5 +8,6 @@ enum class WeaponType {
     ONE_HANDED_AND_SHIELD,
     DUAL,
     TWO_HANDED,
-    BOW
+    BOW,
+    STAFF
 }

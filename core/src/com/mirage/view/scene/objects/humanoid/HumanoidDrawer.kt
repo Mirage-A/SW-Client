@@ -19,7 +19,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
     /**
      * Направление движения
      */
-    var moveDirection: MoveDirection = MoveDirection.DOWN
+    var moveDirection: MoveDirection = MoveDirection.RIGHT
     /**
      * Тип оружия гуманоида (одноручное, двуручное, два одноручных, одноручное и щит, лук и т.д.)
      */
@@ -57,15 +57,376 @@ class HumanoidDrawer : AnimatedObjectDrawer {
         this.weaponType = weaponType
     }
 
-    override fun draw(batch: SpriteBatch, x: Float, y: Float, timePassed: Long) {
+
+    fun curValue(startValue: Float, endValue : Float, progress : Float) : Float {
+        return startValue + (endValue - startValue) * progress / 1000f
+    }
+    override fun draw(batch: SpriteBatch, x: Float, y: Float, timePassedSinceStart: Long) {
+        var timePassed = 0f + timePassedSinceStart % 1000
         when (action) {
-            Action.IDLE -> when (moveDirection) {
-                MoveDirection.DOWN -> when (weaponType) {
-                    WeaponType.ONE_HANDED -> {
-                        batch.draw(textures["weapon1"]!!.getTexture(timePassed), x, y, (19 * 4).toFloat(), (48 * 4).toFloat(), (38 * 4).toFloat(), (96 * 4).toFloat(), 1f, 1f, timePassed / 10f, 0, 0, 38, 96, false, false)
-                    }
+            Action.IDLE ->
+                when (moveDirection) {
+                    MoveDirection.RIGHT ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+                                    batch.draw(textures["cloak"]!!.getTexture(timePassedSinceStart),x + curValue(1.0f, 1.0f, timePassed),y + curValue(3.0f, 3.0f, timePassed),curValue(120.0f, 55.0f, timePassed)/2,curValue(109.0f, 50.0f,timePassed)/2,curValue(120.0f, 55.0f, timePassed),curValue(109.0f, 50.0f, timePassed),1f, 1f,curValue(89.67626f, 89.67626f, timePassed),0, 0,DefaultSizes.defaultWidth["cloak"]!!, DefaultSizes.defaultHeight["cloak"]!!, false, false)
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.UP_RIGHT ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.UP ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.UP_LEFT ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.LEFT ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.DOWN_LEFT ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.DOWN ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
+                    MoveDirection.DOWN_RIGHT ->
+                        when (weaponType) {
+                            WeaponType.ONE_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.ONE_HANDED_AND_SHIELD ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.DUAL ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.TWO_HANDED ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.BOW ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                            WeaponType.STAFF ->
+                            {
+                                if (timePassed < 1001)
+                                {
+
+                                }
+                            }
+                        }
                 }
-            }
         }
     }
 }
