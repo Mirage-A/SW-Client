@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture
  */
 class StaticTexture(private val texture: Texture) : AnimatedTexture() {
 
-    override fun getTexture(timePassed: Long): Texture {
+    override fun getTexture(): Texture {
         return texture
     }
 }

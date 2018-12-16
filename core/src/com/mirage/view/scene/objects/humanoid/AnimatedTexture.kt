@@ -8,5 +8,5 @@ import com.badlogic.gdx.graphics.Texture
  */
 abstract class AnimatedTexture {
 
-    abstract fun getTexture(timePassed: Long): Texture
+    abstract fun getTexture(): Texture
 }
