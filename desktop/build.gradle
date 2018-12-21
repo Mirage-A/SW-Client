@@ -14,6 +14,17 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
+shadowJar {
+    baseName = 'shadow'
+    classifier = null
+    version = null
+    from files(sourceSets.main.output.resourcesDir)
+    from files(project.assetsDir)
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
+
 task debug(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
