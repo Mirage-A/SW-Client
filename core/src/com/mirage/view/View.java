@@ -16,6 +16,8 @@ import com.mirage.view.scene.objects.humanoid.HumanoidDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.soap.Text;
+
 public class View {
     /**
      * Эталонный размер экрана
@@ -138,8 +140,7 @@ public class View {
      */
     private void loadTileTextures(Scene scene) {
         tileTextures = new ArrayList<Texture>();
-        tileTextures.add(new Texture(Gdx.files.internal("android/assets/tiles/0000.png"), true));
-        tileTextures.get(0).setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.MipMapLinearNearest);
+        tileTextures.add(TextureLoader.load("tiles/0000.png"));
     }
 
     ObjectDrawer d = new HumanoidDrawer();
@@ -165,7 +166,7 @@ public class View {
                         cameraPoint.getX() - TILE_WIDTH / 2, cameraPoint.getY() - TILE_HEIGHT / 2);
             }
         }
-        d.draw(batch, BasisSwitcher.getViewportPointFromScene(new Point(2.5f, 2.5f), scene, scrX, scrY).getX(), BasisSwitcher.getViewportPointFromScene(new Point(0.5f, 0.5f), scene, scrX, scrY).getY());
+        d.draw(batch, BasisSwitcher.getViewportPointFromScene(new Point(2.5f, 2.5f), scene, scrX, scrY).getX(), BasisSwitcher.getViewportPointFromScene(new Point(2.5f, 2.5f), scene, scrX, scrY).getY());
 
     }
 

@@ -79,6 +79,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
     }
 
     override fun draw(batch: SpriteBatch, x: Float, y: Float, timePassedSinceStart: Long) {
+        batch.draw(TextureLoader.load("tiles/0001.png"), x - 16, y - 8, 32f, 16f)
         val bodyTimePassedSinceStart = timePassedSinceStart - bodyStartTime
         val legsTimePassedSinceStart = timePassedSinceStart - legsStartTime
         val bodyPoint = getBodyPoint(legsTimePassedSinceStart)
@@ -92,7 +93,11 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                         when (weaponType) {
                             WeaponType.ONE_HANDED -> {
                                 val progress = 1f
-                                batch.draw(textures["cloak"]!!.getTexture(), bodyX + curValue(0.5f, 0.5f, progress), bodyY + curValue(-39.166668f, -39.166668f, progress), curValue(114f, 114f, progress)/2, curValue(124f, 124f, progress)/2, curValue(114f, 114f, progress), curValue(124f, 124f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 114, 124, false, false)
+                                batch.draw(textures["cloak"]!!.getTexture(), bodyX + curValue(0.5f, 0.5f, progress) - curValue(114f, 114f, progress) / 2, bodyY - curValue(-39.166668f, -39.166668f, progress) - curValue(124f, 124f, progress) / 2, curValue(114f, 114f, progress) / 2, curValue(124f, 124f, progress) / 2, curValue(114f, 114f, progress), curValue(124f, 124f, progress), curValue(0.3904f, 0.3904f, progress), curValue(0.41480002f, 0.41480002f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 114, 124, false, false)
+                                drawLeftLeg(batch, x, y, legsTimePassedSinceStart)
+                                drawRightLeg(batch, x, y, legsTimePassedSinceStart)
+                                batch.draw(textures["neck"]!!.getTexture(), bodyX + curValue(0.0f, 0.0f, progress) - curValue(22f, 22f, progress) / 2, bodyY - curValue(0.0f, 0.0f, progress) - curValue(10f, 10f, progress) / 2, curValue(22f, 22f, progress) / 2, curValue(10f, 10f, progress) / 2, curValue(22f, 22f, progress), curValue(10f, 10f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 22, 10, false, false)
+                                batch.draw(textures["cloak"]!!.getTexture(), bodyX + curValue(0.16666669f, 0.16666669f, progress) - curValue(114f, 114f, progress) / 2, bodyY - curValue(0.16666794f, 0.16666794f, progress) - curValue(124f, 124f, progress) / 2, curValue(114f, 114f, progress) / 2, curValue(124f, 124f, progress) / 2, curValue(114f, 114f, progress), curValue(124f, 124f, progress), curValue(0.13f, 0.13f, progress), curValue(0.155f, 0.155f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 114, 124, false, false)
                             }
                             WeaponType.ONE_HANDED_AND_SHIELD -> {
                             }
@@ -228,8 +233,22 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                 val timePassed = legsTimePassedSinceStart % 1000L
                 when (moveDirection) {
                     MoveDirection.RIGHT -> {
-                        val progress = 1f
-                        return curValue(Point(0.0f, 29.833336f), Point(0.0f, 29.833336f), progress)
+                        when (true) {
+                            timePassed < 500.0 -> {
+                                val progress = (timePassed - 0.0f) / 500.0f
+                                return curValue(Point(0.0f, -29.833336f), Point(0.0f, 42.5f), progress)
+
+                            }
+                            timePassed < 1000.0 -> {
+                                val progress = (timePassed - 500.0f) / 500.0f
+                                return curValue(Point(0.0f, 42.5f), Point(0.0f, -29.833336f), progress)
+
+                            }
+                            else -> {
+                                val progress = 1f
+                                return curValue(Point(0.0f, -29.833336f), Point(0.0f, -29.833336f), progress)
+                            }
+                        }
                     }
                     MoveDirection.UP_RIGHT -> {
                         val progress = 1f
@@ -254,7 +273,7 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                 when (moveDirection) {
                     MoveDirection.RIGHT -> {
                         val progress = 1f
-                        return curValue(Point(0.0f, 0.0f), Point(0.0f, 0.0f), progress)
+                        return curValue(Point(0.0f, -0.0f), Point(0.0f, -0.0f), progress)
                     }
                     MoveDirection.UP_RIGHT -> {
                     }
@@ -281,9 +300,25 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                 val timePassed = legsTimePassedSinceStart % 1000L
                 when (moveDirection) {
                     MoveDirection.RIGHT -> {
-                        val progress = 1f
-                        batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(-46.166668f, -46.166668f, progress), y + curValue(-17.166666f, -17.166666f, progress), curValue(16f, 16f, progress)/2, curValue(40f, 40f, progress)/2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
-                        batch.draw(textures["legtop"]!!.getTexture(), x + curValue(-46.333332f, -46.333332f, progress), y + curValue(-54.0f, -54.0f, progress), curValue(16f, 16f, progress)/2, curValue(40f, 40f, progress)/2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                        when (true) {
+                            timePassed < 500.0 -> {
+                                val progress = (timePassed - 0.0f) / 500.0f
+                                batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(-46.166668f, -25.833334f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-17.166666f, -18.166666f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 32.52954f, progress), 0, 0, 16, 40, false, false)
+                                batch.draw(textures["legtop"]!!.getTexture(), x + curValue(-46.333332f, -39.666668f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-54.0f, -51.833332f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 14.743565f, progress), 0, 0, 16, 40, false, false)
+
+                            }
+                            timePassed < 1000.0 -> {
+                                val progress = (timePassed - 500.0f) / 500.0f
+                                batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(-25.833334f, -46.166668f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-18.166666f, -17.166666f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(32.52954f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                                batch.draw(textures["legtop"]!!.getTexture(), x + curValue(-39.666668f, -46.333332f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-51.833332f, -54.0f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(14.743565f, 0.0f, progress), 0, 0, 16, 40, false, false)
+
+                            }
+                            else -> {
+                                val progress = 1f
+                                batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(-46.166668f, -46.166668f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-17.166666f, -17.166666f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                                batch.draw(textures["legtop"]!!.getTexture(), x + curValue(-46.333332f, -46.333332f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-54.0f, -54.0f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                            }
+                        }
                     }
                     MoveDirection.UP_RIGHT -> {
                         val progress = 1f
@@ -332,9 +367,25 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                 val timePassed = legsTimePassedSinceStart % 1000L
                 when (moveDirection) {
                     MoveDirection.RIGHT -> {
-                        val progress = 1f
-                        batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(36.833332f, 36.833332f, progress), y + curValue(-17.0f, -17.0f, progress), curValue(16f, 16f, progress)/2, curValue(40f, 40f, progress)/2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
-                        batch.draw(textures["legtop"]!!.getTexture(), x + curValue(36.833332f, 36.833332f, progress), y + curValue(-54.666664f, -54.666664f, progress), curValue(16f, 16f, progress)/2, curValue(40f, 40f, progress)/2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                        when (true) {
+                            timePassed < 500.0 -> {
+                                val progress = (timePassed - 0.0f) / 500.0f
+                                batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(36.833332f, 24.333334f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-17.0f, -18.5f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, -35.65533f, progress), 0, 0, 16, 40, false, false)
+                                batch.draw(textures["legtop"]!!.getTexture(), x + curValue(36.833332f, 39.5f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-54.666664f, -50.666668f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, -13.690049f, progress), 0, 0, 16, 40, false, false)
+
+                            }
+                            timePassed < 1000.0 -> {
+                                val progress = (timePassed - 500.0f) / 500.0f
+                                batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(24.333334f, 36.833332f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-18.5f, -17.0f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(-35.65533f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                                batch.draw(textures["legtop"]!!.getTexture(), x + curValue(39.5f, 36.833332f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-50.666668f, -54.666664f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(-13.690049f, 0.0f, progress), 0, 0, 16, 40, false, false)
+
+                            }
+                            else -> {
+                                val progress = 1f
+                                batch.draw(textures["legbottom"]!!.getTexture(), x + curValue(36.833332f, 36.833332f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-17.0f, -17.0f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                                batch.draw(textures["legtop"]!!.getTexture(), x + curValue(36.833332f, 36.833332f, progress) - curValue(16f, 16f, progress) / 2, y - curValue(-54.666664f, -54.666664f, progress) - curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress) / 2, curValue(40f, 40f, progress) / 2, curValue(16f, 16f, progress), curValue(40f, 40f, progress), curValue(1.0f, 1.0f, progress), curValue(1.0f, 1.0f, progress), curValue(0.0f, 0.0f, progress), 0, 0, 16, 40, false, false)
+                            }
+                        }
                     }
                     MoveDirection.UP_RIGHT -> {
                         val progress = 1f
