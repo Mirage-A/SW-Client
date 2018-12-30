@@ -80,6 +80,8 @@ public class View {
     private float lastRealScreenWidth = 0;
     private float lastRealScreenHeight = 0;
 
+    ObjectDrawer testPlayerDrawer = new HumanoidDrawer();
+
     /**
      * Отрисовка экрана
      */
@@ -88,10 +90,10 @@ public class View {
             setScreenSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
         Scene scene = model.getScene();
-        Point playerPos = BasisSwitcher.getVirtualScreenPoint(model.getPlayerPosition(), scene);
+        Point playerPosOnVirtualScreen = BasisSwitcher.getVirtualScreenPoint(model.getPlayerPosition(), scene);
         //TODO Вычислить положение экрана из положения персонажа в сцене
-        float scrX = playerPos.getX() - scrW / 2;
-        float scrY = playerPos.getY() - scrH / 2 + DELTA_CENTER_Y;
+        float scrX = playerPosOnVirtualScreen.getX() - scrW / 2;
+        float scrY = playerPosOnVirtualScreen.getY() - scrH / 2 + DELTA_CENTER_Y;
 
         Gdx.gl.glClearColor(0.25f, 0.25f, 1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -107,6 +109,9 @@ public class View {
 
         //TODO отрисовка
         drawTiles(scrX, scrY, scene);
+
+        testPlayerDrawer.draw(batch, BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getX(),
+                BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getY());
 
         batch.end();
 
@@ -143,7 +148,6 @@ public class View {
         tileTextures.add(TextureLoader.load("tiles/0000.png"));
     }
 
-    ObjectDrawer d = new HumanoidDrawer();
     /**
      * Отрисовывает тайлы, попадающие в обзор
      * @param scrX Координаты экрана
@@ -158,16 +162,11 @@ public class View {
                 tileMatrix[i][j] = 0;
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
-                //batch.draw(tileTextures.get(0), 0, 0);
                 Point scenePoint = new Point(i + 0.5f, j + 0.5f);
-                Point virtualScreenPoint = BasisSwitcher.getVirtualScreenPoint(scenePoint, scene);
-                Point cameraPoint = BasisSwitcher.getViewportPointFromVirtualScreen(virtualScreenPoint, scrX, scrY);
+                Point cameraPoint = BasisSwitcher.getViewportPointFromScene(scenePoint, scene, scrX, scrY);
                 batch.draw(tileTextures.get(tileMatrix[i][j]),
                         cameraPoint.getX() - TILE_WIDTH / 2, cameraPoint.getY() - TILE_HEIGHT / 2);
             }
         }
-        d.draw(batch, BasisSwitcher.getViewportPointFromScene(new Point(2.5f, 2.5f), scene, scrX, scrY).getX(), BasisSwitcher.getViewportPointFromScene(new Point(2.5f, 2.5f), scene, scrX, scrY).getY());
-
     }
-
 }

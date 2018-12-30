@@ -11,7 +11,6 @@ public abstract class AnimatedObjectDrawer extends ObjectDrawer{
 
     @Override
     public void draw(SpriteBatch batch, float x, float y) {
-        batch.draw(TextureLoader.load("player.png"), x - 64, y - 26, 128f, 128f);
         draw(batch, x, y, System.currentTimeMillis() - startTime);
     }
 

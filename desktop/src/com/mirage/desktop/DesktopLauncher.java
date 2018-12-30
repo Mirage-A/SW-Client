@@ -16,8 +16,9 @@ public class DesktopLauncher {
 		config.addIcon(TextureLoader.ASSETS_PATH + "windows_icon.png", Files.FileType.Internal);
 		config.addIcon(TextureLoader.ASSETS_PATH + "mac_icon.png", Files.FileType.Internal);
 		// Фуллскрин
-		//config.fullscreen = true;
-		//config.width = 111; // Костыль, без которого фулскрин ломается :(
+		config.fullscreen = true;
+		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+		config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
 		new LwjglApplication(new Controller(), config);
 	}
 }
