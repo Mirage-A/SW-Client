@@ -6,11 +6,18 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mirage.controller.Controller;
 import com.mirage.view.TextureLoader;
 
+import java.io.File;
+
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		System.setProperty("user.name","CorrectUserName");
-		//TODO ВАЖНО! При создании jar-архива эта строка должна быть пустой!
-		TextureLoader.ASSETS_PATH = "./android/assets/";
+		//При создании jar-архива эта строка должна быть пустой
+		if (new File("./android/assets/").exists()) {
+			TextureLoader.ASSETS_PATH = "./android/assets/";
+		}
+		else {
+			TextureLoader.ASSETS_PATH = "";
+		}
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Shattered World";
 		config.addIcon(TextureLoader.ASSETS_PATH + "windows_icon.png", Files.FileType.Internal);
