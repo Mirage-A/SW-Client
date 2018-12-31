@@ -1,4 +1,5 @@
 package com.mirage.model.scene.objects
 
-interface Projectile {
-}
+import com.mirage.model.scene.Point
+
+abstract class Projectile(position: Point) : SceneObject(position)

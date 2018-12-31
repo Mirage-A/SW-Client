@@ -1,4 +1,5 @@
 package com.mirage.model.scene.objects
 
-interface SceneObject {
-}
+import com.mirage.model.scene.Point
+
+abstract class SceneObject(var position: Point = Point())

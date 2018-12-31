@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mirage.model.ModelFacade;
 import com.mirage.view.View;
 
+import java.io.File;
+
 public class Controller extends ApplicationAdapter {
     private View view;
     private ModelFacade model;
@@ -13,9 +15,12 @@ public class Controller extends ApplicationAdapter {
     @Override
     public void create() {
         model = new ModelFacade();
+        model.loadMapFromFile(new File(""));
         model.startGame();
+        model.startLogic();
         view = new View(model);
 
+        model.startMoving((float) Math.PI / 4);
 
         /*Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("android/assets/drop.wav"));
         Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("android/assets/rain.mp3"));

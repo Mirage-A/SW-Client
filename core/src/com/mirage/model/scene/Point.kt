@@ -1,6 +1,14 @@
 package com.mirage.model.scene
 
-class Point (var x : Float, var y : Float){
+class Point (var x : Float = 0f, var y : Float = 0f){
+
+    /**
+     * Передвигает точку в сторону заданного угла на заданное расстояние
+     */
+    fun move(angle: Float, range: Float) {
+        x += (Math.cos(angle.toDouble()) * range).toFloat()
+        y += (Math.sin(angle.toDouble()) * range).toFloat()
+    }
 
     override fun toString(): String {
         return "[$x, $y]"
@@ -12,4 +20,5 @@ class Point (var x : Float, var y : Float){
         }
         return false
     }
+
 }

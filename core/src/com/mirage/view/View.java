@@ -16,8 +16,6 @@ import com.mirage.view.scene.objects.humanoid.HumanoidDrawer;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.soap.Text;
-
 public class View {
     /**
      * Эталонный размер экрана
@@ -156,12 +154,9 @@ public class View {
      */
     private void drawTiles(float scrX, float scrY, Scene scene) {
         //TODO загружать тайлы из сцены
-        int[][] tileMatrix = new int[5][5];
-        for (int i = 0; i < 5; ++i)
-            for (int j = 0; j < 5; ++j)
-                tileMatrix[i][j] = 0;
-        for (int i = 0; i < 5; ++i) {
-            for (int j = 0; j < 5; ++j) {
+        int[][] tileMatrix = scene.getTileMatrix();
+        for (int i = 0; i < scene.getWidth(); ++i) {
+            for (int j = 0; j < scene.getHeight(); ++j) {
                 Point scenePoint = new Point(i + 0.5f, j + 0.5f);
                 Point cameraPoint = BasisSwitcher.getViewportPointFromScene(scenePoint, scene, scrX, scrY);
                 batch.draw(tileTextures.get(tileMatrix[i][j]),
