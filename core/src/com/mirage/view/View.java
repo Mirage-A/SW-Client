@@ -200,6 +200,15 @@ public class View {
                 else if (System.currentTimeMillis() - hDrawer.getLastMoveDirectionUpdateTime() > MOVE_DIRECTION_UPDATE_EPS_TIME) {
                     hDrawer.setMoveDirection(hDrawer.getBufferedMoveDirection());
                 }
+
+                if (((Entity) object).isMoving()) {
+                    hDrawer.setBodyAction(BodyAction.RUNNING);
+                    hDrawer.setLegsAction(LegsAction.RUNNING);
+                }
+                else {
+                    hDrawer.setBodyAction(BodyAction.IDLE);
+                    hDrawer.setLegsAction(LegsAction.IDLE);
+                }
             }
             drawer.draw(batch, BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getX(),
                     BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getY());
