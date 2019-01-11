@@ -163,6 +163,12 @@ public class View {
     }
 
     /**
+     * Интервал времени, который должен пройти с последней смены направления движения,
+     * чтобы изменение отобразилось
+     * (эта задержка убирает моргание анимации при быстром нажатии разных кнопок)
+     */
+    private final long MOVE_DIRECTION_UPDATE_EPS_TIME = 50L;
+    /**
      * Отрисовывает все объекты сцены
      * @param scene Сцена
      */
@@ -185,7 +191,15 @@ public class View {
             ObjectDrawer drawer = objectDrawers.get(object);
             //TODO Направление движения может влиять не только на HumanoidDrawer
             if (object instanceof Entity && drawer instanceof HumanoidDrawer) {
-                ((HumanoidDrawer) drawer).setMoveDirection(MoveDirection.fromMoveAngle(((Entity) object).getMoveAngle()));
+                HumanoidDrawer hDrawer = ((HumanoidDrawer) drawer);
+                MoveDirection updatedMoveDirection = MoveDirection.fromMoveAngle(((Entity) object).getMoveAngle());
+                if (updatedMoveDirection != hDrawer.getBufferedMoveDirection()) {
+                    hDrawer.setLastMoveDirectionUpdateTime(System.currentTimeMillis());
+                    hDrawer.setBufferedMoveDirection(updatedMoveDirection);
+                }
+                else if (System.currentTimeMillis() - hDrawer.getLastMoveDirectionUpdateTime() > MOVE_DIRECTION_UPDATE_EPS_TIME) {
+                    hDrawer.setMoveDirection(hDrawer.getBufferedMoveDirection());
+                }
             }
             drawer.draw(batch, BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getX(),
                     BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getY());

@@ -42,6 +42,9 @@ class HumanoidDrawer : AnimatedObjectDrawer {
      */
     var legsStartTime = 0L
 
+    var bufferedMoveDirection = MoveDirection.RIGHT
+    var lastMoveDirectionUpdateTime = 0L
+
     constructor() {
         textures = HashMap()
         for (md in MoveDirection.values()) {
