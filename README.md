@@ -3,7 +3,7 @@
 
 Shattered World is an RPG that i develop in my free time
 
-There is A LOT of work to be done to make my dreams come true, but one can always try what is done at the moment (currently nothing) by downloading this repository and lauching .jar file
+There is A LOT of work to be done to make my dreams come true, but one can always try what is done at the moment (currently nothing) by downloading game [here](https://mirage-a.github.io) and launching downloaded .jar file with Java
 
 And yes, i draw everyfin in Paint ;)
 
