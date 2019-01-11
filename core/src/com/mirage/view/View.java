@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.mirage.model.ModelFacade;
@@ -78,6 +79,12 @@ public class View {
     private float scrW;
     private float scrH;
 
+    /**
+     * Отображение FPS
+     */
+    public boolean showFPS = true;
+    BitmapFont fpsFont = new BitmapFont();
+
 
     public View(ModelFacade model) {
         this.model = model;
@@ -126,9 +133,12 @@ public class View {
 
         drawObjects(scrX, scrY, scene);
 
+
+        if (showFPS) {
+            fpsFont.draw(batch, "" + Gdx.graphics.getFramesPerSecond() + " FPS", 6, 20);
+        }
+
         batch.end();
-
-
     }
 
     public void dispose() {
