@@ -2,9 +2,8 @@ package com.mirage.model
 
 import com.mirage.model.scene.Point
 import com.mirage.model.scene.Scene
-import com.mirage.view.scene.objects.humanoid.MoveDirection
+import com.mirage.view.animation.MoveDirection
 import java.io.File
-import javax.swing.LookAndFeel
 
 
 class ModelFacade {

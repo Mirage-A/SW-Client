@@ -7,7 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 import com.mirage.model.ModelFacade;
 import com.mirage.view.View;
-import com.mirage.view.scene.objects.humanoid.MoveDirection;
+import com.mirage.view.animation.MoveDirection;
 
 import java.io.File;
 

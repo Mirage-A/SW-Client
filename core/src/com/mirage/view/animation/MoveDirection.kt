@@ -1,4 +1,4 @@
-package com.mirage.view.scene.objects.humanoid
+package com.mirage.view.animation
 
 /**
  * Направление движения
@@ -26,6 +26,7 @@ enum class MoveDirection {
         }
     }
 
+
     companion object {
         /**
          * Вычисляет направление движения на основе угла движения
@@ -41,6 +42,25 @@ enum class MoveDirection {
             if (partOfPi < 11 / 8f) return LEFT
             if (partOfPi < 13 / 8f) return DOWN_LEFT
             return if (partOfPi < 15 / 8f) DOWN else DOWN_RIGHT
+        }
+
+
+        /**
+         * Преобразует строку в направление движения (операция, обратная toString())
+         * @throws Exception если строка не соответствует никакому направлению движения
+         */
+        fun fromString(str: String) : MoveDirection {
+            return when (str) {
+                "RIGHT" -> RIGHT
+                "UP_RIGHT" -> UP_RIGHT
+                "UP" -> UP
+                "UP_LEFT" -> UP_LEFT
+                "LEFT" -> LEFT
+                "DOWN_LEFT" -> DOWN_LEFT
+                "DOWN" -> DOWN
+                "DOWN_RIGHT" -> DOWN_RIGHT
+                else -> throw Exception("Incorrect move direction: $str")
+            }
         }
     }
 }

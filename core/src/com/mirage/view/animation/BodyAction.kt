@@ -1,4 +1,4 @@
-package com.mirage.view.scene.objects.humanoid
+package com.mirage.view.animation
 
 enum class BodyAction {
     IDLE,

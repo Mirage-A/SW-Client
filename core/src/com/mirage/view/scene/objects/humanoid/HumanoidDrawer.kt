@@ -3,6 +3,10 @@ package com.mirage.view.scene.objects.humanoid
 import com.mirage.view.TextureLoader
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.scene.Point
+import com.mirage.view.animation.BodyAction
+import com.mirage.view.animation.LegsAction
+import com.mirage.view.animation.MoveDirection
+import com.mirage.view.animation.WeaponType
 import com.mirage.view.scene.objects.AnimatedObjectDrawer
 import java.util.HashMap
 

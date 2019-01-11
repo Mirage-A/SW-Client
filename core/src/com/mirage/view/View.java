@@ -16,13 +16,11 @@ import com.mirage.model.scene.objects.entities.Entity;
 import com.mirage.model.scene.objects.entities.Player;
 import com.mirage.view.scene.objects.ObjectDrawer;
 import com.mirage.view.scene.objects.humanoid.AnimatedTexture;
-import com.mirage.view.scene.objects.humanoid.BodyAction;
+import com.mirage.view.animation.BodyAction;
 import com.mirage.view.scene.objects.humanoid.HumanoidDrawer;
-import com.mirage.view.scene.objects.humanoid.LegsAction;
-import com.mirage.view.scene.objects.humanoid.MoveDirection;
+import com.mirage.view.animation.LegsAction;
+import com.mirage.view.animation.MoveDirection;
 import com.mirage.view.scene.objects.humanoid.StaticTexture;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
