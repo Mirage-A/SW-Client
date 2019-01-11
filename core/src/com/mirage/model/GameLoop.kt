@@ -25,7 +25,6 @@ class GameLoop : Runnable {
                 for (sceneObject in scene.objects) {
                     if (sceneObject is Entity) {
                         if (sceneObject.isMoving) {
-                            sceneObject.moveAngle = (lastTickTime % 5000L * 6.28f / 5000f)
                             sceneObject.position.move(sceneObject.moveAngle, sceneObject.speed * deltaTime / 1000f)
                         }
                     }

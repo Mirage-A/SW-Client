@@ -2,7 +2,9 @@ package com.mirage.model
 
 import com.mirage.model.scene.Point
 import com.mirage.model.scene.Scene
+import com.mirage.view.scene.objects.humanoid.MoveDirection
 import java.io.File
+import javax.swing.LookAndFeel
 
 
 class ModelFacade {
@@ -39,10 +41,17 @@ class ModelFacade {
     }
 
     /**
+     * Задать угол движения (без начала движения)
+     */
+    fun setMoveAngle(angle: Float) {
+        gameLoop.player.moveAngle = angle
+    }
+
+    /**
      * Начать движение персонажа, направление движения задается углом
      */
     fun startMoving(angle: Float) {
-        gameLoop.player.moveAngle = angle
+        setMoveAngle(angle)
         gameLoop.player.isMoving = true
     }
 
@@ -52,6 +61,21 @@ class ModelFacade {
     fun stopMoving() {
         gameLoop.player.isMoving = false
     }
+
+    /**
+     * Возвращает, двигается ли игрок
+     */
+    fun isPlayerMoving() : Boolean {
+        return gameLoop.player.isMoving
+    }
+
+    /**
+     * Возвращает move direction игрока
+     */
+    fun getPlayerMoveDirection() : MoveDirection {
+        return MoveDirection.fromMoveAngle(gameLoop.player.moveAngle)
+    }
+
 
     /**
      * Приостановить цикл логики

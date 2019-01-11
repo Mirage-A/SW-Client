@@ -185,7 +185,7 @@ public class View {
             ObjectDrawer drawer = objectDrawers.get(object);
             //TODO Направление движения может влиять не только на HumanoidDrawer
             if (object instanceof Entity && drawer instanceof HumanoidDrawer) {
-                ((HumanoidDrawer) drawer).setMoveDirection(getMoveDirectionFromMoveAngle(((Entity) object).getMoveAngle()));
+                ((HumanoidDrawer) drawer).setMoveDirection(MoveDirection.fromMoveAngle(((Entity) object).getMoveAngle()));
             }
             drawer.draw(batch, BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getX(),
                     BasisSwitcher.getViewportPointFromScene(model.getPlayerPosition(), scene, scrX, scrY).getY());
@@ -219,7 +219,7 @@ public class View {
     private void addObjectDrawer(SceneObject object) {
         if (object instanceof Player) {
             Player player = (Player) object;
-            objectDrawers.put(player, new HumanoidDrawer(loadPlayerTexturesMap(player), BodyAction.IDLE, LegsAction.IDLE, getMoveDirectionFromMoveAngle(player.getMoveAngle()), player.getWeaponType()));
+            objectDrawers.put(player, new HumanoidDrawer(loadPlayerTexturesMap(player), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(player.getMoveAngle()), player.getWeaponType()));
         }
     }
 
@@ -263,19 +263,4 @@ public class View {
         }
     }
 
-    /**
-     * Вычисляет направление движения на основе угла движения
-     */
-    private MoveDirection getMoveDirectionFromMoveAngle(float angle) {
-        float partOfPi = (float) (angle % (Math.PI * 2) / Math.PI);
-        if (partOfPi < 1/8f) return MoveDirection.DOWN_RIGHT;
-        if (partOfPi < 3/8f) return MoveDirection.RIGHT;
-        if (partOfPi < 5/8f) return MoveDirection.UP_RIGHT;
-        if (partOfPi < 7/8f) return MoveDirection.UP;
-        if (partOfPi < 9/8f) return MoveDirection.UP_LEFT;
-        if (partOfPi < 11/8f) return MoveDirection.LEFT;
-        if (partOfPi < 13/8f) return MoveDirection.DOWN_LEFT;
-        if (partOfPi < 15/8f) return MoveDirection.DOWN;
-        return MoveDirection.DOWN_RIGHT;
-    }
 }

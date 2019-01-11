@@ -4,6 +4,7 @@ package com.mirage.view.scene.objects.humanoid
  * Тип оружия гуманоида (одноручное, двуручное, два одноручных, одноручное и щит, лук и т.д.)
  */
 enum class WeaponType {
+    UNARMED,
     ONE_HANDED,
     ONE_HANDED_AND_SHIELD,
     DUAL,
