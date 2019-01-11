@@ -57,7 +57,7 @@ public class View {
      * Разница y - координаты между координатами игрока и координатами центра экрана
      * (точка под игроком находится на DELTA_CENTER_Y пикселей ниже центра экрана).
      */
-    public static final float DELTA_CENTER_Y = 32;
+    public static final float DELTA_CENTER_Y = 64;
 
     /**
      * Список текстур, используемых на данной сцене (карте)
