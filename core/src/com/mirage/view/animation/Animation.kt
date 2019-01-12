@@ -7,6 +7,7 @@ import org.dom4j.Element
 import java.io.FileWriter
 import org.dom4j.io.OutputFormat
 import org.dom4j.io.XMLWriter
+import java.io.InputStream
 import javax.swing.JOptionPane
 
 
@@ -59,7 +60,7 @@ class Animation() {
     /**
      * Конструктор считывания анимации из файла XML (.swa)
      */
-    constructor(swaFile : File) : this() {
+    constructor(inputStream : InputStream) : this() {
         try {
             for (moveDirection in MoveDirection.values()) {
                 data[moveDirection] = HashMap()
@@ -68,7 +69,7 @@ class Animation() {
                 }
             }
             val reader = SAXReader()
-            val document = reader.read(swaFile)
+            val document = reader.read(inputStream)
             val animation = document.rootElement
             type = AnimationType.fromString(animation.attributeValue("type"))
             name = animation.attributeValue("name")
