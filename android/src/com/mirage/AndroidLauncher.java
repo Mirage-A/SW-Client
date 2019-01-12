@@ -12,7 +12,7 @@ public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		TextureLoader.ASSETS_PATH = "";
+		Platform.ASSETS_PATH = "";
 		Platform.TYPE = Platform.ANDROID;
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new Controller(), config);

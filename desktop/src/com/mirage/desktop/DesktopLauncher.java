@@ -16,16 +16,16 @@ public class DesktopLauncher {
 		System.setProperty("user.name","CorrectUserName");
 		//При создании jar-архива эта строка должна быть пустой
 		if (new File("./android/assets/").exists()) {
-			TextureLoader.ASSETS_PATH = "./android/assets/";
+			Platform.ASSETS_PATH = "./android/assets/";
 		}
 		else {
-			TextureLoader.ASSETS_PATH = "";
+			Platform.ASSETS_PATH = "";
 		}
 		Platform.TYPE = Platform.DESKTOP;
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Shattered World";
-		config.addIcon(TextureLoader.ASSETS_PATH + "windows_icon.png", Files.FileType.Internal);
-		config.addIcon(TextureLoader.ASSETS_PATH + "mac_icon.png", Files.FileType.Internal);
+		config.addIcon(Platform.ASSETS_PATH + "windows_icon.png", Files.FileType.Internal);
+		config.addIcon(Platform.ASSETS_PATH + "mac_icon.png", Files.FileType.Internal);
 		// Фуллскрин
 		//config.fullscreen = true;
 		//config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;

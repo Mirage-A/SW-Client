@@ -1,7 +1,5 @@
-package model
+package com.mirage.view.animation
 
-import com.mirage.view.animation.MoveDirection
-import com.mirage.view.animation.WeaponType
 import java.io.File
 import org.dom4j.io.SAXReader
 import org.dom4j.DocumentHelper
@@ -9,7 +7,6 @@ import org.dom4j.Element
 import java.io.FileWriter
 import org.dom4j.io.OutputFormat
 import org.dom4j.io.XMLWriter
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION
 import javax.swing.JOptionPane
 
 

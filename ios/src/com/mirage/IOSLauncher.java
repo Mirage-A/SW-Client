@@ -13,7 +13,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         // TODO выбрать корректный путь папки assets
-        TextureLoader.ASSETS_PATH = "./android/assets/";
+        Platform.ASSETS_PATH = "./android/assets/";
         Platform.TYPE = Platform.IOS;
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         return new IOSApplication(new Controller(), config);

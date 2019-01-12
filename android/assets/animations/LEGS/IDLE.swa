@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<animation type="LEGS" name="IDLE" duration="1000" isRepeatable="true">
+  <RIGHT>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="leftlegtop.png" x="0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.02083032"/>
+        <layer1 imageName="leftlegbottom.png" x="0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0"/>
+        <layer2 imageName="rightlegtop.png" x="0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.017020226"/>
+        <layer3 imageName="rightlegbottom.png" x="0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.009999752"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="leftlegtop.png" x="0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.02083032"/>
+        <layer1 imageName="leftlegbottom.png" x="0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0"/>
+        <layer2 imageName="rightlegtop.png" x="0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.017020226"/>
+        <layer3 imageName="rightlegbottom.png" x="0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.009999752"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </RIGHT>
+  <UP_RIGHT>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer1 imageName="leftlegbottom.png" x="-7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.029117981"/>
+        <layer2 imageName="leftlegtop.png" x="-6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="-0.03029376"/>
+        <layer3 imageName="rightlegbottom.png" x="7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="0.041642666"/>
+        <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer1 imageName="leftlegbottom.png" x="-7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.029117981"/>
+        <layer2 imageName="leftlegtop.png" x="-6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="-0.03029376"/>
+        <layer3 imageName="rightlegbottom.png" x="7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="0.041642666"/>
+        <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP_RIGHT>
+  <UP>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.166667" y="-15.0" scale="0.86" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer2 imageName="rightlegtop.png" x="-5.8333335" y="-42.666668" scale="0.88" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer3 imageName="leftlegbottom.png" x="7.0" y="-16.5" scale="0.86" scaleX="1.0" scaleY="1.04" angle="0.014083575"/>
+        <layer4 imageName="leftlegtop.png" x="6.8333335" y="-43.5" scale="0.86" scaleX="1.0" scaleY="0.97" angle="0.012657642"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.166667" y="-15.0" scale="0.86" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer2 imageName="rightlegtop.png" x="-5.8333335" y="-42.666668" scale="0.88" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer3 imageName="leftlegbottom.png" x="7.0" y="-16.5" scale="0.86" scaleX="1.0" scaleY="1.04" angle="0.014083575"/>
+        <layer4 imageName="leftlegtop.png" x="6.8333335" y="-43.5" scale="0.86" scaleX="1.0" scaleY="0.97" angle="0.012657642"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP>
+  <UP_LEFT>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="-0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer1 imageName="rightlegbottom.png" x="7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.029117981"/>
+        <layer2 imageName="rightlegtop.png" x="6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="0.03029376"/>
+        <layer3 imageName="leftlegbottom.png" x="-7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="-0.041642666"/>
+        <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="-0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer1 imageName="rightlegbottom.png" x="7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.029117981"/>
+        <layer2 imageName="rightlegtop.png" x="6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="0.03029376"/>
+        <layer3 imageName="leftlegbottom.png" x="-7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="-0.041642666"/>
+        <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP_LEFT>
+  <LEFT>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="rightlegtop.png" x="-0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.017020226"/>
+        <layer1 imageName="rightlegbottom.png" x="-0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.009999752"/>
+        <layer2 imageName="leftlegtop.png" x="-0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.02083032"/>
+        <layer3 imageName="leftlegbottom.png" x="-0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.0"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="rightlegtop.png" x="-0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.017020226"/>
+        <layer1 imageName="rightlegbottom.png" x="-0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.009999752"/>
+        <layer2 imageName="leftlegtop.png" x="-0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.02083032"/>
+        <layer3 imageName="leftlegbottom.png" x="-0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.0"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </LEFT>
+  <DOWN_LEFT>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="rightlegtop.png" x="-4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="-0.047583103"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="-0.048238516"/>
+        <layer2 imageName="leftlegtop.png" x="5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.03612885"/>
+        <layer3 imageName="leftlegbottom.png" x="7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.049958397"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="rightlegtop.png" x="-4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="-0.047583103"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="-0.048238516"/>
+        <layer2 imageName="leftlegtop.png" x="5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.03612885"/>
+        <layer3 imageName="leftlegbottom.png" x="7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.049958397"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN_LEFT>
+  <DOWN>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer1 imageName="leftlegbottom.png" x="-7.0" y="-16.5" scale="0.86" scaleX="1.0" scaleY="1.04" angle="-0.014083575"/>
+        <layer2 imageName="leftlegtop.png" x="-6.6666665" y="-43.166668" scale="0.88" scaleX="1.0" scaleY="0.99" angle="-0.019045316"/>
+        <layer3 imageName="rightlegbottom.png" x="6.166667" y="-15.0" scale="0.86" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer4 imageName="rightlegtop.png" x="5.8333335" y="-42.666668" scale="0.88" scaleX="1.0" scaleY="1.0" angle="0.019045353"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer1 imageName="leftlegbottom.png" x="-7.0" y="-16.5" scale="0.86" scaleX="1.0" scaleY="1.04" angle="-0.014083575"/>
+        <layer2 imageName="leftlegtop.png" x="-6.6666665" y="-43.166668" scale="0.88" scaleX="1.0" scaleY="0.99" angle="-0.019045316"/>
+        <layer3 imageName="rightlegbottom.png" x="6.166667" y="-15.0" scale="0.86" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer4 imageName="rightlegtop.png" x="5.8333335" y="-42.666668" scale="0.88" scaleX="1.0" scaleY="1.0" angle="0.019045353"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN>
+  <DOWN_RIGHT>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="leftlegtop.png" x="4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="0.047583103"/>
+        <layer1 imageName="leftlegbottom.png" x="6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="0.048238516"/>
+        <layer2 imageName="rightlegtop.png" x="-5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.03612885"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.049958397"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+      </frame0>
+    </UNARMED>
+    <ONE_HANDED>
+      <frame0 layersCount="5">
+        <layer0 imageName="leftlegtop.png" x="4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="0.047583103"/>
+        <layer1 imageName="leftlegbottom.png" x="6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="0.048238516"/>
+        <layer2 imageName="rightlegtop.png" x="-5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.03612885"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.049958397"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+      </frame0>
+    </ONE_HANDED>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN_RIGHT>
+</animation>

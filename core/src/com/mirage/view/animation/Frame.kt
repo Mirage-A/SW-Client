@@ -1,5 +1,4 @@
-package model
-
+package com.mirage.view.animation
 
 
 /**

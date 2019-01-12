@@ -1,4 +1,4 @@
-package model
+package com.mirage.view.animation
 
 import com.mirage.view.animation.MoveDirection
 import java.awt.image.BufferedImage
