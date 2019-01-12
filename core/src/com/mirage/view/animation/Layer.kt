@@ -28,6 +28,12 @@ class Layer (var imageName: String, var x : Float = 0f, var y : Float = 0f, var 
     constructor(origin : Layer) : this(origin.imageName, origin.x, origin.y, origin.scale, origin.scaleX, origin.scaleY,
             origin.angle)
 
+
+    /**
+     * Обрезает формат изображения и возвращает название слоя
+     */
+    fun getName() = imageName.substring(0, imageName.length - 4)
+
     /**
      * Загрузка изображения слоя из файла по значению imageName
      */
