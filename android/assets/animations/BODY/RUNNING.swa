@@ -4,79 +4,79 @@
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="lefthandtop.png" x="0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="0.017855406"/>
-        <layer1 imageName="lefthandbottom.png" x="7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="0.71174836"/>
-        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.022417769"/>
-        <layer4 imageName="neck.png" x="3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.084012315"/>
-        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="0.020830393"/>
-        <layer7 imageName="righthandbottom.png" x="9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="1.1119193"/>
-        <layer8 imageName="cloak.png" x="-10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.11242713"/>
-        <layer9 imageName="headRIGHT.png" x="-0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.008096865"/>
+        <layer0 imageName="lefthandtop.png" x="0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="0.017855406" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="0.71174836" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.022417769" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.084012315" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="0.020830393" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="1.1119193" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.11242713" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headRIGHT.png" x="-0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.008096865" basicWidth="74" basicHeight="74"/>
       </frame0>
       <frame1 layersCount="10">
-        <layer0 imageName="lefthandtop.png" x="-1.3333334" y="-33.166668" scale="0.91" scaleX="0.89" scaleY="0.98" angle="-0.40158057"/>
-        <layer1 imageName="lefthandbottom.png" x="-3.5058432" y="-12.290483" scale="0.9" scaleX="0.87" scaleY="1.04" angle="0.10785499"/>
-        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.1107823"/>
-        <layer4 imageName="neck.png" x="5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.18092646"/>
-        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="7.5" y="-29.666668" scale="0.9" scaleX="0.93" scaleY="1.03" angle="0.5137987"/>
-        <layer7 imageName="righthandbottom.png" x="20.03172" y="-24.63272" scale="0.94" scaleX="0.94" scaleY="1.01" angle="2.0246403"/>
-        <layer8 imageName="cloak.png" x="-13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.21032587"/>
-        <layer9 imageName="headRIGHT.png" x="2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.049410302"/>
+        <layer0 imageName="lefthandtop.png" x="-1.3333334" y="-33.166668" scale="0.91" scaleX="0.89" scaleY="0.98" angle="-0.40158057" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="-3.5058432" y="-12.290483" scale="0.9" scaleX="0.87" scaleY="1.04" angle="0.10785499" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.1107823" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.18092646" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="7.5" y="-29.666668" scale="0.9" scaleX="0.93" scaleY="1.03" angle="0.5137987" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="20.03172" y="-24.63272" scale="0.94" scaleX="0.94" scaleY="1.01" angle="2.0246403" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.21032587" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headRIGHT.png" x="2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.049410302" basicWidth="74" basicHeight="74"/>
       </frame1>
       <frame2 layersCount="10">
-        <layer0 imageName="lefthandtop.png" x="3.3333335" y="-30.166668" scale="0.92" scaleX="0.91" scaleY="0.98" angle="0.15818904"/>
-        <layer1 imageName="lefthandbottom.png" x="11.018364" y="-12.954926" scale="0.95" scaleX="0.9" scaleY="1.04" angle="0.6025711"/>
-        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.022417769"/>
-        <layer4 imageName="neck.png" x="3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.084012315"/>
-        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-0.5" y="-29.333332" scale="0.93" scaleX="0.93" scaleY="1.03" angle="-0.06307412"/>
-        <layer7 imageName="righthandbottom.png" x="7.0133553" y="-15.123539" scale="0.93" scaleX="0.94" scaleY="1.01" angle="1.1647928"/>
-        <layer8 imageName="cloak.png" x="-10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.11242713"/>
-        <layer9 imageName="headRIGHT.png" x="-0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.008096865"/>
+        <layer0 imageName="lefthandtop.png" x="3.3333335" y="-30.166668" scale="0.92" scaleX="0.91" scaleY="0.98" angle="0.15818904" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="11.018364" y="-12.954926" scale="0.95" scaleX="0.9" scaleY="1.04" angle="0.6025711" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.022417769" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.084012315" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-0.5" y="-29.333332" scale="0.93" scaleX="0.93" scaleY="1.03" angle="-0.06307412" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="7.0133553" y="-15.123539" scale="0.93" scaleX="0.94" scaleY="1.01" angle="1.1647928" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.11242713" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headRIGHT.png" x="-0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.008096865" basicWidth="74" basicHeight="74"/>
       </frame2>
       <frame3 layersCount="10">
-        <layer0 imageName="lefthandtop.png" x="6.1819696" y="-31.81636" scale="0.85" scaleX="0.94" scaleY="0.98" angle="0.22488594"/>
-        <layer1 imageName="lefthandbottom.png" x="17.023373" y="-26.479132" scale="0.92" scaleX="0.91" scaleY="1.04" angle="-4.5046406"/>
-        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.1107823"/>
-        <layer4 imageName="neck.png" x="5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.18092646"/>
-        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-2.8333333" y="-30.166668" scale="0.92" scaleX="0.93" scaleY="1.03" angle="-0.35470566"/>
-        <layer7 imageName="righthandbottom.png" x="-6.8514194" y="-8.4474125" scale="0.92" scaleX="0.94" scaleY="1.01" angle="0.01288414"/>
-        <layer8 imageName="cloak.png" x="-13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.21032587"/>
-        <layer9 imageName="headRIGHT.png" x="2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.049410302"/>
+        <layer0 imageName="lefthandtop.png" x="6.1819696" y="-31.81636" scale="0.85" scaleX="0.94" scaleY="0.98" angle="0.22488594" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="17.023373" y="-26.479132" scale="0.92" scaleX="0.91" scaleY="1.04" angle="-4.5046406" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.1107823" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.18092646" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-2.8333333" y="-30.166668" scale="0.92" scaleX="0.93" scaleY="1.03" angle="-0.35470566" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-6.8514194" y="-8.4474125" scale="0.92" scaleX="0.94" scaleY="1.01" angle="0.01288414" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.21032587" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headRIGHT.png" x="2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.049410302" basicWidth="74" basicHeight="74"/>
       </frame3>
       <frame4 layersCount="10">
-        <layer0 imageName="lefthandtop.png" x="0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="0.017855406"/>
-        <layer1 imageName="lefthandbottom.png" x="7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="0.71174836"/>
-        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.022417769"/>
-        <layer4 imageName="neck.png" x="3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.084012315"/>
-        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="0.020830393"/>
-        <layer7 imageName="righthandbottom.png" x="9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="1.1119193"/>
-        <layer8 imageName="cloak.png" x="-10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.11242713"/>
-        <layer9 imageName="headRIGHT.png" x="-0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.008096865"/>
+        <layer0 imageName="lefthandtop.png" x="0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="0.017855406" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="0.71174836" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.022417769" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.084012315" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="0.020830393" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="1.1119193" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.11242713" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headRIGHT.png" x="-0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.008096865" basicWidth="74" basicHeight="74"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="lefthandtop.png" x="-0.28653294" y="-30.398281" scale="0.75" scaleX="0.94" scaleY="0.98" angle="0.017855406"/>
-        <layer1 imageName="lefthandbottom.png" x="0.14613175" y="-8.7621765" scale="0.79" scaleX="0.87" scaleY="1.04" angle="0.044415236"/>
-        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="0.14285707" y="-16.821428" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="neck.png" x="0.46428573" y="-45.107143" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-0.4383955" y="-28.246418" scale="0.82" scaleX="0.93" scaleY="1.03" angle="0.020830393"/>
-        <layer7 imageName="onehandedright.png" x="24.2149" y="-5.3295135" scale="0.67" scaleX="1.0" scaleY="1.0" angle="-1.3133647"/>
-        <layer8 imageName="righthandbottom.png" x="0.8595989" y="-6.90831" scale="0.84" scaleX="0.94" scaleY="1.01" angle="0.039978743"/>
-        <layer9 imageName="cloak.png" x="-11.60745" y="-0.8853874" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.040378433"/>
-        <layer10 imageName="headRIGHT.png" x="-3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="lefthandtop.png" x="-0.28653294" y="-30.398281" scale="0.75" scaleX="0.94" scaleY="0.98" angle="0.017855406" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="0.14613175" y="-8.7621765" scale="0.79" scaleX="0.87" scaleY="1.04" angle="0.044415236" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="0.14285707" y="-16.821428" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="0.46428573" y="-45.107143" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-0.4383955" y="-28.246418" scale="0.82" scaleX="0.93" scaleY="1.03" angle="0.020830393" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="onehandedright.png" x="24.2149" y="-5.3295135" scale="0.67" scaleX="1.0" scaleY="1.0" angle="-1.3133647" basicWidth="66" basicHeight="106"/>
+        <layer8 imageName="righthandbottom.png" x="0.8595989" y="-6.90831" scale="0.84" scaleX="0.94" scaleY="1.01" angle="0.039978743" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="cloak.png" x="-11.60745" y="-0.8853874" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.040378433" basicWidth="114" basicHeight="124"/>
+        <layer10 imageName="headRIGHT.png" x="-3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -88,31 +88,31 @@
   <UP_RIGHT>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="lefthandtop.png" x="-9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="-0.06016825"/>
-        <layer1 imageName="lefthandbottom.png" x="-10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="-0.05352027"/>
-        <layer2 imageName="leftleg.png" x="-66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="-0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="neck.png" x="-0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="0.037718058"/>
-        <layer7 imageName="righthandbottom.png" x="10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="0.05371189"/>
-        <layer8 imageName="cloak.png" x="-4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="-0.077165246"/>
-        <layer9 imageName="headUP_RIGHT.png" x="-0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="lefthandtop.png" x="-9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="-0.06016825" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="-10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="-0.05352027" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="0.037718058" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="0.05371189" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="-0.077165246" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP_RIGHT.png" x="-0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="lefthandtop.png" x="-9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="-0.06016825"/>
-        <layer1 imageName="lefthandbottom.png" x="-10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="-0.05352027"/>
-        <layer2 imageName="leftleg.png" x="-66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="body.png" x="-0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="neck.png" x="-0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="0.037718058"/>
-        <layer7 imageName="onehandedright.png" x="38.333332" y="-5.166666" scale="0.77" scaleX="1.0" scaleY="1.0" angle="-1.146235"/>
-        <layer8 imageName="righthandbottom.png" x="10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="0.05371189"/>
-        <layer9 imageName="cloak.png" x="-4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="-0.077165246"/>
-        <layer10 imageName="headUP_RIGHT.png" x="-0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="lefthandtop.png" x="-9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="-0.06016825" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="lefthandbottom.png" x="-10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="-0.05352027" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="leftleg.png" x="-66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="rightleg.png" x="-82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="0.037718058" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="onehandedright.png" x="38.333332" y="-5.166666" scale="0.77" scaleX="1.0" scaleY="1.0" angle="-1.146235" basicWidth="66" basicHeight="106"/>
+        <layer8 imageName="righthandbottom.png" x="10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="0.05371189" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="cloak.png" x="-4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="-0.077165246" basicWidth="114" basicHeight="124"/>
+        <layer10 imageName="headUP_RIGHT.png" x="-0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -124,79 +124,79 @@
   <UP>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0"/>
-        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0"/>
-        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="lefthandtop.png" x="-14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="-0.023555756"/>
-        <layer5 imageName="lefthandbottom.png" x="-14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="-0.01723957"/>
-        <layer6 imageName="righthandtop.png" x="12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="0.036680788"/>
-        <layer8 imageName="cloak.png" x="-0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0"/>
-        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="lefthandtop.png" x="-14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="-0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer5 imageName="lefthandbottom.png" x="-14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="-0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer6 imageName="righthandtop.png" x="12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
       <frame1 layersCount="10">
-        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0"/>
-        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0"/>
-        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="lefthandtop.png" x="-14.333333" y="-31.0" scale="0.98" scaleX="0.8" scaleY="0.81" angle="-0.023555756"/>
-        <layer5 imageName="lefthandbottom.png" x="-15.0" y="-10.0" scale="1.0" scaleX="0.84" scaleY="0.94" angle="-0.01723957"/>
-        <layer6 imageName="righthandtop.png" x="12.666667" y="-34.666668" scale="0.97" scaleX="0.81" scaleY="0.69" angle="0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="13.833333" y="-21.0" scale="0.93" scaleX="0.85" scaleY="0.51" angle="0.021735707"/>
-        <layer8 imageName="cloak.png" x="-0.07462692" y="-1.8059692" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0"/>
-        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="lefthandtop.png" x="-14.333333" y="-31.0" scale="0.98" scaleX="0.8" scaleY="0.81" angle="-0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer5 imageName="lefthandbottom.png" x="-15.0" y="-10.0" scale="1.0" scaleX="0.84" scaleY="0.94" angle="-0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer6 imageName="righthandtop.png" x="12.666667" y="-34.666668" scale="0.97" scaleX="0.81" scaleY="0.69" angle="0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="13.833333" y="-21.0" scale="0.93" scaleX="0.85" scaleY="0.51" angle="0.021735707" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-0.07462692" y="-1.8059692" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame1>
       <frame2 layersCount="10">
-        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0"/>
-        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0"/>
-        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="lefthandtop.png" x="-14.333333" y="-30.666668" scale="0.98" scaleX="0.8" scaleY="0.9" angle="-0.023555756"/>
-        <layer5 imageName="lefthandbottom.png" x="-15.166667" y="-10.5" scale="1.0" scaleX="0.84" scaleY="0.87" angle="-0.01723957"/>
-        <layer6 imageName="righthandtop.png" x="13.0" y="-30.5" scale="0.97" scaleX="0.81" scaleY="0.86" angle="0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="14.0" y="-11.166666" scale="0.93" scaleX="0.85" scaleY="0.86" angle="0.036680788"/>
-        <layer8 imageName="cloak.png" x="-0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0"/>
-        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="lefthandtop.png" x="-14.333333" y="-30.666668" scale="0.98" scaleX="0.8" scaleY="0.9" angle="-0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer5 imageName="lefthandbottom.png" x="-15.166667" y="-10.5" scale="1.0" scaleX="0.84" scaleY="0.87" angle="-0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer6 imageName="righthandtop.png" x="13.0" y="-30.5" scale="0.97" scaleX="0.81" scaleY="0.86" angle="0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="14.0" y="-11.166666" scale="0.93" scaleX="0.85" scaleY="0.86" angle="0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame2>
       <frame3 layersCount="10">
-        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0"/>
-        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0"/>
-        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="lefthandtop.png" x="-13.833333" y="-34.0" scale="0.98" scaleX="0.8" scaleY="0.65" angle="-0.023555756"/>
-        <layer5 imageName="lefthandbottom.png" x="-14.0" y="-21.666666" scale="1.0" scaleX="0.84" scaleY="0.39" angle="-0.01723957"/>
-        <layer6 imageName="righthandtop.png" x="12.666667" y="-31.166668" scale="0.97" scaleX="0.81" scaleY="0.87" angle="0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="14.166667" y="-10.5" scale="0.93" scaleX="0.85" scaleY="0.97" angle="0.036680788"/>
-        <layer8 imageName="cloak.png" x="0.07462692" y="-1.2238808" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0"/>
-        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="lefthandtop.png" x="-13.833333" y="-34.0" scale="0.98" scaleX="0.8" scaleY="0.65" angle="-0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer5 imageName="lefthandbottom.png" x="-14.0" y="-21.666666" scale="1.0" scaleX="0.84" scaleY="0.39" angle="-0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer6 imageName="righthandtop.png" x="12.666667" y="-31.166668" scale="0.97" scaleX="0.81" scaleY="0.87" angle="0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="14.166667" y="-10.5" scale="0.93" scaleX="0.85" scaleY="0.97" angle="0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="0.07462692" y="-1.2238808" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame3>
       <frame4 layersCount="10">
-        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0"/>
-        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0"/>
-        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="lefthandtop.png" x="-14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="-0.023555756"/>
-        <layer5 imageName="lefthandbottom.png" x="-14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="-0.01723957"/>
-        <layer6 imageName="righthandtop.png" x="12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="0.036680788"/>
-        <layer8 imageName="cloak.png" x="-0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0"/>
-        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="lefthandtop.png" x="-14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="-0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer5 imageName="lefthandbottom.png" x="-14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="-0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer6 imageName="righthandtop.png" x="12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="-0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0"/>
-        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0"/>
-        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="lefthandtop.png" x="-14.285714" y="-29.285713" scale="0.98" scaleX="0.8" scaleY="1.0" angle="-0.023555756"/>
-        <layer5 imageName="lefthandbottom.png" x="-15.678572" y="-4.8571434" scale="1.0" scaleX="0.84" scaleY="0.99" angle="-0.01723957"/>
-        <layer6 imageName="righthandtop.png" x="12.571428" y="-28.142857" scale="0.97" scaleX="0.81" scaleY="1.05" angle="0.037860688"/>
-        <layer7 imageName="onehandedright.png" x="39.216217" y="-7.567566" scale="0.73" scaleX="1.0" scaleY="1.0" angle="-1.1769601"/>
-        <layer8 imageName="righthandbottom.png" x="14.214286" y="-5.535713" scale="0.93" scaleX="0.85" scaleY="1.0" angle="0.036680788"/>
-        <layer9 imageName="cloak.png" x="-0.34219265" y="1.2292366" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0"/>
-        <layer10 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="body.png" x="-0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer1 imageName="neck.png" x="-0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer2 imageName="rightleg.png" x="42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftleg.png" x="60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="lefthandtop.png" x="-14.285714" y="-29.285713" scale="0.98" scaleX="0.8" scaleY="1.0" angle="-0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer5 imageName="lefthandbottom.png" x="-15.678572" y="-4.8571434" scale="1.0" scaleX="0.84" scaleY="0.99" angle="-0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer6 imageName="righthandtop.png" x="12.571428" y="-28.142857" scale="0.97" scaleX="0.81" scaleY="1.05" angle="0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="onehandedright.png" x="39.216217" y="-7.567566" scale="0.73" scaleX="1.0" scaleY="1.0" angle="-1.1769601" basicWidth="66" basicHeight="106"/>
+        <layer8 imageName="righthandbottom.png" x="14.214286" y="-5.535713" scale="0.93" scaleX="0.85" scaleY="1.0" angle="0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="cloak.png" x="-0.34219265" y="1.2292366" scale="0.62" scaleX="0.99" scaleY="1.28" angle="-0.0" basicWidth="114" basicHeight="124"/>
+        <layer10 imageName="headUP.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -208,31 +208,31 @@
   <UP_LEFT>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="righthandtop.png" x="9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="0.06016825"/>
-        <layer1 imageName="righthandbottom.png" x="10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="0.05352027"/>
-        <layer2 imageName="rightleg.png" x="66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="body.png" x="0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="neck.png" x="0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer5 imageName="leftleg.png" x="82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="lefthandtop.png" x="-9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="-0.037718058"/>
-        <layer7 imageName="lefthandbottom.png" x="-10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="-0.05371189"/>
-        <layer8 imageName="cloak.png" x="4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="0.077165246"/>
-        <layer9 imageName="headUP_LEFT.png" x="0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="righthandtop.png" x="9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="0.06016825" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="0.05352027" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="leftleg.png" x="82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="lefthandtop.png" x="-9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="-0.037718058" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="lefthandbottom.png" x="-10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="-0.05371189" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="0.077165246" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headUP_LEFT.png" x="0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="righthandtop.png" x="9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="0.06016825"/>
-        <layer1 imageName="righthandbottom.png" x="10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="0.05352027"/>
-        <layer2 imageName="onehandedright.png" x="-14.5" y="-8.5" scale="0.77" scaleX="1.0" scaleY="1.0" angle="1.2075702"/>
-        <layer3 imageName="rightleg.png" x="66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="body.png" x="0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer5 imageName="neck.png" x="0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="leftleg.png" x="82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer7 imageName="lefthandtop.png" x="-9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="-0.037718058"/>
-        <layer8 imageName="lefthandbottom.png" x="-10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="-0.05371189"/>
-        <layer9 imageName="cloak.png" x="4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="0.077165246"/>
-        <layer10 imageName="headUP_LEFT.png" x="0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="righthandtop.png" x="9.166667" y="-30.0" scale="0.98" scaleX="0.88" scaleY="1.0" angle="0.06016825" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="10.333333" y="-6.833334" scale="1.0" scaleX="0.93" scaleY="1.0" angle="0.05352027" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="onehandedright.png" x="-14.5" y="-8.5" scale="0.77" scaleX="1.0" scaleY="1.0" angle="1.2075702" basicWidth="66" basicHeight="106"/>
+        <layer3 imageName="rightleg.png" x="66.0" y="-3.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="body.png" x="0.83333325" y="-15.666668" scale="0.82" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer5 imageName="neck.png" x="0.6666666" y="-44.666668" scale="0.75" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer6 imageName="leftleg.png" x="82.833336" y="-3.333332" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer7 imageName="lefthandtop.png" x="-9.333333" y="-28.5" scale="1.0" scaleX="0.89" scaleY="1.0" angle="-0.037718058" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandbottom.png" x="-10.5" y="-3.5" scale="1.04" scaleX="0.87" scaleY="1.05" angle="-0.05371189" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="cloak.png" x="4.72211" y="-0.73427963" scale="0.77" scaleX="0.56" scaleY="1.0" angle="0.077165246" basicWidth="114" basicHeight="124"/>
+        <layer10 imageName="headUP_LEFT.png" x="0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -244,79 +244,79 @@
   <LEFT>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="righthandtop.png" x="-0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="-0.020830393"/>
-        <layer1 imageName="righthandbottom.png" x="-9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="-1.1119193"/>
-        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.022417769"/>
-        <layer4 imageName="neck.png" x="-3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.084012315"/>
-        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="lefthandtop.png" x="-0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="-0.017855406"/>
-        <layer7 imageName="lefthandbottom.png" x="-7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="-0.71174836"/>
-        <layer8 imageName="cloak.png" x="10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.11242713"/>
-        <layer9 imageName="headLEFT.png" x="0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.008096865"/>
+        <layer0 imageName="righthandtop.png" x="-0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="-0.020830393" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="-9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="-1.1119193" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.022417769" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.084012315" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="lefthandtop.png" x="-0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="-0.017855406" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="lefthandbottom.png" x="-7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="-0.71174836" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.11242713" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headLEFT.png" x="0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.008096865" basicWidth="74" basicHeight="74"/>
       </frame0>
       <frame1 layersCount="10">
-        <layer0 imageName="righthandtop.png" x="-7.5" y="-29.666668" scale="0.9" scaleX="0.93" scaleY="1.03" angle="-0.5137987"/>
-        <layer1 imageName="righthandbottom.png" x="-20.03172" y="-24.63272" scale="0.94" scaleX="0.94" scaleY="1.01" angle="-2.0246403"/>
-        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.1107823"/>
-        <layer4 imageName="neck.png" x="-5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.18092646"/>
-        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="lefthandtop.png" x="1.3333334" y="-33.166668" scale="0.91" scaleX="0.89" scaleY="0.98" angle="0.40158057"/>
-        <layer7 imageName="lefthandbottom.png" x="3.5058432" y="-12.290483" scale="0.9" scaleX="0.87" scaleY="1.04" angle="-0.10785499"/>
-        <layer8 imageName="cloak.png" x="13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.21032587"/>
-        <layer9 imageName="headLEFT.png" x="-2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.049410302"/>
+        <layer0 imageName="righthandtop.png" x="-7.5" y="-29.666668" scale="0.9" scaleX="0.93" scaleY="1.03" angle="-0.5137987" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="-20.03172" y="-24.63272" scale="0.94" scaleX="0.94" scaleY="1.01" angle="-2.0246403" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.1107823" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.18092646" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="lefthandtop.png" x="1.3333334" y="-33.166668" scale="0.91" scaleX="0.89" scaleY="0.98" angle="0.40158057" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="lefthandbottom.png" x="3.5058432" y="-12.290483" scale="0.9" scaleX="0.87" scaleY="1.04" angle="-0.10785499" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.21032587" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headLEFT.png" x="-2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.049410302" basicWidth="74" basicHeight="74"/>
       </frame1>
       <frame2 layersCount="10">
-        <layer0 imageName="righthandtop.png" x="0.5" y="-29.333332" scale="0.93" scaleX="0.93" scaleY="1.03" angle="0.06307412"/>
-        <layer1 imageName="righthandbottom.png" x="-7.0133553" y="-15.123539" scale="0.93" scaleX="0.94" scaleY="1.01" angle="-1.1647928"/>
-        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.022417769"/>
-        <layer4 imageName="neck.png" x="-3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.084012315"/>
-        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="lefthandtop.png" x="-3.3333335" y="-30.166668" scale="0.92" scaleX="0.91" scaleY="0.98" angle="-0.15818904"/>
-        <layer7 imageName="lefthandbottom.png" x="-11.018364" y="-12.954926" scale="0.95" scaleX="0.9" scaleY="1.04" angle="-0.6025711"/>
-        <layer8 imageName="cloak.png" x="10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.11242713"/>
-        <layer9 imageName="headLEFT.png" x="0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.008096865"/>
+        <layer0 imageName="righthandtop.png" x="0.5" y="-29.333332" scale="0.93" scaleX="0.93" scaleY="1.03" angle="0.06307412" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="-7.0133553" y="-15.123539" scale="0.93" scaleX="0.94" scaleY="1.01" angle="-1.1647928" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.022417769" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.084012315" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="lefthandtop.png" x="-3.3333335" y="-30.166668" scale="0.92" scaleX="0.91" scaleY="0.98" angle="-0.15818904" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="lefthandbottom.png" x="-11.018364" y="-12.954926" scale="0.95" scaleX="0.9" scaleY="1.04" angle="-0.6025711" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.11242713" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headLEFT.png" x="0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.008096865" basicWidth="74" basicHeight="74"/>
       </frame2>
       <frame3 layersCount="10">
-        <layer0 imageName="righthandtop.png" x="2.8333333" y="-30.166668" scale="0.92" scaleX="0.93" scaleY="1.03" angle="0.35470566"/>
-        <layer1 imageName="righthandbottom.png" x="6.8514194" y="-8.4474125" scale="0.92" scaleX="0.94" scaleY="1.01" angle="-0.01288414"/>
-        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.1107823"/>
-        <layer4 imageName="neck.png" x="-5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.18092646"/>
-        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="lefthandtop.png" x="-6.1819696" y="-31.81636" scale="0.85" scaleX="0.94" scaleY="0.98" angle="-0.22488594"/>
-        <layer7 imageName="lefthandbottom.png" x="-17.023373" y="-26.479132" scale="0.92" scaleX="0.91" scaleY="1.04" angle="4.5046406"/>
-        <layer8 imageName="cloak.png" x="13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.21032587"/>
-        <layer9 imageName="headLEFT.png" x="-2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.049410302"/>
+        <layer0 imageName="righthandtop.png" x="2.8333333" y="-30.166668" scale="0.92" scaleX="0.93" scaleY="1.03" angle="0.35470566" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="6.8514194" y="-8.4474125" scale="0.92" scaleX="0.94" scaleY="1.01" angle="-0.01288414" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.1107823" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-5.5" y="-47.0" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.18092646" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="lefthandtop.png" x="-6.1819696" y="-31.81636" scale="0.85" scaleX="0.94" scaleY="0.98" angle="-0.22488594" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="lefthandbottom.png" x="-17.023373" y="-26.479132" scale="0.92" scaleX="0.91" scaleY="1.04" angle="4.5046406" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="13.666667" y="-2.0" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.21032587" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headLEFT.png" x="-2.3333335" y="-60.5" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.049410302" basicWidth="74" basicHeight="74"/>
       </frame3>
       <frame4 layersCount="10">
-        <layer0 imageName="righthandtop.png" x="-0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="-0.020830393"/>
-        <layer1 imageName="righthandbottom.png" x="-9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="-1.1119193"/>
-        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.022417769"/>
-        <layer4 imageName="neck.png" x="-3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.084012315"/>
-        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="lefthandtop.png" x="-0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="-0.017855406"/>
-        <layer7 imageName="lefthandbottom.png" x="-7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="-0.71174836"/>
-        <layer8 imageName="cloak.png" x="10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.11242713"/>
-        <layer9 imageName="headLEFT.png" x="0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.008096865"/>
+        <layer0 imageName="righthandtop.png" x="-0.6666666" y="-29.333332" scale="0.9" scaleX="0.93" scaleY="1.03" angle="-0.020830393" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="-9.350584" y="-14.953255" scale="0.95" scaleX="0.94" scaleY="1.01" angle="-1.1119193" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="body.png" x="-1.8333334" y="-18.833334" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.022417769" basicWidth="30" basicHeight="76"/>
+        <layer4 imageName="neck.png" x="-3.0" y="-47.333332" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.084012315" basicWidth="22" basicHeight="10"/>
+        <layer5 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="lefthandtop.png" x="-0.5" y="-31.333332" scale="0.93" scaleX="0.85" scaleY="0.98" angle="-0.017855406" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="lefthandbottom.png" x="-7.5141907" y="-13.787979" scale="0.94" scaleX="0.86" scaleY="1.04" angle="-0.71174836" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="cloak.png" x="10.5" y="-1.3333321" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.11242713" basicWidth="114" basicHeight="124"/>
+        <layer9 imageName="headLEFT.png" x="0.5" y="-60.666664" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.008096865" basicWidth="74" basicHeight="74"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="righthandtop.png" x="0.4383955" y="-28.246418" scale="0.82" scaleX="0.93" scaleY="1.03" angle="-0.020830393"/>
-        <layer1 imageName="righthandbottom.png" x="-0.8595989" y="-6.90831" scale="0.84" scaleX="0.94" scaleY="1.01" angle="-0.039978743"/>
-        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer3 imageName="onehandedright.png" x="-24.916906" y="-10.18338" scale="0.67" scaleX="1.0" scaleY="1.0" angle="1.3133647"/>
-        <layer4 imageName="body.png" x="-0.14285707" y="-16.821428" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.0"/>
-        <layer5 imageName="neck.png" x="-0.46428573" y="-45.107143" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer7 imageName="lefthandtop.png" x="0.85386825" y="-28.392551" scale="0.83" scaleX="0.94" scaleY="0.98" angle="-0.017855406"/>
-        <layer8 imageName="lefthandbottom.png" x="0.28080225" y="-7.464184" scale="0.88" scaleX="0.9" scaleY="1.04" angle="-0.044415236"/>
-        <layer9 imageName="cloak.png" x="11.60745" y="-0.8853874" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.040378433"/>
-        <layer10 imageName="headLEFT.png" x="3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="righthandtop.png" x="0.4383955" y="-28.246418" scale="0.82" scaleX="0.93" scaleY="1.03" angle="-0.020830393" basicWidth="16" basicHeight="32"/>
+        <layer1 imageName="righthandbottom.png" x="-0.8595989" y="-6.90831" scale="0.84" scaleX="0.94" scaleY="1.01" angle="-0.039978743" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="rightleg.png" x="52.2945" y="-18.61165" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="onehandedright.png" x="-24.916906" y="-10.18338" scale="0.67" scaleX="1.0" scaleY="1.0" angle="1.3133647" basicWidth="66" basicHeight="106"/>
+        <layer4 imageName="body.png" x="-0.14285707" y="-16.821428" scale="0.8" scaleX="0.92" scaleY="1.0" angle="-0.0" basicWidth="30" basicHeight="76"/>
+        <layer5 imageName="neck.png" x="-0.46428573" y="-45.107143" scale="0.49" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer6 imageName="leftleg.png" x="71.81554" y="-20.17152" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer7 imageName="lefthandtop.png" x="0.85386825" y="-28.392551" scale="0.83" scaleX="0.94" scaleY="0.98" angle="-0.017855406" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandbottom.png" x="0.28080225" y="-7.464184" scale="0.88" scaleX="0.9" scaleY="1.04" angle="-0.044415236" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="cloak.png" x="11.60745" y="-0.8853874" scale="0.39" scaleX="0.28" scaleY="2.0" angle="0.040378433" basicWidth="114" basicHeight="124"/>
+        <layer10 imageName="headLEFT.png" x="3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -328,31 +328,31 @@
   <DOWN_LEFT>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="cloak.png" x="2.4444444" y="0.66666794" scale="0.76" scaleX="0.74" scaleY="1.0" angle="0.023859108"/>
-        <layer1 imageName="righthandtop.png" x="-8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="-0.08365011"/>
-        <layer2 imageName="righthandbottom.png" x="-9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.08024001"/>
-        <layer3 imageName="rightleg.png" x="89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer4 imageName="body.png" x="1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="0.013604603"/>
-        <layer5 imageName="neck.png" x="0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer6 imageName="headDOWN_LEFT.png" x="0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer7 imageName="leftleg.png" x="71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer8 imageName="lefthandtop.png" x="10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.032570507"/>
-        <layer9 imageName="lefthandbottom.png" x="12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.03867611"/>
+        <layer0 imageName="cloak.png" x="2.4444444" y="0.66666794" scale="0.76" scaleX="0.74" scaleY="1.0" angle="0.023859108" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="righthandtop.png" x="-8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="-0.08365011" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="righthandbottom.png" x="-9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.08024001" basicWidth="16" basicHeight="32"/>
+        <layer3 imageName="rightleg.png" x="89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="body.png" x="1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="0.013604603" basicWidth="30" basicHeight="76"/>
+        <layer5 imageName="neck.png" x="0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer6 imageName="headDOWN_LEFT.png" x="0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
+        <layer7 imageName="leftleg.png" x="71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer8 imageName="lefthandtop.png" x="10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.032570507" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.03867611" basicWidth="16" basicHeight="32"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="cloak.png" x="2.4444444" y="0.66666794" scale="0.76" scaleX="0.74" scaleY="1.0" angle="0.023859108"/>
-        <layer1 imageName="righthandtop.png" x="-8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="-0.08365011"/>
-        <layer2 imageName="righthandbottom.png" x="-9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.08024001"/>
-        <layer3 imageName="onehandedright.png" x="-35.666668" y="-3.5" scale="0.67" scaleX="1.0" scaleY="1.0" angle="1.3001822"/>
-        <layer4 imageName="rightleg.png" x="89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer5 imageName="body.png" x="1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="0.013604603"/>
-        <layer6 imageName="neck.png" x="0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer7 imageName="headDOWN_LEFT.png" x="0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer8 imageName="leftleg.png" x="71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer9 imageName="lefthandtop.png" x="10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.032570507"/>
-        <layer10 imageName="lefthandbottom.png" x="12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.03867611"/>
+        <layer0 imageName="cloak.png" x="2.4444444" y="0.66666794" scale="0.76" scaleX="0.74" scaleY="1.0" angle="0.023859108" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="righthandtop.png" x="-8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="-0.08365011" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="righthandbottom.png" x="-9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.08024001" basicWidth="16" basicHeight="32"/>
+        <layer3 imageName="onehandedright.png" x="-35.666668" y="-3.5" scale="0.67" scaleX="1.0" scaleY="1.0" angle="1.3001822" basicWidth="66" basicHeight="106"/>
+        <layer4 imageName="rightleg.png" x="89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="body.png" x="1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="0.013604603" basicWidth="30" basicHeight="76"/>
+        <layer6 imageName="neck.png" x="0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="22" basicHeight="10"/>
+        <layer7 imageName="headDOWN_LEFT.png" x="0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
+        <layer8 imageName="leftleg.png" x="71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer9 imageName="lefthandtop.png" x="10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.032570507" basicWidth="16" basicHeight="32"/>
+        <layer10 imageName="lefthandbottom.png" x="12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.03867611" basicWidth="16" basicHeight="32"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -364,79 +364,79 @@
   <DOWN>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0"/>
-        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="-0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="-13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="-0.036680788"/>
-        <layer8 imageName="lefthandtop.png" x="14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="0.023555756"/>
-        <layer9 imageName="lefthandbottom.png" x="14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="0.01723957"/>
+        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="-0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="-0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandtop.png" x="14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="0.01723957" basicWidth="16" basicHeight="32"/>
       </frame0>
       <frame1 layersCount="10">
-        <layer0 imageName="cloak.png" x="0.07462692" y="-1.8059692" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0"/>
-        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-12.666667" y="-34.666668" scale="0.97" scaleX="0.81" scaleY="0.69" angle="-0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="-13.833333" y="-21.0" scale="0.93" scaleX="0.85" scaleY="0.51" angle="-0.021735707"/>
-        <layer8 imageName="lefthandtop.png" x="14.333333" y="-31.0" scale="0.98" scaleX="0.8" scaleY="0.81" angle="0.023555756"/>
-        <layer9 imageName="lefthandbottom.png" x="15.0" y="-10.0" scale="1.0" scaleX="0.84" scaleY="0.94" angle="0.01723957"/>
+        <layer0 imageName="cloak.png" x="0.07462692" y="-1.8059692" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-12.666667" y="-34.666668" scale="0.97" scaleX="0.81" scaleY="0.69" angle="-0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-13.833333" y="-21.0" scale="0.93" scaleX="0.85" scaleY="0.51" angle="-0.021735707" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandtop.png" x="14.333333" y="-31.0" scale="0.98" scaleX="0.8" scaleY="0.81" angle="0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="15.0" y="-10.0" scale="1.0" scaleX="0.84" scaleY="0.94" angle="0.01723957" basicWidth="16" basicHeight="32"/>
       </frame1>
       <frame2 layersCount="10">
-        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0"/>
-        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-13.0" y="-30.5" scale="0.97" scaleX="0.81" scaleY="0.86" angle="-0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="-14.0" y="-11.166666" scale="0.93" scaleX="0.85" scaleY="0.86" angle="-0.036680788"/>
-        <layer8 imageName="lefthandtop.png" x="14.333333" y="-30.666668" scale="0.98" scaleX="0.8" scaleY="0.9" angle="0.023555756"/>
-        <layer9 imageName="lefthandbottom.png" x="15.166667" y="-10.5" scale="1.0" scaleX="0.84" scaleY="0.87" angle="0.01723957"/>
+        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-13.0" y="-30.5" scale="0.97" scaleX="0.81" scaleY="0.86" angle="-0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-14.0" y="-11.166666" scale="0.93" scaleX="0.85" scaleY="0.86" angle="-0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandtop.png" x="14.333333" y="-30.666668" scale="0.98" scaleX="0.8" scaleY="0.9" angle="0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="15.166667" y="-10.5" scale="1.0" scaleX="0.84" scaleY="0.87" angle="0.01723957" basicWidth="16" basicHeight="32"/>
       </frame2>
       <frame3 layersCount="10">
-        <layer0 imageName="cloak.png" x="-0.07462692" y="-1.2238808" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0"/>
-        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-12.666667" y="-31.166668" scale="0.97" scaleX="0.81" scaleY="0.87" angle="-0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="-14.166667" y="-10.5" scale="0.93" scaleX="0.85" scaleY="0.97" angle="-0.036680788"/>
-        <layer8 imageName="lefthandtop.png" x="13.833333" y="-34.0" scale="0.98" scaleX="0.8" scaleY="0.65" angle="0.023555756"/>
-        <layer9 imageName="lefthandbottom.png" x="14.0" y="-21.666666" scale="1.0" scaleX="0.84" scaleY="0.39" angle="0.01723957"/>
+        <layer0 imageName="cloak.png" x="-0.07462692" y="-1.2238808" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-12.666667" y="-31.166668" scale="0.97" scaleX="0.81" scaleY="0.87" angle="-0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-14.166667" y="-10.5" scale="0.93" scaleX="0.85" scaleY="0.97" angle="-0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandtop.png" x="13.833333" y="-34.0" scale="0.98" scaleX="0.8" scaleY="0.65" angle="0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="14.0" y="-21.666666" scale="1.0" scaleX="0.84" scaleY="0.39" angle="0.01723957" basicWidth="16" basicHeight="32"/>
       </frame3>
       <frame4 layersCount="10">
-        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0"/>
-        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="-0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="-13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="-0.036680788"/>
-        <layer8 imageName="lefthandtop.png" x="14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="0.023555756"/>
-        <layer9 imageName="lefthandbottom.png" x="14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="0.01723957"/>
+        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-12.5" y="-32.5" scale="0.97" scaleX="0.81" scaleY="0.82" angle="-0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-13.5" y="-14.0" scale="0.93" scaleX="0.85" scaleY="0.81" angle="-0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandtop.png" x="14.5" y="-32.5" scale="0.98" scaleX="0.8" scaleY="0.78" angle="0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="14.833333" y="-14.166666" scale="1.0" scaleX="0.84" scaleY="0.77" angle="0.01723957" basicWidth="16" basicHeight="32"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0"/>
-        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="righthandtop.png" x="-12.571428" y="-28.142857" scale="0.97" scaleX="0.81" scaleY="1.05" angle="-0.037860688"/>
-        <layer7 imageName="righthandbottom.png" x="-14.214286" y="-5.535713" scale="0.93" scaleX="0.85" scaleY="1.0" angle="-0.036680788"/>
-        <layer8 imageName="lefthandtop.png" x="14.285714" y="-29.285713" scale="0.98" scaleX="0.8" scaleY="1.0" angle="0.023555756"/>
-        <layer9 imageName="lefthandbottom.png" x="15.678572" y="-4.8571434" scale="1.0" scaleX="0.84" scaleY="0.99" angle="0.01723957"/>
-        <layer10 imageName="onehandedright.png" x="-39.216217" y="-7.567566" scale="0.73" scaleX="1.0" scaleY="1.0" angle="1.1769601"/>
+        <layer0 imageName="cloak.png" x="0.35548162" y="-0.069767" scale="0.62" scaleX="0.99" scaleY="1.28" angle="0.0" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="headDOWN.png" x="0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer2 imageName="body.png" x="0.25" y="-15.875" scale="0.97" scaleX="0.9" scaleY="0.81" angle="0.0" basicWidth="30" basicHeight="76"/>
+        <layer3 imageName="neck.png" x="0.0" y="-44.625" scale="0.76" scaleX="0.83" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer4 imageName="leftleg.png" x="-60.0" y="-9.125" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer5 imageName="rightleg.png" x="-42.5" y="-8.75" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer6 imageName="righthandtop.png" x="-12.571428" y="-28.142857" scale="0.97" scaleX="0.81" scaleY="1.05" angle="-0.037860688" basicWidth="16" basicHeight="32"/>
+        <layer7 imageName="righthandbottom.png" x="-14.214286" y="-5.535713" scale="0.93" scaleX="0.85" scaleY="1.0" angle="-0.036680788" basicWidth="16" basicHeight="32"/>
+        <layer8 imageName="lefthandtop.png" x="14.285714" y="-29.285713" scale="0.98" scaleX="0.8" scaleY="1.0" angle="0.023555756" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="lefthandbottom.png" x="15.678572" y="-4.8571434" scale="1.0" scaleX="0.84" scaleY="0.99" angle="0.01723957" basicWidth="16" basicHeight="32"/>
+        <layer10 imageName="onehandedright.png" x="-39.216217" y="-7.567566" scale="0.73" scaleX="1.0" scaleY="1.0" angle="1.1769601" basicWidth="66" basicHeight="106"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -448,31 +448,31 @@
   <DOWN_RIGHT>
     <UNARMED>
       <frame0 layersCount="10">
-        <layer0 imageName="cloak.png" x="-4.4444447" y="0.33333206" scale="0.76" scaleX="0.74" scaleY="1.0" angle="-0.023859108"/>
-        <layer1 imageName="lefthandtop.png" x="8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="0.08365011"/>
-        <layer2 imageName="lefthandbottom.png" x="9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.08024001"/>
-        <layer3 imageName="leftleg.png" x="-89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="body.png" x="-1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="-0.013604603"/>
-        <layer5 imageName="neck.png" x="-0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="headDOWN_RIGHT.png" x="-0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer7 imageName="rightleg.png" x="-71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer8 imageName="righthandtop.png" x="-10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.032570507"/>
-        <layer9 imageName="righthandbottom.png" x="-12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.03867611"/>
+        <layer0 imageName="cloak.png" x="-4.4444447" y="0.33333206" scale="0.76" scaleX="0.74" scaleY="1.0" angle="-0.023859108" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="lefthandtop.png" x="8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="0.08365011" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="lefthandbottom.png" x="9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.08024001" basicWidth="16" basicHeight="32"/>
+        <layer3 imageName="leftleg.png" x="-89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="body.png" x="-1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="-0.013604603" basicWidth="30" basicHeight="76"/>
+        <layer5 imageName="neck.png" x="-0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer6 imageName="headDOWN_RIGHT.png" x="-0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer7 imageName="rightleg.png" x="-71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer8 imageName="righthandtop.png" x="-10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.032570507" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="righthandbottom.png" x="-12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.03867611" basicWidth="16" basicHeight="32"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="11">
-        <layer0 imageName="cloak.png" x="-4.4444447" y="0.33333206" scale="0.76" scaleX="0.74" scaleY="1.0" angle="-0.023859108"/>
-        <layer1 imageName="lefthandtop.png" x="8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="0.08365011"/>
-        <layer2 imageName="lefthandbottom.png" x="9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.08024001"/>
-        <layer3 imageName="leftleg.png" x="-89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer4 imageName="body.png" x="-1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="-0.013604603"/>
-        <layer5 imageName="neck.png" x="-0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer6 imageName="headDOWN_RIGHT.png" x="-0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer7 imageName="rightleg.png" x="-71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer8 imageName="righthandtop.png" x="-10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.032570507"/>
-        <layer9 imageName="onehandedright.png" x="14.395209" y="-0.7005997" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-1.2693174"/>
-        <layer10 imageName="righthandbottom.png" x="-12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.03867611"/>
+        <layer0 imageName="cloak.png" x="-4.4444447" y="0.33333206" scale="0.76" scaleX="0.74" scaleY="1.0" angle="-0.023859108" basicWidth="114" basicHeight="124"/>
+        <layer1 imageName="lefthandtop.png" x="8.594816" y="-27.673943" scale="0.89" scaleX="0.93" scaleY="1.0" angle="0.08365011" basicWidth="16" basicHeight="32"/>
+        <layer2 imageName="lefthandbottom.png" x="9.185539" y="-5.21146" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.08024001" basicWidth="16" basicHeight="32"/>
+        <layer3 imageName="leftleg.png" x="-89.333336" y="-1.5" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="body.png" x="-1.0" y="-15.333334" scale="0.9" scaleX="1.0" scaleY="0.91" angle="-0.013604603" basicWidth="30" basicHeight="76"/>
+        <layer5 imageName="neck.png" x="-0.33333337" y="-43.666668" scale="0.81" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="22" basicHeight="10"/>
+        <layer6 imageName="headDOWN_RIGHT.png" x="-0.16666651" y="-59.0" scale="0.6" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
+        <layer7 imageName="rightleg.png" x="-71.0" y="-1.6666679" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer8 imageName="righthandtop.png" x="-10.869031" y="-25.720327" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.032570507" basicWidth="16" basicHeight="32"/>
+        <layer9 imageName="onehandedright.png" x="14.395209" y="-0.7005997" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-1.2693174" basicWidth="66" basicHeight="106"/>
+        <layer10 imageName="righthandbottom.png" x="-12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.03867611" basicWidth="16" basicHeight="32"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>

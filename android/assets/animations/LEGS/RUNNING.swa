@@ -4,48 +4,48 @@
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="-4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.27168348"/>
-        <layer1 imageName="leftlegbottom.png" x="-20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-1.3845735"/>
-        <layer2 imageName="rightlegtop.png" x="12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="1.0568767"/>
-        <layer3 imageName="rightlegbottom.png" x="18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.29271308"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="-4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.27168348" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="-20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-1.3845735" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="1.0568767" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.29271308" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
       <frame1 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="-4.5" y="-44.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.2617135"/>
-        <layer1 imageName="leftlegbottom.png" x="-11.333333" y="-18.0" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.22679885"/>
-        <layer2 imageName="rightlegtop.png" x="6.8333335" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.2869389"/>
-        <layer3 imageName="rightlegbottom.png" x="8.833334" y="-19.333334" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.0497673"/>
-        <layer4 imageName="bodypoint.png" x="0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="-4.5" y="-44.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.2617135" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="-11.333333" y="-18.0" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.22679885" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="6.8333335" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.2869389" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="8.833334" y="-19.333334" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.0497673" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame1>
       <frame2 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="10.333333" y="-50.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="1.0288776"/>
-        <layer1 imageName="leftlegbottom.png" x="16.0" y="-32.666668" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.3775302"/>
-        <layer2 imageName="rightlegtop.png" x="-5.666667" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.5191461"/>
-        <layer3 imageName="rightlegbottom.png" x="-25.5" y="-31.666668" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-1.4066427"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="10.333333" y="-50.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="1.0288776" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="16.0" y="-32.666668" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.3775302" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-5.666667" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.5191461" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-25.5" y="-31.666668" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-1.4066427" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame2>
       <frame3 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="6.333333" y="-45.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.1882217"/>
-        <layer1 imageName="leftlegbottom.png" x="8.0" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.09065989"/>
-        <layer2 imageName="rightlegtop.png" x="-4.6666665" y="-46.166668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.17237921"/>
-        <layer3 imageName="rightlegbottom.png" x="-10.833334" y="-18.166666" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.2252048"/>
-        <layer4 imageName="bodypoint.png" x="0.16666669" y="-56.166668" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="6.333333" y="-45.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.1882217" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="8.0" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.09065989" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-4.6666665" y="-46.166668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.17237921" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-10.833334" y="-18.166666" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.2252048" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.16666669" y="-56.166668" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame3>
       <frame4 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="-4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.27168348"/>
-        <layer1 imageName="leftlegbottom.png" x="-20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-1.3845735"/>
-        <layer2 imageName="rightlegtop.png" x="12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="1.0568767"/>
-        <layer3 imageName="rightlegbottom.png" x="18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.29271308"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="-4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.27168348" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="-20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-1.3845735" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="1.0568767" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.29271308" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.02083032"/>
-        <layer1 imageName="leftlegbottom.png" x="0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0"/>
-        <layer2 imageName="rightlegtop.png" x="0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.017020226"/>
-        <layer3 imageName="rightlegbottom.png" x="0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.009999752"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.02083032" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.017020226" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.009999752" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -57,20 +57,20 @@
   <UP_RIGHT>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="bodypoint.png" x="0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer1 imageName="leftlegbottom.png" x="-7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.029117981"/>
-        <layer2 imageName="leftlegtop.png" x="-6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="-0.03029376"/>
-        <layer3 imageName="rightlegbottom.png" x="7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="0.041642666"/>
-        <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103"/>
+        <layer0 imageName="bodypoint.png" x="0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
+        <layer1 imageName="leftlegbottom.png" x="-7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.029117981" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="-6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="-0.03029376" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="0.041642666" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103" basicWidth="16" basicHeight="40"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="bodypoint.png" x="0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer1 imageName="leftlegbottom.png" x="-7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.029117981"/>
-        <layer2 imageName="leftlegtop.png" x="-6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="-0.03029376"/>
-        <layer3 imageName="rightlegbottom.png" x="7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="0.041642666"/>
-        <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103"/>
+        <layer0 imageName="bodypoint.png" x="0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
+        <layer1 imageName="leftlegbottom.png" x="-7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.029117981" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="-6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="-0.03029376" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="0.041642666" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103" basicWidth="16" basicHeight="40"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -82,48 +82,48 @@
   <UP>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="rightlegbottom.png" x="7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="-0.0101008415"/>
-        <layer1 imageName="rightlegtop.png" x="7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="-0.0"/>
-        <layer2 imageName="leftlegbottom.png" x="-7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="-0.008695602"/>
-        <layer3 imageName="leftlegtop.png" x="-7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="-0.0"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegbottom.png" x="7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="-0.0101008415" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegtop.png" x="7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegbottom.png" x="-7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="-0.008695602" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegtop.png" x="-7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
       <frame1 layersCount="5">
-        <layer0 imageName="rightlegbottom.png" x="7.0" y="-18.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.0"/>
-        <layer1 imageName="rightlegtop.png" x="6.3333335" y="-46.0" scale="0.99" scaleX="0.96" scaleY="0.85" angle="0.0071427356"/>
-        <layer2 imageName="leftlegbottom.png" x="-7.833333" y="-20.333334" scale="1.0" scaleX="0.97" scaleY="0.89" angle="-0.0050001144"/>
-        <layer3 imageName="leftlegtop.png" x="-7.5" y="-46.666668" scale="0.93" scaleX="1.0" scaleY="0.87" angle="0.0076334397"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegbottom.png" x="7.0" y="-18.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegtop.png" x="6.3333335" y="-46.0" scale="0.99" scaleX="0.96" scaleY="0.85" angle="0.0071427356" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegbottom.png" x="-7.833333" y="-20.333334" scale="1.0" scaleX="0.97" scaleY="0.89" angle="-0.0050001144" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegtop.png" x="-7.5" y="-46.666668" scale="0.93" scaleX="1.0" scaleY="0.87" angle="0.0076334397" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame1>
       <frame2 layersCount="5">
-        <layer0 imageName="rightlegbottom.png" x="6.5" y="-36.666668" scale="0.98" scaleX="1.0" scaleY="0.47" angle="-0.0"/>
-        <layer1 imageName="rightlegtop.png" x="6.5" y="-51.5" scale="0.99" scaleX="0.96" scaleY="0.52" angle="-0.0"/>
-        <layer2 imageName="leftlegbottom.png" x="-7.3333335" y="-27.333332" scale="1.0" scaleX="0.97" scaleY="0.82" angle="-0.0"/>
-        <layer3 imageName="leftlegtop.png" x="-6.8333335" y="-50.0" scale="0.93" scaleX="1.0" scaleY="0.67" angle="-0.0"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-58.666664" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegbottom.png" x="6.5" y="-36.666668" scale="0.98" scaleX="1.0" scaleY="0.47" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegtop.png" x="6.5" y="-51.5" scale="0.99" scaleX="0.96" scaleY="0.52" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegbottom.png" x="-7.3333335" y="-27.333332" scale="1.0" scaleX="0.97" scaleY="0.82" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegtop.png" x="-6.8333335" y="-50.0" scale="0.93" scaleX="1.0" scaleY="0.67" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.666664" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame2>
       <frame3 layersCount="5">
-        <layer0 imageName="rightlegbottom.png" x="6.666667" y="-22.0" scale="0.98" scaleX="1.0" scaleY="0.9" angle="-0.0"/>
-        <layer1 imageName="rightlegtop.png" x="6.5" y="-48.0" scale="0.99" scaleX="0.96" scaleY="0.81" angle="-0.0"/>
-        <layer2 imageName="leftlegbottom.png" x="-7.1666665" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.0047619343"/>
-        <layer3 imageName="leftlegtop.png" x="-6.8333335" y="-46.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.0"/>
-        <layer4 imageName="bodypoint.png" x="0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegbottom.png" x="6.666667" y="-22.0" scale="0.98" scaleX="1.0" scaleY="0.9" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegtop.png" x="6.5" y="-48.0" scale="0.99" scaleX="0.96" scaleY="0.81" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegbottom.png" x="-7.1666665" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.0047619343" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegtop.png" x="-6.8333335" y="-46.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame3>
       <frame4 layersCount="5">
-        <layer0 imageName="rightlegbottom.png" x="7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="-0.0101008415"/>
-        <layer1 imageName="rightlegtop.png" x="7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="-0.0"/>
-        <layer2 imageName="leftlegbottom.png" x="-7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="-0.008695602"/>
-        <layer3 imageName="leftlegtop.png" x="-7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="-0.0"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegbottom.png" x="7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="-0.0101008415" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegtop.png" x="7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegbottom.png" x="-7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="-0.008695602" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegtop.png" x="-7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer1 imageName="rightlegbottom.png" x="-6.166667" y="-15.0" scale="0.86" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer2 imageName="rightlegtop.png" x="-5.8333335" y="-42.666668" scale="0.88" scaleX="1.0" scaleY="1.0" angle="0.0"/>
-        <layer3 imageName="leftlegbottom.png" x="7.0" y="-16.5" scale="0.86" scaleX="1.0" scaleY="1.04" angle="0.014083575"/>
-        <layer4 imageName="leftlegtop.png" x="6.8333335" y="-43.5" scale="0.86" scaleX="1.0" scaleY="0.97" angle="0.012657642"/>
+        <layer0 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.166667" y="-15.0" scale="0.86" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-5.8333335" y="-42.666668" scale="0.88" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="7.0" y="-16.5" scale="0.86" scaleX="1.0" scaleY="1.04" angle="0.014083575" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="leftlegtop.png" x="6.8333335" y="-43.5" scale="0.86" scaleX="1.0" scaleY="0.97" angle="0.012657642" basicWidth="16" basicHeight="40"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -135,20 +135,20 @@
   <UP_LEFT>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="bodypoint.png" x="-0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer1 imageName="rightlegbottom.png" x="7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.029117981"/>
-        <layer2 imageName="rightlegtop.png" x="6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="0.03029376"/>
-        <layer3 imageName="leftlegbottom.png" x="-7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="-0.041642666"/>
-        <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103"/>
+        <layer0 imageName="bodypoint.png" x="-0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
+        <layer1 imageName="rightlegbottom.png" x="7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.029117981" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="0.03029376" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="-7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="-0.041642666" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103" basicWidth="16" basicHeight="40"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="bodypoint.png" x="-0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
-        <layer1 imageName="rightlegbottom.png" x="7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.029117981"/>
-        <layer2 imageName="rightlegtop.png" x="6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="0.03029376"/>
-        <layer3 imageName="leftlegbottom.png" x="-7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="-0.041642666"/>
-        <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103"/>
+        <layer0 imageName="bodypoint.png" x="-0.16666667" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
+        <layer1 imageName="rightlegbottom.png" x="7.5" y="-16.166666" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.029117981" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="6.5" y="-42.5" scale="0.9" scaleX="1.0" scaleY="0.92" angle="0.03029376" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="-7.6666665" y="-13.333334" scale="0.94" scaleX="1.0" scaleY="1.0" angle="-0.041642666" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103" basicWidth="16" basicHeight="40"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -160,48 +160,48 @@
   <LEFT>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="-12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-1.0568767"/>
-        <layer1 imageName="rightlegbottom.png" x="-18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.29271308"/>
-        <layer2 imageName="leftlegtop.png" x="4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.27168348"/>
-        <layer3 imageName="leftlegbottom.png" x="20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="1.3845735"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="-12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-1.0568767" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="-18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.29271308" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.27168348" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="1.3845735" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
       <frame1 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="-6.8333335" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.2869389"/>
-        <layer1 imageName="rightlegbottom.png" x="-8.833334" y="-19.333334" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.0497673"/>
-        <layer2 imageName="leftlegtop.png" x="4.5" y="-44.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.2617135"/>
-        <layer3 imageName="leftlegbottom.png" x="11.333333" y="-18.0" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.22679885"/>
-        <layer4 imageName="bodypoint.png" x="-0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="-6.8333335" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.2869389" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="-8.833334" y="-19.333334" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.0497673" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="4.5" y="-44.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.2617135" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="11.333333" y="-18.0" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.22679885" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame1>
       <frame2 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="5.666667" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.5191461"/>
-        <layer1 imageName="rightlegbottom.png" x="25.5" y="-31.666668" scale="0.98" scaleX="1.0" scaleY="0.97" angle="1.4066427"/>
-        <layer2 imageName="leftlegtop.png" x="-10.333333" y="-50.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-1.0288776"/>
-        <layer3 imageName="leftlegbottom.png" x="-16.0" y="-32.666668" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.3775302"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="5.666667" y="-45.666668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.5191461" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="25.5" y="-31.666668" scale="0.98" scaleX="1.0" scaleY="0.97" angle="1.4066427" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="-10.333333" y="-50.666668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-1.0288776" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="-16.0" y="-32.666668" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.3775302" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame2>
       <frame3 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="4.6666665" y="-46.166668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.17237921"/>
-        <layer1 imageName="rightlegbottom.png" x="10.833334" y="-18.166666" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.2252048"/>
-        <layer2 imageName="leftlegtop.png" x="-6.333333" y="-45.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.1882217"/>
-        <layer3 imageName="leftlegbottom.png" x="-8.0" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.09065989"/>
-        <layer4 imageName="bodypoint.png" x="-0.16666669" y="-56.166668" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="4.6666665" y="-46.166668" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.17237921" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="10.833334" y="-18.166666" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.2252048" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="-6.333333" y="-45.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.1882217" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="-8.0" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.09065989" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.16666669" y="-56.166668" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame3>
       <frame4 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="-12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-1.0568767"/>
-        <layer1 imageName="rightlegbottom.png" x="-18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.29271308"/>
-        <layer2 imageName="leftlegtop.png" x="4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.27168348"/>
-        <layer3 imageName="leftlegbottom.png" x="20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="1.3845735"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="-12.166667" y="-51.333332" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-1.0568767" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="-18.333334" y="-34.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.29271308" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="4.0" y="-46.166668" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.27168348" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="20.666666" y="-30.5" scale="1.0" scaleX="0.97" scaleY="0.97" angle="1.3845735" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-55.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="-0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.017020226"/>
-        <layer1 imageName="rightlegbottom.png" x="-0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.009999752"/>
-        <layer2 imageName="leftlegtop.png" x="-0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.02083032"/>
-        <layer3 imageName="leftlegbottom.png" x="-0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.0"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="-0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="-0.017020226" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="-0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="-0.009999752" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="-0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="-0.02083032" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="-0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="-0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -213,20 +213,20 @@
   <DOWN_LEFT>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="-4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="-0.047583103"/>
-        <layer1 imageName="rightlegbottom.png" x="-6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="-0.048238516"/>
-        <layer2 imageName="leftlegtop.png" x="5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.03612885"/>
-        <layer3 imageName="leftlegbottom.png" x="7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.049958397"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="-4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="-0.047583103" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="-0.048238516" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.03612885" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.049958397" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="rightlegtop.png" x="-4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="-0.047583103"/>
-        <layer1 imageName="rightlegbottom.png" x="-6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="-0.048238516"/>
-        <layer2 imageName="leftlegtop.png" x="5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.03612885"/>
-        <layer3 imageName="leftlegbottom.png" x="7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.049958397"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0"/>
+        <layer0 imageName="rightlegtop.png" x="-4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="-0.047583103" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="rightlegbottom.png" x="-6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="-0.048238516" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="leftlegtop.png" x="5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.03612885" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="leftlegbottom.png" x="7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="0.049958397" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -238,48 +238,48 @@
   <DOWN>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="0.0"/>
-        <layer1 imageName="leftlegbottom.png" x="7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="0.008695602"/>
-        <layer2 imageName="rightlegtop.png" x="-7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="0.0"/>
-        <layer3 imageName="rightlegbottom.png" x="-7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="0.0101008415"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="0.008695602" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="0.0101008415" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
       <frame1 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="7.5" y="-46.666668" scale="0.93" scaleX="1.0" scaleY="0.87" angle="-0.0076334397"/>
-        <layer1 imageName="leftlegbottom.png" x="7.833333" y="-20.333334" scale="1.0" scaleX="0.97" scaleY="0.89" angle="0.0050001144"/>
-        <layer2 imageName="rightlegtop.png" x="-6.3333335" y="-46.0" scale="0.99" scaleX="0.96" scaleY="0.85" angle="-0.0071427356"/>
-        <layer3 imageName="rightlegbottom.png" x="-7.0" y="-18.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.0"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="7.5" y="-46.666668" scale="0.93" scaleX="1.0" scaleY="0.87" angle="-0.0076334397" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="7.833333" y="-20.333334" scale="1.0" scaleX="0.97" scaleY="0.89" angle="0.0050001144" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-6.3333335" y="-46.0" scale="0.99" scaleX="0.96" scaleY="0.85" angle="-0.0071427356" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.0" y="-18.0" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame1>
       <frame2 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="6.8333335" y="-50.0" scale="0.93" scaleX="1.0" scaleY="0.67" angle="0.0"/>
-        <layer1 imageName="leftlegbottom.png" x="7.3333335" y="-27.333332" scale="1.0" scaleX="0.97" scaleY="0.82" angle="0.0"/>
-        <layer2 imageName="rightlegtop.png" x="-6.5" y="-51.5" scale="0.99" scaleX="0.96" scaleY="0.52" angle="0.0"/>
-        <layer3 imageName="rightlegbottom.png" x="-6.5" y="-36.666668" scale="0.98" scaleX="1.0" scaleY="0.47" angle="0.0"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.666664" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="6.8333335" y="-50.0" scale="0.93" scaleX="1.0" scaleY="0.67" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="7.3333335" y="-27.333332" scale="1.0" scaleX="0.97" scaleY="0.82" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-6.5" y="-51.5" scale="0.99" scaleX="0.96" scaleY="0.52" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-6.5" y="-36.666668" scale="0.98" scaleX="1.0" scaleY="0.47" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.666664" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame2>
       <frame3 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="6.8333335" y="-46.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.0"/>
-        <layer1 imageName="leftlegbottom.png" x="7.1666665" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0047619343"/>
-        <layer2 imageName="rightlegtop.png" x="-6.5" y="-48.0" scale="0.99" scaleX="0.96" scaleY="0.81" angle="0.0"/>
-        <layer3 imageName="rightlegbottom.png" x="-6.666667" y="-22.0" scale="0.98" scaleX="1.0" scaleY="0.9" angle="0.0"/>
-        <layer4 imageName="bodypoint.png" x="-0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="6.8333335" y="-46.0" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="7.1666665" y="-17.833334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0047619343" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-6.5" y="-48.0" scale="0.99" scaleX="0.96" scaleY="0.81" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-6.666667" y="-22.0" scale="0.98" scaleX="1.0" scaleY="0.9" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.16666669" y="-56.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame3>
       <frame4 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="0.0"/>
-        <layer1 imageName="leftlegbottom.png" x="7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="0.008695602"/>
-        <layer2 imageName="rightlegtop.png" x="-7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="0.0"/>
-        <layer3 imageName="rightlegbottom.png" x="-7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="0.0101008415"/>
-        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="7.1666665" y="-52.666668" scale="0.93" scaleX="1.0" scaleY="0.55" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="7.0" y="-37.666668" scale="1.0" scaleX="0.97" scaleY="0.46" angle="0.008695602" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-7.0" y="-49.0" scale="0.99" scaleX="0.96" scaleY="0.73" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.666667" y="-24.833332" scale="0.98" scaleX="1.0" scaleY="0.86" angle="0.0101008415" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="-0.0" y="-58.5" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame4>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.02083032"/>
-        <layer1 imageName="leftlegbottom.png" x="0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0"/>
-        <layer2 imageName="rightlegtop.png" x="0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.017020226"/>
-        <layer3 imageName="rightlegbottom.png" x="0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.009999752"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="0.5" y="-47.5" scale="0.93" scaleX="1.0" scaleY="0.95" angle="0.02083032" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="0.6666666" y="-18.333334" scale="1.0" scaleX="0.97" scaleY="0.97" angle="0.0" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="0.33333334" y="-48.5" scale="0.99" scaleX="0.96" scaleY="0.88" angle="0.017020226" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="0.5" y="-17.5" scale="0.98" scaleX="1.0" scaleY="0.97" angle="0.009999752" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>
@@ -291,20 +291,20 @@
   <DOWN_RIGHT>
     <UNARMED>
       <frame0 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="0.047583103"/>
-        <layer1 imageName="leftlegbottom.png" x="6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="0.048238516"/>
-        <layer2 imageName="rightlegtop.png" x="-5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.03612885"/>
-        <layer3 imageName="rightlegbottom.png" x="-7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.049958397"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="0.047583103" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="0.048238516" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.03612885" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.049958397" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </UNARMED>
     <ONE_HANDED>
       <frame0 layersCount="5">
-        <layer0 imageName="leftlegtop.png" x="4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="0.047583103"/>
-        <layer1 imageName="leftlegbottom.png" x="6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="0.048238516"/>
-        <layer2 imageName="rightlegtop.png" x="-5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.03612885"/>
-        <layer3 imageName="rightlegbottom.png" x="-7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.049958397"/>
-        <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0"/>
+        <layer0 imageName="leftlegtop.png" x="4.833333" y="-44.333332" scale="0.88" scaleX="0.97" scaleY="1.0" angle="0.047583103" basicWidth="16" basicHeight="40"/>
+        <layer1 imageName="leftlegbottom.png" x="6.6666665" y="-17.333334" scale="0.87" scaleX="0.97" scaleY="1.0" angle="0.048238516" basicWidth="16" basicHeight="40"/>
+        <layer2 imageName="rightlegtop.png" x="-5.6666665" y="-43.166668" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.03612885" basicWidth="16" basicHeight="40"/>
+        <layer3 imageName="rightlegbottom.png" x="-7.3333335" y="-14.666666" scale="0.93" scaleX="1.0" scaleY="1.0" angle="-0.049958397" basicWidth="16" basicHeight="40"/>
+        <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
     <ONE_HANDED_AND_SHIELD/>

@@ -93,7 +93,9 @@ class Animation() {
                                     lyr.attributeValue("scale").toFloat(),
                                     lyr.attributeValue("scaleX").toFloat(),
                                     lyr.attributeValue("scaleY").toFloat(),
-                                    lyr.attributeValue("angle").toFloat()
+                                    lyr.attributeValue("angle").toFloat(),
+                                    lyr.attributeValue("basicWidth").toInt(),
+                                    lyr.attributeValue("basicHeight").toInt()
                             )
                             frame.layers.add(layer)
                         }
@@ -105,61 +107,6 @@ class Animation() {
             frames = data[MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
         }
         catch(ex: Exception) {
-            JOptionPane.showMessageDialog(null, "Unexpected error occurred:\n" + ex.message, "Error :(", JOptionPane.ERROR_MESSAGE)
-            System.exit(0)
-        }
-    }
-
-    /**
-     * Сериализует анимацию в формате XML и записывает в файл
-     */
-    fun serialize(swaFile: File) {
-        try {
-            val document = DocumentHelper.createDocument()
-            val animation = document.addElement("animation")
-            animation.run {
-                addAttribute("type", type.toString())
-                addAttribute("name", this@Animation.name)
-                addAttribute("duration", "" + duration)
-                addAttribute("isRepeatable", "" + isRepeatable)
-            }
-            for (md in MoveDirection.values()) {
-                val moveDirection = animation.addElement(md.toString())
-                for (wt in WeaponType.values()) {
-                    val weaponType = moveDirection.addElement(wt.toString())
-                    val frames = data[md]!![wt]!!
-                    for (frameIndex in frames.indices) {
-                        val frame = frames[frameIndex]
-                        val fr = weaponType.addElement("frame$frameIndex")
-                        fr.addAttribute("layersCount", "" + frame.layers.size)
-                        for (layerIndex in frame.layers.indices) {
-                            val layer = frame.layers[layerIndex]
-                            fr.addElement("layer$layerIndex").run {
-                                addAttribute("imageName", layer.imageName)
-                                addAttribute("x", "" + layer.x)
-                                addAttribute("y", "" + layer.y)
-                                addAttribute("scale", "" + layer.scale)
-                                addAttribute("scaleX", "" + layer.scaleX)
-                                addAttribute("scaleY", "" + layer.scaleY)
-                                addAttribute("angle", "" + layer.angle)
-                            }
-                        }
-                    }
-                }
-            }
-
-            val fileWriter = FileWriter(swaFile)
-            var encoding = document.xmlEncoding
-
-            if (encoding == null)
-                encoding = "UTF-8"
-
-            val outputFormat = OutputFormat("  ", true, encoding)
-            val writer = XMLWriter(fileWriter, outputFormat)
-            writer.write(document)
-            writer.close()
-        }
-        catch(ex : Exception) {
             JOptionPane.showMessageDialog(null, "Unexpected error occurred:\n" + ex.message, "Error :(", JOptionPane.ERROR_MESSAGE)
             System.exit(0)
         }

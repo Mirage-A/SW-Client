@@ -17,19 +17,19 @@ object Animations {
      */
     fun getBodyAnimation(action: BodyAction) : Animation {
         if (bodyAnimations[action] == null) {
-            bodyAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "BODY/" + action.toString() + ".swa").file())
+            bodyAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/BODY/" + action.toString() + ".swa").file())
         }
         return bodyAnimations[action]!!
     }
     fun getLegsAnimation(action: LegsAction) : Animation {
         if (legsAnimations[action] == null) {
-            legsAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "LEGS/" + action.toString() + ".swa").file())
+            legsAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/LEGS/" + action.toString() + ".swa").file())
         }
         return legsAnimations[action]!!
     }
     fun getNullAnimation(action: NullAction) : Animation {
         if (nullAnimations[action] == null) {
-            nullAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "NULL/" + action.toString() + ".swa").file())
+            nullAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/NULL/" + action.toString() + ".swa").file())
         }
         return nullAnimations[action]!!
     }

@@ -4,7 +4,7 @@ import com.mirage.view.TextureLoader
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.scene.Point
 import com.mirage.view.animation.*
-import com.mirage.view.scene.objects.AnimatedObjectDrawer
+import com.mirage.view.scene.objects.ObjectDrawer
 import java.util.HashMap
 
 
@@ -12,17 +12,17 @@ import java.util.HashMap
  * Класс для работы со скелетной анимацией гуманоидов
  * (анимация остальных существ задается покадрово классом SpriteAnimation)
  */
-class HumanoidDrawer : AnimatedObjectDrawer {
+class HumanoidDrawer : ObjectDrawer {
     /**
      * Действие, которое анимируется (ожидание, бег, атака и т.д.)
      */
-    var bodyAction = BodyAction.IDLE
-    var legsAction = LegsAction.IDLE
+    private var bodyAction = BodyAction.IDLE
+    private var legsAction = LegsAction.IDLE
     /**
      * Непосредственно анимации
      */
-    var bodyAnimation = Animations.getBodyAnimation(BodyAction.IDLE)
-    var legsAnimation = Animations.getLegsAnimation(LegsAction.IDLE)
+    private var bodyAnimation = Animations.getBodyAnimation(BodyAction.IDLE)
+    private var legsAnimation = Animations.getLegsAnimation(LegsAction.IDLE)
     /**
      * Направление движения
      */
@@ -98,37 +98,104 @@ class HumanoidDrawer : AnimatedObjectDrawer {
         return Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
     }
 
-    override fun draw(batch: SpriteBatch, x: Float, y: Float, timePassedSinceStart: Long) {
-        val bodyTimePassedSinceStart = timePassedSinceStart - bodyStartTime
-        val legsTimePassedSinceStart = timePassedSinceStart - legsStartTime
-        val bodyPoint = getBodyPoint(legsTimePassedSinceStart)
-        val bodyX = x + bodyPoint.x
-        val bodyY = y + bodyPoint.y
+    override fun draw(batch: SpriteBatch, x: Float, y: Float) {
+        val time = System.currentTimeMillis()
+        val bodyTimePassedSinceStart = System.currentTimeMillis() - bodyStartTime
+        val legsTimePassedSinceStart = System.currentTimeMillis() - legsStartTime
 
-    }
-    private fun getBodyPoint(legsTimePassedSinceStart: Long) : Point {
+        val bodyFrames = bodyAnimation.data[moveDirection]!![weaponType]!!
+        if (bodyFrames.isNotEmpty()) {
+            val bodyTime = when (true) {
+                bodyAnimation.isRepeatable -> bodyTimePassedSinceStart % bodyAnimation.duration
+                else -> Math.min(bodyTimePassedSinceStart, bodyAnimation.duration - 1L)
+            }
+            val bodyStartFrame = bodyFrames[(bodyTime * (bodyFrames.size - 1) / bodyAnimation.duration).toInt()]
+            val bodyEndFrame = bodyFrames[Math.min((bodyTime * (bodyFrames.size - 1) / bodyAnimation.duration).toInt() + 1, bodyFrames.size - 1)]
+            val bodyInterval = bodyAnimation.duration / (bodyFrames.size - 1f)
+            val bodyProgress = bodyTime % bodyInterval / bodyInterval
+            val bodyPoint: Point
 
-        return Point(0f, 0f)
+            val legsFrames = legsAnimation.data[moveDirection]!![weaponType]!!
+            val legsTime: Long
+            val legsStartFrame: Frame
+            val legsEndFrame: Frame
+            val legsInterval: Float
+            val legsProgress: Float
+            if (legsFrames.isNotEmpty()) {
+                legsTime = when (true) {
+                    legsAnimation.isRepeatable -> legsTimePassedSinceStart % legsAnimation.duration
+                    else -> Math.min(legsTimePassedSinceStart, legsAnimation.duration - 1L)
+                }
+                legsStartFrame = legsFrames[(legsTime * (legsFrames.size - 1) / legsAnimation.duration).toInt()]
+                legsEndFrame = legsFrames[Math.min((legsTime * (legsFrames.size - 1) / legsAnimation.duration).toInt() + 1, legsFrames.size - 1)]
+                legsInterval = legsAnimation.duration / (legsFrames.size - 1f)
+                legsProgress = legsTime % legsInterval / legsInterval
+                bodyPoint = getBodyPoint(legsStartFrame, legsEndFrame, legsProgress)
+            }
+            else {
+                legsStartFrame = Frame()
+                legsEndFrame = Frame()
+                legsProgress = 0f
+                bodyPoint = Point(0f, 0f)
+            }
+            val bodyX = x + bodyPoint.x
+            val bodyY = y - bodyPoint.y
+
+            for (bodyLayerIndex in bodyStartFrame.layers.indices) {
+                val startLayer = bodyStartFrame.layers[bodyLayerIndex]
+                val endLayer = bodyEndFrame.layers[bodyLayerIndex]
+                val layerName = startLayer.getName()
+                when (layerName) {
+                    "leftleg" -> {
+                        val topIndex = findLayer(legsStartFrame, "leftlegtop")
+                        val bottomIndex = findLayer(legsStartFrame, "leftlegbottom")
+                        if (topIndex < bottomIndex) {
+                            if (topIndex != -1) {
+                                drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                            }
+                            drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                        }
+                        else if (bottomIndex < topIndex) {
+                            if (bottomIndex != -1) {
+                                drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                            }
+                            drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                        }
+                    }
+                    "rightleg" -> {
+                        val topIndex = findLayer(legsStartFrame, "rightlegtop")
+                        val bottomIndex = findLayer(legsStartFrame, "rightlegbottom")
+                        if (topIndex < bottomIndex) {
+                            if (topIndex != -1) {
+                                drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                            }
+                            drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                        }
+                        else if (bottomIndex < topIndex) {
+                            if (bottomIndex != -1) {
+                                drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                            }
+                            drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                        }
+                    }
+                    else -> drawBodyLayer(batch, bodyX, bodyY, startLayer, endLayer, bodyProgress)
+                }
+            }
+        }
     }
 
     /**
      * Просматривает слои кадра и возвращает координаты центра слоя bodypoint
      * Если такого слоя нет, возвращает (0f, 0f)
      */
-    private fun getBodyPoint(frame : Frame) : Pair<Float, Float> {
-        for (layer in frame.layers) {
-            if (layer.getName() == "bodypoint") {
-                return Pair(layer.x, -layer.y)
-            }
+    private fun getBodyPoint(startFrame: Frame, endFrame : Frame, progress: Float) : Point {
+        val startLayerIndex = findLayer(startFrame, "bodypoint")
+        val endLayerIndex = findLayer(endFrame, "bodypoint")
+        if (startLayerIndex != -1 && endLayerIndex != -1) {
+            return curValue(startFrame.layers[startLayerIndex].getPosition(),
+                    endFrame.layers[endLayerIndex].getPosition(), progress)
         }
-        return Pair(0f, 0f)
-    }
-
-    private fun drawLeftLeg(batch: SpriteBatch, x: Float, y: Float, legsTimePassedSinceStart: Long) {
-
-    }
-    private fun drawRightLeg(batch: SpriteBatch, x: Float, y: Float, legsTimePassedSinceStart: Long) {
-
+        return Point(0f, 0f)
     }
 
     private fun drawLayer(batch: SpriteBatch, x: Float, y: Float, startLayer: Layer, endLayer : Layer, progress: Float) {
@@ -192,4 +259,34 @@ class HumanoidDrawer : AnimatedObjectDrawer {
                 startLayer.basicWidth,
                 startLayer.basicHeight, false, false)
     }
+
+    /**
+     * Находит слой в кадре по названию и возвращает его номер
+     * @return Индекс слоя с данным названием (если он присутствует в кадре) или -1 иначе
+     */
+    private fun findLayer(frame : Frame, layerName: String) : Int {
+        for (layerIndex in frame.layers.indices) {
+            if (frame.layers[layerIndex].getName() == layerName) {
+                return layerIndex
+            }
+        }
+        return -1
+    }
+
+    fun setBodyAction(action: BodyAction) {
+        if (action != bodyAction) {
+            bodyAction = action
+            bodyStartTime = System.currentTimeMillis()
+            bodyAnimation = Animations.getBodyAnimation(action)
+        }
+    }
+
+    fun setLegsAction(action: LegsAction) {
+        if (action != legsAction) {
+            legsAction = action
+            legsStartTime = System.currentTimeMillis()
+            legsAnimation = Animations.getLegsAnimation(action)
+        }
+    }
+
 }
