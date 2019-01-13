@@ -27,9 +27,9 @@ public class DesktopLauncher {
 		config.addIcon(Platform.ASSETS_PATH + "windows_icon.png", Files.FileType.Internal);
 		config.addIcon(Platform.ASSETS_PATH + "mac_icon.png", Files.FileType.Internal);
 		// Фуллскрин
-		//config.fullscreen = true;
-		//config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
-		//config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+		config.fullscreen = true;
+		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+		config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
 		new LwjglApplication(new Controller(), config);
 	}
 }

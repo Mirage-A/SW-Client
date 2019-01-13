@@ -143,6 +143,11 @@ public class Controller extends ApplicationAdapter implements InputProcessor {
                 }
                 break;
             }
+            case Input.Keys.ESCAPE: {
+                //TODO Выход из игры
+                Gdx.app.exit();
+                break;
+            }
         }
         return false;
     }

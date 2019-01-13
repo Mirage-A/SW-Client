@@ -1,19 +1,15 @@
 package com.mirage.view.animation
 
-import java.io.File
 import org.dom4j.io.SAXReader
-import org.dom4j.DocumentHelper
 import org.dom4j.Element
-import java.io.FileWriter
-import org.dom4j.io.OutputFormat
-import org.dom4j.io.XMLWriter
 import java.io.InputStream
 import javax.swing.JOptionPane
 
 
 /**
- * Основной класс модели
- * Абстрактная модель, хранящая все данные об анимации
+ * Анимация, созданная с помощью Animation Editor-а
+ * Объект этого класса содержит всю информацию об анимации,
+ * а также конструктор загрузки анимации из XML-файла (.swa)
  */
 class Animation() {
     /**
@@ -24,22 +20,6 @@ class Animation() {
      * Список кадров анимации
      */
     var frames : ArrayList<Frame> = ArrayList()
-    /**
-     * Номер текущего кадра анимации
-     */
-    var curFrame : Int = -1
-    /**
-     * Текущее направление движения
-     */
-    var curMoveDirection = MoveDirection.RIGHT
-    /**
-     * Текущий тип оружия
-     */
-    var curWeaponType = WeaponType.UNARMED
-    /**
-     * Название анимации
-     */
-    var name : String = "NO_NAME"
     /**
      * Длительность (период) анимации
      */
@@ -52,10 +32,6 @@ class Animation() {
      * Словарь из данных анимации: по moveDirection-у и WeaponType-у получаем список кадров
      */
     var data = HashMap<MoveDirection, HashMap<WeaponType, ArrayList<Frame>>>()
-
-    constructor(type: AnimationType) : this() {
-        this.type = type
-    }
 
     /**
      * Конструктор считывания анимации из файла XML (.swa)
@@ -72,7 +48,6 @@ class Animation() {
             val document = reader.read(inputStream)
             val animation = document.rootElement
             type = AnimationType.fromString(animation.attributeValue("type"))
-            name = animation.attributeValue("name")
             duration = Integer.parseInt(animation.attributeValue("duration"))
             isRepeatable = animation.attributeValue("isRepeatable") == "true"
             for (md in animation.elements()) {

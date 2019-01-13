@@ -2,10 +2,11 @@ package com.mirage.view.animation
 
 import com.badlogic.gdx.Gdx
 import com.mirage.controller.Platform
-import java.io.File
-import java.io.FileWriter
 
-
+/**
+ * Синглтон, в котором загружаются и хранятся все анимации, созданные с помощью Animation Editor-а
+ * Анимации загружаются лениво при вызове getAnimation
+ */
 object Animations {
     /**
      * Словари с загруженными анимациями

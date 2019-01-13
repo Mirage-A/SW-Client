@@ -13,14 +13,6 @@ import javax.imageio.ImageIO
 class Layer (var imageName: String, var x : Float = 0f, var y : Float = 0f, var scale : Float = 1f, var scaleX : Float = 1f,
              var scaleY : Float = 1f, var angle : Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
     /**
-     * Размеры изображения слоя до скалирования
-     */
-
-    constructor(origin : Layer) : this(origin.imageName, origin.x, origin.y, origin.scale, origin.scaleX, origin.scaleY,
-            origin.angle)
-
-
-    /**
      * Обрезает формат изображения и возвращает название слоя
      */
     fun getName() = imageName.substring(0, imageName.length - 4)

@@ -81,7 +81,7 @@ public class View {
      * Отображение FPS
      */
     public boolean showFPS = true;
-    BitmapFont fpsFont = new BitmapFont();
+    private BitmapFont fpsFont = new BitmapFont();
 
 
     public View(ModelFacade model) {

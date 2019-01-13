@@ -14,16 +14,6 @@ import java.util.HashMap
  */
 class HumanoidDrawer : ObjectDrawer {
     /**
-     * Действие, которое анимируется (ожидание, бег, атака и т.д.)
-     */
-    private var bodyAction = BodyAction.IDLE
-    private var legsAction = LegsAction.IDLE
-    /**
-     * Непосредственно анимации
-     */
-    private var bodyAnimation = Animations.getBodyAnimation(BodyAction.IDLE)
-    private var legsAnimation = Animations.getLegsAnimation(LegsAction.IDLE)
-    /**
      * Направление движения
      */
     var moveDirection: MoveDirection = MoveDirection.RIGHT
@@ -39,16 +29,6 @@ class HumanoidDrawer : ObjectDrawer {
     var textures: MutableMap<String, AnimatedTexture>
 
     /**
-     * Время начала анимации body
-     */
-    var bodyStartTime = 0L
-
-    /**
-     * Время начала анимации legs
-     */
-    var legsStartTime = 0L
-
-    /**
      * Буфер направления движения, необходим для плавности поворота персонажа
      */
     var bufferedMoveDirection = MoveDirection.RIGHT
@@ -58,6 +38,30 @@ class HumanoidDrawer : ObjectDrawer {
      */
     var lastMoveDirectionUpdateTime = 0L
 
+    /**
+     * Действие, которое анимируется (ожидание, бег, атака и т.д.)
+     */
+    private var bodyAction = BodyAction.IDLE
+    private var legsAction = LegsAction.IDLE
+    /**
+     * Непосредственно анимации
+     */
+    private var bodyAnimation = Animations.getBodyAnimation(BodyAction.IDLE)
+    private var legsAnimation = Animations.getLegsAnimation(LegsAction.IDLE)
+
+    /**
+     * Время начала анимации body
+     */
+    private var bodyStartTime = 0L
+
+    /**
+     * Время начала анимации legs
+     */
+    private var legsStartTime = 0L
+
+    /**
+     * Конструктор, загружающий в словарь textures стандартные текстуры
+     */
     constructor() {
         textures = HashMap()
         for (md in MoveDirection.values()) {
@@ -73,6 +77,7 @@ class HumanoidDrawer : ObjectDrawer {
         textures["weapon1"] = StaticTexture(TextureLoader.load("equipment/onehanded/0000.png"))
         textures["weapon2"] = StaticTexture(TextureLoader.load("equipment/onehanded/0000.png"))
     }
+
     constructor(textures: MutableMap<String, AnimatedTexture>) {
         this.textures = textures
     }
@@ -86,18 +91,58 @@ class HumanoidDrawer : ObjectDrawer {
     }
 
 
+    /**
+     * Устанавливает анимацию body
+     * Если она изменилась, загружает новую из синглтона Animations
+     */
+    fun setBodyAction(action: BodyAction) {
+        if (action != bodyAction) {
+            bodyAction = action
+            bodyStartTime = System.currentTimeMillis()
+            bodyAnimation = Animations.getBodyAnimation(action)
+        }
+    }
+
+    /**
+     * Устанавливает анимацию legs
+     * Если она изменилась, загружает новую из синглтона Animations
+     */
+    fun setLegsAction(action: LegsAction) {
+        if (action != legsAction) {
+            legsAction = action
+            legsStartTime = System.currentTimeMillis()
+            legsAnimation = Animations.getLegsAnimation(action)
+        }
+    }
+
+    /**
+     * Возвращает "среднее" значение между startValue и endValue,
+     * где "прогресс перехода" равен progress
+     * Например, если progress = 0, то возвращается startValue
+     * Если progress = 1, то возвращается endValue
+     * Если progress = 0.5, то возвращается их среднее арифметическое и т.д.
+     */
     private fun curValue(startValue: Float, endValue : Float, progress : Float) : Float {
         return startValue + (endValue - startValue) * progress
     }
 
+    /**
+     * Аналогично, но границы типа Int
+     */
     private fun curValue(startValue: Int, endValue : Int, progress : Float) : Float {
         return startValue + (endValue - startValue) * progress
     }
 
+    /**
+     * Аналогично, но возвращает точку между двумя точками (покоординатное curValue)
+     */
     private fun curValue(startPoint: Point, endPoint: Point, progress: Float) : Point {
         return Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
     }
 
+    /**
+     * Метод рисования всего объекта
+     */
     override fun draw(batch: SpriteBatch, x: Float, y: Float) {
         val time = System.currentTimeMillis()
         val bodyTimePassedSinceStart = System.currentTimeMillis() - bodyStartTime
@@ -151,15 +196,15 @@ class HumanoidDrawer : ObjectDrawer {
                         val bottomIndex = findLayer(legsStartFrame, "leftlegbottom")
                         if (topIndex < bottomIndex) {
                             if (topIndex != -1) {
-                                drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                                drawLayer(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
                             }
-                            drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                            drawLayer(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
                         }
                         else if (bottomIndex < topIndex) {
                             if (bottomIndex != -1) {
-                                drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                                drawLayer(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
                             }
-                            drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                            drawLayer(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
                         }
                     }
                     "rightleg" -> {
@@ -167,15 +212,15 @@ class HumanoidDrawer : ObjectDrawer {
                         val bottomIndex = findLayer(legsStartFrame, "rightlegbottom")
                         if (topIndex < bottomIndex) {
                             if (topIndex != -1) {
-                                drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                                drawLayer(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
                             }
-                            drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                            drawLayer(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
                         }
                         else if (bottomIndex < topIndex) {
                             if (bottomIndex != -1) {
-                                drawLayerOnBatch(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                                drawLayer(batch, x, y, "legbottom", legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
                             }
-                            drawLayerOnBatch(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                            drawLayer(batch, x, y, "legtop", legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
                         }
                     }
                     else -> drawBodyLayer(batch, bodyX, bodyY, startLayer, endLayer, bodyProgress)
@@ -198,41 +243,10 @@ class HumanoidDrawer : ObjectDrawer {
         return Point(0f, 0f)
     }
 
-    private fun drawLayer(batch: SpriteBatch, x: Float, y: Float, startLayer: Layer, endLayer : Layer, progress: Float) {
-        var layerName = startLayer.getName()
-        if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
-            return
-        }
-        layerName = when (true) {
-            (layerName == "leftlegtop") or (layerName == "rightlegtop") -> "legtop"
-            (layerName == "leftlegbottom") or (layerName == "rightlegbottom") -> "legbottom"
-            (layerName == "onehandedright") or (layerName == "twohanded") or (layerName == "bow") or
-                    (layerName == "staff") -> "weapon1"
-            (layerName == "onehandedleft") or (layerName == "shield") -> "weapon2"
-            else -> layerName
-        }
-        drawLayerOnBatch(batch, x, y, layerName, startLayer, endLayer, progress)
-    }
-
-    private fun drawBodyLayer(batch: SpriteBatch, bodyX: Float, bodyY: Float, startLayer: Layer, endLayer : Layer, progress: Float) {
-        var layerName = startLayer.getName()
-        if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
-            return
-        }
-        layerName = when (true) {
-            (layerName == "lefthandtop") or (layerName == "righthandtop") -> "handtop"
-            (layerName == "lefthandbottom") or (layerName == "righthandbottom") -> "handbottom"
-            (layerName == "leftlegtop") or (layerName == "rightlegtop") -> "legtop"
-            (layerName == "leftlegbottom") or (layerName == "rightlegbottom") -> "legbottom"
-            (layerName == "onehandedright") or (layerName == "twohanded") or (layerName == "bow") or
-                    (layerName == "staff") -> "weapon1"
-            (layerName == "onehandedleft") or (layerName == "shield") -> "weapon2"
-            else -> layerName
-        }
-        drawLayerOnBatch(batch, bodyX, bodyY, layerName, startLayer, endLayer, progress)
-    }
-
-    private fun drawLayerOnBatch(batch: SpriteBatch, x: Float, y: Float, layerName: String, startLayer: Layer, endLayer : Layer, progress: Float) {
+    /**
+     * Отрисовывает слой изображения (среднее состояние слоя между startLayer и endLayer)
+     */
+    private fun drawLayer(batch: SpriteBatch, x: Float, y: Float, layerName: String, startLayer: Layer, endLayer : Layer, progress: Float) {
         val angle1 = (startLayer.angle % (2 * Math.PI)).toFloat()
         var angle2 = (endLayer.angle % (2 * Math.PI)).toFloat()
         if (angle2 > angle1) {
@@ -261,6 +275,28 @@ class HumanoidDrawer : ObjectDrawer {
     }
 
     /**
+     * Отрисовывает слой изображения с проверкой имени слоя на некоторые специальные значения
+     * (например, bodypoint не будет отрисован)
+     */
+    private fun drawBodyLayer(batch: SpriteBatch, bodyX: Float, bodyY: Float, startLayer: Layer, endLayer : Layer, progress: Float) {
+        var layerName = startLayer.getName()
+        if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
+            return
+        }
+        layerName = when (true) {
+            (layerName == "lefthandtop") or (layerName == "righthandtop") -> "handtop"
+            (layerName == "lefthandbottom") or (layerName == "righthandbottom") -> "handbottom"
+            (layerName == "leftlegtop") or (layerName == "rightlegtop") -> "legtop"
+            (layerName == "leftlegbottom") or (layerName == "rightlegbottom") -> "legbottom"
+            (layerName == "onehandedright") or (layerName == "twohanded") or (layerName == "bow") or
+                    (layerName == "staff") -> "weapon1"
+            (layerName == "onehandedleft") or (layerName == "shield") -> "weapon2"
+            else -> layerName
+        }
+        drawLayer(batch, bodyX, bodyY, layerName, startLayer, endLayer, progress)
+    }
+
+    /**
      * Находит слой в кадре по названию и возвращает его номер
      * @return Индекс слоя с данным названием (если он присутствует в кадре) или -1 иначе
      */
@@ -273,20 +309,5 @@ class HumanoidDrawer : ObjectDrawer {
         return -1
     }
 
-    fun setBodyAction(action: BodyAction) {
-        if (action != bodyAction) {
-            bodyAction = action
-            bodyStartTime = System.currentTimeMillis()
-            bodyAnimation = Animations.getBodyAnimation(action)
-        }
-    }
-
-    fun setLegsAction(action: LegsAction) {
-        if (action != legsAction) {
-            legsAction = action
-            legsStartTime = System.currentTimeMillis()
-            legsAnimation = Animations.getLegsAnimation(action)
-        }
-    }
 
 }
