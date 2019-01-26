@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 import com.mirage.controller.Controller
 import com.mirage.controller.Platform
 import com.mirage.model.scene.Scene
-import com.mirage.view.TextureLoader
 
 import java.io.File
 

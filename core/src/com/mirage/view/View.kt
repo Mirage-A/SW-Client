@@ -12,10 +12,10 @@ import com.mirage.model.scene.Point
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player
-import com.mirage.view.scene.objects.ObjectDrawer
-import com.mirage.view.scene.objects.Image
+import com.mirage.view.gameobjects.ObjectDrawer
+import com.mirage.view.gameobjects.Image
 import com.mirage.view.animation.BodyAction
-import com.mirage.view.scene.objects.HumanoidDrawer
+import com.mirage.view.gameobjects.HumanoidDrawer
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
 

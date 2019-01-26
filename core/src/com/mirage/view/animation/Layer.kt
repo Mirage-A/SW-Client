@@ -1,11 +1,6 @@
 package com.mirage.view.animation
 
 import com.mirage.model.scene.Point
-import com.mirage.view.animation.MoveDirection
-import java.awt.image.BufferedImage
-import java.io.File
-
-import javax.imageio.ImageIO
 
 /**
  * Слой на кадре анимации

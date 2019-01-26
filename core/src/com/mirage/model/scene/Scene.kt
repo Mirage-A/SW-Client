@@ -10,15 +10,14 @@ class Scene {
     var height = 5
     val objects: LinkedList<SceneObject> = LinkedList()
     var tileMatrix: Array<IntArray> = Array(0) {IntArray(0) {0} }
-
+    var player: Player = Player()
     /**
-     * Загружает сцену из файла с картой и возвращает ссылку на игрока
+     * Загружает сцену из файла с картой
      */
-    fun loadMapFromFile(map: File) : Player{
+    fun loadMapFromFile(map: File) {
         tileMatrix = Array(width) {IntArray(height) {0} }
         //TODO
-        val player = Player()
+        player = Player()
         objects.add(player)
-        return player
     }
 }

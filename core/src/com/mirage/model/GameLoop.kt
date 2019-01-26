@@ -6,7 +6,6 @@ import com.mirage.model.scene.objects.entities.Player
 
 class GameLoop : Runnable {
     val scene = Scene()
-    var player = Player()
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать

@@ -17,7 +17,7 @@ object Model {
      * Загрузить карту из файла
      */
     fun loadMapFromFile(map: File) {
-        gameLoop.player = gameLoop.scene.loadMapFromFile(map)
+        gameLoop.scene.loadMapFromFile(map)
     }
 
     /**
@@ -36,14 +36,14 @@ object Model {
      * Получить позицию игрока
      */
     fun getPlayerPosition() : Point {
-        return gameLoop.player.position
+        return gameLoop.scene.player.position
     }
 
     /**
      * Задать угол движения (без начала движения)
      */
     fun setMoveAngle(angle: Float) {
-        gameLoop.player.moveAngle = angle
+        gameLoop.scene.player.moveAngle = angle
     }
 
     /**
@@ -51,28 +51,28 @@ object Model {
      */
     fun startMoving(angle: Float) {
         setMoveAngle(angle)
-        gameLoop.player.isMoving = true
+        gameLoop.scene.player.isMoving = true
     }
 
     /**
      * Остановить движение персонажа
      */
     fun stopMoving() {
-        gameLoop.player.isMoving = false
+        gameLoop.scene.player.isMoving = false
     }
 
     /**
      * Возвращает, двигается ли игрок
      */
     fun isPlayerMoving() : Boolean {
-        return gameLoop.player.isMoving
+        return gameLoop.scene.player.isMoving
     }
 
     /**
      * Возвращает move direction игрока
      */
     fun getPlayerMoveDirection() : MoveDirection {
-        return MoveDirection.fromMoveAngle(gameLoop.player.moveAngle)
+        return MoveDirection.fromMoveAngle(gameLoop.scene.player.moveAngle)
     }
 
 

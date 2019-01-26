@@ -1,4 +1,4 @@
-package com.mirage.view.scene.objects
+package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
