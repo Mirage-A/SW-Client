@@ -1,14 +1,17 @@
 package com.mirage.view.scene.objects
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 /**
- * Объект без анимации, заданный статичной текстурой
+ * Статичная текстура, не изменяющаяся со временем
  */
-class StaticTexture(private val texture: Texture) : ObjectDrawer() {
+class StaticTexture(private var texture: Texture) : Image() {
 
-    override fun draw(batch: SpriteBatch, x: Float, y: Float) {
-        batch.draw(texture, x, y)
+    override fun getTexture(): Texture {
+        return texture
+    }
+
+    fun setTexture(texture: Texture) {
+        this.texture = texture
     }
 }

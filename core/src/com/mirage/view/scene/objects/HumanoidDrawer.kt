@@ -1,12 +1,8 @@
-package com.mirage.view.scene.objects.humanoid
+package com.mirage.view.scene.objects
 
-import com.mirage.view.TextureLoader
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.scene.Point
 import com.mirage.view.animation.*
-import com.mirage.view.scene.objects.Image
-import com.mirage.view.scene.objects.ObjectDrawer
-import java.util.HashMap
 
 
 /**

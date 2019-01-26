@@ -26,21 +26,24 @@ object TextureLoader {
     private val emptyTexture = Texture(0, 0, Pixmap.Format.Alpha)
 
     /**
-     * Загружает текстуры из папки ASSETS_PATH по относительному пути path и применяет к ним заданные фильтры.
-     * Уже загруженные текстуры кэшируются.
+     * Создаёт объект StaticTexture (наследник Image), хранящий текстуру, загружаемую по данному пути через getRawTexture
+     * Созданные объекты кэшируются.
      */
-    fun getTexture(path: String): StaticTexture {
+    fun getStaticTexture(path: String): StaticTexture {
         if (texturesCache[path] == null) {
-            val staticTexture = StaticTexture(emptyTexture)
-            texturesCache[path] = staticTexture
-            val context = EmptyCoroutineContext
-            val scope = CoroutineScope(context)
-            scope.launch {
-                val loadedTexture = Texture(Gdx.files.internal(Platform.ASSETS_PATH + path), true)
-                loadedTexture.setFilter(MIN_FILTER, MAG_FILTER)
-            }
+            texturesCache[path] = StaticTexture(getRawTexture(path))
         }
         return texturesCache[path]!!
+    }
+
+    /**
+     * Загружает текстуры из папки ASSETS_PATH по относительному пути path и применяет к ним заданные фильтры.
+     * Текстуры не кэшируются.
+     */
+    fun getRawTexture(path: String) : Texture {
+        val loadedTexture = Texture(Gdx.files.internal(Platform.ASSETS_PATH + path), true)
+        loadedTexture.setFilter(MIN_FILTER, MAG_FILTER)
+        return loadedTexture
     }
 
     /**

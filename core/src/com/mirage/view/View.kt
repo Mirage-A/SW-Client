@@ -15,7 +15,7 @@ import com.mirage.model.scene.objects.entities.Player
 import com.mirage.view.scene.objects.ObjectDrawer
 import com.mirage.view.scene.objects.Image
 import com.mirage.view.animation.BodyAction
-import com.mirage.view.scene.objects.humanoid.HumanoidDrawer
+import com.mirage.view.scene.objects.HumanoidDrawer
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
 
@@ -208,15 +208,15 @@ object View {
      * Загружает текстуры тайлов, используемых в данной сцене
      * //TODO
      */
-    fun loadTileTextures(scene: Scene) {
+    private fun loadTileTextures(scene: Scene) {
         tileTextures = ArrayList()
-        tileTextures.add(TextureLoader.getTexture("tiles/0000.png"))
+        tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
     }
 
     /**
      * Загружает objectDrawers для объектов сцены
      */
-    fun loadObjectDrawers(scene: Scene) {
+    private fun loadObjectDrawers(scene: Scene) {
         objectDrawers = HashMap()
         for (sceneObject in scene.objects) {
             addObjectDrawer(sceneObject)
@@ -232,7 +232,6 @@ object View {
             objectDrawers[sceneObject] = HumanoidDrawer(loadPlayerTexturesMap(sceneObject), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(sceneObject.moveAngle), sceneObject.weaponType)
         }
     }
-
     /**
      * Загружает текстуры брони игрока и упаковывает их в словарь
      * @return Словарь с текстурами брони игрока
@@ -241,17 +240,17 @@ object View {
     private fun loadPlayerTexturesMap(player: Player): MutableMap<String, Image> {
         val texturesMap = HashMap<String, Image>()
         for (md in MoveDirection.values()) {
-            texturesMap["head" + md.toString()] = TextureLoader.getTexture("equipment/head/0000" + md.toString() + ".png")
+            texturesMap["head" + md.toString()] = TextureLoader.getStaticTexture("equipment/head/0000" + md.toString() + ".png")
         }
-        texturesMap["body"] = TextureLoader.getTexture("equipment/body/0000.png")
-        texturesMap["handtop"] = TextureLoader.getTexture("equipment/handtop/0000.png")
-        texturesMap["handbottom"] = TextureLoader.getTexture("equipment/handbottom/0000.png")
-        texturesMap["legtop"] = TextureLoader.getTexture("equipment/legtop/0000.png")
-        texturesMap["legbottom"] = TextureLoader.getTexture("equipment/legbottom/0000.png")
-        texturesMap["cloak"] = TextureLoader.getTexture("equipment/cloak/0000.png")
-        texturesMap["neck"] = TextureLoader.getTexture("equipment/neck/0000.png")
-        texturesMap["weapon1"] = TextureLoader.getTexture("equipment/onehanded/0000.png")
-        texturesMap["weapon2"] = TextureLoader.getTexture("equipment/onehanded/0000.png")
+        texturesMap["body"] = TextureLoader.getStaticTexture("equipment/body/0000.png")
+        texturesMap["handtop"] = TextureLoader.getStaticTexture("equipment/handtop/0000.png")
+        texturesMap["handbottom"] = TextureLoader.getStaticTexture("equipment/handbottom/0000.png")
+        texturesMap["legtop"] = TextureLoader.getStaticTexture("equipment/legtop/0000.png")
+        texturesMap["legbottom"] = TextureLoader.getStaticTexture("equipment/legbottom/0000.png")
+        texturesMap["cloak"] = TextureLoader.getStaticTexture("equipment/cloak/0000.png")
+        texturesMap["neck"] = TextureLoader.getStaticTexture("equipment/neck/0000.png")
+        texturesMap["weapon1"] = TextureLoader.getStaticTexture("equipment/onehanded/0000.png")
+        texturesMap["weapon2"] = TextureLoader.getStaticTexture("equipment/onehanded/0000.png")
         return texturesMap
     }
 
