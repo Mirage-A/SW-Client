@@ -1,5 +1,6 @@
 package com.mirage.model
 
+import com.mirage.model.scene.MazeGenerator
 import com.mirage.model.scene.Point
 import com.mirage.model.scene.Scene
 import com.mirage.view.animation.MoveDirection
@@ -14,16 +15,29 @@ object Model {
     private val loopThread = Thread(gameLoop)
 
     /**
-     * Загрузить карту из файла
+     * Переходит на другую сцену и возвращает старую сцену
+     * При этом, если цикл был приостановлен, то он не возобновляется, иначе продолжает работать
      */
-    fun loadMapFromFile(map: File) {
-        gameLoop.scene.loadMapFromFile(map)
+    fun setScene(scene: Scene) : Scene{
+        val wasPaused = gameLoop.isPaused
+        gameLoop.pauseAndAwait()
+        val tmp = gameLoop.scene
+        gameLoop.scene = scene
+        if (!wasPaused) {
+            startLogic()
+        }
+        return tmp
+    }
+
+    fun loadMaze(width: Int, height: Int) {
+        setScene(MazeGenerator.generateMaze(width, height))
     }
 
     /**
      * Начать игру (логика на паузе, следует вызвать startLogic)
      */
     fun startGame() {
+        loadMaze(5, 5)
         loopThread.start()
     }
 

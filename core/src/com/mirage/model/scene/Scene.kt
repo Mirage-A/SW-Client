@@ -6,18 +6,9 @@ import java.io.File
 import java.util.LinkedList
 
 class Scene {
-    var width = 5
-    var height = 5
+    var width = 0
+    var height = 0
     val objects: LinkedList<SceneObject> = LinkedList()
     var tileMatrix: Array<IntArray> = Array(0) {IntArray(0) {0} }
     var player: Player = Player()
-    /**
-     * Загружает сцену из файла с картой
-     */
-    fun loadMapFromFile(map: File) {
-        tileMatrix = Array(width) {IntArray(height) {0} }
-        //TODO
-        player = Player()
-        objects.add(player)
-    }
 }

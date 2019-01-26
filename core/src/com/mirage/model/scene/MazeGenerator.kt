@@ -1,6 +1,5 @@
 package com.mirage.model.scene
 
-import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Player
 
 object MazeGenerator {
@@ -8,7 +7,9 @@ object MazeGenerator {
         val scene = Scene()
         scene.width = width
         scene.height = height
-        scene.objects.add(Player())
+        scene.player = Player()
+        scene.objects.add(scene.player)
+        scene.tileMatrix = Array(width) {IntArray(height) {0} }
         return scene
     }
 }

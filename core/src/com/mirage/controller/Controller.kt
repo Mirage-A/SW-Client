@@ -29,7 +29,6 @@ object Controller : ApplicationAdapter(), InputProcessor {
     private const val EPS_TIME = 50L
 
     override fun create() {
-        Model.loadMapFromFile(File(""))
         Model.startGame()
         Model.startLogic()
 

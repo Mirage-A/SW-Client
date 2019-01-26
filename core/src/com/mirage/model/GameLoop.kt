@@ -5,12 +5,18 @@ import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player
 
 class GameLoop : Runnable {
-    val scene = Scene()
+    var scene = Scene()
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
      */
     var isPaused = true
+
+    /**
+     * Значение, которое равно true, если на данный момент выполняется итерация цикла
+     * Безопасно выйти из цикла можно только когда isLooping == false
+     */
+    private var isLooping = false
 
     /**
      * Бесконечный цикл игровой логики
@@ -21,6 +27,7 @@ class GameLoop : Runnable {
             val deltaTime = System.currentTimeMillis() - lastTickTime
             lastTickTime += deltaTime
             if (!isPaused) {
+                isLooping = true
                 for (sceneObject in scene.objects) {
                     if (sceneObject is Entity) {
                         if (sceneObject.isMoving) {
@@ -29,7 +36,18 @@ class GameLoop : Runnable {
                     }
                 }
             }
+            else {
+                isLooping = false
+            }
         }
+    }
+
+    /**
+     * Безопасно останавливает цикл (ждет, пока завершится последняя итерация)
+     */
+    fun pauseAndAwait() {
+        isPaused = true
+        while (isLooping) {}
     }
 
 }
