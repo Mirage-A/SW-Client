@@ -10,5 +10,6 @@ class Scene {
     var height = 0
     val objects: LinkedList<SceneObject> = LinkedList()
     var tileMatrix: Array<IntArray> = Array(0) {IntArray(0) {0} }
+    var passabilityMatrix: Array<Array<PassabilityType>> = Array(0) { Array(0) {PassabilityType.ALL_FREE} }
     var player: Player = Player()
 }
