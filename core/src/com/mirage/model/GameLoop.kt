@@ -26,12 +26,21 @@ class GameLoop : Runnable {
     private var smallRange : Float = 0.5f
 
     /**
+     * Лимит кол-ва итераций цикла за секунду
+     */
+    private var ticksPerSecondLimit = 512
+
+    /**
      * Бесконечный цикл игровой логики
      */
     override fun run() {
         var lastTickTime = System.currentTimeMillis()
         while (true) {
-            val deltaTime = System.currentTimeMillis() - lastTickTime
+            var deltaTime = System.currentTimeMillis() - lastTickTime
+            if (deltaTime < 1000f / ticksPerSecondLimit) {
+                Thread.sleep(1000 / (ticksPerSecondLimit / 2) - deltaTime)
+                deltaTime = System.currentTimeMillis() - lastTickTime
+            }
             lastTickTime += deltaTime
             if (!isPaused) {
                 isLooping = true
