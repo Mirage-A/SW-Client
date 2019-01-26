@@ -3,7 +3,7 @@ package com.mirage.model.scene
 /**
  * Тип проходимости тайла
  */
-enum class PassabilityType {
+enum class ApproachabilityType {
     ALL_FREE, // Можно пройти и прострелить
     PROJECTILE_FREE, // Нельзя пройти, но стрелы пролетают
     BLOCKED; // Нельзя ни пройти, ни прострелить
@@ -19,6 +19,6 @@ enum class PassabilityType {
      * Можно ли прострелить данный тайл
      */
     fun isShootable() : Boolean {
-        return (this == ALL_FREE) or (this == PROJECTILE_FREE)
+        return (this == ALL_FREE) || (this == PROJECTILE_FREE)
     }
 }

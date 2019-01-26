@@ -211,6 +211,7 @@ object View {
     private fun loadTileTextures(scene: Scene) {
         tileTextures = ArrayList()
         tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
+        tileTextures.add(TextureLoader.getStaticTexture("tiles/0001.png"))
     }
 
     /**

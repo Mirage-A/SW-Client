@@ -1,5 +1,6 @@
 package com.mirage.model
 
+import com.mirage.model.scene.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.view.Log
@@ -77,7 +78,7 @@ class GameLoop : Runnable {
      * Для обычного передвижения следует использовать moveEntity
      */
     private fun smallMoveEntity(entity: Entity, range: Float, scene: Scene) {
-        val newPosition = entity.position
+        val newPosition = Point(entity.position.x, entity.position.y)
         newPosition.move(entity.moveAngle, range)
         newPosition.x = Math.max(eps, Math.min(scene.width - eps, newPosition.x))
         newPosition.y = Math.max(eps, Math.min(scene.height - eps, newPosition.y))
@@ -85,7 +86,7 @@ class GameLoop : Runnable {
         val y = entity.position.y.toInt()
         val newX = newPosition.x.toInt()
         val newY = newPosition.y.toInt()
-        if ((x != newX || y != newY) && !scene.passabilityMatrix[newX][newY].isWalkable()) {
+        if ((x != newX || y != newY) && !scene.approachabilityMatrix[newX][newY].isWalkable()) {
             if (x == newX) {
                 if (y < newY) {
                     newPosition.y = newY - eps
@@ -112,145 +113,117 @@ class GameLoop : Runnable {
                 val orientedSquare = moveVectorX * backVectorY - moveVectorY * backVectorX
                 when (true) {
                     (newX > x && newY > y) -> {
-                        when (true) {
-                            orientedSquare > 0 -> {
-                                when (true) {
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = newY - eps
-                                    }
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = newX - eps
-                                    }
-                                    else -> {
-                                        newPosition.x = newX - eps
-                                        newPosition.y = newY - eps
-                                    }
+                        if (orientedSquare > 0) {
+                            when (true) {
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = newY - eps
+                                }
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = newX - eps
+                                }
+                                else -> {
+                                    newPosition.x = newX - eps
+                                    newPosition.y = newY - eps
                                 }
                             }
-                            orientedSquare == 0 -> {
-                                newPosition.x = newX - eps
-                                newPosition.y = newY - eps
-                            }
-                            else -> {
-                                when (true) {
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = newX - eps
-                                    }
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = newY - eps
-                                    }
-                                    else -> {
-                                        newPosition.x = newX - eps
-                                        newPosition.y = newY - eps
-                                    }
+                        } else {
+                            when (true) {
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = newX - eps
+                                }
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = newY - eps
+                                }
+                                else -> {
+                                    newPosition.x = newX - eps
+                                    newPosition.y = newY - eps
                                 }
                             }
                         }
                     }
                     (newX < x && newY > y) -> {
-                        when (true) {
-                            orientedSquare > 0 -> {
-                                when (true) {
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = x + eps
-                                    }
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = newY - eps
-                                    }
-                                    else -> {
-                                        newPosition.x = x + eps
-                                        newPosition.y = newY - eps
-                                    }
+                        if (orientedSquare > 0) {
+                            when (true) {
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = x + eps
+                                }
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = newY - eps
+                                }
+                                else -> {
+                                    newPosition.x = x + eps
+                                    newPosition.y = newY - eps
                                 }
                             }
-                            orientedSquare == 0 -> {
-                                newPosition.x = x + eps
-                                newPosition.y = newY - eps
-                            }
-                            else -> {
-                                when (true) {
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = newY - eps
-                                    }
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = x + eps
-                                    }
-                                    else -> {
-                                        newPosition.x = x + eps
-                                        newPosition.y = newY - eps
-                                    }
+                        } else {
+                            when (true) {
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = newY - eps
+                                }
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = x + eps
+                                }
+                                else -> {
+                                    newPosition.x = x + eps
+                                    newPosition.y = newY - eps
                                 }
                             }
                         }
                     }
                     (newX < x && newY < y) -> {
-                        when (true) {
-                            orientedSquare > 0 -> {
-                                when (true) {
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = y + eps
-                                    }
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = x + eps
-                                    }
-                                    else -> {
-                                        newPosition.x = x + eps
-                                        newPosition.y = y + eps
-                                    }
+                        if (orientedSquare > 0) {
+                            when (true) {
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = y + eps
+                                }
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = x + eps
+                                }
+                                else -> {
+                                    newPosition.x = x + eps
+                                    newPosition.y = y + eps
                                 }
                             }
-                            orientedSquare == 0 -> {
-                                newPosition.x = x + eps
-                                newPosition.y = y + eps
-                            }
-                            else -> {
-                                when (true) {
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = x + eps
-                                    }
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = y + eps
-                                    }
-                                    else -> {
-                                        newPosition.x = x + eps
-                                        newPosition.y = y + eps
-                                    }
+                        } else {
+                            when (true) {
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = x + eps
+                                }
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = y + eps
+                                }
+                                else -> {
+                                    newPosition.x = x + eps
+                                    newPosition.y = y + eps
                                 }
                             }
                         }
                     }
                     (newX > x && newY < y) -> {
-                        when (true) {
-                            orientedSquare > 0 -> {
-                                when (true) {
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = newX - eps
-                                    }
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = y + eps
-                                    }
-                                    else -> {
-                                        newPosition.x = newX - eps
-                                        newPosition.y = y + eps
-                                    }
+                        if (orientedSquare > 0) {
+                            when (true) {
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = newX - eps
+                                }
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = y + eps
+                                }
+                                else -> {
+                                    newPosition.x = newX - eps
+                                    newPosition.y = y + eps
                                 }
                             }
-                            orientedSquare == 0 -> {
-                                newPosition.x = newX - eps
-                                newPosition.y = y + eps
-                            }
-                            else -> {
-                                when (true) {
-                                    scene.passabilityMatrix[newX][y].isWalkable() -> {
-                                        newPosition.y = y + eps
-                                    }
-                                    scene.passabilityMatrix[x][newY].isWalkable() -> {
-                                        newPosition.x = newX - eps
-                                    }
-                                    else -> {
-                                        newPosition.x = newX - eps
-                                        newPosition.y = y + eps
-                                    }
+                        } else {
+                            when (true) {
+                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                    newPosition.y = y + eps
+                                }
+                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                    newPosition.x = newX - eps
+                                }
+                                else -> {
+                                    newPosition.x = newX - eps
+                                    newPosition.y = y + eps
                                 }
                             }
                         }
