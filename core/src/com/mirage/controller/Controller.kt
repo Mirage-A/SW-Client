@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector3
 import com.mirage.model.Model
 import com.mirage.view.View
 import com.mirage.view.animation.MoveDirection
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 import java.io.File
 
@@ -23,7 +26,7 @@ object Controller : ApplicationAdapter(), InputProcessor {
      * Интервал времени, за который должны быть отпущены две соседние клавиши передвижения,
      * чтобы персонаж остался в диагональном направлении движения
      */
-    private val EPS_TIME = 50L
+    private const val EPS_TIME = 50L
 
     override fun create() {
         Model.loadMapFromFile(File(""))

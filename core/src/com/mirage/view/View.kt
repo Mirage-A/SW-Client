@@ -3,7 +3,6 @@ package com.mirage.view
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.Model
@@ -14,12 +13,11 @@ import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player
 import com.mirage.view.scene.objects.ObjectDrawer
-import com.mirage.view.scene.objects.humanoid.AnimatedTexture
+import com.mirage.view.scene.objects.Image
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.scene.objects.humanoid.HumanoidDrawer
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
-import com.mirage.view.scene.objects.humanoid.StaticTexture
 
 import java.util.ArrayList
 import java.util.Comparator
@@ -62,7 +60,7 @@ object View {
     /**
      * Список текстур, используемых на данной сцене (карте)
      */
-    private var tileTextures: MutableList<Texture> = ArrayList()
+    private var tileTextures: MutableList<Image> = ArrayList()
 
     /**
      * Словарь, где по объекту сцены мы получаем его визуальное представление
@@ -103,7 +101,6 @@ object View {
 
         camera = OrthographicCamera()
         batch = SpriteBatch()
-
     }
 
     /**
@@ -147,7 +144,7 @@ object View {
     fun dispose() {
         batch.dispose()
         for (t in tileTextures) {
-            t.dispose()
+            t.getTexture().dispose()
         }
     }
 
@@ -211,15 +208,15 @@ object View {
      * Загружает текстуры тайлов, используемых в данной сцене
      * //TODO
      */
-    private fun loadTileTextures(scene: Scene) {
+    fun loadTileTextures(scene: Scene) {
         tileTextures = ArrayList()
-        tileTextures.add(TextureLoader.load("tiles/0000.png"))
+        tileTextures.add(TextureLoader.getTexture("tiles/0000.png"))
     }
 
     /**
      * Загружает objectDrawers для объектов сцены
      */
-    private fun loadObjectDrawers(scene: Scene) {
+    fun loadObjectDrawers(scene: Scene) {
         objectDrawers = HashMap()
         for (sceneObject in scene.objects) {
             addObjectDrawer(sceneObject)
@@ -241,20 +238,20 @@ object View {
      * @return Словарь с текстурами брони игрока
      * //TODO
      */
-    private fun loadPlayerTexturesMap(player: Player): MutableMap<String, AnimatedTexture> {
-        val texturesMap = HashMap<String, AnimatedTexture>()
+    private fun loadPlayerTexturesMap(player: Player): MutableMap<String, Image> {
+        val texturesMap = HashMap<String, Image>()
         for (md in MoveDirection.values()) {
-            texturesMap["head" + md.toString()] = StaticTexture(TextureLoader.load("equipment/head/0000" + md.toString() + ".png"))
+            texturesMap["head" + md.toString()] = TextureLoader.getTexture("equipment/head/0000" + md.toString() + ".png")
         }
-        texturesMap["body"] = StaticTexture(TextureLoader.load("equipment/body/0000.png"))
-        texturesMap["handtop"] = StaticTexture(TextureLoader.load("equipment/handtop/0000.png"))
-        texturesMap["handbottom"] = StaticTexture(TextureLoader.load("equipment/handbottom/0000.png"))
-        texturesMap["legtop"] = StaticTexture(TextureLoader.load("equipment/legtop/0000.png"))
-        texturesMap["legbottom"] = StaticTexture(TextureLoader.load("equipment/legbottom/0000.png"))
-        texturesMap["cloak"] = StaticTexture(TextureLoader.load("equipment/cloak/0000.png"))
-        texturesMap["neck"] = StaticTexture(TextureLoader.load("equipment/neck/0000.png"))
-        texturesMap["weapon1"] = StaticTexture(TextureLoader.load("equipment/onehanded/0000.png"))
-        texturesMap["weapon2"] = StaticTexture(TextureLoader.load("equipment/onehanded/0000.png"))
+        texturesMap["body"] = TextureLoader.getTexture("equipment/body/0000.png")
+        texturesMap["handtop"] = TextureLoader.getTexture("equipment/handtop/0000.png")
+        texturesMap["handbottom"] = TextureLoader.getTexture("equipment/handbottom/0000.png")
+        texturesMap["legtop"] = TextureLoader.getTexture("equipment/legtop/0000.png")
+        texturesMap["legbottom"] = TextureLoader.getTexture("equipment/legbottom/0000.png")
+        texturesMap["cloak"] = TextureLoader.getTexture("equipment/cloak/0000.png")
+        texturesMap["neck"] = TextureLoader.getTexture("equipment/neck/0000.png")
+        texturesMap["weapon1"] = TextureLoader.getTexture("equipment/onehanded/0000.png")
+        texturesMap["weapon2"] = TextureLoader.getTexture("equipment/onehanded/0000.png")
         return texturesMap
     }
 
@@ -270,7 +267,7 @@ object View {
             for (j in 0 until scene.height) {
                 val scenePoint = Point(i + 0.5f, j + 0.5f)
                 val cameraPoint = BasisSwitcher.getViewportPointFromScene(scenePoint, scene, scrX, scrY)
-                batch.draw(tileTextures[tileMatrix[i][j]],
+                batch.draw(tileTextures[tileMatrix[i][j]].getTexture(),
                         cameraPoint.x - TILE_WIDTH / 2, cameraPoint.y - TILE_HEIGHT / 2)
             }
         }

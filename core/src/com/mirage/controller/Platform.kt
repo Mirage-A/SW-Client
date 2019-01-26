@@ -6,7 +6,6 @@ object Platform {
         ANDROID,
         IOS
     }
-
     /**
      * Платформа, на которой запущена игра
      */

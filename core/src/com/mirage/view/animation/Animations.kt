@@ -2,38 +2,50 @@ package com.mirage.view.animation
 
 import com.badlogic.gdx.Gdx
 import com.mirage.controller.Platform
+import java.util.*
 
 /**
  * Синглтон, в котором загружаются и хранятся все анимации, созданные с помощью Animation Editor-а
- * Анимации загружаются лениво при вызове getAnimation
+ * Анимации загружаются лениво при вызове getAnimation и хранятся в кэше
  */
 object Animations {
     /**
      * Словари с загруженными анимациями
      */
-    private var bodyAnimations: MutableMap<BodyAction, Animation> = HashMap()
-    private var legsAnimations: MutableMap<LegsAction, Animation> = HashMap()
-    private var nullAnimations: MutableMap<NullAction, Animation> = HashMap()
+    private var bodyAnimationsCache: MutableMap<BodyAction, Animation> = HashMap()
+    private var legsAnimationsCache: MutableMap<LegsAction, Animation> = HashMap()
+    private var nullAnimationsCache: MutableMap<NullAction, Animation> = HashMap()
 
     /**
-     * Загружает данную анимацию, если она еще не загружена, и возвращает эту анимацию
+     * Возвращает данную анимацию
+     * Если анимация еще не загружена, она загружается и сохраняется в кэш
      */
     fun getBodyAnimation(action: BodyAction) : Animation {
-        if (bodyAnimations[action] == null) {
-            bodyAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/BODY/" + action.toString() + ".swa").read())
+        if (bodyAnimationsCache[action] == null) {
+            bodyAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/BODY/" + action.toString() + ".swa").read())
         }
-        return bodyAnimations[action]!!
+        return bodyAnimationsCache[action]!!
     }
     fun getLegsAnimation(action: LegsAction) : Animation {
-        if (legsAnimations[action] == null) {
-            legsAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/LEGS/" + action.toString() + ".swa").read())
+        if (legsAnimationsCache[action] == null) {
+            legsAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/LEGS/" + action.toString() + ".swa").read())
         }
-        return legsAnimations[action]!!
+        return legsAnimationsCache[action]!!
     }
     fun getNullAnimation(action: NullAction) : Animation {
-        if (nullAnimations[action] == null) {
-            nullAnimations[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/NULL/" + action.toString() + ".swa").read())
+        if (nullAnimationsCache[action] == null) {
+            nullAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/NULL/" + action.toString() + ".swa").read())
         }
-        return nullAnimations[action]!!
+        return nullAnimationsCache[action]!!
     }
+
+    /**
+     * Очищает кэш с загруженными анимациями
+     */
+    fun clearCache() {
+        bodyAnimationsCache.clear()
+        legsAnimationsCache.clear()
+        nullAnimationsCache.clear()
+    }
+
 }

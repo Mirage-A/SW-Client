@@ -4,6 +4,7 @@ import com.mirage.view.TextureLoader
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.scene.Point
 import com.mirage.view.animation.*
+import com.mirage.view.scene.objects.Image
 import com.mirage.view.scene.objects.ObjectDrawer
 import java.util.HashMap
 
@@ -26,7 +27,7 @@ class HumanoidDrawer : ObjectDrawer {
      * Словарь из текстур экипировки данного гуманоида
      * Должен содержать ключи head[RIGHT, DOWN, etc], body, handtop, handbottom, legtop, legbottom, cloak, weapon1, weapon2
      */
-    var textures: MutableMap<String, AnimatedTexture>
+    var textures: MutableMap<String, Image>
 
     /**
      * Буфер направления движения, необходим для плавности поворота персонажа
@@ -59,30 +60,11 @@ class HumanoidDrawer : ObjectDrawer {
      */
     private var legsStartTime = 0L
 
-    /**
-     * Конструктор, загружающий в словарь textures стандартные текстуры
-     */
-    constructor() {
-        textures = HashMap()
-        for (md in MoveDirection.values()) {
-            textures["head" + md.toString()] = StaticTexture(TextureLoader.load("equipment/head/0000" + md.toString() + ".png"))
-        }
-        textures["body"] = StaticTexture(TextureLoader.load("equipment/body/0000.png"))
-        textures["handtop"] = StaticTexture(TextureLoader.load("equipment/handtop/0000.png"))
-        textures["handbottom"] = StaticTexture(TextureLoader.load("equipment/handbottom/0000.png"))
-        textures["legtop"] = StaticTexture(TextureLoader.load("equipment/legtop/0000.png"))
-        textures["legbottom"] = StaticTexture(TextureLoader.load("equipment/legbottom/0000.png"))
-        textures["cloak"] = StaticTexture(TextureLoader.load("equipment/cloak/0000.png"))
-        textures["neck"] = StaticTexture(TextureLoader.load("equipment/neck/0000.png"))
-        textures["weapon1"] = StaticTexture(TextureLoader.load("equipment/onehanded/0000.png"))
-        textures["weapon2"] = StaticTexture(TextureLoader.load("equipment/onehanded/0000.png"))
-    }
-
-    constructor(textures: MutableMap<String, AnimatedTexture>) {
+    constructor(textures: MutableMap<String, Image>) {
         this.textures = textures
     }
 
-    constructor(textures: MutableMap<String, AnimatedTexture>, bodyAction: BodyAction, legsAction: LegsAction, moveDirection: MoveDirection, weaponType: WeaponType) {
+    constructor(textures: MutableMap<String, Image>, bodyAction: BodyAction, legsAction: LegsAction, moveDirection: MoveDirection, weaponType: WeaponType) {
         this.textures = textures
         this.bodyAction = bodyAction
         this.legsAction = legsAction

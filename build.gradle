@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath "com.github.jengelman.gradle.plugins:shadow:4.0.3"
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.5'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4"
@@ -112,6 +112,7 @@ project(":core") {
         implementation "com.badlogicgames.gdx:gdx-box2d:1.9.9"
         implementation "com.badlogicgames.gdx:gdx-box2d-platform:1.9.9"
         implementation "dom4j:dom4j:1.6.1"
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
     }
 }
 
