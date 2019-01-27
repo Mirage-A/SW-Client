@@ -1,7 +1,7 @@
 import com.mirage.model.datastructures.DisjointSetUnion
+import com.mirage.model.datastructures.IntDSU
 import com.mirage.model.scene.Point
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNull
 import org.junit.Test
 
 internal class DSUTest {
@@ -39,5 +39,18 @@ internal class DSUTest {
         assertEquals(Point(0f ,0f), dsu.findRoot(Point(1f, 1f)))
         dsu.unite(Point(1f, 1f), Point(2f,2f))
         assertEquals(Point(0f ,0f), dsu.findRoot(Point(2f, 2f)))
+    }
+
+    @Test
+    fun testIntDSU() {
+        val dsu = IntDSU(4)
+        assertEquals(0, dsu.findRoot(0))
+        assertEquals(1, dsu.findRoot(1))
+        assertEquals(2, dsu.findRoot(2))
+        dsu.unite(0, 1)
+        assertEquals(0, dsu.findRoot(0))
+        assertEquals(0, dsu.findRoot(1))
+        dsu.unite(1, 2)
+        assertEquals(0, dsu.findRoot(2))
     }
 }
