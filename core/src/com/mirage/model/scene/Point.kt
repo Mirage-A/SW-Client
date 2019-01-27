@@ -21,4 +21,8 @@ class Point (var x : Float = 0f, var y : Float = 0f){
         return false
     }
 
+    override fun hashCode(): Int {
+        return x.hashCode() / (y.hashCode() % 4 + 1) + y.hashCode() * (x.hashCode() % 5)
+    }
+
 }

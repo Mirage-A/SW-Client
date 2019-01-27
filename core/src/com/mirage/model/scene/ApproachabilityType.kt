@@ -19,6 +19,6 @@ enum class ApproachabilityType {
      * Можно ли прострелить данный тайл
      */
     fun isShootable() : Boolean {
-        return (this == ALL_FREE) || (this == PROJECTILE_FREE)
+        return this != BLOCKED
     }
 }

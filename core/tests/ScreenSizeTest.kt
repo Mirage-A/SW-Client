@@ -5,12 +5,10 @@ import com.mirage.view.BasisSwitcher
 import com.mirage.view.Log
 import com.mirage.view.ScreenSizeCalculator
 import com.mirage.view.View
+import junit.framework.TestCase.assertEquals
+import org.junit.Test
 
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
-
-internal class ViewTest {
+internal class ScreenSizeTest {
     @Test
     fun testScreenScaling() {
         assertEquals(Rectangle(0f, 0f, 128f, 64f),

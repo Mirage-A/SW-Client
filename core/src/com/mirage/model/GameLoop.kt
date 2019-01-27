@@ -3,7 +3,6 @@ package com.mirage.model
 import com.mirage.model.scene.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Entity
-import com.mirage.view.Log
 
 class GameLoop : Runnable {
     var scene = Scene()
@@ -23,12 +22,12 @@ class GameLoop : Runnable {
      * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
      * Длинные перемещения разбиваются на малые такой длины
      */
-    private var smallRange : Float = 0.5f
+    private val smallRange = 0.5f
 
     /**
      * Лимит кол-ва итераций цикла за секунду
      */
-    private var ticksPerSecondLimit = 512
+    private val ticksPerSecondLimit = 512
 
     /**
      * Бесконечный цикл игровой логики
@@ -83,7 +82,7 @@ class GameLoop : Runnable {
     private val eps = 0.00001f
 
     /**
-     * Обрабатывает короткое (менее smallRange) передвижение данного Entity
+     * Обрабатывает короткое (на расстояние не более smallRange) передвижение данного Entity
      * Для обычного передвижения следует использовать moveEntity
      */
     private fun smallMoveEntity(entity: Entity, range: Float, scene: Scene) {
