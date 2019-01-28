@@ -1,6 +1,6 @@
 import com.mirage.model.datastructures.DisjointSetUnion
 import com.mirage.model.datastructures.IntDSU
-import com.mirage.model.scene.Point
+import com.mirage.model.datastructures.Point
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
@@ -26,19 +26,19 @@ internal class DSUTest {
     @Test
     fun testPoints() {
         val dsu = DisjointSetUnion<Point>()
-        assertEquals(Point(0f ,0f), dsu.findRoot(Point(0f,0f)))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(0f, 0f)))
         dsu.makeSet(Point(0f, 0f))
         dsu.makeSet(Point(1f, 1f))
         dsu.makeSet(Point(2f, 2f))
-        assertEquals(Point(0f ,0f), dsu.findRoot(Point(0f, 0f)))
-        assertEquals(Point(1f ,1f), dsu.findRoot(Point(1f, 1f)))
-        assertEquals(Point(2f ,2f), dsu.findRoot(Point(2f, 2f)))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(0f, 0f)))
+        assertEquals(Point(1f, 1f), dsu.findRoot(Point(1f, 1f)))
+        assertEquals(Point(2f, 2f), dsu.findRoot(Point(2f, 2f)))
         dsu.unite(Point(-1f, -1f), Point(0f, 0f))
-        dsu.unite(Point(0f ,0f), Point(1f, 1f))
-        assertEquals(Point(0f ,0f), dsu.findRoot(Point(0f ,0f)))
-        assertEquals(Point(0f ,0f), dsu.findRoot(Point(1f, 1f)))
-        dsu.unite(Point(1f, 1f), Point(2f,2f))
-        assertEquals(Point(0f ,0f), dsu.findRoot(Point(2f, 2f)))
+        dsu.unite(Point(0f, 0f), Point(1f, 1f))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(0f, 0f)))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(1f, 1f)))
+        dsu.unite(Point(1f, 1f), Point(2f, 2f))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(2f, 2f)))
     }
 
     @Test

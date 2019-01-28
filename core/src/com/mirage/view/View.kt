@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.Model
 import com.mirage.model.scene.Scene
 
-import com.mirage.model.scene.Point
+import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player

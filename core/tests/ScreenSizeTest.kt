@@ -1,5 +1,5 @@
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.model.scene.Point
+import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.view.BasisSwitcher
 import com.mirage.view.Log

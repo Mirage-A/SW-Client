@@ -1,6 +1,6 @@
 package com.mirage.view
 
-import com.mirage.model.scene.Point
+import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 
 object BasisSwitcher {

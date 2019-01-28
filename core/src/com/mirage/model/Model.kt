@@ -1,10 +1,9 @@
 package com.mirage.model
 
 import com.mirage.model.scene.MazeGenerator
-import com.mirage.model.scene.Point
+import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.view.animation.MoveDirection
-import java.io.File
 
 
 object Model {
@@ -37,7 +36,7 @@ object Model {
      * Начать игру (логика на паузе, следует вызвать startLogic)
      */
     fun startGame() {
-        loadMaze(5, 5)
+        loadMaze(10, 10)
         loopThread.start()
     }
 

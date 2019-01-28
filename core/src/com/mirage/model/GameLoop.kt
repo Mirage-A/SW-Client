@@ -1,8 +1,11 @@
 package com.mirage.model
 
-import com.mirage.model.scene.Point
+import com.badlogic.gdx.Gdx
+import com.mirage.controller.Platform
+import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Entity
+import de.swirtz.ktsrunner.objectloader.KtsObjectLoader
 
 class GameLoop : Runnable {
     var scene = Scene()
@@ -33,6 +36,9 @@ class GameLoop : Runnable {
      * Бесконечный цикл игровой логики
      */
     override fun run() {
+        //val scriptReader = Gdx.files.internal(Platform.ASSETS_PATH + "scripts/Asd.kts").reader()
+        //val loadedObj = KtsObjectLoader().load<Int>(scriptReader)
+        //println(loadedObj)
         var lastTickTime = System.currentTimeMillis()
         while (true) {
             var deltaTime = System.currentTimeMillis() - lastTickTime

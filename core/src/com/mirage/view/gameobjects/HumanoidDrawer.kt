@@ -1,7 +1,7 @@
 package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.model.scene.Point
+import com.mirage.model.datastructures.Point
 import com.mirage.view.animation.*
 
 
