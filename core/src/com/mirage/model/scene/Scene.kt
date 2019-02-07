@@ -2,7 +2,7 @@ package com.mirage.model.scene
 
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Player
-import java.util.LinkedList
+import java.util.*
 
 class Scene {
     var width = 0

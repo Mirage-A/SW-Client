@@ -8,11 +8,6 @@ import com.badlogic.gdx.math.Vector3
 import com.mirage.model.Model
 import com.mirage.view.View
 import com.mirage.view.animation.MoveDirection
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
-import java.io.File
 
 object Controller : ApplicationAdapter(), InputProcessor {
     /**

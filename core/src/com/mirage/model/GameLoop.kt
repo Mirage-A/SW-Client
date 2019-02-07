@@ -1,11 +1,8 @@
 package com.mirage.model
 
-import com.badlogic.gdx.Gdx
-import com.mirage.controller.Platform
 import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Entity
-import de.swirtz.ktsrunner.objectloader.KtsObjectLoader
 
 class GameLoop : Runnable {
     var scene = Scene()

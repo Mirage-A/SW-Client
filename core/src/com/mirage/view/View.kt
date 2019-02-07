@@ -6,22 +6,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.Model
-import com.mirage.model.scene.Scene
-
 import com.mirage.model.datastructures.Point
+import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player
-import com.mirage.view.gameobjects.ObjectDrawer
-import com.mirage.view.gameobjects.Image
 import com.mirage.view.animation.BodyAction
-import com.mirage.view.gameobjects.HumanoidDrawer
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
-
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.HashMap
+import com.mirage.view.gameobjects.HumanoidDrawer
+import com.mirage.view.gameobjects.Image
+import com.mirage.view.gameobjects.ObjectDrawer
+import java.util.*
 
 /**
  * Основной класс представления

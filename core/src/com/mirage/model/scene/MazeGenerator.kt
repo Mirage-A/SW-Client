@@ -2,9 +2,9 @@ package com.mirage.model.scene
 
 import com.mirage.model.datastructures.IntPair
 import com.mirage.model.datastructures.Point
-import com.mirage.model.scene.objects.entities.Player
 import com.mirage.model.datastructures.get
 import com.mirage.model.datastructures.set
+import com.mirage.model.scene.objects.entities.Player
 
 object MazeGenerator {
 
@@ -22,6 +22,7 @@ object MazeGenerator {
         scene.approachabilityMatrix = Array(scene.width) { Array(scene.height) { ApproachabilityType.BLOCKED } }
 
         //Используем алгоритм землеройки https://habr.com/ru/post/318530/
+        //В описании алгоритма в статье есть ошибка, поэтому алгоритм немного изменен
         while (true) {
             for (i in 0..99) {
                 val rndPoint = generateRandomPoint(width, height)

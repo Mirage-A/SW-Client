@@ -1,7 +1,7 @@
 package com.mirage.view.animation
 
-import org.dom4j.io.SAXReader
 import org.dom4j.Element
+import org.dom4j.io.SAXReader
 import java.io.InputStream
 import javax.swing.JOptionPane
 

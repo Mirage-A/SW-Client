@@ -1,7 +1,7 @@
 package com.mirage.model
 
-import com.mirage.model.scene.MazeGenerator
 import com.mirage.model.datastructures.Point
+import com.mirage.model.scene.MazeGenerator
 import com.mirage.model.scene.Scene
 import com.mirage.view.animation.MoveDirection
 

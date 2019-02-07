@@ -1,13 +1,11 @@
 package com.mirage
 
-import com.mirage.controller.Controller
-import org.robovm.apple.foundation.NSAutoreleasePool
-import org.robovm.apple.uikit.UIApplication
-
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration
+import com.mirage.controller.Controller
 import com.mirage.controller.Platform
-import com.mirage.view.TextureLoader
+import org.robovm.apple.foundation.NSAutoreleasePool
+import org.robovm.apple.uikit.UIApplication
 
 class IOSLauncher : IOSApplication.Delegate() {
     override fun createApplication(): IOSApplication {
