@@ -3,6 +3,8 @@ package com.mirage.model
 import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Entity
+import com.mirage.model.scripts.ScriptLoader
+import com.mirage.view.Log
 
 class GameLoop : Runnable {
     var scene = Scene()
@@ -33,9 +35,6 @@ class GameLoop : Runnable {
      * Бесконечный цикл игровой логики
      */
     override fun run() {
-        //val scriptReader = Gdx.files.internal(Platform.ASSETS_PATH + "scripts/Asd.kts").reader()
-        //val loadedObj = KtsObjectLoader().load<Int>(scriptReader)
-        //println(loadedObj)
         var lastTickTime = System.currentTimeMillis()
         while (true) {
             var deltaTime = System.currentTimeMillis() - lastTickTime
@@ -44,15 +43,20 @@ class GameLoop : Runnable {
                 deltaTime = System.currentTimeMillis() - lastTickTime
             }
             lastTickTime += deltaTime
+            Time.deltaTime = deltaTime
             if (!isPaused) {
+
                 isLooping = true
                 for (sceneObject in scene.objects) {
                     if (sceneObject is Entity) {
                         if (sceneObject.isMoving) {
-                            moveEntity(sceneObject, deltaTime, scene)
+                            moveEntity(sceneObject, scene)
                         }
                     }
                 }
+
+                ScriptLoader.load("scripts/mazewin.py").run()
+                Log.i(Time.deltaTime)
             }
             else {
                 isLooping = false
@@ -71,8 +75,8 @@ class GameLoop : Runnable {
     /**
      * Обрабатывает передвижение данного Entity за тик
      */
-    private fun moveEntity(entity: Entity, deltaTime: Long, scene: Scene) {
-        val range = entity.speed * deltaTime / 1000f
+    private fun moveEntity(entity: Entity, scene: Scene) {
+        val range = entity.speed * Time.deltaTime / 1000f
         for (i in 0 until (range / smallRange).toInt()) {
             smallMoveEntity(entity, smallRange, scene)
         }

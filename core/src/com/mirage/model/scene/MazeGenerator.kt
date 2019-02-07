@@ -5,6 +5,7 @@ import com.mirage.model.datastructures.Point
 import com.mirage.model.datastructures.get
 import com.mirage.model.datastructures.set
 import com.mirage.model.scene.objects.entities.Player
+import com.mirage.view.Log
 
 object MazeGenerator {
 
@@ -13,6 +14,7 @@ object MazeGenerator {
      * где width и height - натуральные
      */
     fun generateMaze(width: Int, height: Int) : Scene {
+        val time = System.currentTimeMillis()
         val scene = Scene()
         scene.width = width * 2 + 1
         scene.height = height * 2 + 1
@@ -47,7 +49,7 @@ object MazeGenerator {
                 }
             }
         }
-
+        Log.i("Maze generated in " + (System.currentTimeMillis() - time) + " ms")
         return scene
     }
 
