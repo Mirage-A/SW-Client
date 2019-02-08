@@ -1,9 +1,10 @@
 package com.mirage.controller
 
-import com.badlogic.gdx.ApplicationAdapter
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
-import com.badlogic.gdx.InputProcessor
+import com.badlogic.gdx.*
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.mirage.model.Model
 import com.mirage.model.scripts.ScriptLoader
 import com.mirage.view.LoadingView
@@ -12,7 +13,18 @@ import com.mirage.view.View
 import com.mirage.view.animation.MoveDirection
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
+import java.lang.Exception
+import com.badlogic.gdx.utils.Align.center
+import com.badlogic.gdx.Gdx.graphics
+import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.scenes.scene2d.Action
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.TextField
+import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.Gdx.files
+import com.mirage.view.Log
+
 
 object Controller : ApplicationAdapter(), InputProcessor {
 
@@ -36,12 +48,12 @@ object Controller : ApplicationAdapter(), InputProcessor {
     private const val EPS_TIME = 50L
 
     override fun create() {
-        view = LoadingView()
-        Gdx.input.inputProcessor = this
+        val loadingView = LoadingView()
+        view = loadingView
         val sceneView = SceneView()
+        Gdx.input.inputProcessor = this
         GlobalScope.launch {
-            //GLContext.createFromCurrent();
-            //Gdx.app.postRunnable(...)
+            Log.i(Gdx.files.local("hi").file().absolutePath)
             ScriptLoader.load("scripts/mazewin.py")
             Model.startGame()
             Model.startLogic()
@@ -51,6 +63,11 @@ object Controller : ApplicationAdapter(), InputProcessor {
         Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("android/assets/rain.mp3"));
         rainMusic.setLooping(true);
         rainMusic.play();*/
+    }
+
+    private fun writeFile(fileName: String, text: String) {
+        val file = Gdx.files.local("$fileName.txt")
+        file.writeString(text, false)
     }
 
     override fun render() {

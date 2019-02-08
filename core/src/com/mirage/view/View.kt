@@ -28,8 +28,8 @@ abstract class View {
     protected var lastRealScreenWidth = 0f
     protected var lastRealScreenHeight = 0f
 
-    protected val batch: SpriteBatch = SpriteBatch()
-    protected var camera: OrthographicCamera = OrthographicCamera()
+    val batch: SpriteBatch = SpriteBatch()
+    var camera: OrthographicCamera = OrthographicCamera()
 
     /**
      * Отрисовка экрана

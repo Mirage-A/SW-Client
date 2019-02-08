@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 class LoadingView : View() {
 
     protected val loadingFont = BitmapFont()
+    var loadingText = "Loading...."
 
     init {
         loadingFont.data.setScale(5f)
@@ -21,7 +22,7 @@ class LoadingView : View() {
         camera.update()
         batch.projectionMatrix = camera.combined
         batch.begin()
-        loadingFont.draw(batch, "Loading....", DEFAULT_SCREEN_WIDTH / 2 - 140, DEFAULT_SCREEN_HEIGHT * 1 / 3)
+        loadingFont.draw(batch, loadingText, DEFAULT_SCREEN_WIDTH / 2 - 140, DEFAULT_SCREEN_HEIGHT * 1 / 3)
         batch.end()
     }
 
