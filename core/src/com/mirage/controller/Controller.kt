@@ -53,7 +53,6 @@ object Controller : ApplicationAdapter(), InputProcessor {
         val sceneView = SceneView()
         Gdx.input.inputProcessor = this
         GlobalScope.launch {
-            Log.i(Gdx.files.local("hi").file().absolutePath)
             ScriptLoader.load("scripts/mazewin.py")
             Model.startGame()
             Model.startLogic()
