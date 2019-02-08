@@ -15,8 +15,8 @@ object ScreenSizeCalculator {
      */
     fun calculateViewportSize(realWidth: Float, realHeight: Float): Rectangle {
         val tileSize = calculateTileSize(realWidth, realHeight)
-        val width = evenRound(realWidth / tileSize.width * View.TILE_WIDTH).toFloat()
-        val height = evenRound(realHeight / tileSize.height * View.TILE_HEIGHT).toFloat()
+        val width = evenRound(realWidth / tileSize.width * SceneView.TILE_WIDTH).toFloat()
+        val height = evenRound(realHeight / tileSize.height * SceneView.TILE_HEIGHT).toFloat()
         Log.i("Размеры виртуального экрана: $width x $height px")
         return Rectangle(0f, 0f, width, height)
     }
@@ -68,8 +68,8 @@ object ScreenSizeCalculator {
     private fun visionsSymmetricDifference(tileH: Float, realWidth: Float, realHeight: Float): Float {
         val w = realWidth / (2 * tileH)
         val h = realHeight / tileH
-        val dw = View.DEFAULT_SCREEN_WIDTH / View.TILE_WIDTH
-        val dh = View.DEFAULT_SCREEN_HEIGHT / View.TILE_HEIGHT
+        val dw = View.DEFAULT_SCREEN_WIDTH / SceneView.TILE_WIDTH
+        val dh = View.DEFAULT_SCREEN_HEIGHT / SceneView.TILE_HEIGHT
 
         if (w <= dw && h <= dh) {
             return dw * dh - w * h

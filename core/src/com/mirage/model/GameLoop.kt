@@ -56,7 +56,6 @@ class GameLoop : Runnable {
                 }
 
                 ScriptLoader.load("scripts/mazewin.py").run()
-                Log.i(Time.deltaTime)
             }
             else {
                 isLooping = false

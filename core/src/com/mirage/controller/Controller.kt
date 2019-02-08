@@ -4,12 +4,24 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.math.Vector3
 import com.mirage.model.Model
+import com.mirage.model.scripts.ScriptLoader
+import com.mirage.view.LoadingView
+import com.mirage.view.SceneView
 import com.mirage.view.View
 import com.mirage.view.animation.MoveDirection
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 object Controller : ApplicationAdapter(), InputProcessor {
+
+    /**
+     * Текущий экран
+     */
+    private var view : View? = null
+    private var screenType = Screen.LOADING
+
     /**
      * Время отпускания клавиши передвижения
      */
@@ -24,11 +36,17 @@ object Controller : ApplicationAdapter(), InputProcessor {
     private const val EPS_TIME = 50L
 
     override fun create() {
-        Model.startGame()
-        Model.startLogic()
-
+        view = LoadingView()
         Gdx.input.inputProcessor = this
-
+        val sceneView = SceneView()
+        GlobalScope.launch {
+            //GLContext.createFromCurrent();
+            //Gdx.app.postRunnable(...)
+            ScriptLoader.load("scripts/mazewin.py")
+            Model.startGame()
+            Model.startLogic()
+            view = sceneView
+        }
         /*Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("android/assets/drop.wav"));
         Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("android/assets/rain.mp3"));
         rainMusic.setLooping(true);
@@ -36,22 +54,24 @@ object Controller : ApplicationAdapter(), InputProcessor {
     }
 
     override fun render() {
-        val deltaTime = Gdx.graphics.deltaTime
+        // val deltaTime = Gdx.graphics.deltaTime
         // long time = TimeUtils.nanoTime()
         // rectangle.overlaps(rectangle) - коллизии
         // process user input
+        /*
         if (Gdx.input.isTouched) {
             val touchPos = Vector3()
             touchPos.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
             View.camera.unproject(touchPos) //Этот метод переводит координаты на экране в координаты игры
             // (без учета всяких передвижений камеры). Нам этот метод не нужен, т.к. мы обрабатываем UI
         }
+        */
 
-        View.render()
+        view?.render()
     }
 
     override fun dispose() {
-        View.dispose()
+        view?.dispose()
     }
 
     override fun keyDown(keycode: Int): Boolean {

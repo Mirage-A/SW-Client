@@ -122,7 +122,6 @@ class HumanoidDrawer : ObjectDrawer {
      * Метод рисования всего объекта
      */
     override fun draw(batch: SpriteBatch, x: Float, y: Float) {
-        val time = System.currentTimeMillis()
         val bodyTimePassedSinceStart = System.currentTimeMillis() - bodyStartTime
         val legsTimePassedSinceStart = System.currentTimeMillis() - legsStartTime
 
