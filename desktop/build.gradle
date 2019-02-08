@@ -14,12 +14,17 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
+/**
+ * В папке PyLib в корне проекта должны лежать библиотеки Jython (в том числе site-packages и site.py)
+ * У меня они лежат в папке <gradle-home>\caches\modules-2\files-2.1\org.python\jython\2.7.0\576ac65d2cfca511f82f3a65a3568fefd91884d\Lib
+ */
 shadowJar {
     baseName = 'SW - Game'
     classifier = null
     version = null
     from files(sourceSets.main.output.resourcesDir)
     from files(project.assetsDir)
+    from files("../PyLib")
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
