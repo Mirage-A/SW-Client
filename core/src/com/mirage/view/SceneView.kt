@@ -2,9 +2,7 @@ package com.mirage.view
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.Model
 import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
@@ -72,6 +70,12 @@ open class SceneView : View() {
     protected val moveDirectionUpdateInterval = 50L
 
     /**
+     * Лямбда, которая по координатам тайла вне сцены возвращает номер тайла в tileTextures
+     * Используется для заполнения пространства за сценой
+     */
+    var backgroundTileGenerator: (Int, Int) -> Int = {_, _-> 0}
+
+    /**
      * Отрисовка экрана
      */
     override fun render() {
@@ -79,7 +83,7 @@ open class SceneView : View() {
             setScreenSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
         }
         val scene = Model.getScene()
-        val playerPosOnVirtualScreen = BasisSwitcher.getVirtualScreenPoint(Model.getPlayerPosition(), scene)
+        val playerPosOnVirtualScreen = BasisSwitcher.getVirtualScreenPointFromScene(Model.getPlayerPosition(), scene)
         //TODO Вычислить положение экрана из положения персонажа в сцене
         val scrX = playerPosOnVirtualScreen.x - scrW / 2
         val scrY = playerPosOnVirtualScreen.y - scrH / 2 + DELTA_CENTER_Y
@@ -146,8 +150,8 @@ open class SceneView : View() {
         }
 
         sceneObjects.sortWith(Comparator { obj1, obj2 ->
-            -java.lang.Float.compare(BasisSwitcher.getVirtualScreenPoint(obj1.position, scene).y,
-                    BasisSwitcher.getVirtualScreenPoint(obj2.position, scene).y)
+            -java.lang.Float.compare(BasisSwitcher.getVirtualScreenPointFromScene(obj1.position, scene).y,
+                    BasisSwitcher.getVirtualScreenPointFromScene(obj2.position, scene).y)
         })
 
         for (sceneObject in sceneObjects) {
@@ -182,8 +186,8 @@ open class SceneView : View() {
      */
     protected fun loadTileTextures(scene: Scene) {
         tileTextures = ArrayList()
-        tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
         tileTextures.add(TextureLoader.getStaticTexture("tiles/0001.png"))
+        tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
     }
 
     /**
@@ -237,11 +241,20 @@ open class SceneView : View() {
      */
     protected fun drawTiles(scrX: Float, scrY: Float, scene: Scene) {
         val tileMatrix = scene.tileMatrix
-        for (i in 0 until scene.width) {
-            for (j in 0 until scene.height) {
+        val x1 = BasisSwitcher.getScenePointFromViewport(Point(0f, scrH), scene, scrX, scrY).x.toInt() - 2
+        val x2 = BasisSwitcher.getScenePointFromViewport(Point(scrW, 0f), scene, scrX, scrY).x.toInt() + 2
+        val y1 = BasisSwitcher.getScenePointFromViewport(Point(0f, 0f), scene, scrX, scrY).y.toInt() - 2
+        val y2 = BasisSwitcher.getScenePointFromViewport(Point(scrW, scrH), scene, scrX, scrY).y.toInt() + 2
+
+        for (i in x1..x2) {
+            for (j in y1..y2) {
                 val scenePoint = Point(i + 0.5f, j + 0.5f)
                 val cameraPoint = BasisSwitcher.getViewportPointFromScene(scenePoint, scene, scrX, scrY)
-                batch.draw(tileTextures[tileMatrix[i][j]].getTexture(),
+                val tileIndex = when(true) {
+                    (i in 0 until scene.width && j in 0 until scene.height) -> tileMatrix[i][j]
+                    else -> backgroundTileGenerator.invoke(i, j)
+                }
+                batch.draw(tileTextures[tileIndex].getTexture(),
                         cameraPoint.x - TILE_WIDTH / 2, cameraPoint.y - TILE_HEIGHT / 2)
             }
         }

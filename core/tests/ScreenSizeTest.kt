@@ -36,14 +36,14 @@ internal class ScreenSizeTest {
     fun testBasisSwitching() {
         val scene = Scene()
         assertEquals(Point(View.X_MARGIN, View.Y_MARGIN + scene.width * View.TILE_HEIGHT / 2),
-                BasisSwitcher.getVirtualScreenPoint(Point(0f, 0f), scene))
+                BasisSwitcher.getVirtualScreenPointFromScene(Point(0f, 0f), scene))
         Log.d(Point(0f, 0f))
-        Log.d(BasisSwitcher.getVirtualScreenPoint(Point(0f, 0f), scene))
-        Log.d(BasisSwitcher.getScenePoint(BasisSwitcher.getVirtualScreenPoint(Point(0f, 0f), scene), scene))
-        assertEquals(Point(0f, 0f), BasisSwitcher.getScenePoint(BasisSwitcher.getVirtualScreenPoint(Point(0f, 0f), scene), scene))
+        Log.d(BasisSwitcher.getVirtualScreenPointFromScene(Point(0f, 0f), scene))
+        Log.d(BasisSwitcher.getScenePointFromVirtualScreen(BasisSwitcher.getVirtualScreenPointFromScene(Point(0f, 0f), scene), scene))
+        assertEquals(Point(0f, 0f), BasisSwitcher.getScenePointFromVirtualScreen(BasisSwitcher.getVirtualScreenPointFromScene(Point(0f, 0f), scene), scene))
         Log.d(Point(0f, 0f))
-        Log.d(BasisSwitcher.getScenePoint(Point(0f, 0f), scene))
-        Log.d(BasisSwitcher.getVirtualScreenPoint(BasisSwitcher.getScenePoint(Point(0f, 0f), scene), scene))
-        assertEquals(Point(0f, 0f), BasisSwitcher.getVirtualScreenPoint(BasisSwitcher.getScenePoint(Point(0f, 0f), scene), scene))
+        Log.d(BasisSwitcher.getScenePointFromVirtualScreen(Point(0f, 0f), scene))
+        Log.d(BasisSwitcher.getVirtualScreenPointFromScene(BasisSwitcher.getScenePointFromVirtualScreen(Point(0f, 0f), scene), scene))
+        assertEquals(Point(0f, 0f), BasisSwitcher.getVirtualScreenPointFromScene(BasisSwitcher.getScenePointFromVirtualScreen(Point(0f, 0f), scene), scene))
     }
 }
