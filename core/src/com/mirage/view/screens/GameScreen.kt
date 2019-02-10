@@ -1,8 +1,11 @@
-package com.mirage.view
+package com.mirage.view.screens
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.model.Model
 import com.mirage.model.Time
 import com.mirage.model.datastructures.Point
@@ -10,6 +13,9 @@ import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player
+import com.mirage.view.BasisSwitcher
+import com.mirage.view.ScreenSizeCalculator
+import com.mirage.view.TextureLoader
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
@@ -19,9 +25,29 @@ import com.mirage.view.gameobjects.ObjectDrawer
 import java.util.ArrayList
 import java.util.HashMap
 
-open class SceneView : View() {
+class GameScreen : ScreenAdapter() {
+
+    override fun resize(width: Int, height: Int) {
+        val viewportSize = ScreenSizeCalculator.calculateViewportSize(width.toFloat(), height.toFloat())
+        scrW = viewportSize.width
+        scrH = viewportSize.height
+        camera.setToOrtho(false, scrW, scrH)
+    }
+
+    private val batch: SpriteBatch = SpriteBatch()
+    private var camera: OrthographicCamera = OrthographicCamera()
 
     companion object {
+        /**
+         * Эталонный размер экрана
+         * Все изображения рисуются под этот размер
+         * Для других экранов размеры изображений подгоняются так,
+         * чтобы различие с эталонным размером экрана было минимально,
+         * но при этом чтобы изображения не сплющивались и не растягивались,
+         * т.е. отношение ширины и высоты всех изображений сохранялось.
+         */
+        const val DEFAULT_SCREEN_WIDTH = 1920f
+        const val DEFAULT_SCREEN_HEIGHT = 1080f
         /**
          * Размер одного тайла на виртуальном экране
          */
@@ -44,45 +70,42 @@ open class SceneView : View() {
     /**
      * Список текстур, используемых на данной сцене (карте)
      */
-    protected var tileTextures: MutableList<Image> = ArrayList()
+    private var tileTextures: MutableList<Image> = ArrayList()
 
     /**
      * Словарь, где по объекту сцены мы получаем его визуальное представление
      */
-    protected var objectDrawers: MutableMap<SceneObject, ObjectDrawer> = HashMap()
+    private var objectDrawers: MutableMap<SceneObject, ObjectDrawer> = HashMap()
 
     /**
      * Размеры виртуального экрана
      */
-    protected var scrW: Float = 0f
-    protected var scrH: Float = 0f
+    private var scrW: Float = 0f
+    private var scrH: Float = 0f
 
     /**
      * Отображение FPS
      */
-    protected var showFPS = true
-    protected val fpsFont = BitmapFont()
+    private var showFPS = true
+    private val fpsFont = BitmapFont()
 
     /**
      * Интервал времени, который должен пройти с последней смены направления движения,
      * чтобы изменение отобразилось
      * (эта задержка убирает моргание анимации при быстром нажатии разных кнопок)
      */
-    protected val moveDirectionUpdateInterval = 50L
+    private val moveDirectionUpdateInterval = 50L
 
     /**
      * Лямбда, которая по координатам тайла вне сцены возвращает номер тайла в tileTextures
      * Используется для заполнения пространства за сценой
      */
-    var backgroundTileGenerator: (Int, Int) -> Int = {_, _-> 0}
+    private var backgroundTileGenerator: (Int, Int) -> Int = {_, _-> 0}
 
     /**
      * Отрисовка экрана
      */
-    override fun render() {
-        if (lastRealScreenWidth != Gdx.graphics.width.toFloat() || lastRealScreenHeight != Gdx.graphics.height.toFloat()) {
-            setScreenSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-        }
+    override fun render(delta: Float) {
         Time.deltaTime = Gdx.graphics.deltaTime
         Model.update()
         val scene = Model.getScene()
@@ -91,7 +114,7 @@ open class SceneView : View() {
         val scrX = playerPosOnVirtualScreen.x - scrW / 2
         val scrY = playerPosOnVirtualScreen.y - scrH / 2 + DELTA_CENTER_Y
 
-        Gdx.gl.glClearColor(0.25f, 0.25f, 1f, 1f)
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         // tell the camera to update its matrices.
@@ -123,29 +146,17 @@ open class SceneView : View() {
     /**
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
-    fun updateResources() {
+    private fun updateResources() {
         loadTileTextures(Model.getScene())
         loadObjectDrawers(Model.getScene())
     }
 
-    /**
-     * Метод, который должен вызываться при изменении параметров реального экрана.
-     * @param realWidth Ширина реального экрана
-     * @param realHeight Высота реального экрана
-     */
-    override fun setScreenSize(realWidth: Float, realHeight: Float) {
-        super.setScreenSize(realWidth, realHeight)
-        val viewportSize = ScreenSizeCalculator.calculateViewportSize(realWidth, realHeight)
-        scrW = viewportSize.width
-        scrH = viewportSize.height
-        camera.setToOrtho(false, scrW, scrH)
-    }
 
     /**
      * Отрисовывает все объекты сцены
      * @param scene Сцена
      */
-    protected fun drawObjects(scrX: Float, scrY: Float, scene: Scene) {
+    private fun drawObjects(scrX: Float, scrY: Float, scene: Scene) {
         val sceneObjects: ArrayList<SceneObject>
 
         synchronized(scene.objects) {
@@ -187,7 +198,7 @@ open class SceneView : View() {
      * Загружает текстуры тайлов, используемых в данной сцене
      * //TODO
      */
-    protected fun loadTileTextures(scene: Scene) {
+    private fun loadTileTextures(scene: Scene) {
         tileTextures = ArrayList()
         tileTextures.add(TextureLoader.getStaticTexture("tiles/0001.png"))
         tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
@@ -196,7 +207,7 @@ open class SceneView : View() {
     /**
      * Загружает objectDrawers для объектов сцены
      */
-    protected fun loadObjectDrawers(scene: Scene) {
+    private fun loadObjectDrawers(scene: Scene) {
         objectDrawers = HashMap()
         for (sceneObject in scene.objects) {
             addObjectDrawer(sceneObject)
@@ -207,7 +218,7 @@ open class SceneView : View() {
      * Добавляет objectDrawer данного объекта сцены в словарь
      * //TODO
      */
-    protected fun addObjectDrawer(sceneObject: SceneObject) : ObjectDrawer {
+    private fun addObjectDrawer(sceneObject: SceneObject) : ObjectDrawer {
         objectDrawers[sceneObject] = when (sceneObject) {
             is Player -> HumanoidDrawer(loadPlayerTexturesMap(sceneObject), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(sceneObject.moveAngle), sceneObject.weaponType)
             else -> TextureLoader.getStaticTexture("windows_icon.png")
@@ -219,7 +230,7 @@ open class SceneView : View() {
      * @return Словарь с текстурами брони игрока
      * //TODO
      */
-    protected fun loadPlayerTexturesMap(player: Player): MutableMap<String, Image> {
+    private fun loadPlayerTexturesMap(player: Player): MutableMap<String, Image> {
         val texturesMap = HashMap<String, Image>()
         for (md in MoveDirection.values()) {
             texturesMap["head$md"] = TextureLoader.getStaticTexture("equipment/head/0000$md.png")
@@ -242,7 +253,7 @@ open class SceneView : View() {
      * @param scrY Координаты экрана
      * @param scene Текущая сцена
      */
-    protected fun drawTiles(scrX: Float, scrY: Float, scene: Scene) {
+    private fun drawTiles(scrX: Float, scrY: Float, scene: Scene) {
         val tileMatrix = scene.tileMatrix
         val x1 = BasisSwitcher.getScenePointFromViewport(Point(0f, scrH), scene, scrX, scrY).x.toInt() - 2
         val x2 = BasisSwitcher.getScenePointFromViewport(Point(scrW, 0f), scene, scrX, scrY).x.toInt() + 2

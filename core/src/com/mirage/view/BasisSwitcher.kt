@@ -2,6 +2,7 @@ package com.mirage.view
 
 import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
+import com.mirage.view.screens.GameScreen
 
 /**
  * Содержит методы для перехода между тремя базисами:
@@ -53,10 +54,10 @@ object BasisSwitcher {
      * @return Точка в базисе виртуального экрана
      */
     fun getVirtualScreenPointFromScene(scenePoint: Point, scene: Scene): Point {
-        val x = SceneView.TILE_WIDTH / 2 * scenePoint.x + SceneView.TILE_WIDTH / 2 * scenePoint.y +
-                SceneView.X_MARGIN
-        val y = -SceneView.TILE_HEIGHT / 2 * scenePoint.x + SceneView.TILE_HEIGHT / 2 * scenePoint.y +
-                SceneView.Y_MARGIN + scene.width * SceneView.TILE_HEIGHT / 2
+        val x = GameScreen.TILE_WIDTH / 2 * scenePoint.x + GameScreen.TILE_WIDTH / 2 * scenePoint.y +
+                GameScreen.X_MARGIN
+        val y = -GameScreen.TILE_HEIGHT / 2 * scenePoint.x + GameScreen.TILE_HEIGHT / 2 * scenePoint.y +
+                GameScreen.Y_MARGIN + scene.width * GameScreen.TILE_HEIGHT / 2
         return Point(x, y)
     }
 
@@ -67,10 +68,10 @@ object BasisSwitcher {
      * @return Точка в базисе сцены
      */
     fun getScenePointFromVirtualScreen(virtualScreenPoint: Point, scene: Scene): Point {
-        val x = virtualScreenPoint.x / SceneView.TILE_WIDTH - virtualScreenPoint.y / SceneView.TILE_HEIGHT -
-                SceneView.X_MARGIN / SceneView.TILE_WIDTH + SceneView.Y_MARGIN / SceneView.TILE_HEIGHT + (scene.width / 2).toFloat()
-        val y = virtualScreenPoint.x / SceneView.TILE_WIDTH + virtualScreenPoint.y / SceneView.TILE_HEIGHT -
-                SceneView.X_MARGIN / SceneView.TILE_WIDTH - SceneView.Y_MARGIN / SceneView.TILE_HEIGHT - (scene.width / 2).toFloat()
+        val x = virtualScreenPoint.x / GameScreen.TILE_WIDTH - virtualScreenPoint.y / GameScreen.TILE_HEIGHT -
+                GameScreen.X_MARGIN / GameScreen.TILE_WIDTH + GameScreen.Y_MARGIN / GameScreen.TILE_HEIGHT + (scene.width / 2).toFloat()
+        val y = virtualScreenPoint.x / GameScreen.TILE_WIDTH + virtualScreenPoint.y / GameScreen.TILE_HEIGHT -
+                GameScreen.X_MARGIN / GameScreen.TILE_WIDTH - GameScreen.Y_MARGIN / GameScreen.TILE_HEIGHT - (scene.width / 2).toFloat()
         return Point(x, y)
     }
 

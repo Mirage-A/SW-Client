@@ -4,7 +4,7 @@ import com.mirage.model.scene.Scene
 import com.mirage.view.BasisSwitcher
 import com.mirage.view.Log
 import com.mirage.view.ScreenSizeCalculator
-import com.mirage.view.View
+import com.mirage.view.screens.View
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
