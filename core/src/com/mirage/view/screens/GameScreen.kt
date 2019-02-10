@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.maps.tiled.TideMapLoader
+import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
+import com.badlogic.gdx.math.Vector3
+import com.mirage.controller.Platform
 import com.mirage.model.Model
 import com.mirage.model.Time
 import com.mirage.model.datastructures.Point
@@ -13,7 +19,7 @@ import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scene.objects.entities.Player
-import com.mirage.view.BasisSwitcher
+import com.mirage.view.Log
 import com.mirage.view.ScreenSizeCalculator
 import com.mirage.view.TextureLoader
 import com.mirage.view.animation.BodyAction
@@ -54,12 +60,6 @@ class GameScreen : ScreenAdapter() {
         const val TILE_WIDTH = 128f
         const val TILE_HEIGHT = 64f
 
-        /**
-         * Отступы в пикселях осей координат виртуального экрана от углов тайловой сетки
-         * (запас для фона, если игрок подошёл к краю сцены).
-         */
-        const val X_MARGIN = 1500f
-        const val Y_MARGIN = 1000f
         /**
          * Разница y - координаты между координатами игрока и координатами центра экрана
          * (точка под игроком находится на DELTA_CENTER_Y пикселей ниже центра экрана).
@@ -102,6 +102,8 @@ class GameScreen : ScreenAdapter() {
      */
     private var backgroundTileGenerator: (Int, Int) -> Int = {_, _-> 0}
 
+    private val map = TmxMapLoader().load(Platform.ASSETS_PATH + "maps/test.tmx")
+
     /**
      * Отрисовка экрана
      */
@@ -109,27 +111,22 @@ class GameScreen : ScreenAdapter() {
         Time.deltaTime = Gdx.graphics.deltaTime
         Model.update()
         val scene = Model.getScene()
-        val playerPosOnVirtualScreen = BasisSwitcher.getVirtualScreenPointFromScene(Model.getPlayerPosition(), scene)
-        //TODO Вычислить положение экрана из положения персонажа в сцене
-        val scrX = playerPosOnVirtualScreen.x - scrW / 2
-        val scrY = playerPosOnVirtualScreen.y - scrH / 2 + DELTA_CENTER_Y
+        val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(Model.getPlayerPosition())
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        // tell the camera to update its matrices.
+        batch.projectionMatrix = camera.combined
+        camera.translate(playerPosOnVirtualScreen.x - camera.position.x, playerPosOnVirtualScreen.y - camera.position.y + DELTA_CENTER_Y)
         camera.update()
 
-        // tell the SpriteBatch to render in the
-        // coordinate system specified by the camera.
-        batch.projectionMatrix = camera.combined
 
         batch.begin()
 
         //TODO отрисовка
-        drawTiles(scrX, scrY, scene)
+        drawTiles(scene)
 
-        drawObjects(scrX, scrY, scene)
+        drawObjects(scene)
 
 
         if (showFPS) {
@@ -147,16 +144,25 @@ class GameScreen : ScreenAdapter() {
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
     private fun updateResources() {
-        loadTileTextures(Model.getScene())
         loadObjectDrawers(Model.getScene())
+        loadTileTextures(Model.getScene())
     }
 
+    /**
+     * Загружает текстуры тайлов, используемых в данной сцене
+     * //TODO
+     */
+    private fun loadTileTextures(scene: Scene) {
+        tileTextures = ArrayList()
+        tileTextures.add(TextureLoader.getStaticTexture("tiles/0001.png"))
+        tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
+    }
 
     /**
      * Отрисовывает все объекты сцены
      * @param scene Сцена
      */
-    private fun drawObjects(scrX: Float, scrY: Float, scene: Scene) {
+    private fun drawObjects(scene: Scene) {
         val sceneObjects: ArrayList<SceneObject>
 
         synchronized(scene.objects) {
@@ -164,8 +170,8 @@ class GameScreen : ScreenAdapter() {
         }
 
         sceneObjects.sortWith(Comparator { obj1, obj2 ->
-            -java.lang.Float.compare(BasisSwitcher.getVirtualScreenPointFromScene(obj1.position, scene).y,
-                    BasisSwitcher.getVirtualScreenPointFromScene(obj2.position, scene).y)
+            -java.lang.Float.compare(getVirtualScreenPointFromScene(obj1.position).y,
+                    getVirtualScreenPointFromScene(obj2.position).y)
         })
 
         for (sceneObject in sceneObjects) {
@@ -188,20 +194,10 @@ class GameScreen : ScreenAdapter() {
                     drawer.setLegsAction(LegsAction.IDLE)
                 }
             }
-            drawer.draw(batch, BasisSwitcher.getViewportPointFromScene(Model.getPlayerPosition(), scene, scrX, scrY).x,
-                    BasisSwitcher.getViewportPointFromScene(Model.getPlayerPosition(), scene, scrX, scrY).y)
+            drawer.draw(batch, getVirtualScreenPointFromScene(Model.getPlayerPosition()).x,
+                    getVirtualScreenPointFromScene(Model.getPlayerPosition()).y)
         }
 
-    }
-
-    /**
-     * Загружает текстуры тайлов, используемых в данной сцене
-     * //TODO
-     */
-    private fun loadTileTextures(scene: Scene) {
-        tileTextures = ArrayList()
-        tileTextures.add(TextureLoader.getStaticTexture("tiles/0001.png"))
-        tileTextures.add(TextureLoader.getStaticTexture("tiles/0000.png"))
     }
 
     /**
@@ -249,21 +245,19 @@ class GameScreen : ScreenAdapter() {
 
     /**
      * Отрисовывает тайлы, попадающие в обзор
-     * @param scrX Координаты экрана
-     * @param scrY Координаты экрана
      * @param scene Текущая сцена
      */
-    private fun drawTiles(scrX: Float, scrY: Float, scene: Scene) {
+    private fun drawTiles(scene: Scene) {
         val tileMatrix = scene.tileMatrix
-        val x1 = BasisSwitcher.getScenePointFromViewport(Point(0f, scrH), scene, scrX, scrY).x.toInt() - 2
-        val x2 = BasisSwitcher.getScenePointFromViewport(Point(scrW, 0f), scene, scrX, scrY).x.toInt() + 2
-        val y1 = BasisSwitcher.getScenePointFromViewport(Point(0f, 0f), scene, scrX, scrY).y.toInt() - 2
-        val y2 = BasisSwitcher.getScenePointFromViewport(Point(scrW, scrH), scene, scrX, scrY).y.toInt() + 2
+        val x1 = getScenePointFromVirtualScreen(Point(camera.position.x - scrW / 2, camera.position.y + scrH / 2)).x.toInt() - 2
+        val x2 = getScenePointFromVirtualScreen(Point(camera.position.x + scrW / 2, camera.position.y - scrH / 2)).x.toInt() + 2
+        val y1 = getScenePointFromVirtualScreen(Point(camera.position.x - scrW / 2, camera.position.y - scrH / 2)).y.toInt() - 2
+        val y2 = getScenePointFromVirtualScreen(Point(camera.position.x + scrW / 2, camera.position.y + scrH / 2)).y.toInt() + 2
 
         for (i in x1..x2) {
             for (j in y1..y2) {
                 val scenePoint = Point(i + 0.5f, j + 0.5f)
-                val cameraPoint = BasisSwitcher.getViewportPointFromScene(scenePoint, scene, scrX, scrY)
+                val cameraPoint = getVirtualScreenPointFromScene(scenePoint)
                 val tileIndex = when(true) {
                     (i in 0 until scene.width && j in 0 until scene.height) -> tileMatrix[i][j]
                     else -> backgroundTileGenerator.invoke(i, j)
@@ -274,10 +268,27 @@ class GameScreen : ScreenAdapter() {
         }
     }
 
-
     override fun dispose() {
         for (t in tileTextures) {
             t.getTexture().dispose()
         }
+    }
+
+    /**
+     * Переход от базиса сцены (тайлы) к базису виртуального экрана (пиксели)
+     */
+    private fun getVirtualScreenPointFromScene(scenePoint: Point): Point {
+        val x = GameScreen.TILE_WIDTH / 2 * scenePoint.x + GameScreen.TILE_WIDTH / 2 * scenePoint.y
+        val y = -GameScreen.TILE_HEIGHT / 2 * scenePoint.x + GameScreen.TILE_HEIGHT / 2 * scenePoint.y
+        return Point(x, y)
+    }
+
+    /**
+     * Переход от базиса виртуального экрана (пиксели) к базису сцены (тайлы)
+     */
+    private fun getScenePointFromVirtualScreen(virtualScreenPoint: Point): Point {
+        val x = virtualScreenPoint.x / GameScreen.TILE_WIDTH - virtualScreenPoint.y / GameScreen.TILE_HEIGHT
+        val y = virtualScreenPoint.x / GameScreen.TILE_WIDTH + virtualScreenPoint.y / GameScreen.TILE_HEIGHT
+        return Point(x, y)
     }
 }

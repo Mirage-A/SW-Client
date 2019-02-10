@@ -26,11 +26,11 @@ object Controller : Game(), InputProcessor {
     private const val EPS_TIME = 50L
 
     override fun create() {
-        setScreen(LoadingScreen())
+        //setScreen(LoadingScreen())
         val gameScreen = GameScreen()
         Gdx.input.inputProcessor = this
         GlobalScope.launch {
-            ScriptLoader.load("scripts/mazewin.py")
+            //ScriptLoader.load("scripts/mazewin.py")
             Model.startGame()
             Model.startLogic()
             setScreen(gameScreen)

@@ -39,8 +39,6 @@ class GameLoop {
                     }
                 }
             }
-
-            ScriptLoader.load("scripts/mazewin.py").run()
         }
     }
 
