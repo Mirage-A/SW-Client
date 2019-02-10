@@ -7,18 +7,25 @@ import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 
 import java.io.*;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ScriptLoader {
+
+    private static Map<String, IScript> scriptCache = new TreeMap<>();
 
     /**
      * Загружает скрипт python по заданному относительному пути из папки assets
      */
     public static IScript load(String path) throws IOException {
-        PythonInterpreter interpreter = new PythonInterpreter();
-        interpreter.exec(readUsingBufferedReader(Gdx.files.internal(Platform.INSTANCE.getASSETS_PATH() + path).reader()));
-        PyObject pyObject = interpreter.get("Script");
-        PyObject buildingObject = pyObject.__call__();
-        return (IScript) buildingObject.__tojava__(IScript.class);
+        if (!scriptCache.containsKey(path)) {
+            PythonInterpreter interpreter = new PythonInterpreter();
+            interpreter.exec(readUsingBufferedReader(Gdx.files.internal(Platform.INSTANCE.getASSETS_PATH() + path).reader()));
+            PyObject pyObject = interpreter.get("Script");
+            PyObject buildingObject = pyObject.__call__();
+            scriptCache.put(path, (IScript) buildingObject.__tojava__(IScript.class));
+        }
+        return scriptCache.get(path);
     }
 
     /**
@@ -36,5 +43,12 @@ public class ScriptLoader {
 
         stringBuilder.deleteCharAt(stringBuilder.length()-1);
         return stringBuilder.toString();
+    }
+
+    /**
+     * Очищает кэш с уже загруженными скриптами
+     */
+    public static void clearCache() {
+        scriptCache.clear();
     }
 }

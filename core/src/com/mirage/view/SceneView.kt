@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.mirage.model.Model
+import com.mirage.model.Time
 import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.SceneObject
@@ -82,6 +83,8 @@ open class SceneView : View() {
         if (lastRealScreenWidth != Gdx.graphics.width.toFloat() || lastRealScreenHeight != Gdx.graphics.height.toFloat()) {
             setScreenSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
         }
+        Time.deltaTime = Gdx.graphics.deltaTime
+        Model.update()
         val scene = Model.getScene()
         val playerPosOnVirtualScreen = BasisSwitcher.getVirtualScreenPointFromScene(Model.getPlayerPosition(), scene)
         //TODO Вычислить положение экрана из положения персонажа в сцене

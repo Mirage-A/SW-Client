@@ -11,20 +11,13 @@ object Model {
      * Цикл игровой логики
      */
     private val gameLoop = GameLoop()
-    private val loopThread = Thread(gameLoop)
-
     /**
      * Переходит на другую сцену и возвращает старую сцену
      * При этом, если цикл был приостановлен, то он не возобновляется, иначе продолжает работать
      */
     fun setScene(scene: Scene) : Scene{
-        val wasPaused = gameLoop.isPaused
-        gameLoop.pauseAndAwait()
         val tmp = gameLoop.scene
         gameLoop.scene = scene
-        if (!wasPaused) {
-            startLogic()
-        }
         return tmp
     }
 
@@ -32,12 +25,15 @@ object Model {
         setScene(MazeGenerator.generateMaze(width, height))
     }
 
+    fun update() {
+        gameLoop.update()
+    }
+
     /**
      * Начать игру (логика на паузе, следует вызвать startLogic)
      */
     fun startGame() {
         loadMaze(10, 10)
-        loopThread.start()
     }
 
     /**

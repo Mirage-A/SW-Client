@@ -1,8 +1,8 @@
 package com.mirage.model
 
 object Time {
-    internal var deltaTime = 0L
+    internal var deltaTime = 0f
 
-    fun deltaTime() : Long = deltaTime
+    fun deltaTime() : Float = deltaTime
 
 }

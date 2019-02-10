@@ -1,24 +1,19 @@
 package com.mirage.model
 
+import com.badlogic.gdx.Gdx
 import com.mirage.model.datastructures.Point
 import com.mirage.model.scene.Scene
 import com.mirage.model.scene.objects.entities.Entity
 import com.mirage.model.scripts.ScriptLoader
 import com.mirage.view.Log
 
-class GameLoop : Runnable {
+class GameLoop {
     var scene = Scene()
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
      */
     var isPaused = true
-
-    /**
-     * Значение, которое равно true, если на данный момент выполняется итерация цикла
-     * Безопасно выйти из цикла можно только когда isLooping == false
-     */
-    private var isLooping = false
 
     /**
      * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
@@ -32,50 +27,29 @@ class GameLoop : Runnable {
     private val ticksPerSecondLimit = 512
 
     /**
-     * Бесконечный цикл игровой логики
+     * Тик игровой логики
      */
-    override fun run() {
-        var lastTickTime = System.currentTimeMillis()
-        while (true) {
-            var deltaTime = System.currentTimeMillis() - lastTickTime
-            if (deltaTime < 1000f / ticksPerSecondLimit) {
-                Thread.sleep(1000 / (ticksPerSecondLimit / 2) - deltaTime)
-                deltaTime = System.currentTimeMillis() - lastTickTime
-            }
-            lastTickTime += deltaTime
-            Time.deltaTime = deltaTime
-            if (!isPaused) {
-
-                isLooping = true
-                for (sceneObject in scene.objects) {
-                    if (sceneObject is Entity) {
-                        if (sceneObject.isMoving) {
-                            moveEntity(sceneObject, scene)
-                        }
+    fun update() {
+        if (!isPaused) {
+            if (Gdx.graphics.deltaTime > 0.1f) Log.i("Slow update: " + Gdx.graphics.deltaTime + " s")
+            for (sceneObject in scene.objects) {
+                if (sceneObject is Entity) {
+                    if (sceneObject.isMoving) {
+                        moveEntity(sceneObject, scene)
                     }
                 }
+            }
 
-                ScriptLoader.load("scripts/mazewin.py").run()
-            }
-            else {
-                isLooping = false
-            }
+            ScriptLoader.load("scripts/mazewin.py").run()
         }
     }
 
-    /**
-     * Безопасно останавливает цикл (ждет, пока завершится последняя итерация)
-     */
-    fun pauseAndAwait() {
-        isPaused = true
-        while (isLooping) {}
-    }
 
     /**
      * Обрабатывает передвижение данного Entity за тик
      */
     private fun moveEntity(entity: Entity, scene: Scene) {
-        val range = entity.speed * Time.deltaTime / 1000f
+        val range = entity.speed * Time.deltaTime
         for (i in 0 until (range / smallRange).toInt()) {
             smallMoveEntity(entity, smallRange, scene)
         }
