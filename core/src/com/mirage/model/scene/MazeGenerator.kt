@@ -15,26 +15,29 @@ object MazeGenerator {
      */
     fun generateMaze(width: Int, height: Int) : Scene {
         val time = System.currentTimeMillis()
-        val scene = Scene()
-        scene.width = width * 2 + 1
-        scene.height = height * 2 + 1
+        val scene = Scene(width * 2 + 1, height * 2 + 1)
         scene.player = Player(Point(1.5f, 1.5f))
         scene.objects.add(scene.player)
-        scene.tileMatrix = Array(scene.width) {IntArray(scene.height) {1} }
-        scene.approachabilityMatrix = Array(scene.width) { Array(scene.height) { ApproachabilityType.BLOCKED } }
+        for (i in 0 until scene.width) {
+            for (j in 0 until scene.height) {
+                scene.setTileId(i, j, 1)
+                scene.setApproachability(i, j, ApproachabilityType.BLOCKED)
+            }
+        }
 
         //Используем алгоритм землеройки https://habr.com/ru/post/318530/
         //В описании алгоритма в статье есть ошибка, поэтому алгоритм немного изменен
         while (true) {
             for (i in 0..99) {
                 val rndPoint = generateRandomPoint(width, height)
-                scene.approachabilityMatrix[rndPoint] = ApproachabilityType.ALL_FREE
+
+                scene.isTileWalkable(rndPoint)
                 jump(rndPoint, scene)
             }
             var allFree = true
             for (i in 0 until width) {
                 for (j in 0 until height) {
-                    if (scene.approachabilityMatrix[i * 2 + 1][j * 2 + 1] != ApproachabilityType.ALL_FREE) {
+                    if (!scene.isTileWalkable(i * 2 + 1, j * 2 + 1)) {
                         allFree = false
                     }
                 }
@@ -44,8 +47,8 @@ object MazeGenerator {
 
         for (i in 0 until scene.width) {
             for (j in 0 until scene.height) {
-                if (scene.approachabilityMatrix[i][j] == ApproachabilityType.ALL_FREE) {
-                    scene.tileMatrix[i][j] = 0
+                if (scene.isTileWalkable(i, j)) {
+                    scene.setTileId(i, j, 0)
                 }
             }
         }
@@ -62,23 +65,23 @@ object MazeGenerator {
             val rnd = Math.random()
             when (true) {
                 rnd < 0.25f -> if (isJumpable(point.twiceRight(), scene)) {
-                    scene.approachabilityMatrix[point.right()] = ApproachabilityType.ALL_FREE
-                    scene.approachabilityMatrix[point.twiceRight()] = ApproachabilityType.ALL_FREE
+                    scene.setApproachability(point.right(), ApproachabilityType.ALL_FREE)
+                    scene.setApproachability(point.twiceRight(), ApproachabilityType.ALL_FREE)
                     jump(point.twiceRight(), scene)
                 }
                 rnd < 0.5f -> if (isJumpable(point.twiceTop(), scene)) {
-                    scene.approachabilityMatrix[point.top()] = ApproachabilityType.ALL_FREE
-                    scene.approachabilityMatrix[point.twiceTop()] = ApproachabilityType.ALL_FREE
+                    scene.setApproachability(point.top(), ApproachabilityType.ALL_FREE)
+                    scene.setApproachability(point.twiceTop(), ApproachabilityType.ALL_FREE)
                     jump(point.twiceTop(), scene)
                 }
                 rnd < 0.75f -> if (isJumpable(point.twiceLeft(), scene)) {
-                    scene.approachabilityMatrix[point.left()] = ApproachabilityType.ALL_FREE
-                    scene.approachabilityMatrix[point.twiceLeft()] = ApproachabilityType.ALL_FREE
+                    scene.setApproachability(point.left(), ApproachabilityType.ALL_FREE)
+                    scene.setApproachability(point.twiceLeft(), ApproachabilityType.ALL_FREE)
                     jump(point.twiceLeft(), scene)
                 }
                 else -> if (isJumpable(point.twiceBottom(), scene)) {
-                    scene.approachabilityMatrix[point.bottom()] = ApproachabilityType.ALL_FREE
-                    scene.approachabilityMatrix[point.twiceBottom()] = ApproachabilityType.ALL_FREE
+                    scene.setApproachability(point.bottom(), ApproachabilityType.ALL_FREE)
+                    scene.setApproachability(point.twiceBottom(), ApproachabilityType.ALL_FREE)
                     jump(point.twiceBottom(), scene)
                 }
             }
@@ -90,7 +93,7 @@ object MazeGenerator {
      */
     private fun isJumpable(point: IntPair, scene: Scene) : Boolean {
         return (point.x > 0 && point.x < scene.width - 1 && point.y > 0 && point.y < scene.height - 1 &&
-                scene.approachabilityMatrix[point] != ApproachabilityType.ALL_FREE)
+                !scene.isTileWalkable(point))
     }
 
     private fun generateRandomPoint(width: Int, height: Int) : IntPair {

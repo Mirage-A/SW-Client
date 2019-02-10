@@ -72,7 +72,7 @@ class GameLoop {
         val y = entity.position.y.toInt()
         val newX = newPosition.x.toInt()
         val newY = newPosition.y.toInt()
-        if ((x != newX || y != newY) && !scene.approachabilityMatrix[newX][newY].isWalkable()) {
+        if ((x != newX || y != newY) && !scene.isTileWalkable(newX, newY)) {
             if (x == newX) {
                 if (y < newY) {
                     newPosition.y = newY - eps
@@ -101,10 +101,10 @@ class GameLoop {
                     (newX > x && newY > y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
                                 else -> {
@@ -114,10 +114,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
                                 else -> {
@@ -130,10 +130,10 @@ class GameLoop {
                     (newX < x && newY > y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
                                 else -> {
@@ -143,10 +143,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
                                 else -> {
@@ -159,10 +159,10 @@ class GameLoop {
                     (newX < x && newY < y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
                                 else -> {
@@ -172,10 +172,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
                                 else -> {
@@ -188,10 +188,10 @@ class GameLoop {
                     (newX > x && newY < y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
                                 else -> {
@@ -201,10 +201,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.approachabilityMatrix[newX][y].isWalkable() -> {
+                                scene.isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
-                                scene.approachabilityMatrix[x][newY].isWalkable() -> {
+                                scene.isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
                                 else -> {

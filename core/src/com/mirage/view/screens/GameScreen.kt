@@ -57,8 +57,8 @@ class GameScreen : ScreenAdapter() {
         /**
          * Размер одного тайла на виртуальном экране
          */
-        const val TILE_WIDTH = 128f
-        const val TILE_HEIGHT = 64f
+        const val TILE_WIDTH = 64f
+        const val TILE_HEIGHT = 32f
 
         /**
          * Разница y - координаты между координатами игрока и координатами центра экрана
@@ -248,7 +248,6 @@ class GameScreen : ScreenAdapter() {
      * @param scene Текущая сцена
      */
     private fun drawTiles(scene: Scene) {
-        val tileMatrix = scene.tileMatrix
         val x1 = getScenePointFromVirtualScreen(Point(camera.position.x - scrW / 2, camera.position.y + scrH / 2)).x.toInt() - 2
         val x2 = getScenePointFromVirtualScreen(Point(camera.position.x + scrW / 2, camera.position.y - scrH / 2)).x.toInt() + 2
         val y1 = getScenePointFromVirtualScreen(Point(camera.position.x - scrW / 2, camera.position.y - scrH / 2)).y.toInt() - 2
@@ -259,7 +258,7 @@ class GameScreen : ScreenAdapter() {
                 val scenePoint = Point(i + 0.5f, j + 0.5f)
                 val cameraPoint = getVirtualScreenPointFromScene(scenePoint)
                 val tileIndex = when(true) {
-                    (i in 0 until scene.width && j in 0 until scene.height) -> tileMatrix[i][j]
+                    (i in 0 until scene.width && j in 0 until scene.height) -> scene.getTileId(i, j)
                     else -> backgroundTileGenerator.invoke(i, j)
                 }
                 batch.draw(tileTextures[tileIndex].getTexture(),

@@ -1,14 +1,45 @@
 package com.mirage.model.scene
 
+import com.mirage.model.datastructures.IntPair
 import com.mirage.model.scene.objects.SceneObject
 import com.mirage.model.scene.objects.entities.Player
 import java.util.*
 
-class Scene {
-    var width = 0
-    var height = 0
+class Scene(val width : Int = 0, val height : Int = 0) {
     val objects: LinkedList<SceneObject> = LinkedList()
-    var tileMatrix: Array<IntArray> = Array(0) {IntArray(0) {0} }
-    var approachabilityMatrix: Array<Array<ApproachabilityType>> = Array(0) { Array(0) {ApproachabilityType.ALL_FREE} }
+    private var tileMatrix: Array<IntArray> = Array(width) {IntArray(height) {0} }
+    private var approachabilityMatrix: Array<Array<ApproachabilityType>> = Array(width) { Array(height) {ApproachabilityType.ALL_FREE} }
     var player: Player = Player()
+
+    fun getTileId(x: Int, y: Int) : Int = tileMatrix[x][y]
+
+    fun getTileId(p: IntPair) : Int = tileMatrix[p.x][p.y]
+
+    fun setTileId(x: Int, y: Int, id: Int) {
+        tileMatrix[x][y] = id
+    }
+
+    fun setTileId(p: IntPair, id: Int) {
+        tileMatrix[p.x][p.y] = id
+    }
+
+    fun getApproachability(x: Int, y: Int) : ApproachabilityType = approachabilityMatrix[x][y]
+
+    fun getApproachability(p: IntPair) : ApproachabilityType = approachabilityMatrix[p.x][p.y]
+
+    fun setApproachability(x: Int, y: Int, approachabilityType: ApproachabilityType) {
+        approachabilityMatrix[x][y] = approachabilityType
+    }
+
+    fun setApproachability(p: IntPair, approachabilityType: ApproachabilityType) {
+        approachabilityMatrix[p.x][p.y] = approachabilityType
+    }
+
+    fun isTileWalkable(x: Int, y: Int) : Boolean = approachabilityMatrix[x][y].isWalkable()
+
+    fun isTileWalkable(p: IntPair) : Boolean = approachabilityMatrix[p.x][p.y].isWalkable()
+
+    fun isTileShootable(x: Int, y: Int) : Boolean = approachabilityMatrix[x][y].isShootable()
+
+    fun isTileShootable(p: IntPair) : Boolean = approachabilityMatrix[p.x][p.y].isShootable()
 }
