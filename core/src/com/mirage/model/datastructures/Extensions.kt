@@ -1,6 +1,87 @@
 package com.mirage.model.datastructures
 
+import com.badlogic.gdx.maps.Map
+import com.badlogic.gdx.maps.MapObject
+import com.badlogic.gdx.maps.MapProperties
+import com.badlogic.gdx.maps.tiled.TiledMap
 import com.mirage.model.scene.ApproachabilityType
+import com.mirage.view.Log
+
+operator fun Map.iterator() : Iterator<MapObject> {
+    return object : Iterator<MapObject> {
+        var i = 0
+        var j = 0
+
+        override fun hasNext(): Boolean {
+            while (i < layers.count && j >= layers[i].objects.count) {
+                ++i
+                j = 0
+            }
+            return i < layers.count
+        }
+
+        override fun next(): MapObject {
+            if (!hasNext()) {
+                throw NoSuchElementException("There are no elements left")
+            }
+            ++j
+            return layers[i].objects[j - 1]
+        }
+
+    }
+}
+
+fun MapObject.getPosition() : Point {
+    return Point(properties.getFloat("x", 0f), properties.getFloat("y", 0f))
+}
+
+fun MapObject.setPosition(p: Point) {
+    properties.put("x", p.x)
+    properties.put("y", p.y)
+}
+
+fun MapObject.getMoveAngle() : Float {
+    return properties.getFloat("moveAngle", 0f)
+}
+
+fun MapObject.setMoveAngle(angle: Float) {
+    properties.put("moveAngle", angle)
+}
+
+fun MapObject.isMoving() : Boolean {
+    return properties.getBoolean("isMoving", false)
+}
+
+fun MapObject.setMoving(value: Boolean) {
+    properties.put("isMoving", value)
+}
+
+/**
+ * Находит на карте объект с данным именем
+ * Если такого объекта нет, возвращается null
+ */
+fun Map.findObject(name: String) : MapObject? {
+    for (obj in this) {
+        if (obj.name == name) return obj
+    }
+    return null
+}
+
+fun MapProperties.getInt(key: String, defaultValue: Int) : Int {
+    return get<Int>(key, defaultValue, Int::class.java)
+}
+
+fun MapProperties.getString(key: String, defaultValue: String) : String {
+    return get<String>(key, defaultValue, String::class.java)
+}
+
+fun MapProperties.getBoolean(key: String, defaultValue: Boolean) : Boolean {
+    return get<Boolean>(key, defaultValue, Boolean::class.java)
+}
+
+fun MapProperties.getFloat(key: String, defaultValue: Float) : Float {
+    return get<Float>(key, defaultValue, Float::class.java)
+}
 
 operator fun Array<IntArray>.get(indices: IntPair): Int {
     return this[indices.x][indices.y]

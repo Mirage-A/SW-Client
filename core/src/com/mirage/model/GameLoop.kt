@@ -1,14 +1,16 @@
 package com.mirage.model
 
 import com.badlogic.gdx.Gdx
-import com.mirage.model.datastructures.Point
-import com.mirage.model.scene.Scene
-import com.mirage.model.scene.objects.entities.Entity
+import com.badlogic.gdx.maps.MapObject
+import com.badlogic.gdx.maps.tiled.TiledMap
+import com.mirage.model.datastructures.*
 import com.mirage.model.scripts.ScriptLoader
 import com.mirage.view.Log
 
 class GameLoop {
-    var scene = Scene()
+    var map = TiledMap()
+
+    var player: MapObject? = null
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
@@ -32,10 +34,12 @@ class GameLoop {
     fun update() {
         if (!isPaused) {
             if (Gdx.graphics.deltaTime > 0.1f) Log.i("Slow update: " + Gdx.graphics.deltaTime + " s")
-            for (sceneObject in scene.objects) {
-                if (sceneObject is Entity) {
-                    if (sceneObject.isMoving) {
-                        moveEntity(sceneObject, scene)
+            for (layer in map.layers) {
+                for (obj in layer.objects) {
+                    if (obj.name == "player") {
+                        if (obj.properties.getBoolean("isMoving", false)) {
+                            moveEntity(obj)
+                        }
                     }
                 }
             }
@@ -44,14 +48,14 @@ class GameLoop {
 
 
     /**
-     * Обрабатывает передвижение данного Entity за тик
+     * Обрабатывает передвижение данного объекта за тик
      */
-    private fun moveEntity(entity: Entity, scene: Scene) {
-        val range = entity.speed * Time.deltaTime
+    private fun moveEntity(obj: MapObject) {
+        val range = obj.properties.getFloat("speed", 0f) * Time.deltaTime
         for (i in 0 until (range / smallRange).toInt()) {
-            smallMoveEntity(entity, smallRange, scene)
+            smallMoveEntity(obj, smallRange)
         }
-        smallMoveEntity(entity, range % smallRange, scene)
+        smallMoveEntity(obj, range % smallRange)
     }
 
     /**
@@ -60,19 +64,19 @@ class GameLoop {
     private val eps = 0.00001f
 
     /**
-     * Обрабатывает короткое (на расстояние не более smallRange) передвижение данного Entity
+     * Обрабатывает короткое (на расстояние не более smallRange) передвижение данного объекта
      * Для обычного передвижения следует использовать moveEntity
      */
-    private fun smallMoveEntity(entity: Entity, range: Float, scene: Scene) {
-        val newPosition = Point(entity.position.x, entity.position.y)
-        newPosition.move(entity.moveAngle, range)
-        newPosition.x = Math.max(eps, Math.min(scene.width - eps, newPosition.x))
-        newPosition.y = Math.max(eps, Math.min(scene.height - eps, newPosition.y))
-        val x = entity.position.x.toInt()
-        val y = entity.position.y.toInt()
+    private fun smallMoveEntity(obj: MapObject, range: Float) {
+        val newPosition = obj.getPosition()
+        newPosition.move(obj.getMoveAngle(), range)
+        newPosition.x = Math.max(eps, Math.min(map.properties.getInt("width", 0) - eps, newPosition.x))
+        newPosition.y = Math.max(eps, Math.min(map.properties.getInt("height", 0) - eps, newPosition.y))
+        val x = obj.getPosition().x.toInt()
+        val y = obj.getPosition().y.toInt()
         val newX = newPosition.x.toInt()
         val newY = newPosition.y.toInt()
-        if ((x != newX || y != newY) && !scene.isTileWalkable(newX, newY)) {
+        if ((x != newX || y != newY) && !isTileWalkable(newX, newY)) {
             if (x == newX) {
                 if (y < newY) {
                     newPosition.y = newY - eps
@@ -101,10 +105,10 @@ class GameLoop {
                     (newX > x && newY > y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
                                 else -> {
@@ -114,10 +118,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
                                 else -> {
@@ -130,10 +134,10 @@ class GameLoop {
                     (newX < x && newY > y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
                                 else -> {
@@ -143,10 +147,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = newY - eps
                                 }
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
                                 else -> {
@@ -159,10 +163,10 @@ class GameLoop {
                     (newX < x && newY < y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
                                 else -> {
@@ -172,10 +176,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = x + eps
                                 }
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
                                 else -> {
@@ -188,10 +192,10 @@ class GameLoop {
                     (newX > x && newY < y) -> {
                         if (orientedSquare > 0) {
                             when (true) {
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
                                 else -> {
@@ -201,10 +205,10 @@ class GameLoop {
                             }
                         } else {
                             when (true) {
-                                scene.isTileWalkable(newX, y) -> {
+                                isTileWalkable(newX, y) -> {
                                     newPosition.y = y + eps
                                 }
-                                scene.isTileWalkable(x, newY) -> {
+                                isTileWalkable(x, newY) -> {
                                     newPosition.x = newX - eps
                                 }
                                 else -> {
@@ -217,7 +221,19 @@ class GameLoop {
                 }
             }
         }
-        entity.position = newPosition
+        obj.setPosition(newPosition)
+    }
+
+    /**
+     * Найти игрока среди объектов
+     */
+    fun findPlayer() {
+        player = map.findObject("player")
+    }
+
+    fun isTileWalkable(x: Int, y: Int) : Boolean {
+        //TODO
+        return true
     }
 
 }
