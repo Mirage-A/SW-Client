@@ -59,8 +59,8 @@ class GameScreen : ScreenAdapter() {
         /**
          * Размер одного тайла на виртуальном экране
          */
-        const val TILE_WIDTH = 64f
-        const val TILE_HEIGHT = 32f
+        const val TILE_WIDTH = 128f
+        const val TILE_HEIGHT = 64f
 
         /**
          * Разница y - координаты между координатами игрока и координатами центра экрана

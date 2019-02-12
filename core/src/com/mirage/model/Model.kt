@@ -25,6 +25,7 @@ object Model {
             obj.setPosition(getScenePointFromTiledMap(obj.getPosition()))
         }
         gameLoop.findPlayer()
+        Log.i(gameLoop.player?.getPosition() ?: "")
         setMap(gameLoop.map)
     }
 
@@ -118,8 +119,8 @@ object Model {
      * Переход от кривого базиса карты после загрузки через TmxLoader к базису сцены (тайлы)
      */
     private fun getScenePointFromTiledMap(tiledMapPoint: Point) : Point {
-        val x = tiledMapPoint.x / 32f
-        val y = tiledMapPoint.y / 32f
+        val x = tiledMapPoint.x / 64f
+        val y = tiledMapPoint.y / 64f
         return Point(x, y)
     }
 }
