@@ -3,6 +3,7 @@ package com.mirage.model
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.mirage.model.datastructures.*
 import com.mirage.model.scripts.ScriptLoader
 import com.mirage.view.Log
@@ -37,7 +38,7 @@ class GameLoop {
             for (layer in map.layers) {
                 for (obj in layer.objects) {
                     if (obj.name == "player") {
-                        if (obj.properties.getBoolean("isMoving", false)) {
+                        if (obj.isMoving()) {
                             moveEntity(obj)
                         }
                     }
@@ -232,8 +233,15 @@ class GameLoop {
     }
 
     fun isTileWalkable(x: Int, y: Int) : Boolean {
-        //TODO
-        return true
+         return getTileId(x, y) == 1
     }
 
+    fun isTileShootable(x: Int, y: Int) : Boolean {
+        val id = getTileId(x, y)
+        return id == 1 || id == 2
+    }
+
+    fun getTileId(x: Int, y: Int) : Int {
+        return (map.layers["walkability"] as TiledMapTileLayer).getCell(x, y).tile.id
+    }
 }

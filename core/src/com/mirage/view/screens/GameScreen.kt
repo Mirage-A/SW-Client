@@ -2,6 +2,7 @@ package com.mirage.view.screens
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
+import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
@@ -10,6 +11,7 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TideMapLoader
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.maps.tiled.renderers.IsometricStaggeredTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.badlogic.gdx.math.Vector3
 import com.mirage.controller.Platform
@@ -41,6 +43,7 @@ class GameScreen : ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     private var camera: OrthographicCamera = OrthographicCamera()
+    private val renderer: IsometricTiledMapRenderer = IsometricTiledMapRenderer(null, batch)
 
     companion object {
         /**
@@ -84,11 +87,6 @@ class GameScreen : ScreenAdapter() {
      */
     private val moveDirectionUpdateInterval = 50L
 
-    /**
-     * Лямбда, которая по координатам тайла вне сцены возвращает номер тайла в tileTextures
-     * Используется для заполнения пространства за сценой
-     */
-    private var backgroundTileGenerator: (Int, Int) -> Int = {_, _-> 0}
 
     /**
      * Отрисовка экрана
@@ -102,28 +100,27 @@ class GameScreen : ScreenAdapter() {
         Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        batch.projectionMatrix = camera.combined
-        camera.translate(playerPosOnVirtualScreen.x - camera.position.x, playerPosOnVirtualScreen.y - camera.position.y + DELTA_CENTER_Y)
+        camera.position.x = playerPosOnVirtualScreen.x
+        camera.position.y = playerPosOnVirtualScreen.y + DELTA_CENTER_Y
+        camera.position.x = Math.round(camera.position.x).toFloat()
+        camera.position.y = Math.round(camera.position.y).toFloat()
         camera.update()
+        //batch.projectionMatrix = camera.combined
 
         //TODO отрисовка
-        val rnd = IsometricTiledMapRenderer(TmxMapLoader().load(Platform.ASSETS_PATH + "maps/test.tmx"), batch)
-        rnd.setView(camera)
-        rnd.render()
+        renderer.map = Model.getMap()
+        renderer.setView(camera)
+        renderer.render()
 
         batch.begin()
         drawObjects(map)
         batch.end()
     }
 
-    init {
-        updateResources()
-    }
-
     /**
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
-    private fun updateResources() {
+    fun updateResources() {
         loadObjectDrawers(Model.getMap())
     }
 
@@ -167,7 +164,7 @@ class GameScreen : ScreenAdapter() {
                 }
             }
             val pos = getVirtualScreenPointFromScene(obj.getPosition())
-            drawer.draw(batch, pos.x, pos.y)
+            drawer.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
         }
     }
 
@@ -189,7 +186,7 @@ class GameScreen : ScreenAdapter() {
      */
     private fun addObjectDrawer(obj: MapObject) : ObjectDrawer {
         objectDrawers[obj] = when (true) {
-            obj.name == "player" -> HumanoidDrawer(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.get<Float>("moveAngle", 0f, Float::class.java)), WeaponType.UNARMED)
+            obj.name == "player" -> HumanoidDrawer(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
             else -> TextureLoader.getStaticTexture("windows_icon.png")
         }
         return objectDrawers[obj]!!

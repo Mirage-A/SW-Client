@@ -41,19 +41,19 @@ fun MapObject.setPosition(p: Point) {
 }
 
 fun MapObject.getMoveAngle() : Float {
-    return properties.getFloat("moveAngle", 0f)
+    return properties.getFloat("move_angle", 0f)
 }
 
 fun MapObject.setMoveAngle(angle: Float) {
-    properties.put("moveAngle", angle)
+    properties.put("move_angle", angle)
 }
 
 fun MapObject.isMoving() : Boolean {
-    return properties.getBoolean("isMoving", false)
+    return properties.getBoolean("is_moving", false)
 }
 
 fun MapObject.setMoving(value: Boolean) {
-    properties.put("isMoving", value)
+    properties.put("is_moving", value)
 }
 
 /**

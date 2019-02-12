@@ -22,12 +22,9 @@ object Model {
     fun setMap(path: String) {
         gameLoop.map = TmxMapLoader().load(Platform.ASSETS_PATH + path)
         for (obj in gameLoop.map) {
-            Log.i(obj.name + " " + obj.getPosition())
             obj.setPosition(getScenePointFromTiledMap(obj.getPosition()))
-            Log.i(obj.name + " " + obj.getPosition())
         }
         gameLoop.findPlayer()
-        gameLoop.player!!.properties.put("speed", 2.8f)
         setMap(gameLoop.map)
     }
 
@@ -91,14 +88,14 @@ object Model {
      * Возвращает, двигается ли игрок
      */
     fun isPlayerMoving() : Boolean {
-        return gameLoop.player?.properties?.getBoolean("isMoving", false) ?: false
+        return gameLoop.player?.isMoving() ?: false
     }
 
     /**
      * Возвращает move direction игрока
      */
     fun getPlayerMoveDirection() : MoveDirection {
-        return MoveDirection.fromMoveAngle(gameLoop.player?.properties?.getFloat("moveAngle", 0f) ?: 0f)
+        return MoveDirection.fromMoveAngle(gameLoop.player?.getMoveAngle() ?: 0f)
     }
 
 

@@ -31,6 +31,7 @@ object Controller : Game(), InputProcessor {
         Gdx.input.inputProcessor = this
         Model.startGame()
         Model.startLogic()
+        gameScreen.updateResources()
         setScreen(gameScreen)
         GlobalScope.launch {
             //ScriptLoader.load("scripts/mazewin.py")
