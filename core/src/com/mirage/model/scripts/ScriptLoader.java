@@ -20,7 +20,7 @@ public class ScriptLoader {
     public static IScript load(String path) throws IOException {
         if (!scriptCache.containsKey(path)) {
             PythonInterpreter interpreter = new PythonInterpreter();
-            interpreter.exec(readUsingBufferedReader(Gdx.files.internal(Platform.INSTANCE.getASSETS_PATH() + path).reader()));
+            interpreter.exec(readUsingBufferedReader(Gdx.files.internal(Platform.INSTANCE.getASSETS_PATH() + "scripts/" + path).reader()));
             PyObject pyObject = interpreter.get("Script");
             PyObject buildingObject = pyObject.__call__();
             scriptCache.put(path, (IScript) buildingObject.__tojava__(IScript.class));

@@ -35,11 +35,11 @@ object TextureLoader {
     }
 
     /**
-     * Загружает текстуры из папки ASSETS_PATH по относительному пути path и применяет к ним заданные фильтры.
+     * Загружает текстуры из папки drawable по относительному пути path и применяет к ним заданные фильтры.
      * Текстуры не кэшируются.
      */
     fun getRawTexture(path: String) : Texture {
-        val loadedTexture = Texture(Gdx.files.internal(Platform.ASSETS_PATH + path), true)
+        val loadedTexture = Texture(Gdx.files.internal(Platform.ASSETS_PATH + "drawable/" + path), true)
         loadedTexture.setFilter(MIN_FILTER, MAG_FILTER)
         return loadedTexture
     }

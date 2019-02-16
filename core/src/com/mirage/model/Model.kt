@@ -20,7 +20,7 @@ object Model {
     }
 
     fun setMap(path: String) {
-        gameLoop.map = TmxMapLoader().load(Platform.ASSETS_PATH + path)
+        gameLoop.map = TmxMapLoader().load(Platform.ASSETS_PATH + "maps/" + path)
         for (obj in gameLoop.map) {
             obj.setPosition(getScenePointFromTiledMap(obj.getPosition()))
         }
@@ -42,7 +42,7 @@ object Model {
      * Начать игру (логика на паузе, следует вызвать startLogic)
      */
     fun startGame() {
-        setMap("maps/test.tmx")
+        setMap("test.tmx")
     }
 
     /**
