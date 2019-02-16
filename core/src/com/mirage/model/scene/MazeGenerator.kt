@@ -2,13 +2,10 @@ package com.mirage.model.scene
 
 import com.mirage.model.datastructures.IntPair
 import com.mirage.model.datastructures.Point
-import com.mirage.model.datastructures.get
-import com.mirage.model.datastructures.set
-import com.mirage.model.scene.objects.entities.Player
 import com.mirage.view.Log
 
 object MazeGenerator {
-
+/*
     /**
      * Генерирует сцену - лабиринт размеров (width * 2 + 1) x (height * 2 + 1),
      * где width и height - натуральные
@@ -99,5 +96,5 @@ object MazeGenerator {
     private fun generateRandomPoint(width: Int, height: Int) : IntPair {
         return IntPair((Math.random() * width).toInt() * 2 + 1, (Math.random() * height).toInt() * 2 + 1)
     }
-
+*/
 }

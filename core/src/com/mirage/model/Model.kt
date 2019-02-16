@@ -1,8 +1,11 @@
 package com.mirage.model
 
-import com.mirage.model.datastructures.Point
-import com.mirage.model.scene.MazeGenerator
-import com.mirage.model.scene.Scene
+import com.badlogic.gdx.maps.MapObject
+import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.mirage.controller.Platform
+import com.mirage.model.datastructures.*
+import com.mirage.view.Log
 import com.mirage.view.animation.MoveDirection
 
 
@@ -11,18 +14,24 @@ object Model {
      * Цикл игровой логики
      */
     private val gameLoop = GameLoop()
-    /**
-     * Переходит на другую сцену и возвращает старую сцену
-     * При этом, если цикл был приостановлен, то он не возобновляется, иначе продолжает работать
-     */
-    fun setScene(scene: Scene) : Scene{
-        val tmp = gameLoop.scene
-        gameLoop.scene = scene
-        return tmp
+
+    fun setMap(map: TiledMap) {
+        gameLoop.map = map
     }
 
+    fun setMap(path: String) {
+        gameLoop.map = TmxMapLoader().load(Platform.ASSETS_PATH + "maps/" + path)
+        for (obj in gameLoop.map) {
+            obj.setPosition(getScenePointFromTiledMap(obj.getPosition()))
+        }
+        gameLoop.findPlayer()
+        Log.i(gameLoop.player?.getPosition() ?: "")
+        setMap(gameLoop.map)
+    }
+
+
     fun loadMaze(width: Int, height: Int) {
-        setScene(MazeGenerator.generateMaze(width, height))
+        //TODO setMap(MazeGenerator.generateMaze(width, height))
     }
 
     fun update() {
@@ -33,26 +42,32 @@ object Model {
      * Начать игру (логика на паузе, следует вызвать startLogic)
      */
     fun startGame() {
-        loadMaze(10, 10)
+        setMap("test.tmx")
     }
 
     /**
      * Получить сцену
      */
-    fun getScene() : Scene = gameLoop.scene
+    fun getMap() : TiledMap = gameLoop.map
 
+    /**
+     * Получить игрока
+     */
+    fun getPlayer() : MapObject? {
+        return gameLoop.player
+    }
     /**
      * Получить позицию игрока
      */
     fun getPlayerPosition() : Point {
-        return gameLoop.scene.player.position
+        return gameLoop.player?.getPosition() ?: Point(0f, 0f)
     }
 
     /**
      * Задать угол движения (без начала движения)
      */
     fun setMoveAngle(angle: Float) {
-        gameLoop.scene.player.moveAngle = angle
+        gameLoop.player?.setMoveAngle(angle)
     }
 
     /**
@@ -60,28 +75,28 @@ object Model {
      */
     fun startMoving(angle: Float) {
         setMoveAngle(angle)
-        gameLoop.scene.player.isMoving = true
+        gameLoop.player?.setMoving(true)
     }
 
     /**
      * Остановить движение персонажа
      */
     fun stopMoving() {
-        gameLoop.scene.player.isMoving = false
+        gameLoop.player?.setMoving(false)
     }
 
     /**
      * Возвращает, двигается ли игрок
      */
     fun isPlayerMoving() : Boolean {
-        return gameLoop.scene.player.isMoving
+        return gameLoop.player?.isMoving() ?: false
     }
 
     /**
      * Возвращает move direction игрока
      */
     fun getPlayerMoveDirection() : MoveDirection {
-        return MoveDirection.fromMoveAngle(gameLoop.scene.player.moveAngle)
+        return MoveDirection.fromMoveAngle(gameLoop.player?.getMoveAngle() ?: 0f)
     }
 
 
@@ -97,5 +112,15 @@ object Model {
      */
     fun startLogic() {
         gameLoop.isPaused = false
+    }
+
+
+    /**
+     * Переход от кривого базиса карты после загрузки через TmxLoader к базису сцены (тайлы)
+     */
+    private fun getScenePointFromTiledMap(tiledMapPoint: Point) : Point {
+        val x = tiledMapPoint.x / 64f
+        val y = tiledMapPoint.y / 64f
+        return Point(x, y)
     }
 }

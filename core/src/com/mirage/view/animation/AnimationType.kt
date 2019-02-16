@@ -6,7 +6,8 @@ package com.mirage.view.animation
 enum class AnimationType {
     NULL,
     BODY,
-    LEGS;
+    LEGS,
+    OBJECT;
 
     /**
      * Преобразует тип оружия в строку
@@ -16,6 +17,7 @@ enum class AnimationType {
             NULL -> "NULL"
             BODY -> "BODY"
             LEGS -> "LEGS"
+            OBJECT -> "OBJECT"
         }
     }
     companion object {
@@ -28,6 +30,7 @@ enum class AnimationType {
                 "NULL" -> NULL
                 "BODY" -> BODY
                 "LEGS" -> LEGS
+                "OBJECT" -> OBJECT
                 else -> throw Exception("Incorrect animation type: $str")
             }
         }

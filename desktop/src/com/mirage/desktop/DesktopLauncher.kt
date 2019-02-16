@@ -5,14 +5,12 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 import com.mirage.controller.Controller
 import com.mirage.controller.Platform
-import com.mirage.model.scene.Scene
 
 import java.io.File
 
 object DesktopLauncher {
     @JvmStatic
     fun main(arg: Array<String>) {
-        Scene()
         System.setProperty("user.name", "CorrectUserName")
         //При создании jar-архива эта строка должна быть пустой
         if (File("./android/assets/").exists()) {

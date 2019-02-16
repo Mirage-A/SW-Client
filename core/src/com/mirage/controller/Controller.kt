@@ -29,11 +29,12 @@ object Controller : Game(), InputProcessor {
         //setScreen(LoadingScreen())
         val gameScreen = GameScreen()
         Gdx.input.inputProcessor = this
+        Model.startGame()
+        Model.startLogic()
+        gameScreen.updateResources()
+        setScreen(gameScreen)
         GlobalScope.launch {
             //ScriptLoader.load("scripts/mazewin.py")
-            Model.startGame()
-            Model.startLogic()
-            setScreen(gameScreen)
         }
         /*Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("android/assets/drop.wav"));
         Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("android/assets/rain.mp3"));

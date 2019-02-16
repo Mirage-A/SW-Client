@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<animation type="OBJECT" name="MAIN_GATE_OPEN" duration="4000" isRepeatable="true">
+  <RIGHT>
+    <UNARMED>
+      <frame0 layersCount="3">
+        <layer0 imageName="\objects\main-gate-door-2.png" x="26.17801" y="-52.9267" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="266" basicHeight="471"/>
+        <layer1 imageName="\objects\main-gate-no-doors.png" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="964" basicHeight="1336"/>
+        <layer2 imageName="\objects\main-gate-door-1.png" x="-228.36125" y="-145.02094" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="263" basicHeight="397"/>
+      </frame0>
+      <frame1 layersCount="3">
+        <layer0 imageName="\objects\main-gate-door-2.png" x="124.32461" y="-50.53403" scale="1.0" scaleX="0.25" scaleY="1.0" angle="0.0030236244" basicWidth="266" basicHeight="471"/>
+        <layer1 imageName="\objects\main-gate-no-doors.png" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="964" basicHeight="1336"/>
+        <layer2 imageName="\objects\main-gate-door-1.png" x="-323.178" y="-147.15182" scale="1.0" scaleX="0.25" scaleY="1.0" angle="0.0" basicWidth="263" basicHeight="397"/>
+      </frame1>
+      <frame2 layersCount="3">
+        <layer0 imageName="\objects\main-gate-door-2.png" x="124.32461" y="-50.53403" scale="1.0" scaleX="0.25" scaleY="1.0" angle="0.0030236244" basicWidth="266" basicHeight="471"/>
+        <layer1 imageName="\objects\main-gate-no-doors.png" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="964" basicHeight="1336"/>
+        <layer2 imageName="\objects\main-gate-door-1.png" x="-323.178" y="-147.15182" scale="1.0" scaleX="0.25" scaleY="1.0" angle="0.0" basicWidth="263" basicHeight="397"/>
+      </frame2>
+      <frame3 layersCount="3">
+        <layer0 imageName="\objects\main-gate-door-2.png" x="26.17801" y="-52.9267" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="266" basicHeight="471"/>
+        <layer1 imageName="\objects\main-gate-no-doors.png" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="964" basicHeight="1336"/>
+        <layer2 imageName="\objects\main-gate-door-1.png" x="-228.36125" y="-145.02094" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="263" basicHeight="397"/>
+      </frame3>
+      <frame4 layersCount="3">
+        <layer0 imageName="\objects\main-gate-door-2.png" x="26.17801" y="-52.9267" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="266" basicHeight="471"/>
+        <layer1 imageName="\objects\main-gate-no-doors.png" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="964" basicHeight="1336"/>
+        <layer2 imageName="\objects\main-gate-door-1.png" x="-228.36125" y="-145.02094" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="263" basicHeight="397"/>
+      </frame4>
+    </UNARMED>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </RIGHT>
+  <UP_RIGHT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP_RIGHT>
+  <UP>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP>
+  <UP_LEFT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP_LEFT>
+  <LEFT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </LEFT>
+  <DOWN_LEFT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN_LEFT>
+  <DOWN>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN>
+  <DOWN_RIGHT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN_RIGHT>
+</animation>

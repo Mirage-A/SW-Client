@@ -2,6 +2,7 @@ package com.mirage.view.animation
 
 import com.badlogic.gdx.Gdx
 import com.mirage.controller.Platform
+import com.mirage.view.Log
 import java.util.*
 
 /**
@@ -15,6 +16,7 @@ object Animations {
     private var bodyAnimationsCache: MutableMap<BodyAction, Animation> = HashMap()
     private var legsAnimationsCache: MutableMap<LegsAction, Animation> = HashMap()
     private var nullAnimationsCache: MutableMap<NullAction, Animation> = HashMap()
+    private var objectAnimationsCache: MutableMap<String, Animation> = HashMap()
 
     /**
      * Возвращает данную анимацию
@@ -37,6 +39,12 @@ object Animations {
             nullAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/NULL/" + action.toString() + ".swa").read())
         }
         return nullAnimationsCache[action]!!
+    }
+    fun getObjectAnimation(name: String) : Animation {
+        if (objectAnimationsCache[name] == null) {
+            objectAnimationsCache[name] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/OBJECT/$name.swa").read())
+        }
+        return objectAnimationsCache[name]!!
     }
 
     /**
