@@ -25,9 +25,7 @@ import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
 import com.mirage.view.animation.WeaponType
-import com.mirage.view.gameobjects.HumanoidDrawer
-import com.mirage.view.gameobjects.Image
-import com.mirage.view.gameobjects.ObjectDrawer
+import com.mirage.view.gameobjects.*
 import java.util.ArrayList
 import java.util.HashMap
 import kotlin.math.sqrt
@@ -163,7 +161,12 @@ class GameScreen : ScreenAdapter() {
                     drawer.setLegsAction(LegsAction.IDLE)
                 }
             }
-            val pos = getVirtualScreenPointFromScene(obj.getPosition())
+            //val pos = getVirtualScreenPointFromScene(obj.getPosition())
+            val scenePoint = obj.getPosition()
+            val width = obj.properties.getFloat("width", 0f) / TILE_HEIGHT
+            val height = obj.properties.getFloat("height", 0f) / TILE_HEIGHT
+            val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
+            val pos = getVirtualScreenPointFromScene(sceneCenter)
             drawer.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
         }
     }
@@ -187,6 +190,8 @@ class GameScreen : ScreenAdapter() {
     private fun addObjectDrawer(obj: MapObject) : ObjectDrawer {
         objectDrawers[obj] = when (true) {
             obj.name == "player" -> HumanoidDrawer(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
+            obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
+            obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
             else -> TextureLoader.getStaticTexture("windows_icon.png")
         }
         return objectDrawers[obj]!!

@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.mirage.controller.Platform
+import com.mirage.view.gameobjects.Image
 import com.mirage.view.gameobjects.StaticTexture
 import java.util.*
 
@@ -27,9 +28,9 @@ object TextureLoader {
      * Создаёт объект StaticTexture (наследник Image), хранящий текстуру, загружаемую по данному пути через getRawTexture
      * Созданные объекты кэшируются.
      */
-    fun getStaticTexture(path: String): StaticTexture {
+    fun getStaticTexture(path: String, alignment: Image.Alignment = Image.Alignment.BOTTOM_LEFT): StaticTexture {
         if (texturesCache[path] == null) {
-            texturesCache[path] = StaticTexture(getRawTexture(path))
+            texturesCache[path] = StaticTexture(getRawTexture(path), alignment)
         }
         return texturesCache[path]!!
     }
