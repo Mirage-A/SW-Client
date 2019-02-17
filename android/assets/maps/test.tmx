@@ -59,7 +59,7 @@
    </properties>
    <point/>
   </object>
-  <object id="21" name="wall" type="building" x="0" y="960" width="640" height="192">
+  <object id="21" name="wall1" type="building" x="0" y="960" width="640" height="192">
    <properties>
     <property name="texture" value="wall.png"/>
    </properties>
@@ -70,7 +70,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="31" name="wall" type="building" x="1408" y="960" width="640" height="192">
+  <object id="31" name="wall2" type="building" x="1408" y="960" width="640" height="192">
    <properties>
     <property name="texture" value="wall.png"/>
    </properties>

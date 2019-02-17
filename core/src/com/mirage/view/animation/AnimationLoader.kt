@@ -9,7 +9,7 @@ import java.util.*
  * Синглтон, в котором загружаются и хранятся все анимации, созданные с помощью Animation Editor-а
  * Анимации загружаются лениво при вызове getAnimation и хранятся в кэше
  */
-object Animations {
+object AnimationLoader {
     /**
      * Словари с загруженными анимациями
      */

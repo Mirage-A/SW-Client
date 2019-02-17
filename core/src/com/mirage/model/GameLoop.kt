@@ -4,8 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
-import com.mirage.model.datastructures.*
-import com.mirage.model.scripts.ScriptLoader
+import com.mirage.model.extensions.*
 import com.mirage.view.Log
 
 class GameLoop {
@@ -62,7 +61,7 @@ class GameLoop {
     /**
      * Отступ от границы непроходимого тайла
      */
-    private val eps = 0.00001f
+    private val eps = 0.000001f
 
     /**
      * Обрабатывает короткое (на расстояние не более smallRange) передвижение данного объекта

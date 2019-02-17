@@ -5,8 +5,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.mirage.controller.Platform
 import com.mirage.model.datastructures.*
+import com.mirage.model.extensions.*
 import com.mirage.view.Log
 import com.mirage.view.animation.MoveDirection
+import com.mirage.view.screens.GameScreen
 
 
 object Model {
@@ -23,16 +25,14 @@ object Model {
         gameLoop.map = TmxMapLoader().load(Platform.ASSETS_PATH + "maps/" + path)
         for (obj in gameLoop.map) {
             obj.setPosition(getScenePointFromTiledMap(obj.getPosition()))
+            obj.properties.put("width", obj.properties.getFloat("width") / GameScreen.TILE_HEIGHT)
+            obj.properties.put("height", obj.properties.getFloat("height") / GameScreen.TILE_HEIGHT)
         }
         gameLoop.findPlayer()
         Log.i(gameLoop.player?.getPosition() ?: "")
         setMap(gameLoop.map)
     }
 
-
-    fun loadMaze(width: Int, height: Int) {
-        //TODO setMap(MazeGenerator.generateMaze(width, height))
-    }
 
     fun update() {
         gameLoop.update()

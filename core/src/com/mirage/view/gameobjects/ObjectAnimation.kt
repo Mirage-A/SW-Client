@@ -1,11 +1,7 @@
 package com.mirage.view.gameobjects
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.controller.Platform
 import com.mirage.model.datastructures.Point
-import com.mirage.view.Log
 import com.mirage.view.TextureLoader
 import com.mirage.view.animation.*
 
@@ -18,7 +14,7 @@ class ObjectAnimation(name: String) : ObjectDrawer {
 
     private var startTime: Long = System.currentTimeMillis()
 
-    private val animation: Animation = Animations.getObjectAnimation(name)
+    private val animation: Animation = AnimationLoader.getObjectAnimation(name)
     private val frames : ArrayList<Frame> = animation.data[MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
 
     /**

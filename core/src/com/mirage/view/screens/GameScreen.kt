@@ -2,22 +2,17 @@ package com.mirage.view.screens
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
-import com.badlogic.gdx.graphics.FPSLogger
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
-import com.badlogic.gdx.maps.tiled.TideMapLoader
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.badlogic.gdx.maps.tiled.TmxMapLoader
-import com.badlogic.gdx.maps.tiled.renderers.IsometricStaggeredTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
-import com.badlogic.gdx.math.Vector3
-import com.mirage.controller.Platform
+import com.badlogic.gdx.math.Rectangle
 import com.mirage.model.Model
 import com.mirage.model.Time
 import com.mirage.model.datastructures.*
+import com.mirage.model.extensions.*
 import com.mirage.view.Log
 import com.mirage.view.ScreenSizeCalculator
 import com.mirage.view.TextureLoader
@@ -26,18 +21,9 @@ import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
 import com.mirage.view.animation.WeaponType
 import com.mirage.view.gameobjects.*
-import java.util.ArrayList
-import java.util.HashMap
-import kotlin.math.sqrt
+import java.util.*
 
 class GameScreen : ScreenAdapter() {
-
-    override fun resize(width: Int, height: Int) {
-        val viewportSize = ScreenSizeCalculator.calculateViewportSize(width.toFloat(), height.toFloat())
-        scrW = viewportSize.width
-        scrH = viewportSize.height
-        camera.setToOrtho(false, scrW, scrH)
-    }
 
     private val batch: SpriteBatch = SpriteBatch()
     private var camera: OrthographicCamera = OrthographicCamera()
@@ -135,16 +121,12 @@ class GameScreen : ScreenAdapter() {
             }
         }
 
-        //TODO Разобраться с сортировкой по глубине
-        objs.sortWith(Comparator { obj1, obj2 ->
-            -java.lang.Float.compare(getVirtualScreenPointFromScene(obj1.getPosition()).y,
-                    getVirtualScreenPointFromScene(obj2.getPosition()).y)
-        })
+        depthSort(objs)
 
         for (obj in objs) {
             val drawer = objectDrawers[obj] ?: addObjectDrawer(obj)
-            //TODO Направление движения может влиять не только на HumanoidDrawer
-            if (drawer is HumanoidDrawer) {
+            //TODO Направление движения может влиять не только на HumanoidAnimation
+            if (drawer is HumanoidAnimation) {
                 val updatedMoveDirection = MoveDirection.fromMoveAngle(obj.getMoveAngle())
                 if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
                     drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
@@ -163,8 +145,8 @@ class GameScreen : ScreenAdapter() {
             }
             //val pos = getVirtualScreenPointFromScene(obj.getPosition())
             val scenePoint = obj.getPosition()
-            val width = obj.properties.getFloat("width", 0f) / TILE_HEIGHT
-            val height = obj.properties.getFloat("height", 0f) / TILE_HEIGHT
+            val width = obj.properties.getFloat("width", 0f)
+            val height = obj.properties.getFloat("height", 0f)
             val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
             val pos = getVirtualScreenPointFromScene(sceneCenter)
             drawer.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
@@ -189,7 +171,7 @@ class GameScreen : ScreenAdapter() {
      */
     private fun addObjectDrawer(obj: MapObject) : ObjectDrawer {
         objectDrawers[obj] = when (true) {
-            obj.name == "player" -> HumanoidDrawer(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
+            obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
             else -> TextureLoader.getStaticTexture("windows_icon.png")
@@ -241,5 +223,104 @@ class GameScreen : ScreenAdapter() {
         return Point(x, y)
     }
 
+    /**
+     * Сортировка списка объектов на карте по глубине (по порядку отрисовки)
+     * Используется алгоритм топологической сортировки ориентированного графа
+     * (На множестве объектов задан частичный порядок, а не линейный)
+     */
+    private fun depthSort(objs: ArrayList<MapObject>) {
+
+        /**
+         * Возвращает 1, если точка p отрисовывается после прямоугольника rect
+         * Возвращает -1, если точка p отрисовывается до прямоугольника rect
+         * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
+         * (т.е. объекты не сравнимы либо равны)
+         */
+        fun compare(p : Point, rect: Rectangle) : Int {
+            /**
+             * Находит значение функции f(x,y) = x + y - x0 - y0 для данной точки
+             * Знак функции позволяет узнать расположение точки (x,y) относительно диагональной прямой,
+             * проходящей через точку p
+             */
+            fun f(x: Float, y: Float) : Float = x + y - p.x - p.y
+
+            //Если прямая и прямоугольник пересекаются
+            if (f(rect.x, rect.y) <= 0 && f(rect.x + rect.width, rect.y + rect.height) >= 0) {
+                //Вычисляем другую функцию - функцию от точки p относительно прямой, соединяющей 2 угловые точки прямоугольника
+                val fun2 = - p.y * rect.width + p.x * rect.height + rect.y * rect.width - rect.x * rect.height
+                if (fun2 > 0) return 1
+                if (fun2 < 0) return -1
+            }
+            return 0
+        }
+
+        /**
+         * Возвращает 1, если объект a отрисовывается после объекта b
+         * Возвращает -1, если объект a отрисовывается до объекта b
+         * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
+         * (т.е. объекты не сравнимы либо равны)
+         */
+        fun compare(a: MapObject, b: MapObject) : Int {
+            val rectA = a.properties.getRectangle()
+            val rectB = b.properties.getRectangle()
+            val aIsPoint = rectA.area() == 0f
+            val bIsPoint = rectB.area() == 0f
+            if (!aIsPoint && !bIsPoint && rectA.overlaps(rectB)) return 0
+            when {
+                aIsPoint && bIsPoint -> {
+                    return -java.lang.Float.compare(getVirtualScreenPointFromScene(a.getPosition()).y,
+                            getVirtualScreenPointFromScene(b.getPosition()).y)
+                }
+                aIsPoint && !bIsPoint -> {
+                    if (rectA.overlaps(rectB)) return -1
+                    return compare(Point(rectA.x, rectA.y), rectB)
+                }
+                !aIsPoint && bIsPoint -> {
+                    if (rectA.overlaps(rectB)) return 1
+                    return -compare(Point(rectB.x, rectB.y), rectA)
+                }
+                else -> {
+                    var res = compare(Point(rectA.x, rectA.y), rectB)
+                    if (res != 0) return res
+                    res = compare(Point(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
+                    if (res != 0) return res
+                    res = compare(Point(rectB.x, rectB.y), rectA)
+                    if (res != 0) return -res
+                    res = compare(Point(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
+                    if (res != 0) return -res
+                    return 0
+                }
+            }
+        }
+
+        val q = ArrayDeque<MapObject>()
+        val visited = BooleanArray(objs.size) {false}
+        fun dfs(index: Int) {
+            if (visited[index]) return
+            visited[index] = true
+            for (i in 0 until objs.size) {
+                if (compare(objs[index], objs[i]) == 1) {
+                    dfs(i)
+                }
+            }
+            q.add(objs[index])
+        }
+        for (i in 0 until objs.size) {
+            dfs(i)
+        }
+        for (i in 0 until objs.size) {
+            objs[i] = q.pop()
+        }
+    }
+
+    /**
+     * Обновить размер виртуального экрана, вычислив его через ScreenSizeCalculator
+     */
+    override fun resize(width: Int, height: Int) {
+        val viewportSize = ScreenSizeCalculator.calculateViewportSize(width.toFloat(), height.toFloat())
+        scrW = viewportSize.width
+        scrH = viewportSize.height
+        camera.setToOrtho(false, scrW, scrH)
+    }
 
 }

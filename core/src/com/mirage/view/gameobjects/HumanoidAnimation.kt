@@ -9,7 +9,7 @@ import com.mirage.view.animation.*
  * Класс для работы со скелетной анимацией гуманоидов
  * (анимация остальных существ задается покадрово классом SpriteAnimation)
  */
-class HumanoidDrawer : ObjectDrawer {
+class HumanoidAnimation : ObjectDrawer {
     /**
      * Направление движения
      */
@@ -43,8 +43,8 @@ class HumanoidDrawer : ObjectDrawer {
     /**
      * Непосредственно анимации
      */
-    private var bodyAnimation = Animations.getBodyAnimation(BodyAction.IDLE)
-    private var legsAnimation = Animations.getLegsAnimation(LegsAction.IDLE)
+    private var bodyAnimation = AnimationLoader.getBodyAnimation(BodyAction.IDLE)
+    private var legsAnimation = AnimationLoader.getLegsAnimation(LegsAction.IDLE)
 
     /**
      * Время начала анимации body
@@ -71,25 +71,25 @@ class HumanoidDrawer : ObjectDrawer {
 
     /**
      * Устанавливает анимацию body
-     * Если она изменилась, загружает новую из синглтона Animations
+     * Если она изменилась, загружает новую из синглтона AnimationLoader
      */
     fun setBodyAction(action: BodyAction) {
         if (action != bodyAction) {
             bodyAction = action
             bodyStartTime = System.currentTimeMillis()
-            bodyAnimation = Animations.getBodyAnimation(action)
+            bodyAnimation = AnimationLoader.getBodyAnimation(action)
         }
     }
 
     /**
      * Устанавливает анимацию legs
-     * Если она изменилась, загружает новую из синглтона Animations
+     * Если она изменилась, загружает новую из синглтона AnimationLoader
      */
     fun setLegsAction(action: LegsAction) {
         if (action != legsAction) {
             legsAction = action
             legsStartTime = System.currentTimeMillis()
-            legsAnimation = Animations.getLegsAnimation(action)
+            legsAnimation = AnimationLoader.getLegsAnimation(action)
         }
     }
 

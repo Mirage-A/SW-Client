@@ -1,6 +1,6 @@
 import com.mirage.model.datastructures.IntPair
-import com.mirage.model.datastructures.get
-import com.mirage.model.datastructures.set
+import com.mirage.model.extensions.get
+import com.mirage.model.extensions.set
 import com.mirage.model.scene.MazeGenerator
 import org.junit.Test
 import java.util.*

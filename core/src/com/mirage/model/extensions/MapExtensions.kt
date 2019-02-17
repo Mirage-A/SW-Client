@@ -1,11 +1,11 @@
-package com.mirage.model.datastructures
+package com.mirage.model.extensions
 
 import com.badlogic.gdx.maps.Map
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.MapProperties
-import com.badlogic.gdx.maps.tiled.TiledMap
-import com.mirage.model.scene.ApproachabilityType
-import com.mirage.view.Log
+import com.badlogic.gdx.math.Rectangle
+import com.mirage.model.datastructures.IntPair
+import com.mirage.model.datastructures.Point
 
 operator fun Map.iterator() : Iterator<MapObject> {
     return object : Iterator<MapObject> {
@@ -67,20 +67,24 @@ fun Map.findObject(name: String) : MapObject? {
     return null
 }
 
-fun MapProperties.getInt(key: String, defaultValue: Int) : Int {
+fun MapProperties.getInt(key: String, defaultValue: Int = 0) : Int {
     return get<Int>(key, defaultValue, Int::class.java)
 }
 
-fun MapProperties.getString(key: String, defaultValue: String) : String {
+fun MapProperties.getString(key: String, defaultValue: String = "") : String {
     return get<String>(key, defaultValue, String::class.java)
 }
 
-fun MapProperties.getBoolean(key: String, defaultValue: Boolean) : Boolean {
+fun MapProperties.getBoolean(key: String, defaultValue: Boolean = false) : Boolean {
     return get<Boolean>(key, defaultValue, Boolean::class.java)
 }
 
-fun MapProperties.getFloat(key: String, defaultValue: Float) : Float {
+fun MapProperties.getFloat(key: String, defaultValue: Float = 0f) : Float {
     return get<Float>(key, defaultValue, Float::class.java)
+}
+
+fun MapProperties.getRectangle() : Rectangle {
+    return Rectangle(getFloat("x"), getFloat("y"), getFloat("width"), getFloat("height"))
 }
 
 operator fun Array<IntArray>.get(indices: IntPair): Int {
@@ -91,18 +95,10 @@ operator fun Array<BooleanArray>.get(indices: IntPair): Boolean {
     return this[indices.x][indices.y]
 }
 
-operator fun Array<Array<ApproachabilityType>>.get(indices: IntPair): ApproachabilityType {
-    return this[indices.x][indices.y]
-}
-
 operator fun Array<IntArray>.set(indices: IntPair, value: Int) {
     this[indices.x][indices.y] = value
 }
 
 operator fun Array<BooleanArray>.set(indices: IntPair, value: Boolean) {
-    this[indices.x][indices.y] = value
-}
-
-operator fun Array<Array<ApproachabilityType>>.set(indices: IntPair, value: ApproachabilityType) {
     this[indices.x][indices.y] = value
 }
