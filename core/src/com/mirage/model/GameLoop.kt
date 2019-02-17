@@ -2,8 +2,10 @@ package com.mirage.model
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
+import com.badlogic.gdx.maps.MapObjects
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
+import com.badlogic.gdx.math.Rectangle
 import com.mirage.model.extensions.*
 import com.mirage.view.Log
 
@@ -68,157 +70,19 @@ class GameLoop {
      * Для обычного передвижения следует использовать moveEntity
      */
     private fun smallMoveEntity(obj: MapObject, range: Float) {
+        val rect = obj.getRectangle()
         val newPosition = obj.getPosition()
         newPosition.move(obj.getMoveAngle(), range)
-        newPosition.x = Math.max(eps, Math.min(map.properties.getInt("width", 0) - eps, newPosition.x))
-        newPosition.y = Math.max(eps, Math.min(map.properties.getInt("height", 0) - eps, newPosition.y))
-        val x = obj.getPosition().x.toInt()
-        val y = obj.getPosition().y.toInt()
-        val newX = newPosition.x.toInt()
-        val newY = newPosition.y.toInt()
-        if ((x != newX || y != newY) && !isTileWalkable(newX, newY)) {
-            if (x == newX) {
-                if (y < newY) {
-                    newPosition.y = newY - eps
-                }
-                else {
-                    newPosition.y = y + eps
-                }
-            }
-            else if (y == newY) {
-                if (x < newX) {
-                    newPosition.x = newX - eps
-                }
-                else {
-                    newPosition.x = x + eps
-                }
-            }
-            else {
-                val moveVectorX = newX - x
-                val moveVectorY = newY - y
-                val centerX = Math.max(x, newX)
-                val centerY = Math.max(y, newY)
-                val backVectorX = centerX - newX
-                val backVectorY = centerY - newY
-                val orientedSquare = moveVectorX * backVectorY - moveVectorY * backVectorX
-                when (true) {
-                    (newX > x && newY > y) -> {
-                        if (orientedSquare > 0) {
-                            when (true) {
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = newY - eps
-                                }
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = newX - eps
-                                }
-                                else -> {
-                                    newPosition.x = newX - eps
-                                    newPosition.y = newY - eps
-                                }
-                            }
-                        } else {
-                            when (true) {
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = newX - eps
-                                }
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = newY - eps
-                                }
-                                else -> {
-                                    newPosition.x = newX - eps
-                                    newPosition.y = newY - eps
-                                }
-                            }
-                        }
-                    }
-                    (newX < x && newY > y) -> {
-                        if (orientedSquare > 0) {
-                            when (true) {
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = x + eps
-                                }
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = newY - eps
-                                }
-                                else -> {
-                                    newPosition.x = x + eps
-                                    newPosition.y = newY - eps
-                                }
-                            }
-                        } else {
-                            when (true) {
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = newY - eps
-                                }
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = x + eps
-                                }
-                                else -> {
-                                    newPosition.x = x + eps
-                                    newPosition.y = newY - eps
-                                }
-                            }
-                        }
-                    }
-                    (newX < x && newY < y) -> {
-                        if (orientedSquare > 0) {
-                            when (true) {
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = y + eps
-                                }
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = x + eps
-                                }
-                                else -> {
-                                    newPosition.x = x + eps
-                                    newPosition.y = y + eps
-                                }
-                            }
-                        } else {
-                            when (true) {
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = x + eps
-                                }
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = y + eps
-                                }
-                                else -> {
-                                    newPosition.x = x + eps
-                                    newPosition.y = y + eps
-                                }
-                            }
-                        }
-                    }
-                    (newX > x && newY < y) -> {
-                        if (orientedSquare > 0) {
-                            when (true) {
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = newX - eps
-                                }
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = y + eps
-                                }
-                                else -> {
-                                    newPosition.x = newX - eps
-                                    newPosition.y = y + eps
-                                }
-                            }
-                        } else {
-                            when (true) {
-                                isTileWalkable(newX, y) -> {
-                                    newPosition.y = y + eps
-                                }
-                                isTileWalkable(x, newY) -> {
-                                    newPosition.x = newX - eps
-                                }
-                                else -> {
-                                    newPosition.x = newX - eps
-                                    newPosition.y = y + eps
-                                }
-                            }
-                        }
-                    }
-                }
+        newPosition.x = Math.max(eps, Math.min(map.properties.getInt("width", 0) - eps - rect.width, newPosition.x))
+        newPosition.y = Math.max(eps, Math.min(map.properties.getInt("height", 0) - eps - rect.height, newPosition.y))
+        val newRect = Rectangle(newPosition.x, newPosition.y, rect.width, rect.height)
+        //TODO Пересечения объектов
+        /*for (otherObj in map) {
+            if (otherObj != obj && otherObj.getRectangle().overlaps(newRect)) return
+        }*/
+        for (point in newRect.points()) {
+            if (!isTileWalkable(point.x.toInt(), point.y.toInt())) {
+                return
             }
         }
         obj.setPosition(newPosition)

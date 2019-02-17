@@ -41,19 +41,19 @@ fun MapObject.setPosition(p: Point) {
 }
 
 fun MapObject.getMoveAngle() : Float {
-    return properties.getFloat("move_angle", 0f)
+    return properties.getFloat("move-angle", 0f)
 }
 
 fun MapObject.setMoveAngle(angle: Float) {
-    properties.put("move_angle", angle)
+    properties.put("move-angle", angle)
 }
 
 fun MapObject.isMoving() : Boolean {
-    return properties.getBoolean("is_moving", false)
+    return properties.getBoolean("is-moving", false)
 }
 
 fun MapObject.setMoving(value: Boolean) {
-    properties.put("is_moving", value)
+    properties.put("is-moving", value)
 }
 
 /**
@@ -83,8 +83,9 @@ fun MapProperties.getFloat(key: String, defaultValue: Float = 0f) : Float {
     return get<Float>(key, defaultValue, Float::class.java)
 }
 
-fun MapProperties.getRectangle() : Rectangle {
-    return Rectangle(getFloat("x"), getFloat("y"), getFloat("width"), getFloat("height"))
+fun MapObject.getRectangle() : Rectangle {
+    return Rectangle(properties.getFloat("x"), properties.getFloat("y"),
+            properties.getFloat("width"), properties.getFloat("height"))
 }
 
 operator fun Array<IntArray>.get(indices: IntPair): Int {

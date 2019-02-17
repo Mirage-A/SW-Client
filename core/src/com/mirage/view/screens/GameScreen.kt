@@ -115,10 +115,8 @@ class GameScreen : ScreenAdapter() {
     private fun drawObjects(map: TiledMap) {
         val objs = ArrayList<MapObject>()
 
-        for (layer in map.layers) {
-            for (obj in layer.objects) {
-                objs.add(obj)
-            }
+        for (obj in map) {
+            objs.add(obj)
         }
 
         depthSort(objs)
@@ -261,8 +259,8 @@ class GameScreen : ScreenAdapter() {
          * (т.е. объекты не сравнимы либо равны)
          */
         fun compare(a: MapObject, b: MapObject) : Int {
-            val rectA = a.properties.getRectangle()
-            val rectB = b.properties.getRectangle()
+            val rectA = a.getRectangle()
+            val rectB = b.getRectangle()
             val aIsPoint = rectA.area() == 0f
             val bIsPoint = rectB.area() == 0f
             if (!aIsPoint && !bIsPoint && rectA.overlaps(rectB)) return 0

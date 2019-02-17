@@ -114,7 +114,6 @@ object Model {
         gameLoop.isPaused = false
     }
 
-
     /**
      * Переход от кривого базиса карты после загрузки через TmxLoader к базису сцены (тайлы)
      */
