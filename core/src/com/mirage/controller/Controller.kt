@@ -26,15 +26,15 @@ object Controller : Game(), InputProcessor {
     private const val EPS_TIME = 50L
 
     override fun create() {
-        //setScreen(LoadingScreen())
+        setScreen(LoadingScreen())
         val gameScreen = GameScreen()
         Gdx.input.inputProcessor = this
         Model.startGame()
-        Model.startLogic()
         gameScreen.updateResources()
-        setScreen(gameScreen)
         GlobalScope.launch {
-            //ScriptLoader.load("scripts/mazewin.py")
+            ScriptLoader.load("mazewin.py")
+            Model.startLogic()
+            setScreen(gameScreen)
         }
         /*Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("android/assets/drop.wav"));
         Music rainMusic = Gdx.audio.newMusic(Gdx.files.internal("android/assets/rain.mp3"));

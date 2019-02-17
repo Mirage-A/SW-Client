@@ -2,11 +2,11 @@ package com.mirage.model
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
-import com.badlogic.gdx.maps.MapObjects
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.model.extensions.*
+import com.mirage.model.scripts.EventHandler
 import com.mirage.view.Log
 
 class GameLoop {
@@ -29,6 +29,8 @@ class GameLoop {
      * Лимит кол-ва итераций цикла за секунду
      */
     private val ticksPerSecondLimit = 512
+
+    var walkabilities = Array(0){IntArray(0)}
 
     /**
      * Тик игровой логики
@@ -71,6 +73,7 @@ class GameLoop {
      */
     private fun smallMoveEntity(obj: MapObject, range: Float) {
         val rect = obj.getRectangle()
+        val oldPosition = obj.getPosition()
         val newPosition = obj.getPosition()
         newPosition.move(obj.getMoveAngle(), range)
         newPosition.x = Math.max(eps, Math.min(map.properties.getInt("width", 0) - eps - rect.width, newPosition.x))
@@ -86,6 +89,7 @@ class GameLoop {
             }
         }
         obj.setPosition(newPosition)
+        EventHandler.handleObjectMove(obj, oldPosition, newPosition)
     }
 
     /**
@@ -105,6 +109,10 @@ class GameLoop {
     }
 
     fun getTileId(x: Int, y: Int) : Int {
-        return (map.layers["walkability"] as TiledMapTileLayer).getCell(x, y).tile.id
+        return walkabilities[x][y]
+    }
+
+    fun setTileId(x: Int, y: Int, id: Int) {
+        walkabilities[x][y] = id
     }
 }

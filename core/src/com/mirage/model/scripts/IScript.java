@@ -1,5 +1,7 @@
 package com.mirage.model.scripts;
 
+import com.badlogic.gdx.maps.MapProperties;
+
 public interface IScript {
-    void run();
+    void run(MapProperties properties);
 }

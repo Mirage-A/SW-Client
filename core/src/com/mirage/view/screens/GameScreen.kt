@@ -51,6 +51,7 @@ class GameScreen : ScreenAdapter() {
          * (точка под игроком находится на DELTA_CENTER_Y пикселей ниже центра экрана).
          */
         const val DELTA_CENTER_Y = 64f
+
     }
 
     /**
@@ -167,7 +168,7 @@ class GameScreen : ScreenAdapter() {
      * Добавляет objectDrawer данного объекта сцены в словарь
      * //TODO
      */
-    private fun addObjectDrawer(obj: MapObject) : ObjectDrawer {
+    fun addObjectDrawer(obj: MapObject) : ObjectDrawer {
         objectDrawers[obj] = when (true) {
             obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
@@ -176,6 +177,8 @@ class GameScreen : ScreenAdapter() {
         }
         return objectDrawers[obj]!!
     }
+
+
     /**
      * Загружает текстуры брони игрока и упаковывает их в словарь
      * @return Словарь с текстурами брони игрока
@@ -261,8 +264,8 @@ class GameScreen : ScreenAdapter() {
         fun compare(a: MapObject, b: MapObject) : Int {
             val rectA = a.getRectangle()
             val rectB = b.getRectangle()
-            val aIsPoint = rectA.area() == 0f
-            val bIsPoint = rectB.area() == 0f
+            val aIsPoint = rectA.width == 0f && rectA.height == 0f
+            val bIsPoint = rectB.width == 0f && rectB.height == 0f
             if (!aIsPoint && !bIsPoint && rectA.overlaps(rectB)) return 0
             when {
                 aIsPoint && bIsPoint -> {

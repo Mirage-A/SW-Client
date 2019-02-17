@@ -2,20 +2,24 @@ package com.mirage.model
 
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.mirage.controller.Platform
 import com.mirage.model.datastructures.*
 import com.mirage.model.extensions.*
+import com.mirage.model.scripts.EventHandler
+import com.mirage.model.scripts.MapEventListener
 import com.mirage.view.Log
 import com.mirage.view.animation.MoveDirection
 import com.mirage.view.screens.GameScreen
+import java.util.*
 
 
 object Model {
     /**
      * Цикл игровой логики
      */
-    private val gameLoop = GameLoop()
+    val gameLoop = GameLoop()
 
     fun setMap(map: TiledMap) {
         gameLoop.map = map
@@ -31,6 +35,11 @@ object Model {
         gameLoop.findPlayer()
         Log.i(gameLoop.player?.getPosition() ?: "")
         setMap(gameLoop.map)
+        gameLoop.walkabilities = Array(gameLoop.map.properties.getInt("width"))
+            {i -> IntArray(gameLoop.map.properties.getInt("height"))
+                {j -> (gameLoop.map.layers["walkability"] as TiledMapTileLayer).getCell(i, j).tile.id } }
+        EventHandler.listeners.clear()
+        EventHandler.listeners.add(MapEventListener())
     }
 
 
@@ -78,6 +87,9 @@ object Model {
         gameLoop.player?.setMoving(true)
     }
 
+    fun startMoving() {
+        gameLoop.player?.setMoving(true)
+    }
     /**
      * Остановить движение персонажа
      */
@@ -114,6 +126,13 @@ object Model {
         gameLoop.isPaused = false
     }
 
+    fun findObject(name: String) : MapObject? {
+        for (obj in gameLoop.map) {
+            if (obj.name == name) return obj
+        }
+        return null
+    }
+
     /**
      * Переход от кривого базиса карты после загрузки через TmxLoader к базису сцены (тайлы)
      */
@@ -122,4 +141,5 @@ object Model {
         val y = tiledMapPoint.y / 64f
         return Point(x, y)
     }
+
 }
