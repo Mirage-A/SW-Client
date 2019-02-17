@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<animation type="OBJECT" name="MAIN_GATE_OPEN" duration="4000" isRepeatable="false">
+<animation type="OBJECT" name="MAIN_GATE_OPEN" duration="1000" isRepeatable="false">
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="1">

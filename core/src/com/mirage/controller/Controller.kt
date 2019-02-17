@@ -32,7 +32,7 @@ object Controller : Game(), InputProcessor {
         Model.startGame()
         gameScreen.updateResources()
         GlobalScope.launch {
-            ScriptLoader.load("mazewin.py")
+            ScriptLoader.load("gate-door.py")
             Model.startLogic()
             setScreen(gameScreen)
         }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<animation type="OBJECT" name="MAIN_GATE_CLOSE" duration="1000" isRepeatable="false">
+  <RIGHT>
+    <UNARMED>
+      <frame0 layersCount="1">
+        <layer0 imageName="\objects\main-gate-door.png" x="-112.0" y="-5.0" scale="0.49" scaleX="0.25" scaleY="2.0" angle="0.0" basicWidth="268" basicHeight="652"/>
+      </frame0>
+      <frame1 layersCount="1">
+        <layer0 imageName="\objects\main-gate-door.png" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="268" basicHeight="652"/>
+      </frame1>
+    </UNARMED>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </RIGHT>
+  <UP_RIGHT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP_RIGHT>
+  <UP>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP>
+  <UP_LEFT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </UP_LEFT>
+  <LEFT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </LEFT>
+  <DOWN_LEFT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN_LEFT>
+  <DOWN>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN>
+  <DOWN_RIGHT>
+    <UNARMED/>
+    <ONE_HANDED/>
+    <ONE_HANDED_AND_SHIELD/>
+    <DUAL/>
+    <TWO_HANDED/>
+    <BOW/>
+    <STAFF/>
+  </DOWN_RIGHT>
+</animation>
