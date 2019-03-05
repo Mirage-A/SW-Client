@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
+import com.badlogic.gdx.maps.MapProperties
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.badlogic.gdx.math.Rectangle
+import com.mirage.controller.Platform
 import com.mirage.model.Model
 import com.mirage.model.Time
 import com.mirage.model.datastructures.*
@@ -22,6 +24,8 @@ import com.mirage.view.animation.MoveDirection
 import com.mirage.view.animation.WeaponType
 import com.mirage.view.gameobjects.*
 import java.util.*
+
+
 
 class GameScreen : ScreenAdapter() {
 
@@ -52,6 +56,15 @@ class GameScreen : ScreenAdapter() {
          */
         const val DELTA_CENTER_Y = 64f
 
+
+        val mdAreaTexture = TextureLoader.getRawTexture("ui/mdarea.png")
+        val mdAreaMargin = 64f
+        val mdAreaWidth = mdAreaTexture.width
+        val mdAreaRadius = mdAreaWidth / 2
+        val mdAreaCenterX = mdAreaMargin + mdAreaRadius
+        val mdBtnTexture = TextureLoader.getRawTexture("ui/mdbtn.png")
+        val mdBtnWidth = mdBtnTexture.width
+        val mdBtnRadius = mdBtnWidth / 2
     }
 
     /**
@@ -99,6 +112,24 @@ class GameScreen : ScreenAdapter() {
 
         batch.begin()
         drawObjects(map)
+        //TODO
+        //Временное решение для управления на андроиде, потом этот код должен быть вынесен в Stage
+        if (Platform.TYPE == Platform.Types.ANDROID) {
+
+            val mdBtnPos = if (Model.isPlayerMoving()) {
+                val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
+                val angle = Model.getMoveAngle().toDouble() - Math.PI / 4
+                Point(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
+                        mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
+            }
+            else {
+                Point(mdAreaCenterX - mdBtnRadius, mdAreaCenterX - mdBtnRadius)
+            }
+            val scrX = camera.position.x - camera.viewportWidth / 2
+            val scrY = camera.position.y - camera.viewportHeight / 2
+            batch.draw(mdAreaTexture, mdAreaMargin + scrX, mdAreaMargin + scrY)
+            batch.draw(mdBtnTexture, mdBtnPos.x + scrX, mdBtnPos.y + scrY)
+        }
         batch.end()
     }
 
@@ -180,7 +211,7 @@ class GameScreen : ScreenAdapter() {
 
 
     /**
-     * Загружает текстуры брони игрока и упаковывает их в словарь
+     * Загружает текстуры брони игрока и упаковывает их в словарьddddd
      * @return Словарь с текстурами брони игрока
      * //TODO
      */

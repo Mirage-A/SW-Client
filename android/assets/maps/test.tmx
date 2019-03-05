@@ -65,7 +65,7 @@
   <object id="35" name="player" x="1024" y="1920">
    <properties>
     <property name="move-angle" type="float" value="1.57"/>
-    <property name="on-tile-entered" value="gate-door.py"/>
+    <property name="on-tile-entered" value="gate-door"/>
     <property name="speed" type="float" value="2.8"/>
    </properties>
    <point/>
