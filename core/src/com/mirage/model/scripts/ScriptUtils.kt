@@ -5,6 +5,7 @@ import com.mirage.model.Model
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.luaj.vm2.LuaTable
 
 object ScriptUtils {
 
@@ -12,19 +13,15 @@ object ScriptUtils {
 
     fun getController() = Controller
 
-    fun helloWorld(obj: Any?) {
-        println(obj.toString() + " " + obj?.javaClass?.name + "hi!")
-    }
-
-    fun launchScriptAfterDelay(path: String, delayTime: Long, properties: Map<String, Any?>) {
+    fun launchScriptAfterDelay(path: String, delayTime: Long, args: LuaTable) {
         GlobalScope.launch {
             delay(delayTime)
-            runScript(path, properties)
+            runScript(path, args)
         }
     }
 
     fun launchScriptAfterDelay(path: String, delayTime: Long) {
-        launchScriptAfterDelay(path, delayTime, HashMap())
+        launchScriptAfterDelay(path, delayTime, LuaTable())
     }
 
 

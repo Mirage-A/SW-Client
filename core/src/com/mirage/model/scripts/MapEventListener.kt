@@ -3,6 +3,7 @@ package com.mirage.model.scripts
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.model.datastructures.Point
 import com.mirage.model.extensions.getString
+import org.luaj.vm2.LuaTable
 
 class MapEventListener : EventListener{
 
