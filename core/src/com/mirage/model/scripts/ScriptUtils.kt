@@ -1,26 +1,31 @@
 package com.mirage.model.scripts
 
-import com.badlogic.gdx.maps.MapProperties
+import com.mirage.controller.Controller
+import com.mirage.model.Model
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+import org.luaj.vm2.LuaTable
 
 object ScriptUtils {
 
-    fun launchScriptAfterDelay(path: String, delayTime: Long, properties: MapProperties) {
+    fun getModel() = Model
+
+    fun getController() = Controller
+
+    fun launchScriptAfterDelay(path: String, delayTime: Long, args: LuaTable) {
         GlobalScope.launch {
             delay(delayTime)
-            ScriptLoader.load(path).run(properties)
+            runScript(path, args)
         }
     }
 
     fun launchScriptAfterDelay(path: String, delayTime: Long) {
-        ScriptUtils.launchScriptAfterDelay(path, delayTime, MapProperties())
+        launchScriptAfterDelay(path, delayTime, LuaTable())
     }
 
 
     fun launchScriptAfterDelay(path: String) {
-        ScriptUtils.launchScriptAfterDelay(path, 0L)
+        launchScriptAfterDelay(path, 0L)
     }
 }

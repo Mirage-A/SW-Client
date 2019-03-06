@@ -12,6 +12,7 @@ class AndroidLauncher : AndroidApplication() {
         Platform.ASSETS_PATH = ""
         Platform.TYPE = Platform.Types.ANDROID
         val config = AndroidApplicationConfiguration()
+        config.useImmersiveMode = true
         initialize(Controller, config)
     }
 }

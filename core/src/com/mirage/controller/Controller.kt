@@ -2,7 +2,7 @@ package com.mirage.controller
 
 import com.badlogic.gdx.*
 import com.mirage.model.Model
-import com.mirage.model.scripts.ScriptLoader
+import com.mirage.view.Log
 import com.mirage.view.screens.LoadingScreen
 import com.mirage.view.screens.GameScreen
 import com.mirage.view.animation.MoveDirection
@@ -26,13 +26,12 @@ object Controller : Game(), InputProcessor {
     private const val EPS_TIME = 50L
 
     override fun create() {
-        setScreen(LoadingScreen())
+        //setScreen(LoadingScreen())
         val gameScreen = GameScreen()
         Gdx.input.inputProcessor = this
         Model.startGame()
         gameScreen.updateResources()
         GlobalScope.launch {
-            ScriptLoader.load("gate-door.py")
             Model.startLogic()
             setScreen(gameScreen)
         }
@@ -145,6 +144,7 @@ object Controller : Game(), InputProcessor {
                             }
                             Model.stopMoving()
                         }
+                        else -> {}
                     }
                 }
             }
@@ -166,6 +166,7 @@ object Controller : Game(), InputProcessor {
                             }
                             Model.stopMoving()
                         }
+                        else -> {}
                     }
                 }
             }
@@ -187,6 +188,7 @@ object Controller : Game(), InputProcessor {
                             }
                             Model.stopMoving()
                         }
+                        else -> {}
                     }
                 }
             }
@@ -208,6 +210,7 @@ object Controller : Game(), InputProcessor {
                             }
                             Model.stopMoving()
                         }
+                        else -> {}
                     }
                 }
             }
@@ -219,15 +222,71 @@ object Controller : Game(), InputProcessor {
         return false
     }
 
+    private var mdBtnPressed = false
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
+        val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
+        when (Platform.TYPE) {
+            Platform.Types.ANDROID -> {
+                if (handleAndroidMoving(x, y)) return true
+            }
+            else -> {}
+        }
         return false
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        if (mdBtnPressed) {
+            mdBtnPressed = false
+            Model.stopMoving()
+            return true
+        }
         return false
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+        val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
+        val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
+        when (Platform.TYPE) {
+            Platform.Types.ANDROID -> {
+                if (handleAndroidMoving(x, y)) return true
+            }
+            else -> {}
+        }
+        return false
+    }
+
+    private fun handleAndroidMoving(x: Float, y: Float) : Boolean {
+        val range = Math.sqrt(Math.pow(GameScreen.mdAreaCenterX - x.toDouble(), 2.0) + Math.pow(GameScreen.mdAreaCenterX - y.toDouble(), 2.0))
+        if (range < GameScreen.mdAreaRadius) {
+            if (range < GameScreen.mdAreaRadius / 2) {
+                mdBtnPressed = false
+                Model.stopMoving()
+                return true
+            } else {
+                mdBtnPressed = true
+            }
+        }
+        if (mdBtnPressed) {
+            val deltaX = x - GameScreen.mdAreaCenterX
+            val deltaY = y - GameScreen.mdAreaCenterX
+            val angle = when {
+                deltaX < 0 -> {
+                    Math.atan(deltaY / deltaX.toDouble()) + Math.PI
+                }
+                deltaX > 0 -> {
+                    Math.atan(deltaY / deltaX.toDouble())
+                }
+                deltaY < 0 -> {
+                    Math.PI / 2
+                }
+                else -> {
+                    -Math.PI / 2
+                }
+            }
+            Model.startMoving(MoveDirection.fromMoveAngle((angle + Math.PI / 4).toFloat()).toAngle())
+            return true
+        }
         return false
     }
 

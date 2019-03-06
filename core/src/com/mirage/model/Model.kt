@@ -79,6 +79,8 @@ object Model {
         gameLoop.player?.setMoveAngle(angle)
     }
 
+    fun getMoveAngle() : Float = gameLoop.player?.getMoveAngle() ?: 0f
+
     /**
      * Начать движение персонажа, направление движения задается углом
      */
