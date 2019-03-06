@@ -48,11 +48,8 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
-        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     }
 
     junitPlatform {
@@ -87,7 +84,6 @@ project(":ios") {
         implementation "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         implementation "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     }
 }
 
@@ -97,7 +93,7 @@ project(":core") {
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+        //implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
         implementation "log4j:log4j:1.2.9"
         implementation "com.badlogicgames.gdx:gdx-box2d:1.9.9"
         implementation "com.badlogicgames.gdx:gdx-box2d-platform:1.9.9"

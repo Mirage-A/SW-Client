@@ -222,52 +222,71 @@ object Controller : Game(), InputProcessor {
         return false
     }
 
-    var mdBtnPressed = false
+    private var mdBtnPressed = false
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
         val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
         when (Platform.TYPE) {
             Platform.Types.ANDROID -> {
-                Log.i("$x $y $pointer $button")
-                val range = Math.sqrt(Math.pow(GameScreen.mdAreaCenterX - x.toDouble(), 2.0) + Math.pow(GameScreen.mdAreaCenterX - y.toDouble(), 2.0))
-                if (range < GameScreen.mdAreaRadius) {
-                    if (range < GameScreen.mdAreaRadius / 2) {
-                        Model.stopMoving()
-                    }
-                    else {
-                        mdBtnPressed = true
-                        val deltaX = x - GameScreen.mdAreaCenterX
-                        val deltaY = y - GameScreen.mdAreaCenterX
-                        val angle = when {
-                            deltaX < 0 -> {
-                                Math.atan(deltaY / deltaX.toDouble()) + Math.PI
-                            }
-                            deltaX > 0 -> {
-                                Math.atan(deltaY / deltaX.toDouble())
-                            }
-                            deltaY < 0 -> {
-                                Math.PI / 2
-                            }
-                            else -> {
-                                - Math.PI / 2
-                            }
-                        }
-                        Model.startMoving((angle + Math.PI / 4).toFloat())
-                    }
-                }
+                if (handleAndroidMoving(x, y)) return true
             }
             else -> {}
         }
-
         return false
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-
+        if (mdBtnPressed) {
+            mdBtnPressed = false
+            Model.stopMoving()
+            return true
+        }
         return false
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+        val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
+        val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
+        when (Platform.TYPE) {
+            Platform.Types.ANDROID -> {
+                if (handleAndroidMoving(x, y)) return true
+            }
+            else -> {}
+        }
+        return false
+    }
+
+    private fun handleAndroidMoving(x: Float, y: Float) : Boolean {
+        val range = Math.sqrt(Math.pow(GameScreen.mdAreaCenterX - x.toDouble(), 2.0) + Math.pow(GameScreen.mdAreaCenterX - y.toDouble(), 2.0))
+        if (range < GameScreen.mdAreaRadius) {
+            if (range < GameScreen.mdAreaRadius / 2) {
+                mdBtnPressed = false
+                Model.stopMoving()
+                return true
+            } else {
+                mdBtnPressed = true
+            }
+        }
+        if (mdBtnPressed) {
+            val deltaX = x - GameScreen.mdAreaCenterX
+            val deltaY = y - GameScreen.mdAreaCenterX
+            val angle = when {
+                deltaX < 0 -> {
+                    Math.atan(deltaY / deltaX.toDouble()) + Math.PI
+                }
+                deltaX > 0 -> {
+                    Math.atan(deltaY / deltaX.toDouble())
+                }
+                deltaY < 0 -> {
+                    Math.PI / 2
+                }
+                else -> {
+                    -Math.PI / 2
+                }
+            }
+            Model.startMoving(MoveDirection.fromMoveAngle((angle + Math.PI / 4).toFloat()).toAngle())
+            return true
+        }
         return false
     }
 
