@@ -1,5 +1,5 @@
 args = ...
 
-utils = args["utils"]
-model = utils:getModel()
-model:findObject("gate-door"):getProperties():put("state", args["state"])
+u = args["utils"]
+
+u:setProperty("gate-door", "state", args["state"])
