@@ -33,7 +33,6 @@ object Model {
             obj.properties.put("height", obj.properties.getFloat("height") / GameScreen.TILE_HEIGHT)
         }
         gameLoop.findPlayer()
-        Log.i(gameLoop.player?.getPosition() ?: "")
         setMap(gameLoop.map)
         gameLoop.walkabilities = Array(gameLoop.map.properties.getInt("width"))
             {i -> IntArray(gameLoop.map.properties.getInt("height"))

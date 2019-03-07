@@ -3,7 +3,6 @@ package com.mirage.view
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.view.screens.GameScreen
 
-internal object ScreenSizeCalculator {
 
     /**
      * Вычисляет оптимальный размер виртуального экрана так,
@@ -96,4 +95,3 @@ internal object ScreenSizeCalculator {
             res - 1
         } else res + 1
     }
-}

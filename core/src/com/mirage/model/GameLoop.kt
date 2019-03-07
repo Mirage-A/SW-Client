@@ -80,9 +80,11 @@ class GameLoop {
         newPosition.y = Math.max(eps, Math.min(map.properties.getInt("height", 0) - eps - rect.height, newPosition.y))
         val newRect = Rectangle(newPosition.x, newPosition.y, rect.width, rect.height)
         //TODO Пересечения объектов
-        /*for (otherObj in map) {
-            if (otherObj != obj && otherObj.getRectangle().overlaps(newRect)) return
-        }*/
+        if (obj.isRigid()) {
+            for (otherObj in map) {
+                if (otherObj != obj && otherObj.getRectangle().overlaps(newRect) && otherObj.isRigid()) return
+            }
+        }
         for (point in newRect.points()) {
             if (!isTileWalkable(point.x.toInt(), point.y.toInt())) {
                 return

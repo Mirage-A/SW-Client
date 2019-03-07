@@ -14,6 +14,10 @@ data class Point (var x : Float = 0f, var y : Float = 0f){
         y += (Math.sin(angle.toDouble()) * range).toFloat()
     }
 
+    operator fun plus(p: Point) = Point(x + p.x, y + p.y)
+
+    operator fun minus(p: Point) = Point(x - p.x, y - p.y)
+
     override fun toString(): String {
         return "[$x, $y]"
     }

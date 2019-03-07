@@ -48,13 +48,11 @@ fun MapObject.setMoveAngle(angle: Float) {
     properties.put("move-angle", angle)
 }
 
-fun MapObject.isMoving() : Boolean {
-    return properties.getBoolean("is-moving", false)
-}
+fun MapObject.isMoving() = properties.getBoolean("is-moving", false)
 
-fun MapObject.setMoving(value: Boolean) {
-    properties.put("is-moving", value)
-}
+fun MapObject.setMoving(value: Boolean) = properties.put("is-moving", value)
+
+fun MapObject.isRigid() = properties.getBoolean("rigid", false)
 
 /**
  * Находит на карте объект с данным именем
@@ -67,34 +65,27 @@ fun Map.findObject(name: String) : MapObject? {
     return null
 }
 
-fun MapProperties.getInt(key: String, defaultValue: Int = 0) : Int {
-    return get<Int>(key, defaultValue, Int::class.java)
-}
+fun MapProperties.getInt(key: String, defaultValue: Int = 0) : Int =
+        get<Int>(key, defaultValue, Int::class.java)
 
-fun MapProperties.getString(key: String, defaultValue: String = "") : String {
-    return get<String>(key, defaultValue, String::class.java)
-}
+fun MapProperties.getString(key: String, defaultValue: String = "") : String =
+        get<String>(key, defaultValue, String::class.java)
 
-fun MapProperties.getBoolean(key: String, defaultValue: Boolean = false) : Boolean {
-    return get<Boolean>(key, defaultValue, Boolean::class.java)
-}
+fun MapProperties.getBoolean(key: String, defaultValue: Boolean = false) : Boolean =
+        get<Boolean>(key, defaultValue, Boolean::class.java)
 
-fun MapProperties.getFloat(key: String, defaultValue: Float = 0f) : Float {
-    return get<Float>(key, defaultValue, Float::class.java)
-}
+fun MapProperties.getFloat(key: String, defaultValue: Float = 0f) : Float =
+        get<Float>(key, defaultValue, Float::class.java)
 
-fun MapObject.getRectangle() : Rectangle {
-    return Rectangle(properties.getFloat("x"), properties.getFloat("y"),
+fun MapObject.getRectangle() : Rectangle =
+        Rectangle(properties.getFloat("x"), properties.getFloat("y"),
             properties.getFloat("width"), properties.getFloat("height"))
-}
 
-operator fun Array<IntArray>.get(indices: IntPair): Int {
-    return this[indices.x][indices.y]
-}
+operator fun Array<IntArray>.get(indices: IntPair): Int =
+        this[indices.x][indices.y]
 
-operator fun Array<BooleanArray>.get(indices: IntPair): Boolean {
-    return this[indices.x][indices.y]
-}
+operator fun Array<BooleanArray>.get(indices: IntPair): Boolean =
+        this[indices.x][indices.y]
 
 operator fun Array<IntArray>.set(indices: IntPair, value: Int) {
     this[indices.x][indices.y] = value
