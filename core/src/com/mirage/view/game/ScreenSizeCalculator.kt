@@ -1,10 +1,11 @@
-package com.mirage.view
+package com.mirage.view.game
 
 import com.badlogic.gdx.math.Rectangle
+import com.mirage.view.Log
 import com.mirage.view.screens.GameScreen
 
 
-    /**
+/**
      * Вычисляет оптимальный размер виртуального экрана так,
      * чтобы размер тайлов после скейла под экран был равен вычисленному
      * с помощью calculateTileSize,

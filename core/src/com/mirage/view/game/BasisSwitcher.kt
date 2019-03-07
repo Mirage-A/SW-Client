@@ -1,4 +1,4 @@
-package com.mirage.view
+package com.mirage.view.game
 
 import com.mirage.model.datastructures.Point
 import com.mirage.view.screens.GameScreen

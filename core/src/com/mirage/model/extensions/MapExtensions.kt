@@ -40,6 +40,9 @@ fun MapObject.setPosition(p: Point) {
     properties.put("y", p.y)
 }
 
+val Rectangle.center
+    get() = Point(x + width / 2, y + height / 2)
+
 fun MapObject.getMoveAngle() : Float {
     return properties.getFloat("move-angle", 0f)
 }

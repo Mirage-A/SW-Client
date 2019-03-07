@@ -25,9 +25,10 @@ object Controller : Game(), InputProcessor {
      */
     private const val EPS_TIME = 50L
 
+    val gameScreen by lazy { GameScreen() }
+
     override fun create() {
         //setScreen(LoadingScreen())
-        val gameScreen = GameScreen()
         Gdx.input.inputProcessor = this
         Model.startGame()
         gameScreen.updateResources()

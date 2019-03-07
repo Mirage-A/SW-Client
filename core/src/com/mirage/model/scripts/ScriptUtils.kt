@@ -56,6 +56,8 @@ object ScriptUtils {
 
     fun getScreen() = Controller.screen
 
+    fun getGameScreen() = Controller.gameScreen
+
     fun findObject(objName: String) = Model.findObject(objName)
 
     fun getPlayer() = Model.getPlayer()
@@ -69,7 +71,7 @@ object ScriptUtils {
     fun setProperty(objName: String, propertyName: String, propertyValue: Any?) =
             findObject(objName)?.properties?.put(propertyName, propertyValue)
 
-    fun updateObjectDrawer(obj: MapObject) = (Controller.screen as? GameScreen)?.addObjectDrawer(obj)
+    fun updateObjectDrawer(obj: MapObject) = (Controller.screen as? GameScreen)?.drawers?.addObjectDrawer(obj)
 
     fun updateObjectDrawer(objName: String) = findObject(objName)?.run { ScriptUtils.updateObjectDrawer(this) }
 
