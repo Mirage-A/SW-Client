@@ -67,16 +67,20 @@ fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
     }
 }
 
-
-
-fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
+/**
+ * Проверяет, нужно ли делать объект obj прозрачным (например, если за ним находится entity)
+ * Возвращает true, если obj должен быть непрозрачным
+ * Объект становится прозрачным, если у него есть свойство tp-range и
+ * внутри этого объекта или на расстоянии tp-range тайлов за объектом находится entity
+ */
+private fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
     for (other in map) {
         val rect = obj.rectangle
         val otherRect = other.rectangle
         val center = rect.center
         val otherCenter = otherRect.center
         if (other.properties.getString("type", "") == "entity" &&
-                - otherCenter.x + otherCenter.y + center.x - center.y <= obj.properties.getFloat("tp-range") * 2 &&
+                - otherCenter.x + otherCenter.y + center.x - center.y < obj.properties.getFloat("tp-range") * 2 &&
                 (rect.overlaps(otherRect) || compareEntityAndBuilding(other, obj) == -1))
             return false
     }
@@ -88,7 +92,7 @@ fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
  * Используется алгоритм топологической сортировки ориентированного графа
  * (На множестве объектов задан частичный порядок, а не линейный)
  */
-fun depthSort(objs: ArrayList<MapObject>) {
+private fun depthSort(objs: ArrayList<MapObject>) {
 
     val q = ArrayDeque<MapObject>()
     val visited = BooleanArray(objs.size) {false}
@@ -116,7 +120,7 @@ fun depthSort(objs: ArrayList<MapObject>) {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-fun compare(p : Point, rect: Rectangle) : Int {
+private fun compare(p : Point, rect: Rectangle) : Int {
     /**
      * Находит значение функции f(x,y) = x + y - x0 - y0 для данной точки
      * Знак функции позволяет узнать расположение точки (x,y) относительно диагональной прямой,
@@ -140,7 +144,7 @@ fun compare(p : Point, rect: Rectangle) : Int {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-fun compareDisjoint(a: MapObject, b: MapObject) : Int {
+private fun compareDisjoint(a: MapObject, b: MapObject) : Int {
     val rectA = a.rectangle
     val rectB = b.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -173,7 +177,7 @@ fun compareDisjoint(a: MapObject, b: MapObject) : Int {
     }
 }
 
-fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : Int {
+private fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : Int {
     val rectA = entity.rectangle
     val rectB = building.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -207,7 +211,7 @@ fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : Int {
     }
 }
 
-fun compare(a: MapObject, b: MapObject) : Int {
+private fun compare(a: MapObject, b: MapObject) : Int {
     val typeA = a.properties["type"]
     val typeB = b.properties["type"]
     if (typeA == typeB) return compareDisjoint(a, b)

@@ -92,7 +92,7 @@
    <properties>
     <property name="texture" value="main-gate.png"/>
     <property name="texture-tp" value="main-gate-tp.png"/>
-    <property name="tp-range" type="float" value="5"/>
+    <property name="tp-range" type="float" value="7"/>
    </properties>
   </object>
   <object id="21" name="wall" type="building" x="0" y="960" width="256" height="192">
@@ -118,7 +118,7 @@
   <object id="38" name="wall" type="building" x="512" y="960" width="256" height="192">
    <properties>
     <property name="texture" value="wall.png"/>
-    <property name="texture-tp" value="wall-tp.png"/>
+    <property name="texture-tp" value="wall-tp-edge.png"/>
     <property name="tp-range" type="float" value="5"/>
    </properties>
   </object>
@@ -139,7 +139,7 @@
   <object id="41" name="wall" type="building" x="1792" y="960" width="256" height="192">
    <properties>
     <property name="texture" value="wall.png"/>
-    <property name="texture-tp" value="wall-tp.png"/>
+    <property name="texture-tp" value="wall-tp-edge.png"/>
     <property name="tp-range" type="float" value="5"/>
    </properties>
   </object>

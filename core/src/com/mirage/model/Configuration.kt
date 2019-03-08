@@ -1,7 +1,7 @@
 package com.mirage.model
 
 val config = hashMapOf<String, Any?>(
-        "test" to false,
+        "show-invisible-objects" to false,
         "assets" to "",
         "platform" to ""
 )
