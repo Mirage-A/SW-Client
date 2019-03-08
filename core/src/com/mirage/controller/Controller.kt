@@ -1,11 +1,13 @@
 package com.mirage.controller
 
-import com.badlogic.gdx.*
+import com.badlogic.gdx.Game
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
+import com.badlogic.gdx.InputProcessor
 import com.mirage.model.Model
-import com.mirage.view.Log
-import com.mirage.view.screens.LoadingScreen
-import com.mirage.view.screens.GameScreen
+import com.mirage.model.config
 import com.mirage.view.animation.MoveDirection
+import com.mirage.view.screens.GameScreen
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -227,8 +229,8 @@ object Controller : Game(), InputProcessor {
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
         val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
-        when (Platform.TYPE) {
-            Platform.Types.ANDROID -> {
+        when (config["platform"]) {
+            "android" -> {
                 if (handleAndroidMoving(x, y)) return true
             }
             else -> {}
@@ -248,8 +250,8 @@ object Controller : Game(), InputProcessor {
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
         val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
         val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
-        when (Platform.TYPE) {
-            Platform.Types.ANDROID -> {
+        when (config["platform"]) {
+            "android" -> {
                 if (handleAndroidMoving(x, y)) return true
             }
             else -> {}

@@ -1,8 +1,7 @@
 package com.mirage.view.animation
 
 import com.badlogic.gdx.Gdx
-import com.mirage.controller.Platform
-import com.mirage.view.Log
+import com.mirage.model.config
 import java.util.*
 
 /**
@@ -24,25 +23,25 @@ object AnimationLoader {
      */
     fun getBodyAnimation(action: BodyAction) : Animation {
         if (bodyAnimationsCache[action] == null) {
-            bodyAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/BODY/" + action.toString() + ".swa").read())
+            bodyAnimationsCache[action] = Animation(Gdx.files.internal("${config["assets"]}animations/BODY/$action.swa").read())
         }
         return bodyAnimationsCache[action]!!
     }
     fun getLegsAnimation(action: LegsAction) : Animation {
         if (legsAnimationsCache[action] == null) {
-            legsAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/LEGS/" + action.toString() + ".swa").read())
+            legsAnimationsCache[action] = Animation(Gdx.files.internal("${config["assets"]}animations/LEGS/$action.swa").read())
         }
         return legsAnimationsCache[action]!!
     }
     fun getNullAnimation(action: NullAction) : Animation {
         if (nullAnimationsCache[action] == null) {
-            nullAnimationsCache[action] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/NULL/" + action.toString() + ".swa").read())
+            nullAnimationsCache[action] = Animation(Gdx.files.internal("${config["assets"]}animations/NULL/$action.swa").read())
         }
         return nullAnimationsCache[action]!!
     }
     fun getObjectAnimation(name: String) : Animation {
         if (objectAnimationsCache[name] == null) {
-            objectAnimationsCache[name] = Animation(Gdx.files.internal(Platform.ASSETS_PATH + "animations/OBJECT/$name.swa").read())
+            objectAnimationsCache[name] = Animation(Gdx.files.internal("${config["assets"]}animations/OBJECT/$name.swa").read())
         }
         return objectAnimationsCache[name]!!
     }

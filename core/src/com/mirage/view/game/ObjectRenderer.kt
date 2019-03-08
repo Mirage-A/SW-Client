@@ -11,8 +11,6 @@ import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
 import com.mirage.view.gameobjects.Drawers
 import com.mirage.view.gameobjects.HumanoidAnimation
-import com.mirage.view.gameobjects.ObjectDrawer
-import com.mirage.view.screens.GameScreen
 import java.util.*
 
 
@@ -42,7 +40,7 @@ fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
                 drawers.apply { addObjectDrawer(obj) }[obj, isOpaque]
             //TODO Направление движения может влиять не только на HumanoidAnimation
             if (drawer is HumanoidAnimation) {
-                val updatedMoveDirection = MoveDirection.fromMoveAngle(obj.getMoveAngle())
+                val updatedMoveDirection = MoveDirection.fromMoveAngle(obj.moveAngle)
                 if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
                     drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
                     drawer.bufferedMoveDirection = updatedMoveDirection
@@ -50,7 +48,7 @@ fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
                     drawer.moveDirection = drawer.bufferedMoveDirection
                 }
 
-                if (obj.isMoving()) {
+                if (obj.isMoving) {
                     drawer.setBodyAction(BodyAction.RUNNING)
                     drawer.setLegsAction(LegsAction.RUNNING)
                 } else {
@@ -59,7 +57,7 @@ fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
                 }
             }
             //val pos = getVirtualScreenPointFromScene(obj.getPosition())
-            val scenePoint = obj.getPosition()
+            val scenePoint = obj.position
             val width = obj.properties.getFloat("width", 0f)
             val height = obj.properties.getFloat("height", 0f)
             val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
@@ -71,10 +69,10 @@ fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
 
 
 
-private fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
+fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
     for (other in map) {
-        val rect = obj.getRectangle()
-        val otherRect = other.getRectangle()
+        val rect = obj.rectangle
+        val otherRect = other.rectangle
         val center = rect.center
         val otherCenter = otherRect.center
         if (other.properties.getString("type", "") == "entity" &&
@@ -90,7 +88,7 @@ private fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
  * Используется алгоритм топологической сортировки ориентированного графа
  * (На множестве объектов задан частичный порядок, а не линейный)
  */
-private fun depthSort(objs: ArrayList<MapObject>) {
+fun depthSort(objs: ArrayList<MapObject>) {
 
     val q = ArrayDeque<MapObject>()
     val visited = BooleanArray(objs.size) {false}
@@ -118,7 +116,7 @@ private fun depthSort(objs: ArrayList<MapObject>) {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-private fun compare(p : Point, rect: Rectangle) : Int {
+fun compare(p : Point, rect: Rectangle) : Int {
     /**
      * Находит значение функции f(x,y) = x + y - x0 - y0 для данной точки
      * Знак функции позволяет узнать расположение точки (x,y) относительно диагональной прямой,
@@ -142,16 +140,16 @@ private fun compare(p : Point, rect: Rectangle) : Int {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-private fun compareDisjoint(a: MapObject, b: MapObject) : Int {
-    val rectA = a.getRectangle()
-    val rectB = b.getRectangle()
+fun compareDisjoint(a: MapObject, b: MapObject) : Int {
+    val rectA = a.rectangle
+    val rectB = b.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
     val bIsPoint = rectB.width == 0f && rectB.height == 0f
     if (!aIsPoint && !bIsPoint && rectA.overlaps(rectB)) return 0
     when {
         aIsPoint && bIsPoint -> {
-            return -java.lang.Float.compare(getVirtualScreenPointFromScene(a.getPosition()).y,
-                    getVirtualScreenPointFromScene(b.getPosition()).y)
+            return -java.lang.Float.compare(getVirtualScreenPointFromScene(a.position).y,
+                    getVirtualScreenPointFromScene(b.position).y)
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
@@ -175,17 +173,17 @@ private fun compareDisjoint(a: MapObject, b: MapObject) : Int {
     }
 }
 
-private fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : Int {
-    val rectA = entity.getRectangle()
-    val rectB = building.getRectangle()
+fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : Int {
+    val rectA = entity.rectangle
+    val rectB = building.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
     val bIsPoint = rectB.width == 0f && rectB.height == 0f
     if (rectA.overlaps(rectB)) return -1
 
     when {
         aIsPoint && bIsPoint -> {
-            return -java.lang.Float.compare(getVirtualScreenPointFromScene(entity.getPosition()).y,
-                    getVirtualScreenPointFromScene(building.getPosition()).y)
+            return -java.lang.Float.compare(getVirtualScreenPointFromScene(entity.position).y,
+                    getVirtualScreenPointFromScene(building.position).y)
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
@@ -209,7 +207,7 @@ private fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : I
     }
 }
 
-private fun compare(a: MapObject, b: MapObject) : Int {
+fun compare(a: MapObject, b: MapObject) : Int {
     val typeA = a.properties["type"]
     val typeB = b.properties["type"]
     if (typeA == typeB) return compareDisjoint(a, b)

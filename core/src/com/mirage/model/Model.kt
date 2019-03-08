@@ -4,15 +4,12 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
-import com.mirage.controller.Platform
-import com.mirage.model.datastructures.*
+import com.mirage.model.datastructures.Point
 import com.mirage.model.extensions.*
 import com.mirage.model.scripts.EventHandler
 import com.mirage.model.scripts.MapEventListener
-import com.mirage.view.Log
 import com.mirage.view.animation.MoveDirection
 import com.mirage.view.screens.GameScreen
-import java.util.*
 
 
 object Model {
@@ -26,9 +23,9 @@ object Model {
     }
 
     fun setMap(path: String) {
-        gameLoop.map = TmxMapLoader().load(Platform.ASSETS_PATH + "maps/" + path)
+        gameLoop.map = TmxMapLoader().load("${config["assets"]}maps/$path")
         for (obj in gameLoop.map) {
-            obj.setPosition(getScenePointFromTiledMap(obj.getPosition()))
+            obj.position = getScenePointFromTiledMap(obj.position)
             obj.properties.put("width", obj.properties.getFloat("width") / GameScreen.TILE_HEIGHT)
             obj.properties.put("height", obj.properties.getFloat("height") / GameScreen.TILE_HEIGHT)
         }
@@ -68,48 +65,48 @@ object Model {
      * Получить позицию игрока
      */
     fun getPlayerPosition() : Point {
-        return gameLoop.player?.getPosition() ?: Point(0f, 0f)
+        return gameLoop.player?.position ?: Point(0f, 0f)
     }
 
     /**
      * Задать угол движения (без начала движения)
      */
     fun setMoveAngle(angle: Float) {
-        gameLoop.player?.setMoveAngle(angle)
+        gameLoop.player?.moveAngle = angle
     }
 
-    fun getMoveAngle() : Float = gameLoop.player?.getMoveAngle() ?: 0f
+    fun getMoveAngle() : Float = gameLoop.player?.moveAngle ?: 0f
 
     /**
      * Начать движение персонажа, направление движения задается углом
      */
     fun startMoving(angle: Float) {
         setMoveAngle(angle)
-        gameLoop.player?.setMoving(true)
+        gameLoop.player?.isMoving = true
     }
 
     fun startMoving() {
-        gameLoop.player?.setMoving(true)
+        gameLoop.player?.isMoving = true
     }
     /**
      * Остановить движение персонажа
      */
     fun stopMoving() {
-        gameLoop.player?.setMoving(false)
+        gameLoop.player?.isMoving = false
     }
 
     /**
      * Возвращает, двигается ли игрок
      */
     fun isPlayerMoving() : Boolean {
-        return gameLoop.player?.isMoving() ?: false
+        return gameLoop.player?.isMoving ?: false
     }
 
     /**
      * Возвращает move direction игрока
      */
     fun getPlayerMoveDirection() : MoveDirection {
-        return MoveDirection.fromMoveAngle(gameLoop.player?.getMoveAngle() ?: 0f)
+        return MoveDirection.fromMoveAngle(gameLoop.player?.moveAngle ?: 0f)
     }
 
 

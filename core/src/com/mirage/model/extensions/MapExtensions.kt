@@ -31,31 +31,37 @@ operator fun Map.iterator() : Iterator<MapObject> {
     }
 }
 
-fun MapObject.getPosition() : Point {
-    return Point(properties.getFloat("x", 0f), properties.getFloat("y", 0f))
-}
-
-fun MapObject.setPosition(p: Point) {
-    properties.put("x", p.x)
-    properties.put("y", p.y)
-}
+var MapObject.position : Point
+    get() = Point(properties.getFloat("x", 0f), properties.getFloat("y", 0f))
+    set(p) {
+        properties.put("x", p.x)
+        properties.put("y", p.y)
+    }
 
 val Rectangle.center
     get() = Point(x + width / 2, y + height / 2)
 
-fun MapObject.getMoveAngle() : Float {
-    return properties.getFloat("move-angle", 0f)
-}
+var MapObject.moveAngle : Float
+    get() = properties.getFloat("move-angle", 0f)
+    set(angle) = properties.put("move-angle", angle)
 
-fun MapObject.setMoveAngle(angle: Float) {
-    properties.put("move-angle", angle)
-}
+var MapObject.isMoving : Boolean
+    get() = properties.getBoolean("is-moving", false)
+    set(value) = properties.put("is-moving", value)
 
-fun MapObject.isMoving() = properties.getBoolean("is-moving", false)
+var MapObject.isRigid : Boolean
+    get() = properties.getBoolean("rigid", false)
+    set(value) = properties.put("rigid", value)
 
-fun MapObject.setMoving(value: Boolean) = properties.put("is-moving", value)
-
-fun MapObject.isRigid() = properties.getBoolean("rigid", false)
+var MapObject.rectangle : Rectangle
+    get() = Rectangle(properties.getFloat("x"), properties.getFloat("y"),
+                properties.getFloat("width"), properties.getFloat("height"))
+    set(rect) {
+        properties.put("x", rect.x)
+        properties.put("y", rect.y)
+        properties.put("width", rect.width)
+        properties.put("height", rect.height)
+    }
 
 /**
  * Находит на карте объект с данным именем
@@ -79,10 +85,6 @@ fun MapProperties.getBoolean(key: String, defaultValue: Boolean = false) : Boole
 
 fun MapProperties.getFloat(key: String, defaultValue: Float = 0f) : Float =
         get<Float>(key, defaultValue, Float::class.java)
-
-fun MapObject.getRectangle() : Rectangle =
-        Rectangle(properties.getFloat("x"), properties.getFloat("y"),
-            properties.getFloat("width"), properties.getFloat("height"))
 
 operator fun Array<IntArray>.get(indices: IntPair): Int =
         this[indices.x][indices.y]

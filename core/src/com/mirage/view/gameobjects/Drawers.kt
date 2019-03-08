@@ -1,9 +1,8 @@
 package com.mirage.view.gameobjects
 
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.controller.Controller
-import com.mirage.model.Configuration
+import com.mirage.model.config
 import com.mirage.model.extensions.getFloat
 import com.mirage.model.extensions.getString
 import com.mirage.view.TextureLoader
@@ -11,7 +10,6 @@ import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.animation.MoveDirection
 import com.mirage.view.animation.WeaponType
-import com.mirage.view.screens.GameScreen
 
 /**
  * Класс, хранящий визуальные представления объектов
@@ -30,7 +28,7 @@ class Drawers {
             obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
-            else -> if (Configuration.properties["test"] == true) TestObjectFiller(obj, Controller.gameScreen.camera) else null
+            else -> if (config["test"] == true) TestObjectFiller(obj, Controller.gameScreen.camera) else null
         }
         this[obj, false] = when {
             obj.properties.containsKey("animation-tp") -> ObjectAnimation(obj.properties.getString("animation-tp", "MAIN_GATE_OPEN"))

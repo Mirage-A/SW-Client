@@ -5,25 +5,17 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
-import com.mirage.controller.Platform
 import com.mirage.model.Model
 import com.mirage.model.Time
-import com.mirage.model.datastructures.*
-import com.mirage.model.extensions.*
+import com.mirage.model.config
+import com.mirage.model.datastructures.Point
 import com.mirage.view.TextureLoader
-import com.mirage.view.animation.BodyAction
-import com.mirage.view.animation.LegsAction
-import com.mirage.view.animation.MoveDirection
-import com.mirage.view.animation.WeaponType
 import com.mirage.view.game.calculateViewportSize
-import com.mirage.view.gameobjects.*
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects
-import java.util.*
-
+import com.mirage.view.gameobjects.Drawers
 
 
 class GameScreen : ScreenAdapter() {
@@ -106,7 +98,7 @@ class GameScreen : ScreenAdapter() {
         renderObjects(batch, map, drawers)
         //TODO
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в Stage
-        if (Platform.TYPE == Platform.Types.ANDROID) {
+        if (config["platform"] == "android") {
 
             val mdBtnPos = if (Model.isPlayerMoving()) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius

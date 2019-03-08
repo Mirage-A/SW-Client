@@ -3,8 +3,8 @@ package com.mirage.model.scripts
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.controller.Controller
-import com.mirage.controller.Platform
 import com.mirage.model.Model
+import com.mirage.model.config
 import com.mirage.model.extensions.getFloat
 import com.mirage.view.screens.GameScreen
 import kotlinx.coroutines.GlobalScope
@@ -26,7 +26,7 @@ object ScriptUtils {
      */
     fun runScript(name: String, args: LuaTable) {
         val globals = JsePlatform.standardGlobals()
-        val chunk = globals.load(Gdx.files.internal(Platform.ASSETS_PATH + "scripts/$name.lua").reader(), "$name.lua")
+        val chunk = globals.load(Gdx.files.internal("${config["assets"]}scripts/$name.lua").reader(), "$name.lua")
         args.set("utils", CoerceJavaToLua.coerce(ScriptUtils))
         chunk.call(args)
     }

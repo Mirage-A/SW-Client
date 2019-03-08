@@ -1,8 +1,7 @@
 package com.mirage.model
 
-object Configuration {
-
-    val properties = mapOf<String, Any?>(
-            "test" to false
-    )
-}
+val config = hashMapOf<String, Any?>(
+        "test" to false,
+        "assets" to "",
+        "platform" to ""
+)
