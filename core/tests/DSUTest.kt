@@ -1,8 +1,8 @@
 import com.mirage.model.datastructures.DisjointSetUnion
 import com.mirage.model.datastructures.IntDSU
 import com.mirage.model.datastructures.Point
-import junit.framework.TestCase.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 internal class DSUTest {
     @Test

@@ -1,11 +1,9 @@
 package com.mirage.view
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.loaders.TextureLoader
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
-import com.mirage.controller.Platform
+import com.mirage.model.config
 import com.mirage.view.gameobjects.Image
 import com.mirage.view.gameobjects.StaticTexture
 import java.util.*
@@ -40,7 +38,7 @@ object TextureLoader {
      * Текстуры не кэшируются.
      */
     fun getRawTexture(path: String) : Texture {
-        val loadedTexture = Texture(Gdx.files.internal(Platform.ASSETS_PATH + "drawable/" + path), true)
+        val loadedTexture = Texture(Gdx.files.internal("${config["assets"]}drawable/$path"), true)
         loadedTexture.setFilter(MIN_FILTER, MAG_FILTER)
         return loadedTexture
     }

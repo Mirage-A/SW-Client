@@ -3,7 +3,6 @@ package com.mirage.model
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.model.extensions.*
 import com.mirage.model.scripts.EventHandler
@@ -41,7 +40,7 @@ class GameLoop {
             for (layer in map.layers) {
                 for (obj in layer.objects) {
                     if (obj.name == "player") {
-                        if (obj.isMoving()) {
+                        if (obj.isMoving) {
                             moveEntity(obj)
                         }
                     }
@@ -72,23 +71,25 @@ class GameLoop {
      * Для обычного передвижения следует использовать moveEntity
      */
     private fun smallMoveEntity(obj: MapObject, range: Float) {
-        val rect = obj.getRectangle()
-        val oldPosition = obj.getPosition()
-        val newPosition = obj.getPosition()
-        newPosition.move(obj.getMoveAngle(), range)
+        val rect = obj.rectangle
+        val oldPosition = obj.position
+        val newPosition = obj.position
+        newPosition.move(obj.moveAngle, range)
         newPosition.x = Math.max(eps, Math.min(map.properties.getInt("width", 0) - eps - rect.width, newPosition.x))
         newPosition.y = Math.max(eps, Math.min(map.properties.getInt("height", 0) - eps - rect.height, newPosition.y))
         val newRect = Rectangle(newPosition.x, newPosition.y, rect.width, rect.height)
         //TODO Пересечения объектов
-        /*for (otherObj in map) {
-            if (otherObj != obj && otherObj.getRectangle().overlaps(newRect)) return
-        }*/
-        for (point in newRect.points()) {
+        if (obj.isRigid) {
+            for (otherObj in map) {
+                if (otherObj != obj && otherObj.rectangle.overlaps(newRect) && otherObj.isRigid) return
+            }
+        }
+        for (point in newRect.points) {
             if (!isTileWalkable(point.x.toInt(), point.y.toInt())) {
                 return
             }
         }
-        obj.setPosition(newPosition)
+        obj.position = newPosition
         EventHandler.handleObjectMove(obj, oldPosition, newPosition)
     }
 

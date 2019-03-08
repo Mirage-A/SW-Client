@@ -2,7 +2,6 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.view.Log
 
 /**
  * Обёртка для текстуры

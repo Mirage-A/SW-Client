@@ -1,35 +1,24 @@
 args = ...
 
--- print( args["newPos"]:toString() )
+u = args["utils"]
 
-utils = args["utils"]
-model = utils:getModel()
-controller = utils:getController()
-player = model:getPlayer()
-obj = args["object"]
-
-
-if player == obj then
-    local door = model:findObject("gate-door")
+if u:getPlayer() == args["object"] then
+    local door = u:findObject("gate-door")
     local doorprops = door:getProperties()
-    if ((player:getProperties():get("x") > 10) and (player:getProperties():get("x") < 20)
-        and (player:getProperties():get("y") > 10) and (player:getProperties():get("y") < 16)) then
+    if ((u:getPlayerX() > 10) and (u:getPlayerX() < 20)
+        and (u:getPlayerY() > 10) and (u:getPlayerY() < 16)) then
         if doorprops:get("state") == "closed" then
             doorprops:put("state", "opening")
             doorprops:put("animation", "MAIN_GATE_OPEN")
-            controller:getScreen():addObjectDrawer(door)
-            local props = {}
-            props["state"] = "opened"
-            props["utils"] = utils
-            utils:launchScriptAfterDelay("gate-state-update", 1000, props)
+            u:updateObjectDrawer(door)
+            local props = {["state"] = "opened", ["utils"] = u}
+            u:runScriptAfterDelay("gate-state-update", 1000, props)
         end
     elseif doorprops:get("state") == "opened" then
         doorprops:put("state", "closing")
         doorprops:put("animation", "MAIN_GATE_CLOSE")
-        controller:getScreen():addObjectDrawer(door)
-        local props = {}
-        props["state"] = "closed"
-        props["utils"] = utils
-        utils:launchScriptAfterDelay("gate-state-update", 1000, props)
+        u:updateObjectDrawer(door)
+        local props = {["state"] = "closed", ["utils"] = u}
+        u:runScriptAfterDelay("gate-state-update", 1000, props)
     end
 end
