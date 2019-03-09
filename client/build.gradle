@@ -1,0 +1,15 @@
+apply plugin: "kotlin"
+
+dependencies {
+    implementation project(":gamelogic")
+    implementation project(":view")
+    implementation project(":ui")
+    implementation project(":configuration")
+    
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
+}
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]

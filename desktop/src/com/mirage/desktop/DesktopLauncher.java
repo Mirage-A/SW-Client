@@ -4,7 +4,7 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mirage.controller.Controller;
-import com.mirage.model.ConfigurationKt;
+import com.mirage.configuration.ConfigurationKt;
 
 import java.io.File;
 
@@ -15,6 +15,8 @@ class DesktopLauncher {
         //При создании jar-архива эта строка должна быть пустой
         if (new File("./android/assets/").exists()) {
             ConfigurationKt.getConfig().put("assets", "./android/assets/");
+            ConfigurationKt.getConfig().put("client-scripts-path", "./android/assets/scripts/client/");
+            ConfigurationKt.getConfig().put("server-scripts-path", "./android/assets/scripts/server/");
         }
         ConfigurationKt.getConfig().put("platform", "desktop");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

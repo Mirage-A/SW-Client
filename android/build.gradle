@@ -3,7 +3,8 @@ apply plugin: "kotlin-android"
 
 configurations { natives }
 dependencies {
-    implementation project(":core")
+    implementation project(":client")
+    
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
