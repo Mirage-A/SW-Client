@@ -1,24 +1,24 @@
 package com.mirage.view.gameobjects
 
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.controller.Controller
-import com.mirage.gamelogic.config
-import com.mirage.gamelogic.extensions.getFloat
-import com.mirage.gamelogic.extensions.getString
+import com.mirage.configuration.config
+import com.mirage.utils.MoveDirection
+import com.mirage.utils.extensions.getFloat
+import com.mirage.utils.extensions.getString
 import com.mirage.view.TextureLoader
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
-import com.mirage.gamelogic.MoveDirection
 import com.mirage.view.animation.WeaponType
 
 /**
  * Класс, хранящий визуальные представления объектов
  */
-class Drawers {
+//TODO Убрать камеру из параметров, она нужна только для теста невидимых объектов
+class Drawers(private val camera: OrthographicCamera) {
 
     private val opaqueDrawers = HashMap<MapObject, ObjectDrawer?>()
     private val transparentDrawers = HashMap<MapObject, ObjectDrawer?>()
-
 
     /**
      * Загружает objectDrawer данного объекта карты
@@ -28,7 +28,7 @@ class Drawers {
             obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
-            else -> if (config["show-invisible-objects"] == true) TestObjectFiller(obj, Controller.gameScreen.camera) else null
+            else -> if (config["show-invisible-objects"] == true) TestObjectFiller(obj, camera) else null
         }
         this[obj, false] = when {
             obj.properties.containsKey("animation-tp") -> ObjectAnimation(obj.properties.getString("animation-tp", "MAIN_GATE_OPEN"))
@@ -45,17 +45,17 @@ class Drawers {
     private fun loadPlayerTexturesMap(obj: MapObject): MutableMap<String, Image> {
         val texturesMap = java.util.HashMap<String, Image>()
         for (md in MoveDirection.values()) {
-            texturesMap["head$md"] = TextureLoader.getStaticTexture("equipment/head/0000$md.png")
+            texturesMap["head$md"] = TextureLoader.getStaticTexture("equipment/head/0000$md")
         }
-        texturesMap["body"] = TextureLoader.getStaticTexture("equipment/body/0000.png")
-        texturesMap["handtop"] = TextureLoader.getStaticTexture("equipment/handtop/0000.png")
-        texturesMap["handbottom"] = TextureLoader.getStaticTexture("equipment/handbottom/0000.png")
-        texturesMap["legtop"] = TextureLoader.getStaticTexture("equipment/legtop/0000.png")
-        texturesMap["legbottom"] = TextureLoader.getStaticTexture("equipment/legbottom/0000.png")
-        texturesMap["cloak"] = TextureLoader.getStaticTexture("equipment/cloak/0000.png")
-        texturesMap["neck"] = TextureLoader.getStaticTexture("equipment/neck/0000.png")
-        texturesMap["weapon1"] = TextureLoader.getStaticTexture("equipment/onehanded/0000.png")
-        texturesMap["weapon2"] = TextureLoader.getStaticTexture("equipment/onehanded/0000.png")
+        texturesMap["body"] = TextureLoader.getStaticTexture("equipment/body/0000")
+        texturesMap["handtop"] = TextureLoader.getStaticTexture("equipment/handtop/0000")
+        texturesMap["handbottom"] = TextureLoader.getStaticTexture("equipment/handbottom/0000")
+        texturesMap["legtop"] = TextureLoader.getStaticTexture("equipment/legtop/0000")
+        texturesMap["legbottom"] = TextureLoader.getStaticTexture("equipment/legbottom/0000")
+        texturesMap["cloak"] = TextureLoader.getStaticTexture("equipment/cloak/0000")
+        texturesMap["neck"] = TextureLoader.getStaticTexture("equipment/neck/0000")
+        texturesMap["weapon1"] = TextureLoader.getStaticTexture("equipment/onehanded/0000")
+        texturesMap["weapon2"] = TextureLoader.getStaticTexture("equipment/onehanded/0000")
         return texturesMap
     }
 

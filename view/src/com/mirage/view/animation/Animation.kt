@@ -1,7 +1,7 @@
 package com.mirage.view.animation
 
 import com.mirage.configuration.Log
-import com.mirage.gamelogic.MoveDirection
+import com.mirage.utils.MoveDirection
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
 import java.io.InputStream
@@ -37,14 +37,17 @@ class Animation() {
     /**
      * Конструктор считывания анимации из файла XML (.swa)
      */
-    constructor(inputStream : InputStream) : this() {
-        try {
-            for (moveDirection in MoveDirection.values()) {
-                data[moveDirection] = HashMap()
-                for (weaponType in WeaponType.values()) {
-                    data[moveDirection]!![weaponType] = ArrayList()
-                }
+    constructor(inputStream : InputStream?) : this() {
+        for (moveDirection in MoveDirection.values()) {
+            data[moveDirection] = HashMap()
+            for (weaponType in WeaponType.values()) {
+                data[moveDirection]!![weaponType] = ArrayList()
             }
+        }
+        if (inputStream == null) {
+            return
+        }
+        try {
             val reader = SAXReader()
             val document = reader.read(inputStream)
             val animation = document.rootElement

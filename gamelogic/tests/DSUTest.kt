@@ -1,6 +1,6 @@
-import com.mirage.gamelogic.datastructures.DisjointSetUnion
-import com.mirage.gamelogic.datastructures.IntDSU
-import com.mirage.gamelogic.datastructures.Point
+import com.mirage.utils.datastructures.DisjointSetUnion
+import com.mirage.utils.datastructures.IntDSU
+import com.mirage.utils.datastructures.Point
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

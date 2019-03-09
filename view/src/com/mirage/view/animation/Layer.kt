@@ -1,6 +1,6 @@
 package com.mirage.view.animation
 
-import com.mirage.gamelogic.datastructures.Point
+import com.mirage.utils.datastructures.Point
 
 /**
  * Слой на кадре анимации

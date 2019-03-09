@@ -4,8 +4,9 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor
+import com.mirage.configuration.config
 import com.mirage.gamelogic.Model
-import com.mirage.gamelogic.MoveDirection
+import com.mirage.utils.MoveDirection
 import com.mirage.view.screens.GameScreen
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

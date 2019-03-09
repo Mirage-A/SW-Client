@@ -1,27 +1,28 @@
 package com.mirage.scriptrunner
 
-import com.badlogic.gdx.Gdx
+import com.mirage.assetmanager.Assets
+import com.mirage.scriptrunner.client.ClientScriptActions
+import com.mirage.scriptrunner.logic.LogicScriptActions
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import org.luaj.vm2.lib.jse.JsePlatform
 
 /**
- * Запускает скрипт по пути path c аргументом-таблицей args
+ * Запускает скрипт c аргументом-таблицей args, добавляя аргумент actions
  */
-fun runScript(path: String, args: LuaTable) {
+fun runClientScript(name: String, args: LuaTable, clientActions: ClientScriptActions) {
     val globals = JsePlatform.standardGlobals()
-    val chunk = globals.load(Gdx.files.internal(path).reader(), path)
-    //args.set("utils", CoerceJavaToLua.coerce(ScriptUtils))
+    val chunk = globals.load(Assets.loadClientScript(name)?.readText() ?: "")
+    args.set("actions", CoerceJavaToLua.coerce(clientActions))
     chunk.call(args)
 }
 
 /**
- * Запускает скрипт по пути path с аргументом-словарем args
+ * Запускает скрипт c аргументом-таблицей args, добавляя аргумент actions
  */
-fun runScript(name: String, args: Map<String, Any?>) {
-    val table = LuaTable()
-    for ((key, value) in args) {
-        table.set(key, CoerceJavaToLua.coerce(value))
-    }
-    runScript(name, table)
+fun runLogicScript(name: String, args: LuaTable, logicActions: LogicScriptActions) {
+    val globals = JsePlatform.standardGlobals()
+    val chunk = globals.load(Assets.loadLogicScript(name)?.readText() ?: "")
+    args.set("actions", CoerceJavaToLua.coerce(logicActions))
+    chunk.call(args)
 }

@@ -2,9 +2,9 @@ package com.mirage;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.mirage.controller.Controller;
-import com.mirage.gamelogic.ConfigurationKt;
 
+import com.mirage.client.Controller;
+import com.mirage.configuration.ConfigurationKt;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 

@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.gamelogic.datastructures.Point
-import com.mirage.gamelogic.extensions.points
-import com.mirage.gamelogic.extensions.rectangle
+import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.points
+import com.mirage.utils.extensions.rectangle
 import com.mirage.view.game.getVirtualScreenPointFromScene
 
 class TestObjectFiller(private val obj: MapObject, private val camera: OrthographicCamera) : ObjectDrawer {

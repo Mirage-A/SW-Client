@@ -1,6 +1,6 @@
 package com.mirage.view.game
 
-import com.mirage.gamelogic.datastructures.Point
+import com.mirage.utils.datastructures.Point
 import com.mirage.view.screens.GameScreen
 
 

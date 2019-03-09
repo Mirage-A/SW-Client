@@ -7,10 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
+import com.mirage.assetmanager.Assets
+import com.mirage.configuration.config
 import com.mirage.gamelogic.Model
 import com.mirage.gamelogic.Time
-import com.mirage.gamelogic.config
-import com.mirage.gamelogic.datastructures.Point
+import com.mirage.utils.datastructures.Point
 import com.mirage.view.TextureLoader
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
@@ -47,13 +48,12 @@ class GameScreen : ScreenAdapter() {
          */
         const val DELTA_CENTER_Y = 64f
 
-
-        val mdAreaTexture = TextureLoader.getRawTexture("ui/mdarea.png")
+        val mdAreaTexture = Assets.getRawTexture("ui/mdarea")
         val mdAreaMargin = 64f
         val mdAreaWidth = mdAreaTexture.width
         val mdAreaRadius = mdAreaWidth / 2
         val mdAreaCenterX = mdAreaMargin + mdAreaRadius
-        val mdBtnTexture = TextureLoader.getRawTexture("ui/mdbtn.png")
+        val mdBtnTexture = Assets.getRawTexture("ui/mdbtn")
         val mdBtnWidth = mdBtnTexture.width
         val mdBtnRadius = mdBtnWidth / 2
     }
@@ -61,7 +61,7 @@ class GameScreen : ScreenAdapter() {
     /**
      * Словарь, где по объекту сцены мы получаем его визуальное представление
      */
-    var drawers = Drawers()
+    var drawers = Drawers(camera)
 
     /**
      * Размеры виртуального экрана
@@ -128,7 +128,7 @@ class GameScreen : ScreenAdapter() {
      * Загружает drawers для объектов сцены
      */
     private fun loadObjectDrawers(map: TiledMap) {
-        drawers = Drawers()
+        drawers = Drawers(camera)
         for (layer in map.layers) {
             for (obj in layer.objects) {
                 drawers.addObjectDrawer(obj)

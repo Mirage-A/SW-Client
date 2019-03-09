@@ -1,7 +1,6 @@
 package com.mirage.view.animation
 
-import com.badlogic.gdx.Gdx
-import com.mirage.configuration.config
+import com.mirage.assetmanager.Assets
 import java.util.*
 
 /**
@@ -22,28 +21,40 @@ object AnimationLoader {
      * Если анимация еще не загружена, она загружается и сохраняется в кэш
      */
     fun getBodyAnimation(action: BodyAction) : Animation {
-        if (bodyAnimationsCache[action] == null) {
-            bodyAnimationsCache[action] = Animation(Gdx.files.internal("${config["assets"]}animations/BODY/$action.swa").read())
+        val cached = bodyAnimationsCache[action]
+        return if (cached == null) {
+            val animation = Animation(Assets.loadAnimation("BODY/$action"))
+            bodyAnimationsCache[action] = animation
+            animation
         }
-        return bodyAnimationsCache[action]!!
+        else cached
     }
     fun getLegsAnimation(action: LegsAction) : Animation {
-        if (legsAnimationsCache[action] == null) {
-            legsAnimationsCache[action] = Animation(Gdx.files.internal("${config["assets"]}animations/LEGS/$action.swa").read())
+        val cached = legsAnimationsCache[action]
+        return if (cached == null) {
+            val animation = Animation(Assets.loadAnimation("LEGS/$action"))
+            legsAnimationsCache[action] = animation
+            animation
         }
-        return legsAnimationsCache[action]!!
+        else cached
     }
     fun getNullAnimation(action: NullAction) : Animation {
-        if (nullAnimationsCache[action] == null) {
-            nullAnimationsCache[action] = Animation(Gdx.files.internal("${config["assets"]}animations/NULL/$action.swa").read())
+        val cached = nullAnimationsCache[action]
+        return if (cached == null) {
+            val animation = Animation(Assets.loadAnimation("NULL/$action"))
+            nullAnimationsCache[action] = animation
+            animation
         }
-        return nullAnimationsCache[action]!!
+        else cached
     }
     fun getObjectAnimation(name: String) : Animation {
-        if (objectAnimationsCache[name] == null) {
-            objectAnimationsCache[name] = Animation(Gdx.files.internal("${config["assets"]}animations/OBJECT/$name.swa").read())
+        val cached = objectAnimationsCache[name]
+        return if (cached == null) {
+            val animation = Animation(Assets.loadAnimation("OBJECT/$name"))
+            objectAnimationsCache[name] = animation
+            animation
         }
-        return objectAnimationsCache[name]!!
+        else cached
     }
 
     /**
@@ -53,6 +64,7 @@ object AnimationLoader {
         bodyAnimationsCache.clear()
         legsAnimationsCache.clear()
         nullAnimationsCache.clear()
+        objectAnimationsCache.clear()
     }
 
 }

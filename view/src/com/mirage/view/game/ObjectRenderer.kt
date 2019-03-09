@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.gamelogic.datastructures.Point
-import com.mirage.gamelogic.extensions.*
+import com.mirage.utils.MoveDirection
+import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.*
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
-import com.mirage.gamelogic.MoveDirection
 import com.mirage.view.gameobjects.Drawers
 import com.mirage.view.gameobjects.HumanoidAnimation
 import java.util.*

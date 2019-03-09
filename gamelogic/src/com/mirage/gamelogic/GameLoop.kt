@@ -5,13 +5,16 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.configuration.Log
-import com.mirage.gamelogic.extensions.*
-import com.mirage.gamelogic.scripts.EventHandler
+import com.mirage.scriptrunner.logic.LogicEventHandler
+import com.mirage.utils.extensions.*
+import kotlin.math.log
 
 class GameLoop {
     var map = TiledMap()
 
     var player: MapObject? = null
+
+    val logicEventHandler = LogicEventHandler(LogicScriptActionsImpl(this))
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
@@ -90,7 +93,7 @@ class GameLoop {
             }
         }
         obj.position = newPosition
-        EventHandler.handleObjectMove(obj, oldPosition, newPosition)
+        logicEventHandler.handleObjectMove(obj, oldPosition, newPosition)
     }
 
     /**

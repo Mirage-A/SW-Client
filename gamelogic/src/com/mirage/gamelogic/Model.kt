@@ -4,11 +4,12 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.mirage.assetmanager.Assets
 import com.mirage.configuration.config
-import com.mirage.gamelogic.datastructures.Point
-import com.mirage.gamelogic.extensions.*
-import com.mirage.gamelogic.scripts.EventHandler
-import com.mirage.gamelogic.scripts.MapEventListener
+import com.mirage.scriptrunner.logic.MapLogicEventListener
+import com.mirage.utils.MoveDirection
+import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.*
 
 
 object Model {
@@ -22,7 +23,7 @@ object Model {
     }
 
     fun setMap(path: String) {
-        gameLoop.map = TmxMapLoader().load("${config["assets"]}maps/$path")
+        gameLoop.map = TmxMapLoader().load("${Assets.assetsPath}maps/$path")
         for (obj in gameLoop.map) {
             obj.position = getScenePointFromTiledMap(obj.position)
             obj.properties.put("width", obj.properties.getFloat("width") / (config["tile-height"] as? Float ?: 64f))
@@ -33,8 +34,8 @@ object Model {
         gameLoop.walkabilities = Array(gameLoop.map.properties.getInt("width"))
             {i -> IntArray(gameLoop.map.properties.getInt("height"))
                 {j -> (gameLoop.map.layers["walkability"] as TiledMapTileLayer).getCell(i, j).tile.id } }
-        EventHandler.listeners.clear()
-        EventHandler.listeners.add(MapEventListener())
+        gameLoop.logicEventHandler.listeners.clear()
+        gameLoop.logicEventHandler.listeners.add(MapLogicEventListener())
     }
 
 

@@ -1,10 +1,8 @@
 package com.mirage.configuration
 
 val config = hashMapOf<String, Any?>(
+        "debug" to true,
         "show-invisible-objects" to false,
-        "assets" to "",
         "platform" to "",
-        "tile-height" to 64f,
-        "client-scripts-path" to "scripts/client/",
-        "server-scripts-path" to "scripts/server/"
+        "tile-height" to 64f
 )

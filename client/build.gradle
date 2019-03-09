@@ -5,6 +5,7 @@ dependencies {
     implementation project(":view")
     implementation project(":ui")
     implementation project(":configuration")
+    implementation project(":utils")
     
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"

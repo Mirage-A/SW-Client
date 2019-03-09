@@ -1,5 +1,5 @@
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.gamelogic.datastructures.Point
+import com.mirage.utils.datastructures.Point
 import com.mirage.configuration.Log
 import com.mirage.view.game.calculateTileSize
 import com.mirage.view.game.calculateViewportSize
