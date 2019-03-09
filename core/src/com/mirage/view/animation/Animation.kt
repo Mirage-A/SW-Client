@@ -1,9 +1,9 @@
 package com.mirage.view.animation
 
+import com.mirage.view.Log
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
 import java.io.InputStream
-import javax.swing.JOptionPane
 
 
 /**
@@ -83,7 +83,7 @@ class Animation() {
             frames = data[MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
         }
         catch(ex: Exception) {
-            JOptionPane.showMessageDialog(null, "Unexpected error occurred:\n" + ex.message, "Error :(", JOptionPane.ERROR_MESSAGE)
+            Log.e("Unexpected error occurred:\n" + ex.message)
             System.exit(0)
         }
     }
