@@ -1,7 +1,7 @@
 package com.mirage.view.game
 
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.configuration.Log
+import com.mirage.utils.Log
 import com.mirage.view.screens.GameScreen
 
 

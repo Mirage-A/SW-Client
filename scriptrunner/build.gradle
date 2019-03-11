@@ -1,7 +1,6 @@
 apply plugin: "kotlin"
 
 dependencies {
-    implementation project(":configuration")
     implementation project(":assetmanager")
     implementation project(":utils")
 

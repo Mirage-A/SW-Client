@@ -1,4 +1,4 @@
-package com.mirage.configuration
+package com.mirage.utils
 
 val config = hashMapOf<String, Any?>(
         "debug" to true,

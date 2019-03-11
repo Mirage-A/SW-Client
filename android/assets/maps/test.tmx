@@ -149,11 +149,10 @@
     <property name="texture" value="main-gate-door"/>
    </properties>
   </object>
-  <object id="47" name="player" type="entity" x="1016" y="1912" width="16" height="16">
+  <object id="47" name="spawn-point" type="spawn-point" x="1016" y="1912" width="16" height="16">
    <properties>
-    <property name="move-angle" type="float" value="1.57"/>
+    <property name="move-direction" value="UP_RIGHT"/>
     <property name="on-tile-entered" value="gate-door"/>
-    <property name="rigid" type="bool" value="true"/>
     <property name="speed" type="float" value="2.8"/>
    </properties>
   </object>

@@ -1,9 +1,7 @@
 apply plugin: "kotlin"
 
 dependencies {
-    implementation project(":configuration")
     implementation project(":assetmanager")
-    implementation project(":gamelogic")
     implementation project(":utils")
     
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

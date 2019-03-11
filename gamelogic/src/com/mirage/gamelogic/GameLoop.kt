@@ -1,25 +1,65 @@
 package com.mirage.gamelogic
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.configuration.Log
 import com.mirage.scriptrunner.logic.LogicEventHandler
+import com.mirage.utils.Log
 import com.mirage.utils.extensions.*
-import kotlin.math.log
+import java.util.*
+import javax.swing.Timer
 
 class GameLoop {
+
+    /**
+     * Поток, в котором работает этот цикл
+     */
+    val thread = Thread(Runnable { updateLoop() })
+
+    private var deltaTime = 0f
+
+    /**
+     * Карта
+     * Эта карта используется только для работы с тайлами
+     * Для работы с объектами следует использовать словарь objects
+     */
     var map = TiledMap()
 
-    var player: MapObject? = null
-
     val logicEventHandler = LogicEventHandler(LogicScriptActionsImpl(this))
+
+    /**
+     * Все объекты карты
+     */
+    val objects = TreeMap<Long, MapObject>()
+    /**
+     * Следующее ID, которое можно использовать при добавлении нового объекта
+     * //TODO Рассмотреть невероятный случай, когда за время работы цикла добавилось более 1e18 объектов
+     */
+    var nextID = Long.MIN_VALUE
+
+    val playerIDs = ArrayList<Long>()
+
+    /**
+     * Слушатели, которые выполняются после каждого обновления
+     * Эти слушатели выполняются в том же потоке, что и цикл логики
+     */
+    val updateTickListeners = ArrayList<() -> Unit>()
+
+    /**
+     * Очередь, в которую добавляются сообщения при каждом изменении состояния карты
+     * Эти сообщения добавляет цикл логики, а обрабатывать и рассылать их клиентам должен сервер
+     */
+    val messageQueue = ArrayDeque<UpdateMessage>()
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
      */
     var isPaused = true
+
+    /**
+     * Этот параметр равен true, если в данный момент выполняется итерация цикла
+     */
+    var isUpdating = false
 
     /**
      * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
@@ -28,41 +68,101 @@ class GameLoop {
     private val smallRange = 0.5f
 
     /**
-     * Лимит кол-ва итераций цикла за секунду
+     * Нижний предел времени выполнения итерации
+     * (итерация не может выполняться быстрее, это нужно для ограничения кол-ва обновлений в секунду)
      */
-    private val ticksPerSecondLimit = 512
+    private val minTickTime = 0.01f
 
-    var walkabilities = Array(0){IntArray(0)}
+    var walkabilities = Array(0) { IntArray(0) }
+
+    private var fps = 0
+
+    private val fpsLogger = Timer(1000) {
+        Log.i("game loop updates per second : $fps")
+        fps = 0
+    }.apply { start() }
 
     /**
      * Тик игровой логики
      */
-    fun update() {
-        if (!isPaused) {
-            if (Gdx.graphics.deltaTime > 0.1f) Log.i("Slow update: " + Gdx.graphics.deltaTime + " s")
-            for (layer in map.layers) {
-                for (obj in layer.objects) {
-                    if (obj.name == "player") {
-                        if (obj.isMoving) {
-                            moveEntity(obj)
-                        }
-                    }
-                }
+    private fun update() {
+        for ((id, obj) in objects) {
+            if (obj.isMoving) {
+                moveObject(id, obj)
             }
         }
+        for (listener in updateTickListeners) listener()
+    }
+
+
+    /**
+     * Добавить новый объект и получить его id
+     * Этот метод является thread-unsafe, поэтому должен вызываться только внутри слушателя updateListener
+     */
+    fun addNewObject(obj: MapObject) : Long {
+        objects[nextID] = obj
+        messageQueue.add(NewObjectMessage(nextID, obj))
+        ++nextID
+        return nextID
     }
 
 
     /**
      * Обрабатывает передвижение данного объекта за тик
      */
-    private fun moveEntity(obj: MapObject) {
-        val range = obj.properties.getFloat("speed", 0f) * Time.deltaTime
+    private fun moveObject(id: Long, obj: MapObject) {
+        val range = obj.properties.getFloat("speed", 0f) * deltaTime
         for (i in 0 until (range / smallRange).toInt()) {
-            smallMoveEntity(obj, smallRange)
+            smallMove(obj, smallRange)
         }
-        smallMoveEntity(obj, range % smallRange)
+        smallMove(obj, range % smallRange)
+        messageQueue.add(MoveObjectMessage(id, obj.position))
     }
+
+
+    fun isTileWalkable(x: Int, y: Int) : Boolean {
+         return getTileId(x, y) == 1
+    }
+
+    fun isTileShootable(x: Int, y: Int) : Boolean {
+        val id = getTileId(x, y)
+        return id == 1 || id == 2
+    }
+
+    fun getTileId(x: Int, y: Int) : Int {
+        return walkabilities[x][y]
+    }
+
+    fun setTileId(x: Int, y: Int, id: Int) {
+        walkabilities[x][y] = id
+    }
+
+    private fun updateLoop() {
+        var lastTime = -1L
+        while (true) {
+            if (isPaused) {
+                lastTime = -1L
+                isUpdating = false
+            }
+            else {
+                isUpdating = true
+                if (lastTime == -1L) {
+                    deltaTime = 0f
+                    lastTime = System.currentTimeMillis()
+                }
+                update()
+                ++fps
+                deltaTime = (System.currentTimeMillis() - lastTime) / 1000f
+                if (deltaTime < minTickTime) {
+                    Thread.sleep(((minTickTime - deltaTime) * 1000f).toLong() + 1L)
+                }
+                lastTime = System.currentTimeMillis()
+                deltaTime = System.currentTimeMillis() / 1000f - lastTime
+                if (deltaTime > 0.1f) Log.i("Slow update: $deltaTime s")
+            }
+        }
+    }
+
 
     /**
      * Отступ от границы непроходимого тайла
@@ -73,7 +173,7 @@ class GameLoop {
      * Обрабатывает короткое (на расстояние не более smallRange) передвижение данного объекта
      * Для обычного передвижения следует использовать moveEntity
      */
-    private fun smallMoveEntity(obj: MapObject, range: Float) {
+    private fun smallMove(obj: MapObject, range: Float) {
         val rect = obj.rectangle
         val oldPosition = obj.position
         val newPosition = obj.position
@@ -96,27 +196,4 @@ class GameLoop {
         logicEventHandler.handleObjectMove(obj, oldPosition, newPosition)
     }
 
-    /**
-     * Найти игрока среди объектов
-     */
-    fun findPlayer() {
-        player = map.findObject("player")
-    }
-
-    fun isTileWalkable(x: Int, y: Int) : Boolean {
-         return getTileId(x, y) == 1
-    }
-
-    fun isTileShootable(x: Int, y: Int) : Boolean {
-        val id = getTileId(x, y)
-        return id == 1 || id == 2
-    }
-
-    fun getTileId(x: Int, y: Int) : Int {
-        return walkabilities[x][y]
-    }
-
-    fun setTileId(x: Int, y: Int, id: Int) {
-        walkabilities[x][y] = id
-    }
 }

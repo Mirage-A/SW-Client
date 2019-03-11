@@ -3,7 +3,7 @@ package com.mirage;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 
-import com.mirage.client.Controller;
+import com.mirage.client.Client;
 import com.mirage.configuration.ConfigurationKt;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
@@ -14,7 +14,7 @@ class IOSLauncher extends IOSApplication.Delegate {
     protected IOSApplication createApplication() {
         ConfigurationKt.getConfig().put("assets", "./android/assets/");
         ConfigurationKt.getConfig().put("platform", "ios");
-        return new IOSApplication(Controller.INSTANCE, new IOSApplicationConfiguration());
+        return new IOSApplication(Client.INSTANCE, new IOSApplicationConfiguration());
     }
 
     public static void main(String[] args) {

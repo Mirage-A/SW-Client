@@ -2,7 +2,7 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.configuration.config
+import com.mirage.utils.config
 import com.mirage.utils.MoveDirection
 import com.mirage.utils.extensions.getFloat
 import com.mirage.utils.extensions.getString

@@ -4,15 +4,15 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
-import com.mirage.configuration.Log
-import com.mirage.configuration.config
+import com.mirage.utils.Log
+import com.mirage.utils.config
 import java.io.File
 import java.io.InputStream
 import java.io.Reader
 
 object Assets {
 
-    val assetsPath = if (config["test"] == true && File("./android/assets/").exists())
+    val assetsPath = if (config["debug"] == true && File("./android/assets/").exists())
                                 "./android/assets/" else ""
 
     fun loadFile(path: String) : FileHandle? {

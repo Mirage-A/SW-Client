@@ -1,9 +1,6 @@
 package com.mirage.view
 
-import com.badlogic.gdx.graphics.Pixmap
-import com.badlogic.gdx.graphics.Texture
 import com.mirage.assetmanager.Assets
-import com.mirage.configuration.Log
 import com.mirage.view.gameobjects.Image
 import com.mirage.view.gameobjects.StaticTexture
 import java.util.*

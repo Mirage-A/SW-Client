@@ -5,7 +5,7 @@ apply plugin: "com.github.johnrengelman.shadow"
 dependencies {
     implementation project(":client")
     implementation project(":assetmanager")
-    implementation project(":configuration")
+    implementation project(":utils")
     
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"

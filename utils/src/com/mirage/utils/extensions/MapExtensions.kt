@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.Map
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.MapProperties
 import com.badlogic.gdx.math.Rectangle
+import com.mirage.utils.MoveDirection
 import com.mirage.utils.datastructures.IntPair
 import com.mirage.utils.datastructures.Point
 
@@ -31,6 +32,18 @@ operator fun Map.iterator() : Iterator<MapObject> {
     }
 }
 
+var MapObject.type : String?
+    get() = properties["type"] as? String
+    set(newType) = properties.put("type", newType)
+
+
+
+var MapObject.moveDirection: MoveDirection
+    get() = MoveDirection.fromString(properties.getString("move-direction", "DOWN"))
+    set(md) {
+        properties.put("move-direction", md.toString())
+    }
+
 var MapObject.position : Point
     get() = Point(properties.getFloat("x", 0f), properties.getFloat("y", 0f))
     set(p) {
@@ -52,6 +65,10 @@ var MapObject.isMoving : Boolean
 var MapObject.isRigid : Boolean
     get() = properties.getBoolean("rigid", false)
     set(value) = properties.put("rigid", value)
+
+var MapObject.speed : Float
+    get() = properties.getFloat("speed", 0f)
+    set(value) = properties.put("speed", value)
 
 var MapObject.rectangle : Rectangle
     get() = Rectangle(properties.getFloat("x"), properties.getFloat("y"),

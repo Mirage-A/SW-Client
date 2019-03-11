@@ -4,7 +4,7 @@ apply plugin: "robovm"
 
 dependencies {
     implementation project(":client")
-    implementation project(":configuration")
+    implementation project(":utils")
     
     implementation "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
     implementation "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"

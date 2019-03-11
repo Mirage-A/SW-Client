@@ -5,21 +5,29 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.assetmanager.Assets
-import com.mirage.configuration.config
-import com.mirage.gamelogic.Model
-import com.mirage.gamelogic.Time
+import com.mirage.utils.config
 import com.mirage.utils.datastructures.Point
-import com.mirage.view.TextureLoader
+import com.mirage.utils.extensions.get
+import com.mirage.utils.extensions.isMoving
+import com.mirage.utils.extensions.moveAngle
+import com.mirage.utils.extensions.position
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
+import java.util.*
 
 
-class GameScreen : ScreenAdapter() {
+class GameScreen: ScreenAdapter() {
+
+    //TODO Обновлять в клиенте эти данные
+    var map: TiledMap = TiledMap()
+    var playerID: Long? = null
+    var mapObjects: TreeMap<Long, MapObject> = TreeMap()
 
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
@@ -69,15 +77,14 @@ class GameScreen : ScreenAdapter() {
     private var scrW: Float = 0f
     private var scrH: Float = 0f
 
-
     /**
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-        Time.deltaTime = Gdx.graphics.deltaTime
-        Model.update()
-        val map = Model.getMap()
-        val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(Model.getPlayerPosition())
+
+        val player = mapObjects[playerID]
+        val playerPosOnScene = player?.position ?: Point(0f, 0f)
+        val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
         Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -90,7 +97,7 @@ class GameScreen : ScreenAdapter() {
         //batch.projectionMatrix = camera.combined
 
         //TODO отрисовка
-        renderer.map = Model.getMap()
+        renderer.map = map
         renderer.setView(camera)
         renderer.render()
 
@@ -100,9 +107,9 @@ class GameScreen : ScreenAdapter() {
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в Stage
         if (config["platform"] == "android") {
 
-            val mdBtnPos = if (Model.isPlayerMoving()) {
+            val mdBtnPos = if (player != null && player.isMoving) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
-                val angle = Model.getMoveAngle().toDouble() - Math.PI / 4
+                val angle = player.moveAngle.toDouble() - Math.PI / 4
                 Point(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
                         mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
             }
@@ -121,7 +128,7 @@ class GameScreen : ScreenAdapter() {
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
     fun updateResources() {
-        loadObjectDrawers(Model.getMap())
+        loadObjectDrawers(map)
     }
 
     /**

@@ -59,7 +59,10 @@ enum class MoveDirection {
                 "DOWN_LEFT" -> DOWN_LEFT
                 "DOWN" -> DOWN
                 "DOWN_RIGHT" -> DOWN_RIGHT
-                else -> throw Exception("Incorrect move direction: $str")
+                else -> {
+                    Log.e("Incorrect move direction: $str")
+                    return DOWN
+                }
             }
         }
     }

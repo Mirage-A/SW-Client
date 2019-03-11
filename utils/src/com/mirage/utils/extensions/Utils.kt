@@ -8,3 +8,8 @@ fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
         set(key, CoerceJavaToLua.coerce(value))
     }
 }
+
+operator fun <K, V> Map<K, V>.get(key: K?) : V? {
+    key ?: return null
+    return get(key)
+}

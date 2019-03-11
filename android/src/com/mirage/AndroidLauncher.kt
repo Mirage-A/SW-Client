@@ -3,7 +3,7 @@ package com.mirage
 import android.os.Bundle
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
-import com.mirage.client.Controller
+import com.mirage.client.Client
 import com.mirage.configuration.config
 
 class AndroidLauncher : AndroidApplication() {
@@ -12,6 +12,6 @@ class AndroidLauncher : AndroidApplication() {
         config.put("platform", "android")
         val cfg = AndroidApplicationConfiguration()
         cfg.useImmersiveMode = true
-        initialize(Controller, cfg)
+        initialize(Client, cfg)
     }
 }

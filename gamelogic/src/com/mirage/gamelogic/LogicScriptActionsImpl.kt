@@ -1,7 +1,7 @@
 package com.mirage.gamelogic
 
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.configuration.Log
+import com.mirage.utils.Log
 import com.mirage.scriptrunner.logic.LogicScriptActions
 import org.luaj.vm2.LuaTable
 
