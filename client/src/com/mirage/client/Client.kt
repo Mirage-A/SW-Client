@@ -52,6 +52,7 @@ object Client : Game(), InputProcessor {
             }
             is MoveObjectMessage -> {
                 state.objects[msg.id]?.position = msg.newPosition
+                (screen as? GameScreen)?.lastObjectPositionUpdateTime?.put(msg.id, System.nanoTime())
             }
         }
     }

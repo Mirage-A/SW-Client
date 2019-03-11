@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.utils.Assets
@@ -12,10 +13,7 @@ import com.mirage.utils.GameState
 import com.mirage.utils.Log
 import com.mirage.utils.config
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.get
-import com.mirage.utils.extensions.isMoving
-import com.mirage.utils.extensions.moveDirection
-import com.mirage.utils.extensions.position
+import com.mirage.utils.extensions.*
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects
@@ -27,6 +25,12 @@ class GameScreen(val state: GameState): ScreenAdapter() {
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
     private val renderer: IsometricTiledMapRenderer = IsometricTiledMapRenderer(null, batch)
+
+    /**
+     * Время, в которое последний раз обновилась позиция объекта.
+     * Нужно для сглаживания движения при задержках соединения с сервером.
+     */
+    val lastObjectPositionUpdateTime = HashMap<Long, Long>()
 
     companion object {
         /**
@@ -76,6 +80,18 @@ class GameScreen(val state: GameState): ScreenAdapter() {
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
+        for ((id, time) in lastObjectPositionUpdateTime) {
+            val obj = state.objects[id]
+            if (obj?.isMoving == true) {
+                val cur = System.nanoTime()
+                val range = obj.speed * (cur - time) / 1000000000f
+                if (range != 0f){
+                    lastObjectPositionUpdateTime[id] = cur
+                    obj.position.move(obj.moveDirection.toAngle(), range)
+                }
+            }
+        }
+
         val player = state.objects[state.playerID]
         val playerPosOnScene = player?.position ?: Point(0f, 0f)
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)

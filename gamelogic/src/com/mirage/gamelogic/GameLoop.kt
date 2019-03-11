@@ -151,16 +151,16 @@ class GameLoop {
                 loopLock.lock()
                 if (lastTime == -1L) {
                     deltaTime = 0f
-                    lastTime = System.currentTimeMillis()
+                    lastTime = System.nanoTime()
                 }
                 update()
                 ++fps
-                deltaTime = (System.currentTimeMillis() - lastTime) / 1000f
+                deltaTime = (System.nanoTime() - lastTime) / 1000000000f
                 if (deltaTime < minTickTime) {
-                    Thread.sleep(((minTickTime - deltaTime) * 1000f).toLong() + 1L)
+                    Thread.sleep(((minTickTime - deltaTime) * 1000f).toLong())
                 }
-                val cur = System.currentTimeMillis()
-                deltaTime = (cur - lastTime) / 1000f
+                val cur = System.nanoTime()
+                deltaTime = (cur - lastTime) / 1000000000f
                 lastTime = cur
                 if (deltaTime > 0.1f) Log.i("Slow update: $deltaTime s")
                 loopLock.unlock()
