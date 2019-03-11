@@ -1,8 +1,10 @@
 package com.mirage.connection
 
 import com.mirage.gamelogic.LogicFacade
-import com.mirage.gamelogic.UpdateMessage
+import com.mirage.utils.UpdateMessage
+import com.mirage.utils.Log
 import com.mirage.utils.MoveDirection
+import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
 import com.mirage.utils.extensions.moveDirection
 
@@ -26,9 +28,11 @@ class LocalConnection : Connection {
         logic.addUpdateTickListener {
             bufferedMoveDirection?.let {
                 logic.gameLoop.objects[playerID]?.moveDirection = it
+                bufferedMoveDirection = null
             }
             bufferedMoving?.let {
                 logic.gameLoop.objects[playerID]?.isMoving = it
+                bufferedMoving = null
             }
         }
     }
@@ -56,13 +60,17 @@ class LocalConnection : Connection {
 
     override fun checkNewMessages() {
         while (!logic.gameLoop.messageQueue.isEmpty()) {
+            val msg = logic.gameLoop.messageQueue.pop()
             for (msgListener in messageListeners) {
-                msgListener(logic.gameLoop.messageQueue.pop())
+                msgListener(msg)
             }
         }
     }
 
-    fun startGame() = logic.startGame()
+    fun startGame() {
+        logic.startGame()
+        playerID = logic.addNewPlayer()
+    }
 
     fun startLogic() = logic.startLogic()
 

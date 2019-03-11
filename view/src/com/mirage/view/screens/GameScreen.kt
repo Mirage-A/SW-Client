@@ -5,29 +5,24 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
-import com.mirage.assetmanager.Assets
+import com.mirage.utils.Assets
+import com.mirage.utils.GameState
+import com.mirage.utils.Log
 import com.mirage.utils.config
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
-import com.mirage.utils.extensions.moveAngle
+import com.mirage.utils.extensions.moveDirection
 import com.mirage.utils.extensions.position
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
-import java.util.*
 
 
-class GameScreen: ScreenAdapter() {
-
-    //TODO Обновлять в клиенте эти данные
-    var map: TiledMap = TiledMap()
-    var playerID: Long? = null
-    var mapObjects: TreeMap<Long, MapObject> = TreeMap()
+class GameScreen(val state: GameState): ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
@@ -69,7 +64,7 @@ class GameScreen: ScreenAdapter() {
     /**
      * Словарь, где по объекту сцены мы получаем его визуальное представление
      */
-    var drawers = Drawers(camera)
+    val drawers = Drawers(camera)
 
     /**
      * Размеры виртуального экрана
@@ -81,8 +76,7 @@ class GameScreen: ScreenAdapter() {
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-
-        val player = mapObjects[playerID]
+        val player = state.objects[state.playerID]
         val playerPosOnScene = player?.position ?: Point(0f, 0f)
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
@@ -97,19 +91,19 @@ class GameScreen: ScreenAdapter() {
         //batch.projectionMatrix = camera.combined
 
         //TODO отрисовка
-        renderer.map = map
+        renderer.map = state.map
         renderer.setView(camera)
         renderer.render()
 
         batch.begin()
-        renderObjects(batch, map, drawers)
+        renderObjects(batch, state, drawers)
         //TODO
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в Stage
         if (config["platform"] == "android") {
 
             val mdBtnPos = if (player != null && player.isMoving) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
-                val angle = player.moveAngle.toDouble() - Math.PI / 4
+                val angle = player.moveDirection.toAngle() - Math.PI / 4
                 Point(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
                         mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
             }
@@ -128,14 +122,13 @@ class GameScreen: ScreenAdapter() {
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
     fun updateResources() {
-        loadObjectDrawers(map)
+        loadObjectDrawers(state.map)
     }
 
     /**
      * Загружает drawers для объектов сцены
      */
     private fun loadObjectDrawers(map: TiledMap) {
-        drawers = Drawers(camera)
         for (layer in map.layers) {
             for (obj in layer.objects) {
                 drawers.addObjectDrawer(obj)

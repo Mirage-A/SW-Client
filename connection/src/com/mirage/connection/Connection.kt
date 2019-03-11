@@ -1,6 +1,6 @@
 package com.mirage.connection
 
-import com.mirage.gamelogic.UpdateMessage
+import com.mirage.utils.UpdateMessage
 import com.mirage.utils.MoveDirection
 
 interface Connection {

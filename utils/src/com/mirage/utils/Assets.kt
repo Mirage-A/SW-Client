@@ -1,11 +1,9 @@
-package com.mirage.assetmanager
+package com.mirage.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
-import com.mirage.utils.Log
-import com.mirage.utils.config
 import java.io.File
 import java.io.InputStream
 import java.io.Reader
@@ -28,10 +26,10 @@ object Assets {
             Gdx.files.internal(assetsPath + path).reader()
 
     fun loadClientScript(name: String) : Reader? =
-            loadReader("${assetsPath}scripts/client/$name.lua")
+            loadReader("scripts/client/$name.lua")
 
     fun loadLogicScript(name: String) : Reader? =
-            loadReader("${assetsPath}scripts/logic/$name.lua")
+            loadReader("scripts/logic/$name.lua")
 
     private val MIN_FILTER = Texture.TextureFilter.MipMapLinearNearest
     private val MAG_FILTER = Texture.TextureFilter.MipMapLinearNearest
@@ -47,6 +45,6 @@ object Assets {
     }
 
     fun loadAnimation(name: String) : InputStream? =
-        loadFile("${assetsPath}animations/$name.swa")?.read()
+        loadFile("animations/$name.swa")?.read()
 
 }

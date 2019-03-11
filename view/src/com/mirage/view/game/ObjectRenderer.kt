@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
+import com.mirage.utils.GameState
+import com.mirage.utils.Log
 import com.mirage.utils.MoveDirection
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
@@ -11,6 +13,7 @@ import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.gameobjects.Drawers
 import com.mirage.view.gameobjects.HumanoidAnimation
+import com.mirage.view.gameobjects.ObjectDrawer
 import java.util.*
 
 
@@ -24,46 +27,46 @@ private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
 /**
  * Отрисовывает все объекты карты
  */
-fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
-    for (layer in map.layers) {
-        val objs = ArrayList<MapObject>()
+fun renderObjects(batch: SpriteBatch, state: GameState, drawers: Drawers) {
+    val objs = ArrayList<MapObject>()
 
-        for (obj in layer.objects) {
-            objs.add(obj)
+    for ((_, obj) in state.objects) {
+        objs.add(obj)
+    }
+
+    depthSort(objs)
+
+    for (obj in objs) {
+        val isOpaque = isOpaque(obj, state)
+        if (drawers[obj, isOpaque] == null) {
+            drawers.addObjectDrawer(obj)
         }
-
-        depthSort(objs)
-
-        for (obj in objs) {
-            val isOpaque = isOpaque(obj, map)
-            val drawer = drawers[obj, isOpaque] ?:
-                drawers.apply { addObjectDrawer(obj) }[obj, isOpaque]
-            //TODO Направление движения может влиять не только на HumanoidAnimation
-            if (drawer is HumanoidAnimation) {
-                val updatedMoveDirection = MoveDirection.fromMoveAngle(obj.moveAngle)
-                if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
-                    drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
-                    drawer.bufferedMoveDirection = updatedMoveDirection
-                } else if (System.currentTimeMillis() - drawer.lastMoveDirectionUpdateTime > MOVE_DIRECTION_UPDATE_INTERVAL) {
-                    drawer.moveDirection = drawer.bufferedMoveDirection
-                }
-
-                if (obj.isMoving) {
-                    drawer.setBodyAction(BodyAction.RUNNING)
-                    drawer.setLegsAction(LegsAction.RUNNING)
-                } else {
-                    drawer.setBodyAction(BodyAction.IDLE)
-                    drawer.setLegsAction(LegsAction.IDLE)
-                }
+        val drawer = drawers[obj, isOpaque]
+        //TODO Направление движения может влиять не только на HumanoidAnimation
+        if (drawer is HumanoidAnimation) {
+            val updatedMoveDirection = obj.moveDirection
+            if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
+                drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
+                drawer.bufferedMoveDirection = updatedMoveDirection
+            } else if (System.currentTimeMillis() - drawer.lastMoveDirectionUpdateTime > MOVE_DIRECTION_UPDATE_INTERVAL) {
+                drawer.moveDirection = drawer.bufferedMoveDirection
             }
-            //val pos = getVirtualScreenPointFromScene(obj.getPosition())
-            val scenePoint = obj.position
-            val width = obj.properties.getFloat("width", 0f)
-            val height = obj.properties.getFloat("height", 0f)
-            val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
-            val pos = getVirtualScreenPointFromScene(sceneCenter)
-            drawer?.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
+
+            if (obj.isMoving) {
+                drawer.setBodyAction(BodyAction.RUNNING)
+                drawer.setLegsAction(LegsAction.RUNNING)
+            } else {
+                drawer.setBodyAction(BodyAction.IDLE)
+                drawer.setLegsAction(LegsAction.IDLE)
+            }
         }
+        //val pos = getVirtualScreenPointFromScene(obj.getPosition())
+        val scenePoint = obj.position
+        val width = obj.properties.getFloat("width", 0f)
+        val height = obj.properties.getFloat("height", 0f)
+        val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
+        val pos = getVirtualScreenPointFromScene(sceneCenter)
+        drawer?.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
     }
 }
 
@@ -73,8 +76,8 @@ fun renderObjects(batch: SpriteBatch, map: TiledMap, drawers: Drawers) {
  * Объект становится прозрачным, если у него есть свойство tp-range и
  * внутри этого объекта или на расстоянии tp-range тайлов за объектом находится entity
  */
-private fun isOpaque(obj: MapObject, map: TiledMap) : Boolean {
-    for (other in map) {
+private fun isOpaque(obj: MapObject, state: GameState) : Boolean {
+    for ((_, other) in state.objects) {
         val rect = obj.rectangle
         val otherRect = other.rectangle
         val center = rect.center

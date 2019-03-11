@@ -4,9 +4,12 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
-import com.mirage.assetmanager.Assets
+import com.mirage.utils.Assets
 import com.mirage.utils.config
 import com.mirage.scriptrunner.logic.MapLogicEventListener
+import com.mirage.utils.Log
+import com.mirage.utils.MapChangeMessage
+import com.mirage.utils.NewObjectMessage
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 
@@ -20,32 +23,49 @@ class LogicFacade {
     var map : TiledMap
         get() = gameLoop.map
         set(newMap) {
+            Log.i("Map changed to $map")
+            gameLoop.loopLock.lock()
+            val oldObjects = gameLoop.objects
+            val oldPlayerIDs = gameLoop.playerIDs
             gameLoop.map = newMap
             gameLoop.objects.clear()
-            for (obj in newMap) {
-
+            for (id in oldPlayerIDs) {
+                val player = oldObjects[id] ?: continue
+                gameLoop.objects[id] = player
+                gameLoop.sendMessage(NewObjectMessage(id, player))
             }
+            for (obj in newMap) {
+                if (obj.type != "player") {
+                    gameLoop.addNewObject(obj)
+                }
+            }
+            gameLoop.walkabilities = Array(map.properties.getInt("width"))
+            {i -> IntArray(map.properties.getInt("height"))
+            {j -> (map.layers["walkability"] as TiledMapTileLayer).getCell(i, j).tile.id } }
+            gameLoop.logicEventHandler.listeners.clear()
+            gameLoop.logicEventHandler.listeners.add(MapLogicEventListener())
+            gameLoop.loopLock.unlock()
         }
 
-    fun setMap(path: String) {
-        safePauseLogic()
-        map = TmxMapLoader().load("${Assets.assetsPath}maps/$path")
+    /**
+     * Загружает карту по данному пути
+     * Этот метод не меняет карту на загруженную, нужно вызвать setMap
+     */
+    fun loadMap(path: String) : TiledMap {
+        val map = TmxMapLoader().load("${Assets.assetsPath}maps/$path.tmx")
         for (obj in map) {
             obj.position = getScenePointFromTiledMap(obj.position)
             obj.properties.put("width", obj.properties.getFloat("width") / (config["tile-height"] as? Float ?: 64f))
             obj.properties.put("height", obj.properties.getFloat("height") / (config["tile-height"] as? Float ?: 64f))
         }
-        gameLoop.walkabilities = Array(map.properties.getInt("width"))
-            {i -> IntArray(map.properties.getInt("height"))
-                {j -> (map.layers["walkability"] as TiledMapTileLayer).getCell(i, j).tile.id } }
-        gameLoop.logicEventHandler.listeners.clear()
-        gameLoop.logicEventHandler.listeners.add(MapLogicEventListener())
-        startLogic()
+        return map
     }
 
     fun addUpdateTickListener(listener: () -> Unit) {
         gameLoop.updateTickListeners.add(listener)
     }
+
+    fun getObject(id: Long) = gameLoop.objects[id]
 
     /**
      * Добавить нового игрока и вернуть его id
@@ -57,11 +77,12 @@ class LogicFacade {
             speed = 2.8f
         }
         val player = MapObject().apply {
+            name = "player"
             rectangle = spawnPoint.rectangle
             isRigid = true
             speed = spawnPoint.speed
             moveDirection = spawnPoint.moveDirection
-            type = "player"
+            type = "entity"
         }
         val id = gameLoop.addNewObject(player)
         gameLoop.playerIDs.add(id)
@@ -72,7 +93,9 @@ class LogicFacade {
      * Начать игру (логика на паузе, следует вызвать startLogic)
      */
     fun startGame() {
-        setMap("test.tmx")
+        //TODO Сделать нормальную реализацию отправки сообщений о карте
+        gameLoop.sendMessage(MapChangeMessage("test"))
+        map = loadMap("test")
         gameLoop.thread.start()
     }
 
@@ -81,14 +104,6 @@ class LogicFacade {
      */
     fun pauseLogic() {
         gameLoop.isPaused = true
-    }
-
-    /**
-     * Приостановить цикл логики и дождаться завершения последней итерации
-     */
-    fun safePauseLogic() {
-        pauseLogic()
-        while (gameLoop.isUpdating) {}
     }
 
     /**

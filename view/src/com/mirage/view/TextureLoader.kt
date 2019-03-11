@@ -1,6 +1,6 @@
 package com.mirage.view
 
-import com.mirage.assetmanager.Assets
+import com.mirage.utils.Assets
 import com.mirage.view.gameobjects.Image
 import com.mirage.view.gameobjects.StaticTexture
 import java.util.*

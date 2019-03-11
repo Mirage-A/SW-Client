@@ -1,2 +1,2 @@
 include 'desktop', 'android', 'ios', 'client', 'gamelogic', 'view', 'ui', 'scriptrunner',
-        'assetmanager', 'utils', 'connection'
+        'utils', 'connection'

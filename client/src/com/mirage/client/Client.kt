@@ -4,10 +4,13 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.mirage.utils.Assets
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
-import com.mirage.utils.config
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.*
+import com.mirage.utils.GameState
+import com.mirage.utils.extensions.position
 import com.mirage.view.screens.GameScreen
 
 
@@ -30,13 +33,43 @@ object Client : Game(), InputProcessor {
 
     var connection : Connection? = null
 
+    fun messageListener(msg: UpdateMessage) {
+        when (msg) {
+            is MapChangeMessage -> {
+                Log.i("MapChangeMessage received: $msg")
+                state.objects.clear()
+                state.map = TmxMapLoader().load("${Assets.assetsPath}maps/${msg.mapName}.tmx")
+                for (layer in state.map.layers) {
+                    while (layer.objects.count != 0) {
+                        layer.objects.remove(0)
+                    }
+                }
+            }
+            is NewObjectMessage -> {
+                Log.i("NewObjectMessage received: ${msg.obj.name}")
+                state.objects[msg.id] = msg.obj
+                (screen as? GameScreen)?.drawers?.addObjectDrawer(msg.obj)
+            }
+            is MoveObjectMessage -> {
+                state.objects[msg.id]?.position = msg.newPosition
+            }
+        }
+    }
+
+    override fun render() {
+        connection?.checkNewMessages()
+        state.playerID = connection?.getPlayerID()
+        super.render() // Перерисовка view
+    }
+
     override fun create() {
         Gdx.input.inputProcessor = this
-        val gameScreen = GameScreen()
+        val gameScreen = GameScreen(state)
         connection = LocalConnection().apply {
             startGame()
             gameScreen.updateResources()
             startLogic()
+            addMessageListener(::messageListener)
         }
         setScreen(gameScreen)
     }

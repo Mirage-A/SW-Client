@@ -5,11 +5,20 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.scriptrunner.logic.LogicEventHandler
 import com.mirage.utils.Log
+import com.mirage.utils.MoveObjectMessage
+import com.mirage.utils.NewObjectMessage
+import com.mirage.utils.UpdateMessage
 import com.mirage.utils.extensions.*
 import java.util.*
+import java.util.concurrent.locks.ReentrantLock
 import javax.swing.Timer
 
 class GameLoop {
+
+    /**
+     * Мьютекс, который занят во время итерации обновления логики
+     */
+    val loopLock = ReentrantLock()
 
     /**
      * Поток, в котором работает этот цикл
@@ -57,11 +66,6 @@ class GameLoop {
     var isPaused = true
 
     /**
-     * Этот параметр равен true, если в данный момент выполняется итерация цикла
-     */
-    var isUpdating = false
-
-    /**
      * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
      * Длинные перемещения разбиваются на малые такой длины
      */
@@ -97,13 +101,13 @@ class GameLoop {
 
     /**
      * Добавить новый объект и получить его id
+     * Этот метод отправляет сообщение о добавлении объекта
      * Этот метод является thread-unsafe, поэтому должен вызываться только внутри слушателя updateListener
      */
     fun addNewObject(obj: MapObject) : Long {
         objects[nextID] = obj
-        messageQueue.add(NewObjectMessage(nextID, obj))
-        ++nextID
-        return nextID
+        sendMessage(NewObjectMessage(nextID, obj))
+        return nextID++
     }
 
 
@@ -111,12 +115,12 @@ class GameLoop {
      * Обрабатывает передвижение данного объекта за тик
      */
     private fun moveObject(id: Long, obj: MapObject) {
-        val range = obj.properties.getFloat("speed", 0f) * deltaTime
+        val range = obj.speed * deltaTime
         for (i in 0 until (range / smallRange).toInt()) {
             smallMove(obj, smallRange)
         }
         smallMove(obj, range % smallRange)
-        messageQueue.add(MoveObjectMessage(id, obj.position))
+        sendMessage(MoveObjectMessage(id, obj.position))
     }
 
 
@@ -142,10 +146,9 @@ class GameLoop {
         while (true) {
             if (isPaused) {
                 lastTime = -1L
-                isUpdating = false
             }
             else {
-                isUpdating = true
+                loopLock.lock()
                 if (lastTime == -1L) {
                     deltaTime = 0f
                     lastTime = System.currentTimeMillis()
@@ -156,13 +159,21 @@ class GameLoop {
                 if (deltaTime < minTickTime) {
                     Thread.sleep(((minTickTime - deltaTime) * 1000f).toLong() + 1L)
                 }
-                lastTime = System.currentTimeMillis()
-                deltaTime = System.currentTimeMillis() / 1000f - lastTime
+                val cur = System.currentTimeMillis()
+                deltaTime = (cur - lastTime) / 1000f
+                lastTime = cur
                 if (deltaTime > 0.1f) Log.i("Slow update: $deltaTime s")
+                loopLock.unlock()
             }
         }
     }
 
+    /**
+     * Добавить сообщение в очередь сообщений
+     */
+    fun sendMessage(msg: UpdateMessage) {
+        messageQueue.add(msg)
+    }
 
     /**
      * Отступ от границы непроходимого тайла
@@ -177,7 +188,7 @@ class GameLoop {
         val rect = obj.rectangle
         val oldPosition = obj.position
         val newPosition = obj.position
-        newPosition.move(obj.moveAngle, range)
+        newPosition.move(obj.moveDirection.toAngle(), range)
         newPosition.x = Math.max(eps, Math.min(map.properties.getInt("width", 0) - eps - rect.width, newPosition.x))
         newPosition.y = Math.max(eps, Math.min(map.properties.getInt("height", 0) - eps - rect.height, newPosition.y))
         val newRect = Rectangle(newPosition.x, newPosition.y, rect.width, rect.height)

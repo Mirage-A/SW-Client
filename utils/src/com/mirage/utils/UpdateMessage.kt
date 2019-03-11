@@ -1,7 +1,6 @@
-package com.mirage.gamelogic
+package com.mirage.utils
 
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.MoveDirection
 import com.mirage.utils.datastructures.Point
 
 /**
@@ -34,3 +33,8 @@ data class MoveObjectMessage(val id: Long, val newPosition: Point) : UpdateMessa
  * Изменение направления движения объекта
  */
 data class MoveDirectionChangeMessage(val id: Long, val moveDirection: MoveDirection) : UpdateMessage()
+
+/**
+ * Изменение карты (новая карта полностью чистая, после этого сообщения должны идти сообщения добавления объектов)
+ */
+data class MapChangeMessage(val mapName: String) : UpdateMessage()

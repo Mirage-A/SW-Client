@@ -54,10 +54,6 @@ var MapObject.position : Point
 val Rectangle.center
     get() = Point(x + width / 2, y + height / 2)
 
-var MapObject.moveAngle : Float
-    get() = properties.getFloat("move-angle", 0f)
-    set(angle) = properties.put("move-angle", angle)
-
 var MapObject.isMoving : Boolean
     get() = properties.getBoolean("is-moving", false)
     set(value) = properties.put("is-moving", value)

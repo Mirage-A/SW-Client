@@ -2,10 +2,12 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
+import com.mirage.utils.Log
 import com.mirage.utils.config
 import com.mirage.utils.MoveDirection
 import com.mirage.utils.extensions.getFloat
 import com.mirage.utils.extensions.getString
+import com.mirage.utils.extensions.moveDirection
 import com.mirage.view.TextureLoader
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
@@ -24,13 +26,13 @@ class Drawers(private val camera: OrthographicCamera) {
      * Загружает objectDrawer данного объекта карты
      */
     fun addObjectDrawer(obj: MapObject) {
-        this[obj, true] = when {
-            obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, MoveDirection.fromMoveAngle(obj.properties.getFloat("moveAngle", 0f)), WeaponType.UNARMED)
+        opaqueDrawers[obj] = when {
+            obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, obj.moveDirection, WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
-            else -> if (config["show-invisible-objects"] == true) TestObjectFiller(obj, camera) else null
+            else -> {if (config["show-invisible-objects"] == true) TestObjectFiller(obj, camera) else null}
         }
-        this[obj, false] = when {
+        transparentDrawers[obj] = when {
             obj.properties.containsKey("animation-tp") -> ObjectAnimation(obj.properties.getString("animation-tp", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture-tp") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture-tp", "null.png"), Image.Alignment.CENTER)
             else -> this[obj, true]

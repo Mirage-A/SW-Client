@@ -1,6 +1,6 @@
 package com.mirage.scriptrunner
 
-import com.mirage.assetmanager.Assets
+import com.mirage.utils.Assets
 import com.mirage.scriptrunner.client.ClientScriptActions
 import com.mirage.scriptrunner.logic.LogicScriptActions
 import org.luaj.vm2.LuaTable
