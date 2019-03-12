@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 
 import com.mirage.client.Client;
-import com.mirage.configuration.ConfigurationKt;
+import com.mirage.utils.ConfigurationKt;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 

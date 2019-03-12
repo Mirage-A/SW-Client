@@ -10,15 +10,16 @@ import org.luaj.vm2.LuaTable
  */
 interface ClientScriptActions {
 
-    fun runLogicScript(scriptName: String, args: LuaTable)
+    fun runScript(scriptName: String, args: LuaTable)
 
-    fun runClientScriptForPlayer(player: MapObject, scriptName: String, args: LuaTable)
-
-    fun runClientScriptForAllInRoom(scriptName: String, args: LuaTable)
+    fun runScriptAfterDelay(scriptName: String, args: LuaTable, delayTime: Long)
 
     fun findObject(objName: String) : MapObject?
 
     fun findAllObjects(objName: String) : LuaTable
 
     fun findAllPlayers() : LuaTable
+
+    fun updateObjectDrawer(obj: MapObject)
+
 }

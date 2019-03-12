@@ -38,3 +38,8 @@ data class MoveDirectionChangeMessage(val id: Long, val moveDirection: MoveDirec
  * Изменение карты (новая карта полностью чистая, после этого сообщения должны идти сообщения добавления объектов)
  */
 data class MapChangeMessage(val mapName: String) : UpdateMessage()
+
+/**
+ * Сообщение о конце пакета (т.е. о конце итерации цикла)
+ */
+class EndOfPackageMessage : UpdateMessage()

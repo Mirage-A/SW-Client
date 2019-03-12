@@ -6,6 +6,9 @@ import com.mirage.scriptrunner.logic.LogicScriptActions
 import org.luaj.vm2.LuaTable
 
 class LogicScriptActionsImpl(val loop: GameLoop) : LogicScriptActions {
+    override fun print(msg: Any?) {
+        println(msg.toString())
+    }
 
     //TODO
     override fun runLogicScript(scriptName: String, args: LuaTable) {
@@ -22,9 +25,11 @@ class LogicScriptActionsImpl(val loop: GameLoop) : LogicScriptActions {
         Log.d("Client script $scriptName with args $args for all players")
     }
 
-    //TODO
     override fun findObject(objName: String): MapObject? {
         Log.d("Finding object $objName")
+        for ((_, obj) in loop.objects) {
+            if (obj.name == objName) return obj
+        }
         return null
     }
 

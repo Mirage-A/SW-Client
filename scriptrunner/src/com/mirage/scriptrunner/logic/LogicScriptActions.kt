@@ -21,4 +21,6 @@ interface LogicScriptActions {
     fun findAllObjects(objName: String) : LuaTable
 
     fun findAllPlayers() : LuaTable
+
+    fun print(msg: Any?)
 }

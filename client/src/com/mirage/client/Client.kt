@@ -8,9 +8,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.mirage.utils.Assets
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
+import com.mirage.scriptrunner.runClientScript
 import com.mirage.utils.*
 import com.mirage.utils.GameState
+import com.mirage.utils.extensions.getString
 import com.mirage.utils.extensions.position
+import com.mirage.utils.extensions.tableOf
 import com.mirage.view.screens.GameScreen
 
 
@@ -33,6 +36,8 @@ object Client : Game(), InputProcessor {
 
     var connection : Connection? = null
 
+    private val actions = ClientScriptActionsImpl(this)
+
     fun messageListener(msg: UpdateMessage) {
         when (msg) {
             is MapChangeMessage -> {
@@ -51,8 +56,22 @@ object Client : Game(), InputProcessor {
                 (screen as? GameScreen)?.drawers?.addObjectDrawer(msg.obj)
             }
             is MoveObjectMessage -> {
-                state.objects[msg.id]?.position = msg.newPosition
-                (screen as? GameScreen)?.lastObjectPositionUpdateTime?.put(msg.id, System.nanoTime())
+                val obj = state.objects[msg.id]
+                if (obj != null) {
+                    val oldPos = obj.position
+                    val newPos = msg.newPosition
+                    obj.position = newPos
+                    (screen as? GameScreen)?.lastObjectPositionUpdateTime?.put(msg.id, System.nanoTime())
+                    if (obj.properties.containsKey("on-move-client")) {
+                        val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
+                        runClientScript(obj.properties.getString("on-move-client"), table, actions)
+                    }
+                    if (obj.properties.containsKey("on-tile-entered-client") &&
+                            (oldPos.x.toInt() != newPos.x.toInt() || oldPos.y.toInt() != newPos.y.toInt())) {
+                        val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
+                        runClientScript(obj.properties.getString("on-tile-entered-client"), table, actions)
+                    }
+                }
             }
         }
     }
@@ -154,6 +173,7 @@ object Client : Game(), InputProcessor {
                 Input.Keys.ESCAPE -> {
                     //TODO Выход из игры
                     Gdx.app.exit()
+                    System.exit(0)
                 }
             }
         }

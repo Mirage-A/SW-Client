@@ -36,7 +36,7 @@ class ObjectAnimation(name: String) : ObjectDrawer {
             for (layerIndex in startFrame.layers.indices) {
                 val startLayer = startFrame.layers[layerIndex]
                 val endLayer = endFrame.layers[layerIndex]
-                drawLayer(batch, x, y, TextureLoader.getStaticTexture(startLayer.imageName), startLayer, endLayer, progress)
+                drawLayer(batch, x, y, TextureLoader.getStaticTexture(startLayer.imageName.substring(0, startLayer.imageName.length - 4)), startLayer, endLayer, progress)
             }
         }
     }

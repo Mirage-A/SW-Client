@@ -3,13 +3,15 @@ package com.mirage.gamelogic
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.utils.AtomicQueue
 import com.mirage.scriptrunner.logic.LogicEventHandler
-import com.mirage.utils.Log
-import com.mirage.utils.MoveObjectMessage
-import com.mirage.utils.NewObjectMessage
-import com.mirage.utils.UpdateMessage
+import com.mirage.utils.*
 import com.mirage.utils.extensions.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
 import javax.swing.Timer
 
@@ -59,6 +61,8 @@ class GameLoop {
      * Эти сообщения добавляет цикл логики, а обрабатывать и рассылать их клиентам должен сервер
      */
     val messageQueue = ArrayDeque<UpdateMessage>()
+    val queueLock = ReentrantLock()
+    var packagesCount = AtomicInteger(0)
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
@@ -96,6 +100,8 @@ class GameLoop {
             }
         }
         for (listener in updateTickListeners) listener()
+        sendMessage(EndOfPackageMessage())
+        packagesCount.incrementAndGet()
     }
 
 
@@ -170,9 +176,15 @@ class GameLoop {
 
     /**
      * Добавить сообщение в очередь сообщений
+     * //TODO Здесь используется искусственная задержка, чтобы симулировать обмен данными по сети
      */
     fun sendMessage(msg: UpdateMessage) {
-        messageQueue.add(msg)
+        //GlobalScope.launch {
+            //delay(20L)
+            queueLock.lock()
+            messageQueue.add(msg)
+            queueLock.unlock()
+        //}
     }
 
     /**

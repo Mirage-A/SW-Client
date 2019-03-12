@@ -77,6 +77,9 @@ class LogicFacade {
             speed = 2.8f
         }
         val player = MapObject().apply {
+            for (key in spawnPoint.properties.keys) {
+                properties.put(key, spawnPoint.properties[key])
+            }
             name = "player"
             rectangle = spawnPoint.rectangle
             isRigid = true

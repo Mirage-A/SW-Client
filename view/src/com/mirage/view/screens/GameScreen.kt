@@ -20,7 +20,7 @@ import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
 
 
-class GameScreen(val state: GameState): ScreenAdapter() {
+class GameScreen(private val state: GameState): ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
@@ -99,12 +99,13 @@ class GameScreen(val state: GameState): ScreenAdapter() {
         Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
+        //batch.projectionMatrix = camera.combined
+
         camera.position.x = playerPosOnVirtualScreen.x
         camera.position.y = playerPosOnVirtualScreen.y + DELTA_CENTER_Y
         camera.position.x = Math.round(camera.position.x).toFloat()
         camera.position.y = Math.round(camera.position.y).toFloat()
         camera.update()
-        //batch.projectionMatrix = camera.combined
 
         //TODO отрисовка
         renderer.map = state.map
@@ -131,7 +132,9 @@ class GameScreen(val state: GameState): ScreenAdapter() {
             batch.draw(mdAreaTexture, mdAreaMargin + scrX, mdAreaMargin + scrY)
             batch.draw(mdBtnTexture, mdBtnPos.x + scrX, mdBtnPos.y + scrY)
         }
+
         batch.end()
+
     }
 
     /**
