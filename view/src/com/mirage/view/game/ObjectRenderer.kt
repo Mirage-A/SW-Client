@@ -2,18 +2,16 @@ package com.mirage.view.game
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
-import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
+import com.mirage.utils.DEFAULT_MAP_POINT
 import com.mirage.utils.GameState
-import com.mirage.utils.Log
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.PositionSnapshot
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.gameobjects.Drawers
 import com.mirage.view.gameobjects.HumanoidAnimation
-import com.mirage.view.gameobjects.ObjectDrawer
 import java.util.*
 
 
@@ -27,16 +25,16 @@ private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
 /**
  * Отрисовывает все объекты карты
  */
-fun renderObjects(batch: SpriteBatch, state: GameState, drawers: Drawers) {
-    val objs = ArrayList<MapObject>()
+fun renderObjects(batch: SpriteBatch, state: GameState, positions: Map<Long, Point>, drawers: Drawers) {
+    val objs = ArrayList<Pair<Long, MapObject>>()
 
-    for ((_, obj) in state.objects) {
-        objs.add(obj)
+    for ((id, obj) in state.objects) {
+        objs.add(Pair(id, obj))
     }
 
     depthSort(objs)
 
-    for (obj in objs) {
+    for ((id, obj) in objs) {
         val isOpaque = isOpaque(obj, state)
         if (drawers[obj, isOpaque] == null) {
             drawers.addObjectDrawer(obj)
@@ -60,8 +58,7 @@ fun renderObjects(batch: SpriteBatch, state: GameState, drawers: Drawers) {
                 drawer.setLegsAction(LegsAction.IDLE)
             }
         }
-        //val pos = getVirtualScreenPointFromScene(obj.getPosition())
-        val scenePoint = obj.position
+        val scenePoint = positions[id] ?: DEFAULT_MAP_POINT
         val width = obj.properties.getFloat("width", 0f)
         val height = obj.properties.getFloat("height", 0f)
         val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
@@ -95,15 +92,15 @@ private fun isOpaque(obj: MapObject, state: GameState) : Boolean {
  * Используется алгоритм топологической сортировки ориентированного графа
  * (На множестве объектов задан частичный порядок, а не линейный)
  */
-private fun depthSort(objs: ArrayList<MapObject>) {
+private fun depthSort(objs: ArrayList<Pair<Long, MapObject>>) {
 
-    val q = ArrayDeque<MapObject>()
+    val q = ArrayDeque<Pair<Long, MapObject>>()
     val visited = BooleanArray(objs.size) {false}
     fun dfs(index: Int) {
         if (visited[index]) return
         visited[index] = true
         for (i in 0 until objs.size) {
-            if (compare(objs[index], objs[i]) == 1) {
+            if (compare(objs[index].second, objs[i].second) == 1) {
                 dfs(i)
             }
         }

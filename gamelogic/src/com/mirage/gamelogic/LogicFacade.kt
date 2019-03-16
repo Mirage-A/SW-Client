@@ -4,21 +4,18 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
-import com.mirage.utils.Assets
-import com.mirage.utils.config
 import com.mirage.scriptrunner.logic.MapLogicEventListener
-import com.mirage.utils.Log
-import com.mirage.utils.MapChangeMessage
-import com.mirage.utils.NewObjectMessage
+import com.mirage.utils.*
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
+import java.util.*
 
 
 class LogicFacade {
     /**
      * Цикл игровой логики
      */
-    val gameLoop = GameLoop()
+    private val gameLoop = GameLoop()
 
     var map : TiledMap
         get() = gameLoop.map
@@ -67,6 +64,14 @@ class LogicFacade {
 
     fun getObject(id: Long) = gameLoop.objects[id]
 
+    val objects: Map<Long, MapObject> = gameLoop.objects
+
+    val msgs : Queue<UpdateMessage> = gameLoop.messageQueue
+
+    fun lockMsgQueue() = gameLoop.queueLock.lock()
+
+    fun unlockMsgQueue() = gameLoop.queueLock.unlock()
+
     /**
      * Добавить нового игрока и вернуть его id
      * Этот метод является thread-unsafe, поэтому должен вызываться только внутри слушателя updateListener
@@ -89,6 +94,7 @@ class LogicFacade {
         }
         val id = gameLoop.addNewObject(player)
         gameLoop.playerIDs.add(id)
+        Log.i("Player id: $id")
         return id
     }
 
@@ -99,7 +105,7 @@ class LogicFacade {
         //TODO Сделать нормальную реализацию отправки сообщений о карте
         gameLoop.sendMessage(MapChangeMessage("test"))
         map = loadMap("test")
-        gameLoop.thread.start()
+        gameLoop.loopTimer.start()
     }
 
     /**

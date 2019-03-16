@@ -5,7 +5,7 @@ import com.mirage.utils.Log
 import com.mirage.scriptrunner.logic.LogicScriptActions
 import org.luaj.vm2.LuaTable
 
-class LogicScriptActionsImpl(val loop: GameLoop) : LogicScriptActions {
+internal class LogicScriptActionsImpl(private val loop: GameLoop) : LogicScriptActions {
     override fun print(msg: Any?) {
         println(msg.toString())
     }

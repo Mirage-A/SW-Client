@@ -25,9 +25,9 @@ data class NewObjectMessage(val id: Long, val obj: MapObject) : UpdateMessage()
 data class RemoveObjectMessage(val id: Long) : UpdateMessage()
 
 /**
- * Перемещение объекта
+ * Новые позиции объектов
  */
-data class MoveObjectMessage(val id: Long, val newPosition: Point) : UpdateMessage()
+data class PositionSnapshotMessage(val snapshot: PositionSnapshot) : UpdateMessage()
 
 /**
  * Изменение направления движения объекта
@@ -42,4 +42,4 @@ data class MapChangeMessage(val mapName: String) : UpdateMessage()
 /**
  * Сообщение о конце пакета (т.е. о конце итерации цикла)
  */
-class EndOfPackageMessage : UpdateMessage()
+data class EndOfPackageMessage(val sendTimeMillis: Long) : UpdateMessage()

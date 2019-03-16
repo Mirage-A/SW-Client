@@ -87,6 +87,20 @@ fun Map.findObject(name: String) : MapObject? {
     return null
 }
 
+fun MapObject.clone() : MapObject {
+    val obj = MapObject()
+    obj.opacity = opacity
+    obj.color = color
+    obj.isVisible = isVisible
+    obj.name = name
+    for (key in properties.keys) {
+        obj.properties[key] = properties[key]
+    }
+    return obj
+}
+
+operator fun MapProperties.set(key: String, value: Any) = put(key, value)
+
 fun MapProperties.getInt(key: String, defaultValue: Int = 0) : Int =
         get<Int>(key, defaultValue, Int::class.java)
 

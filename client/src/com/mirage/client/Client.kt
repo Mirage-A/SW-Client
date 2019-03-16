@@ -10,10 +10,8 @@ import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
 import com.mirage.scriptrunner.runClientScript
 import com.mirage.utils.*
-import com.mirage.utils.GameState
-import com.mirage.utils.extensions.getString
-import com.mirage.utils.extensions.position
-import com.mirage.utils.extensions.tableOf
+import com.mirage.utils.PositionSnapshot
+import com.mirage.utils.extensions.*
 import com.mirage.view.screens.GameScreen
 
 
@@ -36,42 +34,50 @@ object Client : Game(), InputProcessor {
 
     var connection : Connection? = null
 
+    val snapshotManager = SnapshotManager()
+
     private val actions = ClientScriptActionsImpl(this)
 
     fun messageListener(msg: UpdateMessage) {
         when (msg) {
             is MapChangeMessage -> {
                 Log.i("MapChangeMessage received: $msg")
-                state.objects.clear()
+                //TODO objects.clear()
                 state.map = TmxMapLoader().load("${Assets.assetsPath}maps/${msg.mapName}.tmx")
                 for (layer in state.map.layers) {
                     while (layer.objects.count != 0) {
                         layer.objects.remove(0)
                     }
                 }
+                (screen as? GameScreen)?.updateResources()
             }
             is NewObjectMessage -> {
                 Log.i("NewObjectMessage received: ${msg.obj.name}")
                 state.objects[msg.id] = msg.obj
                 (screen as? GameScreen)?.drawers?.addObjectDrawer(msg.obj)
             }
-            is MoveObjectMessage -> {
-                val obj = state.objects[msg.id]
-                if (obj != null) {
+            is PositionSnapshotMessage -> {
+                snapshotManager.addNewSnapshot(msg.snapshot)
+                for ((id, obj) in state.objects) {
                     val oldPos = obj.position
-                    val newPos = msg.newPosition
-                    obj.position = newPos
-                    (screen as? GameScreen)?.lastObjectPositionUpdateTime?.put(msg.id, System.nanoTime())
-                    if (obj.properties.containsKey("on-move-client")) {
-                        val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
-                        runClientScript(obj.properties.getString("on-move-client"), table, actions)
-                    }
-                    if (obj.properties.containsKey("on-tile-entered-client") &&
-                            (oldPos.x.toInt() != newPos.x.toInt() || oldPos.y.toInt() != newPos.y.toInt())) {
-                        val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
-                        runClientScript(obj.properties.getString("on-tile-entered-client"), table, actions)
+                    val newPos = msg.snapshot.positions[id] ?: oldPos
+                    if (oldPos.x != newPos.x || oldPos.y != newPos.y) {
+                        println("$id, $obj")
+                        obj.position = newPos
+                        if (obj.properties.containsKey("on-move-client")) {
+                            val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
+                            runClientScript(obj.properties.getString("on-move-client"), table, actions)
+                        }
+                        if (obj.properties.containsKey("on-tile-entered-client") &&
+                                (oldPos.x.toInt() != newPos.x.toInt() || oldPos.y.toInt() != newPos.y.toInt())) {
+                            val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
+                            runClientScript(obj.properties.getString("on-tile-entered-client"), table, actions)
+                        }
                     }
                 }
+            }
+            is EndOfPackageMessage -> {
+
             }
         }
     }
@@ -84,7 +90,7 @@ object Client : Game(), InputProcessor {
 
     override fun create() {
         Gdx.input.inputProcessor = this
-        val gameScreen = GameScreen(state)
+        val gameScreen = GameScreen(snapshotManager, state)
         connection = LocalConnection().apply {
             startGame()
             gameScreen.updateResources()
@@ -103,8 +109,8 @@ object Client : Game(), InputProcessor {
         connection?.apply {
             when (keycode) {
                 Input.Keys.W -> {
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.LEFT -> {
                                 startMoving(MoveDirection.UP_LEFT)
                             }
@@ -120,8 +126,8 @@ object Client : Game(), InputProcessor {
                     }
                 }
                 Input.Keys.A -> {
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.UP -> {
                                 startMoving(MoveDirection.UP_LEFT)
                             }
@@ -137,8 +143,8 @@ object Client : Game(), InputProcessor {
                     }
                 }
                 Input.Keys.S -> {
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.LEFT -> {
                                 startMoving(MoveDirection.DOWN_LEFT)
                             }
@@ -154,8 +160,8 @@ object Client : Game(), InputProcessor {
                     }
                 }
                 Input.Keys.D -> {
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.UP -> {
                                 startMoving(MoveDirection.UP_RIGHT)
                             }
@@ -185,8 +191,8 @@ object Client : Game(), InputProcessor {
             when (keycode) {
                 Input.Keys.W -> {
                     wReleasedTime = System.currentTimeMillis()
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.UP_LEFT -> {
                                 startMoving(MoveDirection.LEFT)
                             }
@@ -208,8 +214,8 @@ object Client : Game(), InputProcessor {
                 }
                 Input.Keys.A -> {
                     aReleasedTime = System.currentTimeMillis()
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.UP_LEFT -> {
                                 startMoving(MoveDirection.UP)
                             }
@@ -231,8 +237,8 @@ object Client : Game(), InputProcessor {
                 }
                 Input.Keys.S -> {
                     sReleasedTime = System.currentTimeMillis()
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.DOWN_LEFT -> {
                                 startMoving(MoveDirection.LEFT)
                             }
@@ -254,8 +260,8 @@ object Client : Game(), InputProcessor {
                 }
                 Input.Keys.D -> {
                     dReleasedTime = System.currentTimeMillis()
-                    if (state.isPlayerMoving()) {
-                        when (state.getPlayerMoveDirection()) {
+                    if (bufferedMoving == true) {
+                        when (bufferedMoveDirection) {
                             MoveDirection.UP_RIGHT -> {
                                 startMoving(MoveDirection.UP)
                             }
@@ -359,4 +365,8 @@ object Client : Game(), InputProcessor {
     override fun scrolled(amount: Int): Boolean {
         return false
     }
+
+    private fun isPlayerMoving(state: GameState) : Boolean = state.objects[state.playerID]?.isMoving ?: false
+
+    private fun getPlayerMoveDirection(state: GameState) : MoveDirection = state.objects[state.playerID]?.moveDirection ?: MoveDirection.DOWN
 }

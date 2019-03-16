@@ -42,4 +42,8 @@ interface Connection {
      */
     fun getPlayerID() : Long?
 
+    var bufferedMoveDirection : MoveDirection?
+
+    var bufferedMoving: Boolean?
+
 }

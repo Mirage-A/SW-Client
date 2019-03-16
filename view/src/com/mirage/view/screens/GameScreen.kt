@@ -5,32 +5,24 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
-import com.mirage.utils.Assets
-import com.mirage.utils.GameState
-import com.mirage.utils.Log
-import com.mirage.utils.config
+import com.mirage.utils.*
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.*
+import com.mirage.utils.extensions.isMoving
+import com.mirage.utils.extensions.moveDirection
+import com.mirage.utils.extensions.speed
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
 
 
-class GameScreen(private val state: GameState): ScreenAdapter() {
+class GameScreen(private val stateManager: SnapshotManager, private val state: GameState): ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
     private val renderer: IsometricTiledMapRenderer = IsometricTiledMapRenderer(null, batch)
-
-    /**
-     * Время, в которое последний раз обновилась позиция объекта.
-     * Нужно для сглаживания движения при задержках соединения с сервером.
-     */
-    val lastObjectPositionUpdateTime = HashMap<Long, Long>()
 
     companion object {
         /**
@@ -80,26 +72,15 @@ class GameScreen(private val state: GameState): ScreenAdapter() {
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-        for ((id, time) in lastObjectPositionUpdateTime) {
-            val obj = state.objects[id]
-            if (obj?.isMoving == true) {
-                val cur = System.nanoTime()
-                val range = obj.speed * (cur - time) / 1000000000f
-                if (range != 0f){
-                    lastObjectPositionUpdateTime[id] = cur
-                    obj.position.move(obj.moveDirection.toAngle(), range)
-                }
-            }
-        }
+        val positions = stateManager.getInterpolatedSnapshot().positions
 
         val player = state.objects[state.playerID]
-        val playerPosOnScene = player?.position ?: Point(0f, 0f)
+        val playerPosOnScene = positions[state.playerID] ?: DEFAULT_MAP_POINT
+
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
         Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-
-        //batch.projectionMatrix = camera.combined
 
         camera.position.x = playerPosOnVirtualScreen.x
         camera.position.y = playerPosOnVirtualScreen.y + DELTA_CENTER_Y
@@ -113,9 +94,9 @@ class GameScreen(private val state: GameState): ScreenAdapter() {
         renderer.render()
 
         batch.begin()
-        renderObjects(batch, state, drawers)
+        renderObjects(batch, state, positions, drawers)
         //TODO
-        //Временное решение для управления на андроиде, потом этот код должен быть вынесен в Stage
+        //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
         if (config["platform"] == "android") {
 
             val mdBtnPos = if (player != null && player.isMoving) {

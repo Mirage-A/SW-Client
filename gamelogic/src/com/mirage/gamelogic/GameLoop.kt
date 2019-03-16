@@ -3,19 +3,16 @@ package com.mirage.gamelogic
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.utils.AtomicQueue
 import com.mirage.scriptrunner.logic.LogicEventHandler
 import com.mirage.utils.*
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
 import javax.swing.Timer
 
-class GameLoop {
+internal class GameLoop {
 
     /**
      * Мьютекс, который занят во время итерации обновления логики
@@ -25,9 +22,7 @@ class GameLoop {
     /**
      * Поток, в котором работает этот цикл
      */
-    val thread = Thread(Runnable { updateLoop() })
-
-    private var deltaTime = 0f
+    val loopTimer = com.mirage.utils.Timer(GAME_LOOP_TICK_INTERVAL, ::update)
 
     /**
      * Карта
@@ -75,12 +70,6 @@ class GameLoop {
      */
     private val smallRange = 0.5f
 
-    /**
-     * Нижний предел времени выполнения итерации
-     * (итерация не может выполняться быстрее, это нужно для ограничения кол-ва обновлений в секунду)
-     */
-    private val minTickTime = 0.01f
-
     var walkabilities = Array(0) { IntArray(0) }
 
     private var fps = 0
@@ -93,15 +82,24 @@ class GameLoop {
     /**
      * Тик игровой логики
      */
-    private fun update() {
+    private fun update(deltaMillis: Long) {
+        loopLock.lock()
         for ((id, obj) in objects) {
             if (obj.isMoving) {
-                moveObject(id, obj)
+                moveObject(obj, deltaMillis)
             }
         }
         for (listener in updateTickListeners) listener()
-        sendMessage(EndOfPackageMessage())
+        val positions = TreeMap<Long, Point>()
+        for ((id, obj) in objects) {
+            positions[id] = obj.position
+        }
+        sendMessage(PositionSnapshotMessage(PositionSnapshot(positions)))
+        sendMessage(EndOfPackageMessage(deltaMillis))
+        ++fps
         packagesCount.incrementAndGet()
+        if (deltaMillis > 200L) Log.i("Slow update: $deltaMillis ms")
+        loopLock.unlock()
     }
 
 
@@ -120,13 +118,12 @@ class GameLoop {
     /**
      * Обрабатывает передвижение данного объекта за тик
      */
-    private fun moveObject(id: Long, obj: MapObject) {
-        val range = obj.speed * deltaTime
+    private fun moveObject(obj: MapObject, deltaMillis: Long) {
+        val range = obj.speed * deltaMillis.toFloat() / 1000f
         for (i in 0 until (range / smallRange).toInt()) {
             smallMove(obj, smallRange)
         }
         smallMove(obj, range % smallRange)
-        sendMessage(MoveObjectMessage(id, obj.position))
     }
 
 
@@ -147,44 +144,13 @@ class GameLoop {
         walkabilities[x][y] = id
     }
 
-    private fun updateLoop() {
-        var lastTime = -1L
-        while (true) {
-            if (isPaused) {
-                lastTime = -1L
-            }
-            else {
-                loopLock.lock()
-                if (lastTime == -1L) {
-                    deltaTime = 0f
-                    lastTime = System.nanoTime()
-                }
-                update()
-                ++fps
-                deltaTime = (System.nanoTime() - lastTime) / 1000000000f
-                if (deltaTime < minTickTime) {
-                    Thread.sleep(((minTickTime - deltaTime) * 1000f).toLong())
-                }
-                val cur = System.nanoTime()
-                deltaTime = (cur - lastTime) / 1000000000f
-                lastTime = cur
-                if (deltaTime > 0.1f) Log.i("Slow update: $deltaTime s")
-                loopLock.unlock()
-            }
-        }
-    }
-
     /**
      * Добавить сообщение в очередь сообщений
-     * //TODO Здесь используется искусственная задержка, чтобы симулировать обмен данными по сети
      */
     fun sendMessage(msg: UpdateMessage) {
-        //GlobalScope.launch {
-            //delay(20L)
-            queueLock.lock()
-            messageQueue.add(msg)
-            queueLock.unlock()
-        //}
+        queueLock.lock()
+        messageQueue.add(msg)
+        queueLock.unlock()
     }
 
     /**
