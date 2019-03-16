@@ -30,11 +30,6 @@ data class RemoveObjectMessage(val id: Long) : UpdateMessage()
 data class PositionSnapshotMessage(val snapshot: PositionSnapshot) : UpdateMessage()
 
 /**
- * Изменение направления движения объекта
- */
-data class MoveDirectionChangeMessage(val id: Long, val moveDirection: MoveDirection) : UpdateMessage()
-
-/**
  * Изменение карты (новая карта полностью чистая, после этого сообщения должны идти сообщения добавления объектов)
  */
 data class MapChangeMessage(val mapName: String) : UpdateMessage()

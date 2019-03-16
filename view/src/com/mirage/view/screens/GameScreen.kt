@@ -72,10 +72,10 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-        val positions = stateManager.getInterpolatedSnapshot().positions
+        val snapshot = stateManager.getInterpolatedSnapshot()
 
         val player = state.objects[state.playerID]
-        val playerPosOnScene = positions[state.playerID] ?: DEFAULT_MAP_POINT
+        val playerPosOnScene = snapshot.positions[state.playerID] ?: DEFAULT_MAP_POINT
 
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
@@ -94,7 +94,7 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
         renderer.render()
 
         batch.begin()
-        renderObjects(batch, state, positions, drawers)
+        renderObjects(batch, state, snapshot, drawers)
         //TODO
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
         if (config["platform"] == "android") {

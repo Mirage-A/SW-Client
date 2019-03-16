@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.DEFAULT_MAP_POINT
 import com.mirage.utils.GameState
+import com.mirage.utils.MoveDirection
 import com.mirage.utils.PositionSnapshot
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
@@ -25,7 +26,7 @@ private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
 /**
  * Отрисовывает все объекты карты
  */
-fun renderObjects(batch: SpriteBatch, state: GameState, positions: Map<Long, Point>, drawers: Drawers) {
+fun renderObjects(batch: SpriteBatch, state: GameState, snapshot: PositionSnapshot, drawers: Drawers) {
     val objs = ArrayList<Pair<Long, MapObject>>()
 
     for ((id, obj) in state.objects) {
@@ -42,7 +43,7 @@ fun renderObjects(batch: SpriteBatch, state: GameState, positions: Map<Long, Poi
         val drawer = drawers[obj, isOpaque]
         //TODO Направление движения может влиять не только на HumanoidAnimation
         if (drawer is HumanoidAnimation) {
-            val updatedMoveDirection = obj.moveDirection
+            val updatedMoveDirection = snapshot.moveDirections[id] ?: MoveDirection.DOWN
             if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
                 drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
                 drawer.bufferedMoveDirection = updatedMoveDirection
@@ -50,7 +51,8 @@ fun renderObjects(batch: SpriteBatch, state: GameState, positions: Map<Long, Poi
                 drawer.moveDirection = drawer.bufferedMoveDirection
             }
 
-            if (obj.isMoving) {
+            val isMoving = snapshot.isMoving[id] ?: false
+            if (isMoving) {
                 drawer.setBodyAction(BodyAction.RUNNING)
                 drawer.setLegsAction(LegsAction.RUNNING)
             } else {
@@ -58,7 +60,7 @@ fun renderObjects(batch: SpriteBatch, state: GameState, positions: Map<Long, Poi
                 drawer.setLegsAction(LegsAction.IDLE)
             }
         }
-        val scenePoint = positions[id] ?: DEFAULT_MAP_POINT
+        val scenePoint = snapshot.positions[id] ?: DEFAULT_MAP_POINT
         val width = obj.properties.getFloat("width", 0f)
         val height = obj.properties.getFloat("height", 0f)
         val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)

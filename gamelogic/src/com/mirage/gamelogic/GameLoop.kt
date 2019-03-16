@@ -11,6 +11,7 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
 import javax.swing.Timer
+import kotlin.collections.HashMap
 
 internal class GameLoop {
 
@@ -36,7 +37,7 @@ internal class GameLoop {
     /**
      * Все объекты карты
      */
-    val objects = TreeMap<Long, MapObject>()
+    val objects : MutableMap<Long, MapObject> = HashMap()
     /**
      * Следующее ID, которое можно использовать при добавлении нового объекта
      * //TODO Рассмотреть невероятный случай, когда за время работы цикла добавилось более 1e18 объектов
@@ -90,11 +91,19 @@ internal class GameLoop {
             }
         }
         for (listener in updateTickListeners) listener()
-        val positions = TreeMap<Long, Point>()
+        val positions = HashMap<Long, Point>()
         for ((id, obj) in objects) {
             positions[id] = obj.position
         }
-        sendMessage(PositionSnapshotMessage(PositionSnapshot(positions)))
+        val moveDirections = HashMap<Long, MoveDirection>()
+        for ((id, obj) in objects) {
+            moveDirections[id] = obj.moveDirection
+        }
+        val isMoving = HashMap<Long, Boolean>()
+        for ((id, obj) in objects) {
+            isMoving[id] = obj.isMoving
+        }
+        sendMessage(PositionSnapshotMessage(PositionSnapshot(positions, moveDirections, isMoving)))
         sendMessage(EndOfPackageMessage(deltaMillis))
         ++fps
         packagesCount.incrementAndGet()
@@ -106,10 +115,11 @@ internal class GameLoop {
     /**
      * Добавить новый объект и получить его id
      * Этот метод отправляет сообщение о добавлении объекта
-     * Этот метод является thread-unsafe, поэтому должен вызываться только внутри слушателя updateListener
      */
     fun addNewObject(obj: MapObject) : Long {
+        loopLock.lock()
         objects[nextID] = obj
+        loopLock.unlock()
         sendMessage(NewObjectMessage(nextID, obj))
         return nextID++
     }

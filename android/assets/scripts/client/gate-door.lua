@@ -1,7 +1,7 @@
 args = ...
 
 u = args["actions"]
-print("hi!")
+
 local objProps = args["object"]:getProperties()
 if objProps:get("type") == "entity" then
         local x = objProps:get("x")

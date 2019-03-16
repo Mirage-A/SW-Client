@@ -1,12 +1,12 @@
 package com.mirage.utils
 
-import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.*
 import java.util.*
 
 data class PositionSnapshot (
         val positions: Map<Long, Point>,
+        val moveDirections: Map<Long, MoveDirection>,
+        val isMoving: Map<Long, Boolean>,
         val createdTimeMillis : Long = System.currentTimeMillis()
         ) : Comparable<PositionSnapshot>, Iterable<Map.Entry<Long, Point>> {
 
@@ -32,11 +32,16 @@ data class PositionSnapshot (
      * Иначе [changeCreatedTime] равен времени создания оригинала.
      */
     fun clone(changeCreatedTime: Boolean = false) : PositionSnapshot {
-        val newPositions = TreeMap<Long, Point>()
+        val newPositions = HashMap<Long, Point>()
         for ((id, pos) in positions) {
             newPositions[id] = Point(pos.x, pos.y)
         }
-        return PositionSnapshot(newPositions, if (changeCreatedTime) System.currentTimeMillis() else createdTimeMillis)
+        val newMoveDirections = HashMap<Long, MoveDirection>()
+        for ((id, md) in moveDirections) {
+            newMoveDirections[id] = MoveDirection.fromString(md.toString())
+        }
+        return PositionSnapshot(newPositions, newMoveDirections, isMoving,
+                if (changeCreatedTime) System.currentTimeMillis() else createdTimeMillis)
     }
 
 }

@@ -34,7 +34,7 @@ object Client : Game(), InputProcessor {
 
     var connection : Connection? = null
 
-    val snapshotManager = SnapshotManager()
+    val snapshotManager = SnapshotManager(state)
 
     private val actions = ClientScriptActionsImpl(this)
 
@@ -53,7 +53,7 @@ object Client : Game(), InputProcessor {
             }
             is NewObjectMessage -> {
                 Log.i("NewObjectMessage received: ${msg.obj.name}")
-                state.objects[msg.id] = msg.obj
+                state.objects[msg.id] = msg.obj.clone()
                 (screen as? GameScreen)?.drawers?.addObjectDrawer(msg.obj)
             }
             is PositionSnapshotMessage -> {
@@ -62,7 +62,6 @@ object Client : Game(), InputProcessor {
                     val oldPos = obj.position
                     val newPos = msg.snapshot.positions[id] ?: oldPos
                     if (oldPos.x != newPos.x || oldPos.y != newPos.y) {
-                        println("$id, $obj")
                         obj.position = newPos
                         if (obj.properties.containsKey("on-move-client")) {
                             val table = tableOf("object" to obj, "oldPos" to oldPos, "newPos" to newPos)
