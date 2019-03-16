@@ -28,8 +28,12 @@ class SnapshotManager(private val state: GameState) {
         removeOldSnapshots(renderTime)
         val firstSnapshot = try { snapshots.first() } catch (ex: NoSuchElementException) { null }
         val secondSnapshot = snapshots.second()
-        if (firstSnapshot == null) return PositionSnapshot(HashMap(), HashMap(), HashMap())
-        if (secondSnapshot == null) return extrapolateSnapshot(firstSnapshot, renderTime - firstSnapshot.createdTimeMillis)
+        if (firstSnapshot == null) {
+            return PositionSnapshot(HashMap(), HashMap(), HashMap())
+        }
+        if (secondSnapshot == null) {
+            return extrapolateSnapshot(firstSnapshot, renderTime - firstSnapshot.createdTimeMillis)
+        }
         return interpolateSnapshots(firstSnapshot, secondSnapshot, renderTime)
     }
 
@@ -47,7 +51,9 @@ class SnapshotManager(private val state: GameState) {
         }
         val newMoveDirections = HashMap<Long, MoveDirection>()
         for ((id, md) in first.moveDirections) {
-            newMoveDirections[id] = interpolateMoveDirections(md, second.moveDirections[id], progress)
+            //TODO плавная смена moveDirection-а
+            // newMoveDirections[id] = interpolateMoveDirections(md, second.moveDirections[id], progress)
+            newMoveDirections[id] = md
         }
         val newMoving = HashMap<Long, Boolean>()
         for ((id, moving) in first.isMoving) {
@@ -71,11 +77,12 @@ class SnapshotManager(private val state: GameState) {
     }
 
     /**
-     * Экстраполирует состояние [snapshot] на max([deltaTimeMillis], [MAX_EXTRAPOLATION_INTERVAL]) мс вперёд.
+     * Экстраполирует состояние [snapshot] на min([deltaTimeMillis], [MAX_EXTRAPOLATION_INTERVAL]) мс вперёд.
      * Возвращается новое состояние.
      */
     private fun extrapolateSnapshot(snapshot: PositionSnapshot, deltaTimeMillis: Long) : PositionSnapshot {
-        val delta = Math.max(deltaTimeMillis, MAX_EXTRAPOLATION_INTERVAL)
+        if (deltaTimeMillis < 0) return snapshot.clone()
+        val delta = Math.min(deltaTimeMillis, MAX_EXTRAPOLATION_INTERVAL)
         val newSnapshot = snapshot.clone()
         for ((id, moving) in snapshot.isMoving) {
             if (moving) {

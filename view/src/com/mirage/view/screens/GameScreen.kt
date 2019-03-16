@@ -11,6 +11,7 @@ import com.mirage.utils.*
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.isMoving
 import com.mirage.utils.extensions.moveDirection
+import com.mirage.utils.extensions.position
 import com.mirage.utils.extensions.speed
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
@@ -75,7 +76,7 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
         val snapshot = stateManager.getInterpolatedSnapshot()
 
         val player = state.objects[state.playerID]
-        val playerPosOnScene = snapshot.positions[state.playerID] ?: DEFAULT_MAP_POINT
+        val playerPosOnScene = snapshot.positions[state.playerID] ?: state.objects[state.playerID]?.position ?: DEFAULT_MAP_POINT
 
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 

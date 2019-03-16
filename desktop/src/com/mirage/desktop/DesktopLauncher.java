@@ -16,10 +16,16 @@ class DesktopLauncher {
         config.title = "Shattered World";
         config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
         config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
-        // Фуллскрин
-        //config.fullscreen = true;
-        //config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
-        //config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+        if (ConfigurationKt.DESKTOP_FULL_SCREEN) {
+            config.fullscreen = true;
+            config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+            config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+        }
+        else {
+            config.fullscreen = false;
+            config.width = 800;
+            config.height = 600;
+        }
         new LwjglApplication(Client.INSTANCE, config);
     }
 }
