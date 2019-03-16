@@ -1,0 +1,12 @@
+apply plugin: "kotlin"
+
+dependencies {
+    implementation project(":utils")
+
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation 'org.luaj:luaj-jse:3.0.1'
+}
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]

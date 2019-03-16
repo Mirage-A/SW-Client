@@ -3,7 +3,9 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 apply plugin: "com.github.johnrengelman.shadow"
 
 dependencies {
-    implementation project(":core")
+    implementation project(":client")
+    implementation project(":utils")
+    
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
