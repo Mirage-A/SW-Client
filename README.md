@@ -20,19 +20,13 @@
     
     `cd Shattered-World`
     
- + Далее два пути: полная сборка проекта или запуск уже собранного jar-ника
+ + Переключаемся на ветку без android-а (а то еще придется Android SDK устанавливать) и собираем модуль desktop с помощью Gradle:
 
-   - Для самоотверженных (переключаемся на ветку без android-а, а то еще придется Android SDK устанавливать)
-
-        `git checkout light`
+    `git checkout light`
         
-        `chmod +x ./gradlew`
+    `chmod +x ./gradlew`
         
-        `./gradlew wrapper :desktop:run`
-    
-   - Альтернатива, если не хочется тратить кучу времени на билд с нуля (выполняем команду в master-ветке).
-
-        `java -jar "SW - Game.jar"`
+    `./gradlew wrapper :desktop:run`
 
 ![](art.png)
 
