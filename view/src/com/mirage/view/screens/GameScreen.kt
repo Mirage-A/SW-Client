@@ -100,9 +100,9 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
         if (config["platform"] == "android") {
 
-            val mdBtnPos = if (player != null && player.isMoving) {
+            val mdBtnPos = if (player != null && snapshot.isMoving[state.playerID] == true) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
-                val angle = player.moveDirection.toAngle() - Math.PI / 4
+                val angle = (snapshot.moveDirections[state.playerID]?.toAngle()?.toDouble() ?: (Math.PI / 4)) - Math.PI / 4
                 Point(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
                         mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
             }

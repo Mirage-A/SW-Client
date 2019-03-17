@@ -1,9 +1,7 @@
 package com.mirage.connection
 
 import com.mirage.gamelogic.LogicFacade
-import com.mirage.utils.EndOfPackageMessage
-import com.mirage.utils.UpdateMessage
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.*
 import com.mirage.utils.Timer
 import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
@@ -32,7 +30,7 @@ class LocalConnection : Connection {
     private val queueLock = ReentrantLock()
     private var packagesCount = AtomicInteger(0)
 
-    private val messageBufferTimer = Timer(10) {
+    private val messageBufferTimer = Timer(CONNECTION_MESSAGE_BUFFER_UPDATE_INTERVAL) {
         while (!logic.msgs.isEmpty()) {
             queueLock.lock()
             logic.lockMsgQueue()

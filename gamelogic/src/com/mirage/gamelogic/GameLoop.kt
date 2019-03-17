@@ -5,12 +5,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.scriptrunner.logic.LogicEventHandler
 import com.mirage.utils.*
+import com.mirage.utils.Timer
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
-import javax.swing.Timer
 import kotlin.collections.HashMap
 
 internal class GameLoop {
@@ -75,10 +75,10 @@ internal class GameLoop {
 
     private var fps = 0
 
-    private val fpsLogger = Timer(1000) {
+    private val fpsLogger = Timer(1000L) {
         Log.i("game loop updates per second : $fps")
         fps = 0
-    }.apply { start() }
+    }// TODO .apply { start() }
 
     /**
      * Тик игровой логики
