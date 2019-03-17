@@ -1,4 +1,35 @@
 # Shattered World - Client (WIP)
+
+## Мануал по установке
+
+Команды для установки на убунту:
+
+1. Устанавливаем Java 8
+
+    sudo add-apt-repository ppa:webupd8team/java
+    
+    sudo apt install oracle-java8-set-default
+    
+2. Клонируем репозиторий
+
+    git clone https://github.com/Mirage-A/Shattered-World.git
+    
+    cd Shattered-World
+    
+Далее два пути: полная сборка проекта или запуск уже собранного jar-ника
+
+3.1. Для самоотверженных (переключаемся на ветку без android-а, а то еще придется Android SDK устанавливать)
+
+    git checkout light
+    
+    chmod +x ./gradlew
+    
+    ./gradlew wrapper :desktop:run
+    
+3.2. Альтернатива, если не хочется тратить кучу времени на билд с нуля (выполняем команду в master-ветке).
+
+    java -jar "SW - Game.jar"
+
 ![](art.png)
 
 Shattered World is an RPG that i develop in my free time
