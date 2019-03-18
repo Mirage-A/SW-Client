@@ -1,4 +1,5 @@
 apply plugin: "kotlin"
+apply plugin: "com.github.johnrengelman.shadow"
 
 dependencies {
     implementation project(":server")
@@ -11,3 +12,17 @@ dependencies {
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
+
+project.ext.mainClassName = "com.mirage.admin.AdminLauncher"
+project.ext.assetsDir = new File("../android/assets")
+
+shadowJar {
+    baseName = 'SW-Administrator'
+    classifier = null
+    version = null
+    from files(sourceSets.main.output.resourcesDir)
+    from files(project.assetsDir)
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}

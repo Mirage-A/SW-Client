@@ -234,7 +234,8 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
     init {
         title = "Shattered World: Administrator"
         setSize(800, 600)
-        setLocation(1600 / 2 - 800 / 2, 900 / 2 - 600 / 2)
+        val screen = Toolkit.getDefaultToolkit().screenSize
+        setLocation(screen.width / 2 - 800 / 2, screen.height / 2 - 600 / 2)
         contentPane = rootPanel
         defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         isVisible = true

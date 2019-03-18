@@ -26,7 +26,7 @@ task run(dependsOn: classes, type: JavaExec) {
 }
 
 shadowJar {
-    baseName = 'SW - Game'
+    baseName = 'Shattered-World'
     classifier = null
     version = null
     from files(sourceSets.main.output.resourcesDir)
