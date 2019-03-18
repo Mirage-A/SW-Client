@@ -13,6 +13,7 @@ import com.mirage.utils.*
 import com.mirage.utils.PositionSnapshot
 import com.mirage.utils.extensions.*
 import com.mirage.view.screens.GameScreen
+import org.luaj.vm2.lib.jse.JsePlatform
 
 
 object Client : Game(), InputProcessor {
@@ -90,6 +91,7 @@ object Client : Game(), InputProcessor {
     override fun create() {
         Gdx.input.inputProcessor = this
         val gameScreen = GameScreen(snapshotManager, state)
+        JsePlatform.standardGlobals()
         connection = LocalConnection().apply {
             startGame()
             gameScreen.updateResources()
