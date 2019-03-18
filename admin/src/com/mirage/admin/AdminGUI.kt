@@ -6,6 +6,9 @@ import javax.swing.*
 
 class AdminGUI(rooms: List<Room>) : JFrame() {
 
+    private val guiFont = Font("Comic Sans MS", Font.BOLD, 12)
+    private val terminalFont = Font("Comic Sans MS", Font.PLAIN, 16)
+
     private var selectedRoom: Room? = null
 
     /**
@@ -14,11 +17,13 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
 
     private val serverButton = JButton().apply {
         text = "Server: Offline"
+        font = guiFont
         foreground = Color.RED
     }
 
     private val roomsLabel = JLabel().apply {
         text = "Rooms: 0"
+        font = guiFont
         horizontalAlignment = JLabel.CENTER
     }
 
@@ -30,7 +35,7 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
     }
 
     private val roomsScrollPane = JScrollPane(roomsList).apply {
-        preferredSize = Dimension(190, 131)
+        preferredSize = Dimension(160, 131)
     }
 
     /**
@@ -39,11 +44,13 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
 
     private val playersOnlineLabel = JLabel().apply {
         text = "Players online: 0"
+        font = guiFont
         horizontalAlignment = JLabel.CENTER
     }
 
     private val playersInRoomLabel = JLabel().apply {
         text = "Players in room: 0"
+        font = guiFont
         horizontalAlignment = JLabel.CENTER
     }
 
@@ -51,24 +58,45 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
         override fun getElementAt(index: Int): String = selectedRoom?.getPlayerByIndex(index).toString()
         override fun getSize(): Int = selectedRoom?.getPlayersCount() ?: 0
     }).apply {
-        println(minimumSize)
-        println(preferredSize)
+
     }
 
     private val playersScrollPane = JScrollPane(playersList).apply {
-        preferredSize = Dimension(190, 131)
+        preferredSize = Dimension(160, 131)
     }
 
+    /**
+     * Столбец 3: панель с отображением карты комнаты и терминал администратора
+     */
 
-    private val rootPanel = JPanel().apply {
-        val defaultInsets = Insets(5, 5, 5, 5)
+    private val viewPanel = JPanel().apply {
+
+    }
+
+    private val terminalTextArea = JTextArea().apply {
+        isEditable = false
+        font = terminalFont
+        text = "Welcome to the terminal, Administrator!"
+    }
+
+    private val terminalScrollPane = JScrollPane(terminalTextArea).apply {
+
+    }
+
+    private val terminalInput = JTextField().apply {
+        font = terminalFont
+
+    }
+
+    private val leftPanel = JPanel().apply {
+        val defaultInsets = Insets(2, 2, 2, 2)
         val buttonsWeightX = 0.1
         val buttonsWeightY = 0.1
-        val viewWeightX = 4.0
-        val viewHeightY = 10.0
         val scrollPaneWeightY = 15.0
         layout = GridBagLayout()
-
+        /**
+         * Столбец 1
+         */
         add(serverButton, GridBagConstraints().apply {
             gridx = 0
             gridy = 0
@@ -91,12 +119,16 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
             gridx = 0
             gridy = 2
             gridwidth = 1
+            gridheight = 3
             fill = GridBagConstraints.BOTH
             weightx = buttonsWeightX
             weighty = scrollPaneWeightY
             insets = defaultInsets
         })
 
+        /**
+         * Столбец 2
+         */
         add(playersOnlineLabel, GridBagConstraints().apply {
             gridx = 1
             gridy = 0
@@ -121,21 +153,81 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
             gridx = 1
             gridy = 2
             gridwidth = 1
+            gridheight = 3
             fill = GridBagConstraints.BOTH
             weightx = buttonsWeightX
             weighty = scrollPaneWeightY
             insets = defaultInsets
         })
+    }
 
-        add(JButton(), GridBagConstraints().apply {
-            gridx = 2
+    private val rightPanel = JPanel().apply {
+        val defaultInsets = Insets(2, 2, 2, 2)
+        val viewWeightX = 4.0
+        val viewHeightY = 2.55
+        val terminalHeightY = 1.6
+        val terminalInputHeightY = 0.1
+        layout = GridBagLayout()
+
+        /**
+         * Столбец 3
+         */
+        add(viewPanel, GridBagConstraints().apply {
+            gridx = 0
             gridy = 0
-            gridwidth = 5
-            gridheight = 5
+            gridwidth = 1
+            gridheight = 1
             fill = GridBagConstraints.BOTH
             weightx = viewWeightX
             weighty = viewHeightY
             insets = defaultInsets
+        })
+
+        add(terminalScrollPane, GridBagConstraints().apply {
+            gridx = 0
+            gridy = 1
+            gridwidth = 1
+            gridheight = 1
+            fill = GridBagConstraints.BOTH
+            weightx = viewWeightX
+            weighty = terminalHeightY
+            insets = defaultInsets
+        })
+
+        add(terminalInput, GridBagConstraints().apply {
+            gridx = 0
+            gridy = 2
+            gridwidth = 1
+            gridheight = 1
+            fill = GridBagConstraints.BOTH
+            weightx = viewWeightX
+            weighty = terminalInputHeightY
+            insets = defaultInsets
+        })
+    }
+
+    private val rootPanel = JPanel().apply {
+
+        layout = GridBagLayout()
+
+        add(leftPanel, GridBagConstraints().apply {
+            gridx = 0
+            gridy = 0
+            gridwidth = 1
+            gridheight = 1
+            fill = GridBagConstraints.BOTH
+            weightx = 0.1
+            weighty = 1.0
+        })
+
+        add(rightPanel, GridBagConstraints().apply {
+            gridx = 1
+            gridy = 0
+            gridwidth = 1
+            gridheight = 1
+            fill = GridBagConstraints.BOTH
+            weightx = 1.5
+            weighty = 1.0
         })
     }
 
