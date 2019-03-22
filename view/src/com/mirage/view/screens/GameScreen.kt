@@ -9,10 +9,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.isMoving
-import com.mirage.utils.extensions.moveDirection
 import com.mirage.utils.extensions.position
-import com.mirage.utils.extensions.speed
+import com.mirage.utils.messaging.GameState
+import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects

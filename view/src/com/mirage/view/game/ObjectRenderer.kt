@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.DEFAULT_MAP_POINT
-import com.mirage.utils.GameState
-import com.mirage.utils.MoveDirection
-import com.mirage.utils.PositionSnapshot
+import com.mirage.utils.messaging.GameState
+import com.mirage.utils.messaging.MoveDirection
+import com.mirage.utils.messaging.PositionSnapshot
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import com.mirage.view.animation.BodyAction

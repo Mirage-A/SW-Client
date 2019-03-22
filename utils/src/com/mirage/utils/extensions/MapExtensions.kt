@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.Map
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.MapProperties
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.datastructures.IntPair
 import com.mirage.utils.datastructures.Point
 

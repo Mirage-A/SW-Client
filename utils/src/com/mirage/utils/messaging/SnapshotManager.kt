@@ -1,5 +1,9 @@
-package com.mirage.utils
+package com.mirage.utils.messaging
 
+import com.mirage.utils.DEFAULT_MAP_POINT
+import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
+import com.mirage.utils.Log
+import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import java.util.*

@@ -1,4 +1,4 @@
-package com.mirage.utils
+package com.mirage.utils.messaging
 
 import com.mirage.utils.datastructures.Point
 import java.util.*

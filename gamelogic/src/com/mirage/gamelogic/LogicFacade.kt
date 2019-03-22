@@ -8,6 +8,9 @@ import com.mirage.scriptrunner.logic.MapLogicEventListener
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
+import com.mirage.utils.messaging.MapChangeMessage
+import com.mirage.utils.messaging.NewObjectMessage
+import com.mirage.utils.messaging.UpdateMessage
 import java.util.*
 
 
@@ -120,6 +123,14 @@ class LogicFacade {
      */
     fun startLogic() {
         gameLoop.isPaused = false
+    }
+
+    /**
+     * Полностью остановить логику
+     */
+    fun stopLogic() {
+        pauseLogic()
+        gameLoop.loopTimer.stop()
     }
 
     fun findObject(name: String) : MapObject? {

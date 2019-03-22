@@ -1,4 +1,4 @@
-package com.mirage.utils
+package com.mirage.utils.messaging
 
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap

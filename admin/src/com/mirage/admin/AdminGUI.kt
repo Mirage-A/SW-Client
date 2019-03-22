@@ -3,30 +3,10 @@ package com.mirage.admin
 import com.mirage.server.Room
 import java.awt.*
 import java.awt.event.*
-import java.beans.PropertyChangeListener
 import javax.swing.*
-import javax.swing.event.ListSelectionEvent
-import javax.swing.event.ListSelectionListener
 
 
 class AdminGUI(private val rooms: List<Room>) : JFrame() {
-
-    fun setServerStatus(isOnline: Boolean) {
-        if (isOnline) {
-            serverButton.apply {
-                text = "Server: Online"
-                foreground = Color.GREEN
-            }
-        }
-        else {
-            serverButton.apply {
-                text = "Server: Offline"
-                foreground = Color.RED
-            }
-        }
-    }
-
-    fun setServerStatusBtnListener(listener: ActionListener) = serverButton.addActionListener(listener)
 
     fun updateRoomsList() {
         roomsLabel.text = "Rooms: ${rooms.size}"
@@ -85,10 +65,11 @@ class AdminGUI(private val rooms: List<Room>) : JFrame() {
      * Столбец 1: Статус сервера, комнаты, список комнат
      */
 
-    private val serverButton = JButton().apply {
-        text = "Server: Offline"
+    private val serverStatusLabel = JLabel().apply {
+        text = "Server: Online"
+        foreground = Color(0, 202, 0)
         font = guiFont
-        foreground = Color.RED
+        horizontalAlignment = JLabel.CENTER
     }
 
     private val roomsLabel = JLabel().apply {
@@ -182,14 +163,14 @@ class AdminGUI(private val rooms: List<Room>) : JFrame() {
 
         layout = null
 
-        addAll(serverButton, roomsLabel, roomsScrollPane, playersOnlineLabel, playersInRoomLabel, playersScrollPane)
+        addAll(serverStatusLabel, roomsLabel, roomsScrollPane, playersOnlineLabel, playersInRoomLabel, playersScrollPane)
 
         resizeListener {
             val x1 = 4
             val x2 = width / 2 + 2
             val width2 = width / 2 - 6
             val playersScrollY = height - inputH - terminalH - 8
-            serverButton.setBounds(x1, 4, width2, 32)
+            serverStatusLabel.setBounds(x1, 4, width2, 32)
             playersOnlineLabel.setBounds(x2, 4, width2, 32)
             roomsLabel.setBounds(x1, 40, width2, 32)
             playersInRoomLabel.setBounds(x2, 40, width2, 32)

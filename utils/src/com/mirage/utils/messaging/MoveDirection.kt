@@ -1,4 +1,6 @@
-package com.mirage.utils
+package com.mirage.utils.messaging
+
+import com.mirage.utils.Log
 
 /**
  * Направление движения

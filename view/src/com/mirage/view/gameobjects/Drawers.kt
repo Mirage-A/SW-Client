@@ -2,10 +2,8 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.Log
 import com.mirage.utils.config
-import com.mirage.utils.MoveDirection
-import com.mirage.utils.extensions.getFloat
+import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.extensions.getString
 import com.mirage.utils.extensions.moveDirection
 import com.mirage.view.TextureLoader

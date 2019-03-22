@@ -1,8 +1,7 @@
 package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.utils.Log
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.datastructures.Point
 import com.mirage.view.animation.*
 

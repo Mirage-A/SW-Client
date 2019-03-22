@@ -4,7 +4,6 @@ import java.awt.Component
 import java.awt.Container
 import java.awt.event.ComponentEvent
 import java.awt.event.ComponentListener
-import javax.swing.AbstractListModel
 
 fun Component.resizeListener(listener: (ComponentEvent?) -> Unit) =
         addComponentListener(object: ComponentListener {

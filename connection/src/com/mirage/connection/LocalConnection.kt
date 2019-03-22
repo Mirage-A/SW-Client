@@ -6,6 +6,9 @@ import com.mirage.utils.Timer
 import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
 import com.mirage.utils.extensions.moveDirection
+import com.mirage.utils.messaging.EndOfPackageMessage
+import com.mirage.utils.messaging.MoveDirection
+import com.mirage.utils.messaging.UpdateMessage
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock

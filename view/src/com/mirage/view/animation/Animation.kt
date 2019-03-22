@@ -1,7 +1,7 @@
 package com.mirage.view.animation
 
 import com.mirage.utils.Log
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.messaging.MoveDirection
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
 import java.io.InputStream

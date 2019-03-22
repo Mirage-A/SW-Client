@@ -1,7 +1,7 @@
 package com.mirage.connection
 
-import com.mirage.utils.UpdateMessage
-import com.mirage.utils.MoveDirection
+import com.mirage.utils.messaging.UpdateMessage
+import com.mirage.utils.messaging.MoveDirection
 
 interface Connection {
 
