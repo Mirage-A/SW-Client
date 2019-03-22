@@ -1,5 +1,8 @@
 package com.mirage.admin
 
+import com.mirage.server.Player
+import com.mirage.server.PlayerStream
+import com.mirage.server.Room
 import java.awt.event.ActionListener
 import java.util.*
 import javax.swing.JFrame
@@ -22,8 +25,10 @@ class Admin : JFrame() {
 
     private var serverOnline = false
 
+    private val rooms = LinkedList<Room>()
+
     init {
-        val gui = AdminGUI(LinkedList())
+        val gui = AdminGUI(rooms)
         gui.setTerminalInputListener {
             gui.printlnInTerminal(it)
             gui.clearInput()
@@ -44,6 +49,10 @@ class Admin : JFrame() {
                     gui.setServerStatus(true)
                     serverOnline = true
                     gui.printlnInTerminal("Server successfully started.")
+                    rooms.add(Room().apply {
+                        addPlayer(Player(Random().nextLong(), PlayerStream("localhost")))
+                    })
+                    gui.updateRoomsList()
                 }
                 else {
                     gui.printlnInTerminal("Failed to start server.")

@@ -2,14 +2,14 @@ package com.mirage.admin
 
 import com.mirage.server.Room
 import java.awt.*
-import java.awt.event.ActionListener
-import java.awt.event.KeyEvent
-import java.awt.event.KeyListener
+import java.awt.event.*
+import java.beans.PropertyChangeListener
 import javax.swing.*
+import javax.swing.event.ListSelectionEvent
+import javax.swing.event.ListSelectionListener
 
 
-
-class AdminGUI(val rooms: List<Room>) : JFrame() {
+class AdminGUI(private val rooms: List<Room>) : JFrame() {
 
     fun setServerStatus(isOnline: Boolean) {
         if (isOnline) {
@@ -17,7 +17,6 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
                 text = "Server: Online"
                 foreground = Color.GREEN
             }
-            println(serverButton.preferredSize)
         }
         else {
             serverButton.apply {
@@ -31,6 +30,7 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
 
     fun updateRoomsList() {
         roomsLabel.text = "Rooms: ${rooms.size}"
+        roomsListModel.update()
         roomsList.revalidate()
         roomsScrollPane.revalidate()
     }
@@ -40,7 +40,8 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
     }
 
     fun updatePlayersInRoomList() {
-        playersInRoomLabel.text = "Players in room: ${selectedRoom?.getPlayersCount() ?: 0}"
+        playersInRoomLabel.text = "Players in room: ${roomsList.selectedValue?.getPlayersCount() ?: 0}"
+        playersListModel.update()
         playersList.revalidate()
         playersScrollPane.revalidate()
     }
@@ -51,7 +52,7 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
     }
 
     fun printlnInTerminal(text: String) {
-        printInTerminal(text + "\n")
+        printInTerminal("\n" + text)
     }
 
     fun clearTerminal() {
@@ -80,8 +81,6 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
     private val guiFont = Font("Comic Sans MS", Font.BOLD, 12)
     private val terminalFont = Font("Comic Sans MS", Font.PLAIN, 16)
 
-    private var selectedRoom: Room? = null
-
     /**
      * Столбец 1: Статус сервера, комнаты, список комнат
      */
@@ -98,11 +97,17 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
         horizontalAlignment = JLabel.CENTER
     }
 
-    private val roomsList = JList<String>(object: AbstractListModel<String>() {
-        override fun getElementAt(index: Int): String = rooms[index].toString()
+    private val roomsListModel = object: AbstractListModel<Room>() {
+        override fun getElementAt(index: Int): Room = rooms[index]
         override fun getSize(): Int = rooms.size
-    }).apply {
+        fun update() = fireContentsChanged(this, 0, size - 1)
+    }
 
+    private val roomsList : JList<Room> = JList<Room>(roomsListModel).apply list@{
+        selectionMode = DefaultListSelectionModel.SINGLE_SELECTION
+        addListSelectionListener {
+            playersListModel.update()
+        }
     }
 
     private val roomsScrollPane = JScrollPane(roomsList).apply {
@@ -125,12 +130,15 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
         horizontalAlignment = JLabel.CENTER
     }
 
-    private val playersList = JList<String>(object: AbstractListModel<String>() {
-        override fun getElementAt(index: Int): String = selectedRoom?.getPlayerByIndex(index).toString()
-        override fun getSize(): Int = selectedRoom?.getPlayersCount() ?: 0
-    }).apply {
-
+    private val playersListModel = object : AbstractListModel<String>() {
+        override fun getElementAt(index: Int): String = roomsList.selectedValue?.getPlayerByIndex(index)?.toString() ?: "Undefined"
+        override fun getSize(): Int = roomsList.selectedValue?.getPlayersCount() ?: 0
+        fun update() {
+            fireContentsChanged(this, 0, size - 1)
+        }
     }
+
+    private val playersList = JList<String>(playersListModel)
 
     private val playersScrollPane = JScrollPane(playersList).apply {
         preferredSize = Dimension(160, 131)
@@ -147,7 +155,7 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
     private val terminalTextArea = JTextArea().apply {
         isEditable = false
         font = terminalFont
-        text = "Welcome to the terminal, Administrator!\n"
+        text = "Welcome to the terminal, Administrator!"
     }
 
     private var autoScroll = true
@@ -165,150 +173,57 @@ class AdminGUI(val rooms: List<Room>) : JFrame() {
 
     private val terminalInput = JTextField().apply {
         font = terminalFont
-
     }
 
-    private val leftPanel = JPanel().apply {
-        val defaultInsets = Insets(2, 2, 2, 2)
-        val buttonsWeightX = 0.1
-        val buttonsWeightY = 0.1
-        val scrollPaneWeightY = 15.0
-        layout = GridBagLayout()
-        /**
-         * Столбец 1
-         */
-        add(serverButton, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 0
-            gridwidth = 1
-            fill = GridBagConstraints.BOTH
-            weightx = buttonsWeightX
-            weighty = buttonsWeightY
-            insets = defaultInsets
-        })
-        add(roomsLabel, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 1
-            gridwidth = 1
-            fill = GridBagConstraints.BOTH
-            weightx = buttonsWeightX
-            weighty = buttonsWeightY
-            insets = defaultInsets
-        })
-        add(roomsScrollPane, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 2
-            gridwidth = 1
-            gridheight = 3
-            fill = GridBagConstraints.BOTH
-            weightx = buttonsWeightX
-            weighty = scrollPaneWeightY
-            insets = defaultInsets
-        })
+    private val inputH = 32
+    private val terminalH = 320
 
-        /**
-         * Столбец 2
-         */
-        add(playersOnlineLabel, GridBagConstraints().apply {
-            gridx = 1
-            gridy = 0
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = buttonsWeightX
-            weighty = buttonsWeightY
-            insets = defaultInsets
-        })
-        add(playersInRoomLabel, GridBagConstraints().apply {
-            gridx = 1
-            gridy = 1
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = buttonsWeightX
-            weighty = buttonsWeightY
-            insets = defaultInsets
-        })
-        add(playersScrollPane, GridBagConstraints().apply {
-            gridx = 1
-            gridy = 2
-            gridwidth = 1
-            gridheight = 3
-            fill = GridBagConstraints.BOTH
-            weightx = buttonsWeightX
-            weighty = scrollPaneWeightY
-            insets = defaultInsets
-        })
+    private val leftPanel = JPanel().apply {
+
+        layout = null
+
+        addAll(serverButton, roomsLabel, roomsScrollPane, playersOnlineLabel, playersInRoomLabel, playersScrollPane)
+
+        resizeListener {
+            val x1 = 4
+            val x2 = width / 2 + 2
+            val width2 = width / 2 - 6
+            val playersScrollY = height - inputH - terminalH - 8
+            serverButton.setBounds(x1, 4, width2, 32)
+            playersOnlineLabel.setBounds(x2, 4, width2, 32)
+            roomsLabel.setBounds(x1, 40, width2, 32)
+            playersInRoomLabel.setBounds(x2, 40, width2, 32)
+            roomsScrollPane.setBounds(x1, 76, width - 4, playersScrollY - 80)
+            playersScrollPane.setBounds(x1, playersScrollY, width - 4, height - playersScrollY - 4)
+        }
     }
 
     private val rightPanel = JPanel().apply {
-        val defaultInsets = Insets(2, 2, 2, 2)
-        val viewWeightX = 4.0
-        val viewHeightY = 2.55
-        val terminalHeightY = 1.6
-        val terminalInputHeightY = 0.1
-        layout = GridBagLayout()
 
-        /**
-         * Столбец 3
-         */
-        add(viewPanel, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 0
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = viewWeightX
-            weighty = viewHeightY
-            insets = defaultInsets
-        })
+        layout = null
 
-        add(terminalScrollPane, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 1
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = viewWeightX
-            weighty = terminalHeightY
-            insets = defaultInsets
-        })
+        addAll(viewPanel, terminalScrollPane, terminalInput)
 
-        add(terminalInput, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 2
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = viewWeightX
-            weighty = terminalInputHeightY
-            insets = defaultInsets
-        })
+        resizeListener {
+            terminalInput.setBounds(4, height - inputH - 4, width - 8, inputH)
+            terminalScrollPane.setBounds(4, terminalInput.y - 4 - terminalH, width - 8, terminalH)
+            viewPanel.setBounds(4, 4, width - 8, terminalScrollPane.y - 8)
+            revalidate()
+        }
     }
 
-    private val rootPanel = JPanel().apply {
+    private val rootPanel = JPanel().apply root@ {
 
-        layout = GridBagLayout()
+        layout = null
 
-        add(leftPanel, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 0
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = 0.1
-            weighty = 1.0
-        })
+        addAll(leftPanel, rightPanel)
 
-        add(rightPanel, GridBagConstraints().apply {
-            gridx = 1
-            gridy = 0
-            gridwidth = 1
-            gridheight = 1
-            fill = GridBagConstraints.BOTH
-            weightx = 1.5
-            weighty = 1.0
-        })
+        resizeListener {
+            leftPanel.setBounds(0, 0, 280, height)
+            rightPanel.setBounds(leftPanel.width, 0, width - leftPanel.width, height)
+            revalidate()
+            repaint()
+        }
     }
 
     init {

@@ -18,4 +18,6 @@ class Room {
 
     fun getPlayersCount() = players.size
 
+    fun addPlayer(p: Player) = players.add(p)
+
 }
