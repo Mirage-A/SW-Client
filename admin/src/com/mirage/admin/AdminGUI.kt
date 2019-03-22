@@ -2,9 +2,80 @@ package com.mirage.admin
 
 import com.mirage.server.Room
 import java.awt.*
+import java.awt.event.ActionListener
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 import javax.swing.*
 
-class AdminGUI(rooms: List<Room>) : JFrame() {
+
+
+class AdminGUI(val rooms: List<Room>) : JFrame() {
+
+    fun setServerStatus(isOnline: Boolean) {
+        if (isOnline) {
+            serverButton.apply {
+                text = "Server: Online"
+                foreground = Color.GREEN
+            }
+            println(serverButton.preferredSize)
+        }
+        else {
+            serverButton.apply {
+                text = "Server: Offline"
+                foreground = Color.RED
+            }
+        }
+    }
+
+    fun setServerStatusBtnListener(listener: ActionListener) = serverButton.addActionListener(listener)
+
+    fun updateRoomsList() {
+        roomsLabel.text = "Rooms: ${rooms.size}"
+        roomsList.revalidate()
+        roomsScrollPane.revalidate()
+    }
+
+    fun updatePlayersOnlineCount(newCount: Int) {
+        playersOnlineLabel.text = "Players online: $newCount"
+    }
+
+    fun updatePlayersInRoomList() {
+        playersInRoomLabel.text = "Players in room: ${selectedRoom?.getPlayersCount() ?: 0}"
+        playersList.revalidate()
+        playersScrollPane.revalidate()
+    }
+
+    fun printInTerminal(text: String) {
+        terminalTextArea.append(text)
+        terminalScrollPane.revalidate()
+    }
+
+    fun printlnInTerminal(text: String) {
+        printInTerminal(text + "\n")
+    }
+
+    fun clearTerminal() {
+        terminalTextArea.text = ""
+    }
+
+    fun clearInput() {
+        terminalInput.text = ""
+    }
+
+    fun setTerminalInputListener(listener: (String) -> Unit) {
+        terminalInput.addKeyListener(object: KeyListener {
+            override fun keyTyped(e: KeyEvent?) { }
+
+            override fun keyPressed(e: KeyEvent?) {
+                if (e?.keyCode == KeyEvent.VK_ENTER) {
+                    listener(terminalInput.text)
+                }
+            }
+
+            override fun keyReleased(e: KeyEvent?) { }
+
+        })
+    }
 
     private val guiFont = Font("Comic Sans MS", Font.BOLD, 12)
     private val terminalFont = Font("Comic Sans MS", Font.PLAIN, 16)
@@ -76,11 +147,20 @@ class AdminGUI(rooms: List<Room>) : JFrame() {
     private val terminalTextArea = JTextArea().apply {
         isEditable = false
         font = terminalFont
-        text = "Welcome to the terminal, Administrator!"
+        text = "Welcome to the terminal, Administrator!\n"
     }
 
-    private val terminalScrollPane = JScrollPane(terminalTextArea).apply {
+    private var autoScroll = true
 
+    private val terminalScrollPane = JScrollPane(terminalTextArea).apply {
+        verticalScrollBar.addAdjustmentListener { e ->
+            if (e.valueIsAdjusting) {
+                autoScroll = e.adjustable.value + e.adjustable.visibleAmount == e.adjustable.maximum
+            }
+            else if (autoScroll) {
+                e.adjustable.value = e.adjustable.maximum
+            }
+        }
     }
 
     private val terminalInput = JTextField().apply {
