@@ -22,7 +22,6 @@ sealed class UpdateMessage {
                 "RM" -> RemoveObjectMessage(args[1].toLong())
                 "PS" -> PositionSnapshotMessage(deserializePositionSnapshot(args[1]))
                 "MC" -> MapChangeMessage(args[1])
-                "EOP" -> EndOfPackageMessage(args[1].toLong())
                 else -> throw Exception("Incorrect message: $args")
             }
         }
@@ -63,11 +62,4 @@ data class PositionSnapshotMessage(val snapshot: PositionSnapshot) : UpdateMessa
  */
 data class MapChangeMessage(val mapName: String) : UpdateMessage() {
     override fun serialize(): String = "MC$INNER_DLMTR$mapName"
-}
-
-/**
- * Сообщение о конце пакета (т.е. о конце итерации цикла)
- */
-data class EndOfPackageMessage(val sendTimeMillis: Long) : UpdateMessage() {
-    override fun serialize(): String = "EOP$INNER_DLMTR$sendTimeMillis"
 }

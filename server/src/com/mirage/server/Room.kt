@@ -1,6 +1,7 @@
 package com.mirage.server
 
 import com.mirage.gamelogic.LogicFacade
+import com.mirage.utils.Timer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -12,21 +13,24 @@ import java.util.*
  */
 class Room {
 
-
     private val logic = LogicFacade()
 
-    private val players : MutableList<Player> = LinkedList()
+    private val players : MutableList<Player> = Collections.synchronizedList(LinkedList())
 
-    init {
-        //TODO Убрать
-        GlobalScope.launch {
-            while(true) {
-                for (pl in players) {
-                    pl.checkNewMessages()
-                }
-                delay(500)
+
+    //TODO Убрать
+    private val TEST = Timer(1000L) {
+        try {
+            for (pl in players) {
+                pl.checkNewMessages()
             }
         }
+        catch(ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+    init {
+        TEST.start()
     }
 
     /**
@@ -38,10 +42,19 @@ class Room {
         //TODO
     }
 
+    fun disconnectPlayer(player: Player) {
+        //TODO Обработка отключения игрока
+        players.remove(player)
+    }
+
     fun getPlayerByIndex(index: Int): Player? =
             try { players[index] } catch(ex: Exception) { null }
 
     fun getPlayersCount() = players.size
 
-    fun addPlayer(p: Player) = players.add(p)
+    fun addPlayer(p: Player) {
+        players.add(p)
+        p.room = this
+        p.id = logic.addNewPlayer()
+    }
 }

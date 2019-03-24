@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.mirage.utils.Assets
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
+import com.mirage.connection.RemoteConnection
 import com.mirage.scriptrunner.runClientScript
 import com.mirage.utils.*
 import com.mirage.utils.extensions.*
@@ -76,9 +77,6 @@ object Client : Game(), InputProcessor {
                     }
                 }
             }
-            is EndOfPackageMessage -> {
-
-            }
         }
     }
 
@@ -92,11 +90,18 @@ object Client : Game(), InputProcessor {
         Gdx.input.inputProcessor = this
         val gameScreen = GameScreen(snapshotManager, state)
         JsePlatform.standardGlobals()
-        connection = LocalConnection().apply {
-            startGame()
-            gameScreen.updateResources()
-            startLogic()
-            addMessageListener(::messageListener)
+        if (ONLINE_MODE) {
+            connection = RemoteConnection().apply {
+                addMessageListener(::messageListener)
+            }
+        }
+        else {
+            connection = LocalConnection().apply {
+                startGame()
+                gameScreen.updateResources()
+                startLogic()
+                addMessageListener(::messageListener)
+            }
         }
         setScreen(gameScreen)
     }

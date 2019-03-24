@@ -59,7 +59,6 @@ internal class GameLoop {
      */
     val messageQueue = ArrayDeque<UpdateMessage>()
     val queueLock = ReentrantLock()
-    var packagesCount = AtomicInteger(0)
 
     /**
      * Этот параметр позволяет приостанавливать логику игры, а затем снова запускать
@@ -105,9 +104,7 @@ internal class GameLoop {
             isMoving[id] = obj.isMoving
         }
         sendMessage(PositionSnapshotMessage(PositionSnapshot(positions, moveDirections, isMoving)))
-        sendMessage(EndOfPackageMessage(deltaMillis))
         ++fps
-        packagesCount.incrementAndGet()
         if (deltaMillis > 200L) Log.i("Slow update: $deltaMillis ms")
         loopLock.unlock()
     }

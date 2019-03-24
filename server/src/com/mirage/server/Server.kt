@@ -1,14 +1,7 @@
 package com.mirage.server
 
-import com.badlogic.gdx.Net
-import com.badlogic.gdx.net.NetJavaSocketImpl
 import com.badlogic.gdx.net.Socket
-import com.badlogic.gdx.net.SocketHints
-import com.mirage.utils.SERVER_ADDRESS
-import com.mirage.utils.SERVER_PORT
 import com.mirage.utils.messaging.ClientMessage
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.swing.SwingUtilities
 
 object Server {
@@ -16,18 +9,19 @@ object Server {
     private val rooms = ArrayList<Room>()
 
     private val playerMessageListener : (ClientMessage) -> Unit = {
-        println("got message $it")
         //TODO
     }
 
-    private val playerDisconnectListener : () -> Unit = {
-        println("disconnect")
+    private val playerDisconnectListener : (Player) -> Unit = {
+        it.room?.disconnectPlayer(it)
+        sendAdminMessage(PlayerDisconnectedAdminMessage(it))
     }
 
     private fun newSocketListener(socket: Socket) {
-        println("got new socket!")
         val player = Player(socket, playerMessageListener, playerDisconnectListener)
-        selectRoomForConnectedPlayer(player).addPlayer(player)
+        val room = selectRoomForConnectedPlayer(player)
+        room.addPlayer(player)
+        sendAdminMessage(PlayerConnectedAdminMessage(player))
     }
 
     /**
@@ -43,15 +37,16 @@ object Server {
 
     init {
         rooms.add(Room())
+        rooms.add(Room())
         sendAdminMessage(RoomAddedAdminMessage(rooms[0]))
+        sendAdminMessage(RoomAddedAdminMessage(rooms[1]))
         socketFactory.start()
-
     }
 
 
     var adminMessageListener: ((AdminMessage) -> Unit)? = null
 
-    fun sendAdminMessage(msg: AdminMessage) {
+    private fun sendAdminMessage(msg: AdminMessage) {
         SwingUtilities.invokeLater {
             adminMessageListener?.invoke(msg)
         }

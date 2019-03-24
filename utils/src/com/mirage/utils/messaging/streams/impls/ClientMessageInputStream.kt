@@ -27,5 +27,4 @@ class ClientMessageInputStream(inputStream: InputStream) : ClientMessageReader {
             else -> throw Exception("Incorrect message: $args")
         }
     }
-
 }

@@ -6,11 +6,9 @@ import com.mirage.utils.Timer
 import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
 import com.mirage.utils.extensions.moveDirection
-import com.mirage.utils.messaging.EndOfPackageMessage
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.UpdateMessage
 import java.util.*
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
 
 /**
@@ -31,7 +29,6 @@ class LocalConnection : Connection {
 
     private val messageQueue = ArrayDeque<UpdateMessage>()
     private val queueLock = ReentrantLock()
-    private var packagesCount = AtomicInteger(0)
 
     private val messageBufferTimer = Timer(CONNECTION_MESSAGE_BUFFER_UPDATE_INTERVAL) {
         while (!logic.msgs.isEmpty()) {
@@ -40,12 +37,8 @@ class LocalConnection : Connection {
             val msg = logic.msgs.poll()
             logic.unlockMsgQueue()
             messageQueue.add(msg)
-            if (msg is EndOfPackageMessage) {
-                packagesCount.incrementAndGet()
-            }
             queueLock.unlock()
         }
-
     }
 
     init {
@@ -82,15 +75,13 @@ class LocalConnection : Connection {
     }
 
     override fun checkNewMessages() {
-        var newPackages = packagesCount.getAndSet(0)
-        if (newPackages > 0) {
+        if (messageQueue.isNotEmpty()) {
             queueLock.lock()
-            while (newPackages > 0) {
+            while (messageQueue.isNotEmpty()) {
                 val msg = messageQueue.poll()
                 for (msgListener in messageListeners) {
                     msgListener(msg)
                 }
-                if (msg is EndOfPackageMessage) --newPackages
             }
             queueLock.unlock()
         }

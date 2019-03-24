@@ -30,7 +30,6 @@ internal class UpdateMessageTest {
                 hashMapOf(1L to true, 1324L to false),
                 228L)))
         testSeri(MapChangeMessage("anvil"))
-        testSeri(EndOfPackageMessage(228L))
 
         val obj = MapObject().apply {
             position = Point(5f, 10f)

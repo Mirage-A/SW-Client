@@ -6,7 +6,7 @@ import java.awt.event.*
 import javax.swing.*
 
 
-class AdminGUI(private val rooms: List<Room>) : JFrame() {
+internal class AdminGUI(private val rooms: List<Room>) : JFrame() {
 
     fun updateRoomsList() {
         roomsLabel.text = "Rooms: ${rooms.size}"
@@ -15,8 +15,12 @@ class AdminGUI(private val rooms: List<Room>) : JFrame() {
         roomsScrollPane.revalidate()
     }
 
-    fun updatePlayersOnlineCount(newCount: Int) {
-        playersOnlineLabel.text = "Players online: $newCount"
+    fun updatePlayersOnlineCount() {
+        var count = 0
+        for (room in rooms) {
+            count += room.getPlayersCount()
+        }
+        playersOnlineLabel.text = "Players online: $count"
     }
 
     fun updatePlayersInRoomList() {
@@ -90,6 +94,7 @@ class AdminGUI(private val rooms: List<Room>) : JFrame() {
         selectionMode = DefaultListSelectionModel.SINGLE_SELECTION
         addListSelectionListener {
             playersListModel.update()
+            updatePlayersInRoomList()
         }
     }
 

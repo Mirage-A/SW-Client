@@ -72,10 +72,13 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
+
+        val playerID : Long = state.playerID ?: return
+
         val snapshot = stateManager.getInterpolatedSnapshot()
 
-        val player = state.objects[state.playerID]
-        val playerPosOnScene = snapshot.positions[state.playerID] ?: state.objects[state.playerID]?.position ?: DEFAULT_MAP_POINT
+        val player = state.objects[playerID]
+        val playerPosOnScene = snapshot.positions[playerID] ?: state.objects[playerID]?.position ?: DEFAULT_MAP_POINT
 
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
@@ -99,9 +102,9 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
         if (PLATFORM == "android") {
 
-            val mdBtnPos = if (player != null && snapshot.isMoving[state.playerID] == true) {
+            val mdBtnPos = if (player != null && snapshot.isMoving[playerID] == true) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
-                val angle = (snapshot.moveDirections[state.playerID]?.toAngle()?.toDouble() ?: (Math.PI / 4)) - Math.PI / 4
+                val angle = (snapshot.moveDirections[playerID]?.toAngle()?.toDouble() ?: (Math.PI / 4)) - Math.PI / 4
                 Point(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
                         mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
             }

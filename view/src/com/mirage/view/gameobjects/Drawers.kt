@@ -3,7 +3,6 @@ package com.mirage.view.gameobjects
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.SHOW_INVISIBLE_OBJECTS_MODE
-import com.mirage.utils.config
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.extensions.getString
 import com.mirage.utils.extensions.moveDirection

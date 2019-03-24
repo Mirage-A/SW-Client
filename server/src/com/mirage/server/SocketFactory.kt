@@ -11,7 +11,7 @@ import com.mirage.utils.SERVER_PORT
  * Сервер через слушателя обрабатывает новые подключения.
  * //TODO Слушатель вызывается в потоке самой фабрики.
  */
-class SocketFactory(private val newSocketListener: (Socket) -> Unit) {
+internal class SocketFactory(private val newSocketListener: (Socket) -> Unit) {
 
     private val serverHints = ServerSocketHints().apply {
         //TODO Настройка сокета сервера
@@ -29,7 +29,7 @@ class SocketFactory(private val newSocketListener: (Socket) -> Unit) {
                 newSocketListener(serverSocket.accept(socketHints))
             }
             catch(ex: GdxRuntimeException) {//Таймаут ожидания
-                println("nobody is connecting..... :(")
+
             }
             catch(ex: Exception) {
                 println("ERROR")

@@ -10,13 +10,12 @@ import com.mirage.utils.SERVER_PORT
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.Exception
 import java.util.*
 import javax.swing.JFrame
 
-class Admin : JFrame() {
+internal class Admin : JFrame() {
 
     private fun adminMessageListener(msg: AdminMessage) {
         println("Got message! $msg")
@@ -24,6 +23,16 @@ class Admin : JFrame() {
             is RoomAddedAdminMessage -> {
                 rooms.add(msg.room)
                 gui.updateRoomsList()
+            }
+            is PlayerConnectedAdminMessage -> {
+                gui.printlnInTerminal("Player connected: ${msg.player}")
+                gui.updatePlayersInRoomList()
+                gui.updatePlayersOnlineCount()
+            }
+            is PlayerDisconnectedAdminMessage -> {
+                gui.printlnInTerminal("Player disconnected: ${msg.player}")
+                gui.updatePlayersInRoomList()
+                gui.updatePlayersOnlineCount()
             }
             //TODO Обработка сообщений
         }
@@ -47,7 +56,8 @@ class Admin : JFrame() {
                             "---- mocks [count]: Create [count] mock players (stress test only)\n" +
                             "---- killmocks: Disconnect all mock players\n" +
                             "---- ddos [count]: Forces every mock player to send [count] messages to server (stress test only)\n" +
-                            "---- help: Print this list")
+                            "---- help: Print this list\n" +
+                            "---- shutdown: Shutdown server")
                 }
                 it == "mock" -> {
                     mockPlayers.add(NetJavaSocketImpl(Net.Protocol.TCP, SERVER_ADDRESS, SERVER_PORT, SocketHints()))
@@ -75,17 +85,15 @@ class Admin : JFrame() {
                         0
                     }
                     for (mock in mockPlayers) {
-                        //GlobalScope.launch {
-                            val out = ClientMessageOutputStream(mock.outputStream)
-                            for (i in 0 until count) {
-                                println(i)
-                                out.write(MoveDirectionClientMessage(MoveDirection.RIGHT))
-                            }
-                            println("GO!")
-                            out.flush()
-                        //}
+                        val out = ClientMessageOutputStream(mock.outputStream)
+                        for (i in 0 until count) {
+                            println(i)
+                            out.write(MoveDirectionClientMessage(MoveDirection.RIGHT))
+                        }
+                        println("GO!")
+                        out.flush()
                     }
-                    gui.printlnInTerminal("DDOSing server with messages!")
+                    gui.printlnInTerminal("DDOSing server with $count messages!")
                 }
                 it == "killmocks" -> {
                     for (pl in mockPlayers) {
@@ -96,6 +104,13 @@ class Admin : JFrame() {
                 }
                 it.startsWith("echo ") -> {
                     gui.printlnInTerminal(it.substring(5))
+                }
+                it == "shutdown" -> {
+                    gui.printlnInTerminal("Why?.... :(")
+                    GlobalScope.launch {
+                        delay(1000)
+                        System.exit(0)
+                    }
                 }
                 else -> {
                     gui.printlnInTerminal("Unknown command. Type 'help' to get list of available commands.")
