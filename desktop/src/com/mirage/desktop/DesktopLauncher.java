@@ -11,7 +11,7 @@ class DesktopLauncher {
 
     public static void main(String[] args) {
         System.setProperty("user.name", "CorrectUserName");
-        ConfigurationKt.getConfig().put("platform", "desktop");
+        ConfigurationKt.setPLATFORM("desktop");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Shattered World";
         config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);

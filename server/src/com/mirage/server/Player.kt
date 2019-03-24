@@ -4,6 +4,7 @@ import com.badlogic.gdx.net.Socket
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.UpdateMessage
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -18,11 +19,19 @@ class Player(private val socket: Socket) {
 
     val inputMessageQueue = ConcurrentLinkedQueue<ClientMessage>()
 
-    init {
-        GlobalScope.launch {
-            while(true) {
+    private var killed = false
 
-            }
+    private val job = GlobalScope.launch {
+        while(!killed) {
+            println("${socket.isConnected} messaging with player ${socket.remoteAddress}")
+            //TODO Обработка дисконнекта
+            delay(1000)
         }
+    }
+
+    fun kill() {
+        killed = true
+        job.cancel()
+        socket.dispose()
     }
 }

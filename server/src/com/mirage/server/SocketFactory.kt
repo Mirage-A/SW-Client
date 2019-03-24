@@ -27,10 +27,13 @@ class SocketFactory(private val newSocketListener: (Socket) -> Unit) {
         while (true) {
             try {
                 newSocketListener(serverSocket.accept(socketHints))
-                println("someone has connected!!!!!!!")
             }
             catch(ex: GdxRuntimeException) {//Таймаут ожидания
                 println("nobody is connecting..... :(")
+            }
+            catch(ex: Exception) {
+                println("ERROR")
+                ex.printStackTrace()
             }
         }
     })

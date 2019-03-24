@@ -55,8 +55,8 @@ class LogicFacade {
         val map = TmxMapLoader().load("${Assets.assetsPath}maps/$path.tmx")
         for (obj in map) {
             obj.position = getScenePointFromTiledMap(obj.position)
-            obj.properties.put("width", obj.properties.getFloat("width") / (config["tile-height"] as? Float ?: 64f))
-            obj.properties.put("height", obj.properties.getFloat("height") / (config["tile-height"] as? Float ?: 64f))
+            obj.properties.put("width", obj.properties.getFloat("width") / TILE_HEIGHT)
+            obj.properties.put("height", obj.properties.getFloat("height") / TILE_HEIGHT)
         }
         return map
     }

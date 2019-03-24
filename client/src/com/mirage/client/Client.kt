@@ -295,7 +295,7 @@ object Client : Game(), InputProcessor {
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
         val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
-        when (config["platform"]) {
+        when (PLATFORM) {
             "android" -> {
                 if (handleAndroidMoving(x, y)) return true
             }
@@ -316,7 +316,7 @@ object Client : Game(), InputProcessor {
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
         val x = screenX * GameScreen.DEFAULT_SCREEN_WIDTH / Gdx.graphics.width
         val y = GameScreen.DEFAULT_SCREEN_HEIGHT - screenY * GameScreen.DEFAULT_SCREEN_HEIGHT / Gdx.graphics.height
-        when (config["platform"]) {
+        when (PLATFORM) {
             "android" -> {
                 if (handleAndroidMoving(x, y)) return true
             }

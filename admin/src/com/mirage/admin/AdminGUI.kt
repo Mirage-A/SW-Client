@@ -35,6 +35,8 @@ class AdminGUI(private val rooms: List<Room>) : JFrame() {
         printInTerminal("\n" + text)
     }
 
+    fun printError(errorText: String) = printlnInTerminal(errorText) //TODO Красненький цвет
+
     fun clearTerminal() {
         terminalTextArea.text = ""
     }
@@ -136,7 +138,8 @@ class AdminGUI(private val rooms: List<Room>) : JFrame() {
     private val terminalTextArea = JTextArea().apply {
         isEditable = false
         font = terminalFont
-        text = "Welcome to the terminal, Administrator!"
+        text = "Welcome to the terminal, Administrator!\n" +
+                "Type 'help' to get list of available commands."
     }
 
     private var autoScroll = true

@@ -2,6 +2,7 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
+import com.mirage.utils.SHOW_INVISIBLE_OBJECTS_MODE
 import com.mirage.utils.config
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.extensions.getString
@@ -28,7 +29,7 @@ class Drawers(private val camera: OrthographicCamera) {
             obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, obj.moveDirection, WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
-            else -> {if (config["show-invisible-objects"] == true) TestObjectFiller(obj, camera) else null}
+            else -> {if (SHOW_INVISIBLE_OBJECTS_MODE) TestObjectFiller(obj, camera) else null}
         }
         transparentDrawers[obj] = when {
             obj.properties.containsKey("animation-tp") -> ObjectAnimation(obj.properties.getString("animation-tp", "MAIN_GATE_OPEN"))

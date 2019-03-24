@@ -97,7 +97,7 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
         renderObjects(batch, state, snapshot, drawers)
         //TODO
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
-        if (config["platform"] == "android") {
+        if (PLATFORM == "android") {
 
             val mdBtnPos = if (player != null && snapshot.isMoving[state.playerID] == true) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius

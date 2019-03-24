@@ -10,7 +10,7 @@ import java.io.Reader
 
 object Assets {
 
-    val assetsPath = if (config["debug"] == true && File("./android/assets/").exists())
+    val assetsPath = if (DEBUG_MODE && File("./android/assets/").exists())
                                 "./android/assets/" else ""
 
     fun loadFile(path: String) : FileHandle? {

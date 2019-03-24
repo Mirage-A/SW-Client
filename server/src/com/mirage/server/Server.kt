@@ -2,6 +2,7 @@ package com.mirage.server
 
 import com.badlogic.gdx.Net
 import com.badlogic.gdx.net.NetJavaSocketImpl
+import com.badlogic.gdx.net.Socket
 import com.badlogic.gdx.net.SocketHints
 import com.mirage.utils.SERVER_ADDRESS
 import com.mirage.utils.SERVER_PORT
@@ -11,14 +12,26 @@ object Server {
 
     private val rooms = ArrayList<Room>()
 
-    private val socketFactory = SocketFactory {
-        //TODO Распределение сокетов
+    private fun newSocketListener(socket: Socket) {
+        println("got new socket!")
+        val player = Player(socket)
+        selectRoomForConnectedPlayer(player).addPlayer(player)
     }
 
-    fun createMockClient() =
-        NetJavaSocketImpl(Net.Protocol.TCP, SERVER_ADDRESS, SERVER_PORT, SocketHints())
+    /**
+     * Определяет, в какую комнату нужно направить подключившегося игрока.
+     * Создаёт новую комнату, если это необходимо, и возвращает ссылку на комнату.
+     * //TODO
+     */
+    private fun selectRoomForConnectedPlayer(player: Player) : Room {
+        return rooms[0]
+    }
+
+    private val socketFactory = SocketFactory(::newSocketListener)
 
     init {
+        rooms.add(Room())
+        sendAdminMessage(RoomAddedAdminMessage(rooms[0]))
         socketFactory.start()
     }
 

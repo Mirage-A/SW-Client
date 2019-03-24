@@ -1,10 +1,10 @@
-import com.mirage.utils.datastructures.DisjointSetUnion
-import com.mirage.utils.datastructures.IntDSU
-import com.mirage.utils.datastructures.Point
-import org.junit.jupiter.api.Assertions.assertEquals
+package com.mirage.utils.datastructures
+
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class DSUTest {
+internal class DisjointSetUnionTest {
+
     @Test
     fun testFloats() {
         val dsu = DisjointSetUnion<Float>()
@@ -39,18 +39,5 @@ internal class DSUTest {
         assertEquals(Point(0f, 0f), dsu.findRoot(Point(1f, 1f)))
         dsu.unite(Point(1f, 1f), Point(2f, 2f))
         assertEquals(Point(0f, 0f), dsu.findRoot(Point(2f, 2f)))
-    }
-
-    @Test
-    fun testIntDSU() {
-        val dsu = IntDSU(4)
-        assertEquals(0, dsu.findRoot(0))
-        assertEquals(1, dsu.findRoot(1))
-        assertEquals(2, dsu.findRoot(2))
-        dsu.unite(0, 1)
-        assertEquals(0, dsu.findRoot(0))
-        assertEquals(0, dsu.findRoot(1))
-        dsu.unite(1, 2)
-        assertEquals(0, dsu.findRoot(2))
     }
 }

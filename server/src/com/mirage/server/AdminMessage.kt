@@ -2,6 +2,8 @@ package com.mirage.server
 
 sealed class AdminMessage
 
-class ServerErrorAdminMessage(errorMsg: String): AdminMessage()
+class ServerErrorAdminMessage(val errorMsg: String): AdminMessage()
 
-class RoomClosedAdminMessage(room: Room) : AdminMessage()
+class RoomAddedAdminMessage(val room: Room) : AdminMessage()
+
+class RoomClosedAdminMessage(val room: Room) : AdminMessage()
