@@ -9,8 +9,15 @@ import com.mirage.utils.messaging.UpdateMessage
 interface UpdateMessageWriter {
 
     /**
-     * Отправить сообщение
+     * Подготовить сообщение к отправке
+     * @see flush
      */
     fun write(msg: UpdateMessage)
+
+    /**
+     * Отправить сообщения
+     * @see write
+     */
+    fun flush()
 
 }

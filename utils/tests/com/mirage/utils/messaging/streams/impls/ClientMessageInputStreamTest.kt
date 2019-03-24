@@ -19,35 +19,6 @@ internal class ClientMessageInputStreamTest {
 
     @Test
     fun read() {
-        val str = "MSG$INNER_DLMTR@ELL@$INNER_DLMTR#HI#\nNEWMSG$INNER_DLMTR%HELL%"
-        val input = str.byteInputStream()
-        val deserializer = ClientMessageInputStream(input)
-        println(deserializer.read())
-        println(deserializer.read())
 
-        val serverSocket = NetJavaServerSocketImpl(Net.Protocol.TCP, 55555, ServerSocketHints())
-        val playerAsync = GlobalScope.async {
-            serverSocket.accept(SocketHints())
-        }
-        val cliAsync = GlobalScope.async {
-            delay(10)
-            NetJavaSocketImpl(Net.Protocol.TCP, "localhost", 55555, SocketHints())
-        }
-        runBlocking {
-            val player = playerAsync.await()
-            val client = cliAsync.await()
-            println("hi!")
-            val reader = ClientMessageInputStream(player.inputStream)
-            val out = client.outputStream
-            launch {
-                out.write("MSG$INNER_DLMTR@ELL@$INNER_DLMTR#HI#\nNEWMSG$INNER_DLMTR%HELL%\nHELLO\n".toByteArray())
-                out.flush()
-            }
-            launch {
-                println(reader.read())
-                println(reader.read())
-                println(reader.read())
-            }
-        }
     }
 }

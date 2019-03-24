@@ -9,8 +9,14 @@ import com.mirage.utils.messaging.ClientMessage
 interface ClientMessageWriter {
 
     /**
-     * Отправить сообщение
+     * Подготовить сообщение к отправке
+     * @see [flush]
      */
     fun write(msg: ClientMessage)
 
+    /**
+     * Отправить все сообщения
+     * @see [write]
+     */
+    fun flush()
 }

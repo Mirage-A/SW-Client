@@ -3,7 +3,10 @@ package com.mirage.utils
 import com.mirage.utils.datastructures.Point
 
 const val OUTER_DLMTR = "\n" //Символ, который должен вставляться в конец каждого сериализованного сообщения
+                            // Этот символ лучше не менять - ClientMessageInputStream читает сообщения построчно
 const val INNER_DLMTR = 'φ' //Символ, который должен вставляться внутри сериализованного сообщения для разделения элементов
+const val MAP_OBJ_DLMTR = 'ξ' //Символ, по которому разделяются элементы объекта
+const val PROPS_DLMTR = 'ψ' //Символ, по которому разделяются properties
 
 const val SERVER_PORT = 48671 //Порт, на котором работает сервер
 const val SERVER_ADDRESS = "localhost" //Адрес сервера

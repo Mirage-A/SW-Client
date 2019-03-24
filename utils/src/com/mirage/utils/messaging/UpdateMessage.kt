@@ -9,8 +9,22 @@ import com.mirage.utils.INNER_DLMTR
  */
 sealed class UpdateMessage {
     companion object {
-        fun deserialize(str: String) : UpdateMessage {//TODO
-            return EndOfPackageMessage(System.currentTimeMillis())
+        /**
+         * Десериализует сообщение из строки.
+         * @throws Exception если строка некорректна и была получена не методом serialize
+         * @see serialize
+         */
+        fun deserialize(str: String) : UpdateMessage {
+            val args = str.split(INNER_DLMTR)
+            return when (args[0]) {
+                "SCR" -> RunScriptMessage(args[1])
+                "NEW" -> NewObjectMessage(args[1].toLong(), deserializeMapObject(args[2]))
+                "RM" -> RemoveObjectMessage(args[1].toLong())
+                "PS" -> PositionSnapshotMessage(deserializePositionSnapshot(args[1]))
+                "MC" -> MapChangeMessage(args[1])
+                "EOP" -> EndOfPackageMessage(args[1].toLong())
+                else -> throw Exception("Incorrect message: $args")
+            }
         }
     }
     abstract fun serialize() : String
@@ -27,7 +41,7 @@ data class RunScriptMessage(val scriptName: String) : UpdateMessage() {
  * Добавление нового объекта на карту
  */
 data class NewObjectMessage(val id: Long, val obj: MapObject) : UpdateMessage() {
-    override fun serialize(): String = "MV$INNER_DLMTR$id$INNER_DLMTR${obj.serialize()}"//TODO
+    override fun serialize(): String = "NEW$INNER_DLMTR$id$INNER_DLMTR${obj.serialize()}"//TODO
 }
 
 /**
