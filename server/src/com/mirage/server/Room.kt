@@ -1,6 +1,9 @@
 package com.mirage.server
 
 import com.mirage.gamelogic.LogicFacade
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -9,10 +12,22 @@ import java.util.*
  */
 class Room {
 
+
     private val logic = LogicFacade()
 
     private val players : MutableList<Player> = LinkedList()
 
+    init {
+        //TODO Убрать
+        GlobalScope.launch {
+            while(true) {
+                for (pl in players) {
+                    pl.checkNewMessages()
+                }
+                delay(500)
+            }
+        }
+    }
 
     /**
      * Разрывает все соединения с игроками, освобождает все ресурсы, подготавливает комнату к удалению.

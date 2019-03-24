@@ -6,15 +6,27 @@ import com.badlogic.gdx.net.Socket
 import com.badlogic.gdx.net.SocketHints
 import com.mirage.utils.SERVER_ADDRESS
 import com.mirage.utils.SERVER_PORT
+import com.mirage.utils.messaging.ClientMessage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.swing.SwingUtilities
 
 object Server {
 
     private val rooms = ArrayList<Room>()
 
+    private val playerMessageListener : (ClientMessage) -> Unit = {
+        println("got message $it")
+        //TODO
+    }
+
+    private val playerDisconnectListener : () -> Unit = {
+        println("disconnect")
+    }
+
     private fun newSocketListener(socket: Socket) {
         println("got new socket!")
-        val player = Player(socket)
+        val player = Player(socket, playerMessageListener, playerDisconnectListener)
         selectRoomForConnectedPlayer(player).addPlayer(player)
     }
 
@@ -33,6 +45,7 @@ object Server {
         rooms.add(Room())
         sendAdminMessage(RoomAddedAdminMessage(rooms[0]))
         socketFactory.start()
+
     }
 
 

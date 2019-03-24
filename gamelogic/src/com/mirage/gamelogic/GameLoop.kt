@@ -86,7 +86,7 @@ internal class GameLoop {
      */
     private fun update(deltaMillis: Long) {
         loopLock.lock()
-        for ((id, obj) in objects) {
+        for ((_, obj) in objects) {
             if (obj.isMoving) {
                 moveObject(obj, deltaMillis)
             }
