@@ -2,8 +2,6 @@ package com.mirage.client
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.mirage.client.controllers.Controller
 import com.mirage.client.controllers.EmptyController
@@ -11,8 +9,6 @@ import com.mirage.client.controllers.GameController
 import com.mirage.client.controllers.MainMenuController
 import com.mirage.utils.Assets
 import com.mirage.connection.Connection
-import com.mirage.connection.LocalConnection
-import com.mirage.connection.RemoteConnection
 import com.mirage.scriptrunner.runClientScript
 import com.mirage.utils.*
 import com.mirage.utils.extensions.*
@@ -41,11 +37,11 @@ object Client : Game() {
     }
 
     /**
-     * Обработчик сообщений [UpdateMessage], полученных от логики через [Connection]
-     * @see UpdateMessage
+     * Обработчик сообщений [ServerMessage], полученных от логики через [Connection]
+     * @see ServerMessage
      * @see Connection
      */
-    fun messageListener(msg: UpdateMessage) {
+    fun messageListener(msg: ServerMessage) {
         when (msg) {
             is MapChangeMessage -> {
                 Log.i("MapChangeMessage received: $msg")

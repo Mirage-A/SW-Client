@@ -3,9 +3,9 @@ package com.mirage.server
 import com.badlogic.gdx.net.Socket
 import com.mirage.utils.SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL
 import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.UpdateMessage
+import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.streams.impls.ClientMessageInputStream
-import com.mirage.utils.messaging.streams.impls.UpdateMessageOutputStream
+import com.mirage.utils.messaging.streams.impls.ServerMessageOutputStream
 import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
  * //TODO Как-нибудь надо справляться с дудосом (спамом юзлесс сообщениями)
  */
 class Player(private val socket: Socket,
-             private val msgListener : (ClientMessage) -> Unit,
+             private val msgListener : (Player, ClientMessage) -> Unit,
              private val disconnectListener: (Player) -> Unit) {
 
     var room: Room? = null
@@ -27,7 +27,7 @@ class Player(private val socket: Socket,
      */
     fun checkNewMessages() {
         while (inputMessageQueue.isNotEmpty()) {
-            msgListener(inputMessageQueue.poll())
+            msgListener(this, inputMessageQueue.poll())
         }
     }
 
@@ -35,17 +35,17 @@ class Player(private val socket: Socket,
      * Добавляет сообщение в очередь на отправку
      * Сообщения из очереди отправляются автоматически
      */
-    fun sendMessage(msg: UpdateMessage) {
+    fun sendMessage(msg: ServerMessage) {
         outputMessageQueue.add(msg)
     }
 
-    private val outputMessageQueue = ConcurrentLinkedQueue<UpdateMessage>()
+    private val outputMessageQueue = ConcurrentLinkedQueue<ServerMessage>()
 
     private val inputMessageQueue = ConcurrentLinkedQueue<ClientMessage>()
 
     private val inStream = ClientMessageInputStream(socket.inputStream)
 
-    private val outStream = UpdateMessageOutputStream(socket.outputStream)
+    private val outStream = ServerMessageOutputStream(socket.outputStream)
 
     /**
      * Поток, который слушает сокет от игрока и добавляет принятые сообщения в очередь
@@ -72,6 +72,7 @@ class Player(private val socket: Socket,
                 while (outputMessageQueue.isNotEmpty()) {
                     outStream.write(outputMessageQueue.poll())
                 }
+                outStream.flush()
                 Thread.sleep(SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL)
             }
         }

@@ -1,6 +1,5 @@
 package com.mirage.gamelogic
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
@@ -12,8 +11,7 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import com.mirage.utils.messaging.MapChangeMessage
 import com.mirage.utils.messaging.NewObjectMessage
-import com.mirage.utils.messaging.UpdateMessage
-import java.io.File
+import com.mirage.utils.messaging.ServerMessage
 import java.util.*
 
 
@@ -79,7 +77,7 @@ class LogicFacade : Disposable {
 
     val objects: Map<Long, MapObject> = gameLoop.objects
 
-    val msgs : Queue<UpdateMessage> = gameLoop.messageQueue
+    val msgs : Queue<ServerMessage> = gameLoop.messageQueue
 
     fun lockMsgQueue() = gameLoop.queueLock.lock()
 

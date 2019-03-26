@@ -54,6 +54,11 @@ class Room {
 
     fun getPlayersCount() = players.size
 
+    fun start() {
+        logic.startGame()
+        logic.startLogic()
+    }
+
     fun addPlayer(p: Player) {
         players.add(p)
         p.room = this

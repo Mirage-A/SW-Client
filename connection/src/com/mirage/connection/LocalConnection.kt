@@ -7,7 +7,7 @@ import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
 import com.mirage.utils.extensions.moveDirection
 import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.messaging.UpdateMessage
+import com.mirage.utils.messaging.ServerMessage
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 
@@ -16,6 +16,23 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class LocalConnection : Connection {
 
+    override fun readOneMessage() {
+        if (messageQueue.isNotEmpty()) {
+            queueLock.lock()
+            val msg = messageQueue.poll()
+            for (msgListener in messageListeners) {
+                msgListener(msg)
+            }
+            queueLock.unlock()
+        }
+    }
+
+    override fun removeAllMessageListeners() {
+        queueLock.lock()
+        messageListeners.clear()
+        queueLock.unlock()
+    }
+
     override fun hasNewMessages(): Boolean = messageQueue.isNotEmpty()
 
     override fun dispose() {
@@ -23,7 +40,7 @@ class LocalConnection : Connection {
         logic.dispose()
     }
 
-    private val messageListeners : MutableCollection<(msg: UpdateMessage) -> Unit> = ArrayList()
+    private val messageListeners : MutableCollection<(msg: ServerMessage) -> Unit> = ArrayList()
 
     private val logic : LogicFacade = LogicFacade()
 
@@ -34,7 +51,7 @@ class LocalConnection : Connection {
     override var bufferedMoveDirection : MoveDirection? = null
     override var bufferedMoving : Boolean? = null
 
-    private val messageQueue = ArrayDeque<UpdateMessage>()
+    private val messageQueue = ArrayDeque<ServerMessage>()
     private val queueLock = ReentrantLock()
 
     private val messageBufferTimer = Timer(CONNECTION_MESSAGE_BUFFER_UPDATE_INTERVAL) {
@@ -77,7 +94,7 @@ class LocalConnection : Connection {
         setMoving(false)
     }
 
-    override fun addMessageListener(listener: (msg: UpdateMessage) -> Unit) {
+    override fun addMessageListener(listener: (msg: ServerMessage) -> Unit) {
         messageListeners.add(listener)
     }
 
@@ -100,5 +117,11 @@ class LocalConnection : Connection {
     }
 
     fun startLogic() = logic.startLogic()
+
+    override fun blockUntilHaveMessages() {
+        while(!hasNewMessages()) {
+            Thread.sleep(1L)
+        }
+    }
 
 }

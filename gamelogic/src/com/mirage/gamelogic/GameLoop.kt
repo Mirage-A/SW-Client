@@ -11,7 +11,6 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import com.mirage.utils.messaging.*
 import java.util.*
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.collections.HashMap
 
@@ -63,7 +62,7 @@ internal class GameLoop : Disposable {
      * Очередь, в которую добавляются сообщения при каждом изменении состояния карты
      * Эти сообщения добавляет цикл логики, а обрабатывать и рассылать их клиентам должен сервер
      */
-    val messageQueue = ArrayDeque<UpdateMessage>()
+    val messageQueue = ArrayDeque<ServerMessage>()
     val queueLock = ReentrantLock()
 
     /**
@@ -161,7 +160,7 @@ internal class GameLoop : Disposable {
     /**
      * Добавить сообщение в очередь сообщений
      */
-    fun sendMessage(msg: UpdateMessage) {
+    fun sendMessage(msg: ServerMessage) {
         queueLock.lock()
         messageQueue.add(msg)
         queueLock.unlock()

@@ -1,7 +1,11 @@
 package com.mirage.server
 
 import com.badlogic.gdx.net.Socket
+import com.mirage.utils.Timer
+import com.mirage.utils.messaging.CityJoinClientMessage
 import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.LoginClientMessage
+import com.mirage.utils.messaging.ReturnCodeMessage
 import javax.swing.SwingUtilities
 
 /**
@@ -18,9 +22,29 @@ import javax.swing.SwingUtilities
 object Server {
 
     private val rooms : MutableCollection<Room> = ArrayList()
+    private val playersWithoutRoom : MutableList<Player> = ArrayList()
 
-    private val playerMessageListener : (ClientMessage) -> Unit = {
+    private val playerMessageListener : (Player, ClientMessage) -> Unit = { player, msg ->
         //TODO
+        when (msg) {
+            is LoginClientMessage -> {
+                player.sendMessage(ReturnCodeMessage(0))
+            }
+            is CityJoinClientMessage -> {
+                player.sendMessage(ReturnCodeMessage(100))
+                //TODO Выбор комнаты на основании id города в сообщении
+                if (rooms.isEmpty()) {
+                    val room = Room()
+                    room.start() //TODO Надо это вызывать в главном потоке с OpenGL-контекстом((((
+
+                    room.addPlayer(player)
+                    sendAdminMessage(RoomAddedAdminMessage(room))
+                }
+                else {
+                    rooms.first().addPlayer(player)
+                }
+            }
+        }
     }
 
     private val playerDisconnectListener : (Player) -> Unit = {
@@ -30,28 +54,21 @@ object Server {
 
     private fun newSocketListener(socket: Socket) {
         val player = Player(socket, playerMessageListener, playerDisconnectListener)
-        val room = selectRoomForConnectedPlayer(player)
-        room.addPlayer(player)
+        playersWithoutRoom.add(player)
         sendAdminMessage(PlayerConnectedAdminMessage(player))
-    }
-
-    /**
-     * Определяет, в какую комнату нужно направить подключившегося игрока.
-     * Создаёт новую комнату, если это необходимо, и возвращает ссылку на комнату.
-     * //TODO
-     */
-    private fun selectRoomForConnectedPlayer(player: Player) : Room {
-        return rooms.first()
     }
 
     private val socketFactory = SocketFactory(::newSocketListener)
 
+    private val outOfRoomPlayersThread = Timer(100) {
+        for (player in playersWithoutRoom) {
+            player.checkNewMessages()
+        }
+    }
+
     init {
-        rooms.add(Room())
-        rooms.add(Room())
-        sendAdminMessage(RoomAddedAdminMessage(rooms.first()))
-        sendAdminMessage(RoomAddedAdminMessage(rooms.last()))
         socketFactory.start()
+        outOfRoomPlayersThread.start()
     }
 
 

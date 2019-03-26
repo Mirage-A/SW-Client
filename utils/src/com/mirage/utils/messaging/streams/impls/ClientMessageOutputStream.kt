@@ -17,6 +17,7 @@ class ClientMessageOutputStream(outputStream: OutputStream) : ClientMessageWrite
     private val out = BufferedWriter(OutputStreamWriter(outputStream))
 
     override fun write(msg: ClientMessage) {
+        println("Sending $msg")
         out.write(msg.serialize())
         out.write(OUTER_DLMTR)
     }

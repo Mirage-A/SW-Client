@@ -5,9 +5,6 @@ import com.badlogic.gdx.Input
 import com.mirage.client.Client
 import com.mirage.client.ClientScriptActionsImpl
 import com.mirage.connection.Connection
-import com.mirage.connection.LocalConnection
-import com.mirage.connection.RemoteConnection
-import com.mirage.utils.ONLINE_MODE
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
@@ -17,7 +14,7 @@ import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.screens.GameScreen
 
-class GameController : Controller {
+class GameController(var connection: Connection) : Controller {
 
     /**
      * Время отпускания клавиши передвижения
@@ -38,7 +35,7 @@ class GameController : Controller {
 
     override val screen = GameScreen(snapshotManager, state)
 
-    var connection : Connection = if (ONLINE_MODE) {
+    /*var connection : Connection = if (ONLINE_MODE) {
         RemoteConnection().apply {
             addMessageListener(Client::messageListener)
         }
@@ -50,7 +47,7 @@ class GameController : Controller {
             screen.updateResources()
             startLogic()
         }
-    }
+    }*/
 
     val actions = ClientScriptActionsImpl(Client)
 

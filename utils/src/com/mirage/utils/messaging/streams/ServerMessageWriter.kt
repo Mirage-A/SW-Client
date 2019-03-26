@@ -1,6 +1,6 @@
 package com.mirage.utils.messaging.streams
 
-import com.mirage.utils.messaging.UpdateMessage
+import com.mirage.utils.messaging.ServerMessage
 
 
 //TODO ОПТИМИЗАЦИЯ - СЕРИАЛИЗОВАТЬ ДО РАСПРЕДЕЛЕНИЯ, ЧТОБЫ НЕ СЕРИАЛИЗОВЫВАТЬ ОДНО СООБЩЕНИЕ ДЛЯ КАЖДОГО ИГРОКА
@@ -8,13 +8,13 @@ import com.mirage.utils.messaging.UpdateMessage
  * Интерфейс, позволяющий отправлять сообщения от логики.
  * Используется на стороне логики (сервера).
  */
-interface UpdateMessageWriter {
+interface ServerMessageWriter {
 
     /**
      * Подготовить сообщение к отправке
      * @see flush
      */
-    fun write(msg: UpdateMessage)
+    fun write(msg: ServerMessage)
 
     /**
      * Отправить сообщения

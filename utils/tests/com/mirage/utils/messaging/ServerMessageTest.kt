@@ -8,16 +8,16 @@ import com.mirage.utils.extensions.set
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class UpdateMessageTest {
+internal class ServerMessageTest {
 
     @Test
     fun testSerializing() {
 
-        fun testSeri(msg: UpdateMessage) {
+        fun testSeri(msg: ServerMessage) {
             val seri = msg.serialize()
             println(msg)
             println(seri)
-            val deseri = UpdateMessage.deserialize(seri)
+            val deseri = ServerMessage.deserialize(seri)
             println(deseri)
             assertEquals(msg, deseri)
             println()

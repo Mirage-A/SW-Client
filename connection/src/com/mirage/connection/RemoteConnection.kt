@@ -8,9 +8,9 @@ import com.mirage.utils.*
 import com.mirage.utils.Timer
 import com.mirage.utils.messaging.*
 import com.mirage.utils.messaging.streams.ClientMessageWriter
-import com.mirage.utils.messaging.streams.UpdateMessageReader
+import com.mirage.utils.messaging.streams.ServerMessageReader
 import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
-import com.mirage.utils.messaging.streams.impls.UpdateMessageInputStream
+import com.mirage.utils.messaging.streams.impls.ServerMessageInputStream
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 
@@ -18,6 +18,23 @@ import java.util.concurrent.locks.ReentrantLock
  * Реализация интерфейса [Connection], отвечающая за подключение к удаленному серверу.
  */
 class RemoteConnection : Connection {
+
+    override fun readOneMessage() {
+        if (messageQueue.isNotEmpty()) {
+            queueLock.lock()
+            val msg = messageQueue.poll()
+            for (msgListener in messageListeners) {
+                msgListener(msg)
+            }
+            queueLock.unlock()
+        }
+    }
+
+    override fun removeAllMessageListeners() {
+        queueLock.lock()
+        messageListeners.clear()
+        queueLock.unlock()
+    }
 
     override fun hasNewMessages(): Boolean = messageQueue.isNotEmpty()
 
@@ -28,21 +45,21 @@ class RemoteConnection : Connection {
         socket.dispose()
     }
 
-    private val messageListeners : MutableCollection<(msg: UpdateMessage) -> Unit> = ArrayList()
+    private val messageListeners : MutableCollection<(msg: ServerMessage) -> Unit> = ArrayList()
 
     private var playerID: Long? = null
 
-    private val messageQueue = ArrayDeque<UpdateMessage>()
+    private val messageQueue = ArrayDeque<ServerMessage>()
     private val queueLock = ReentrantLock()
 
     private val socket : Socket = NetJavaSocketImpl(Net.Protocol.TCP, SERVER_ADDRESS, SERVER_PORT, SocketHints())
 
-    private val reader : UpdateMessageReader = UpdateMessageInputStream(socket.inputStream)
+    private val reader : ServerMessageReader = ServerMessageInputStream(socket.inputStream)
 
     private val writer : ClientMessageWriter = ClientMessageOutputStream(socket.outputStream)
 
     /**
-     * Поток, который считывает сообщения [UpdateMessage] от сервера и добавляет их в очередь [messageQueue]
+     * Поток, который считывает сообщения [ServerMessage] от сервера и добавляет их в очередь [messageQueue]
      * @see queueLock
      */
     private val readerThread = Thread(Runnable {
@@ -65,6 +82,13 @@ class RemoteConnection : Connection {
     fun sendMessage(msg: ClientMessage) {
         writeLock.lock()
         writer.write(msg)
+        writeLock.unlock()
+    }
+
+    fun sendAndFlush(msg: ClientMessage) {
+        writeLock.lock()
+        writer.write(msg)
+        writer.flush()
         writeLock.unlock()
     }
 
@@ -107,7 +131,7 @@ class RemoteConnection : Connection {
         setMoving(false)
     }
 
-    override fun addMessageListener(listener: (msg: UpdateMessage) -> Unit) {
+    override fun addMessageListener(listener: (msg: ServerMessage) -> Unit) {
         messageListeners.add(listener)
     }
 
@@ -129,5 +153,11 @@ class RemoteConnection : Connection {
     override var bufferedMoveDirection: MoveDirection? = null
 
     override var bufferedMoving: Boolean? = null
+
+    override fun blockUntilHaveMessages() {
+        while(!hasNewMessages()) {
+            Thread.sleep(1L)
+        }
+    }
 
 }
