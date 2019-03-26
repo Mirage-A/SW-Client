@@ -8,19 +8,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 /**
- * Экран загрузки
+ * Экран главного меню
  */
-class LoadingScreen : ScreenAdapter() {
+class MainMenuScreen : ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     private var camera: OrthographicCamera = OrthographicCamera()
 
     private val loadingFont = BitmapFont()
 
-    var loadingText = "Loading...."
+    var loadingText = "PRESS ANY KEY"
 
     init {
-        loadingFont.data.setScale(5f)
+        loadingFont.data.setScale(4f)
     }
 
     override fun resize(width: Int, height: Int) {
@@ -33,7 +33,7 @@ class LoadingScreen : ScreenAdapter() {
         camera.update()
         batch.projectionMatrix = camera.combined
         batch.begin()
-        loadingFont.draw(batch, loadingText, camera.viewportWidth / 2 - 140, camera.viewportHeight * 1 / 3)
+        loadingFont.draw(batch, loadingText, camera.viewportWidth / 2 - 200, camera.viewportHeight * 1 / 3)
         batch.end()
     }
 }

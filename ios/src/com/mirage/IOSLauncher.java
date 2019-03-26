@@ -12,7 +12,6 @@ class IOSLauncher extends IOSApplication.Delegate {
 
     @Override
     protected IOSApplication createApplication() {
-        ConfigurationKt.getConfig().put("assets", "./android/assets/");
         ConfigurationKt.setPLATFORM("ios");
         return new IOSApplication(Client.INSTANCE, new IOSApplicationConfiguration());
     }

@@ -9,13 +9,14 @@ import java.util.*
 
 /**
  * Комната с игроками на одной карте
- * Содержит поток логики и предоставляет корутинам соединения с игроками одной комнаты общий контекст.
+ * Содержит поток логики и список игроков, находящихся в этой комнате
+ * @see Player
  */
 class Room {
 
     private val logic = LogicFacade()
 
-    private val players : MutableList<Player> = Collections.synchronizedList(LinkedList())
+    private val players : MutableList<Player> = Collections.synchronizedList(ArrayList())
 
 
     //TODO Убрать
@@ -34,11 +35,12 @@ class Room {
     }
 
     /**
-     * Разрывает все соединения с игроками, освобождает все ресурсы, подготавливает комнату к удалению.
+     * Освобождает все ресурсы, подготавливает комнату к удалению, возвращает список игроков
      */
-    fun close() {
+    fun close() : MutableList<Player> {
         logic.pauseLogic()
         logic.stopLogic()
+        return players
         //TODO
     }
 

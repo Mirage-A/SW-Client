@@ -1,6 +1,7 @@
 package com.mirage.client
 
 import com.badlogic.gdx.maps.MapObject
+import com.mirage.client.controllers.GameController
 import com.mirage.scriptrunner.client.ClientScriptActions
 import com.mirage.scriptrunner.runClientScript
 import com.mirage.view.screens.GameScreen
@@ -28,7 +29,8 @@ class ClientScriptActionsImpl(private val client: Client) : ClientScriptActions 
     }
 
     override fun findObject(objName: String): MapObject? {
-        for ((_, obj) in client.state.objects) {
+        val gameController = client.controller as? GameController ?: return null
+        for ((_, obj) in gameController.state.objects) {
             if (obj.name == objName) return obj
         }
         return null

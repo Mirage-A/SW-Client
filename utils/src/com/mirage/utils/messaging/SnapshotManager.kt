@@ -19,6 +19,7 @@ class SnapshotManager(private val state: GameState) {
      */
     private val snapshots : NavigableSet<PositionSnapshot> = TreeSet()
 
+
     /**
      * Добавить новое состояние.
      */

@@ -2,7 +2,7 @@ package com.mirage.utils
 
 import com.mirage.utils.datastructures.Point
 
-const val ONLINE_MODE = true //Временный параметр для онлайн-режима
+const val ONLINE_MODE = false //Временный параметр для онлайн-режима
 
 const val OUTER_DLMTR = "\n" //Символ, который должен вставляться в конец каждого сериализованного сообщения
                             // Этот символ лучше не менять - ClientMessageInputStream читает сообщения построчно

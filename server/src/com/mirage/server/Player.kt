@@ -3,13 +3,9 @@ package com.mirage.server
 import com.badlogic.gdx.net.Socket
 import com.mirage.utils.SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL
 import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.UpdateMessage
 import com.mirage.utils.messaging.streams.impls.ClientMessageInputStream
 import com.mirage.utils.messaging.streams.impls.UpdateMessageOutputStream
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
@@ -26,12 +22,19 @@ class Player(private val socket: Socket,
     var room: Room? = null
     var id: Long? = null
 
+    /**
+     * Проверяет наличие новых входящих сообщений и для каждого сообщения вызывает [msgListener]
+     */
     fun checkNewMessages() {
         while (inputMessageQueue.isNotEmpty()) {
             msgListener(inputMessageQueue.poll())
         }
     }
 
+    /**
+     * Добавляет сообщение в очередь на отправку
+     * Сообщения из очереди отправляются автоматически
+     */
     fun sendMessage(msg: UpdateMessage) {
         outputMessageQueue.add(msg)
     }
@@ -44,7 +47,10 @@ class Player(private val socket: Socket,
 
     private val outStream = UpdateMessageOutputStream(socket.outputStream)
 
-    private val inJob = Thread(Runnable {
+    /**
+     * Поток, который слушает сокет от игрока и добавляет принятые сообщения в очередь
+     */
+    private val inThread = Thread(Runnable {
         try {
             while (true) {
                 inputMessageQueue.add(inStream.read())
@@ -53,12 +59,14 @@ class Player(private val socket: Socket,
         catch(ex: InterruptedException) {}
         catch(ex: Exception) {
             println("Deserialization exception")
-            disconnectListener(this@Player)
-            kill()
+            disconnect()
         }
     })
 
-    private val outJob = Thread(Runnable {
+    /**
+     * Поток, который время от времени отправляет игроку все накопившиеся в очереди сообщения от логики
+     */
+    private val outThread = Thread(Runnable {
         try {
             while (true) {
                 while (outputMessageQueue.isNotEmpty()) {
@@ -71,13 +79,17 @@ class Player(private val socket: Socket,
     })
 
     init {
-        inJob.start()
-        outJob.start()
+        inThread.start()
+        outThread.start()
     }
 
-    fun kill() {
-        inJob.interrupt()
-        outJob.interrupt()
+    /**
+     * Разрывает соединение с игроком и вызывает слушателя [disconnectListener]
+     */
+    fun disconnect() {
+        disconnectListener(this@Player)
+        inThread.interrupt()
+        outThread.interrupt()
         socket.dispose()
     }
 }

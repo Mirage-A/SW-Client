@@ -16,6 +16,13 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class LocalConnection : Connection {
 
+    override fun hasNewMessages(): Boolean = messageQueue.isNotEmpty()
+
+    override fun dispose() {
+        logic.stopLogic()
+        logic.dispose()
+    }
+
     private val messageListeners : MutableCollection<(msg: UpdateMessage) -> Unit> = ArrayList()
 
     private val logic : LogicFacade = LogicFacade()

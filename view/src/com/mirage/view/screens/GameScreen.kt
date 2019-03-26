@@ -72,7 +72,6 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-
         val playerID : Long = state.playerID ?: return
 
         val snapshot = stateManager.getInterpolatedSnapshot()

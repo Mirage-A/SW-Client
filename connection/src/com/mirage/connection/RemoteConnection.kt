@@ -14,7 +14,19 @@ import com.mirage.utils.messaging.streams.impls.UpdateMessageInputStream
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 
+/**
+ * Реализация интерфейса [Connection], отвечающая за подключение к удаленному серверу.
+ */
 class RemoteConnection : Connection {
+
+    override fun hasNewMessages(): Boolean = messageQueue.isNotEmpty()
+
+    override fun dispose() {
+        //TODO
+        readerThread.interrupt()
+        bufferWriterTimer.stop()
+        socket.dispose()
+    }
 
     private val messageListeners : MutableCollection<(msg: UpdateMessage) -> Unit> = ArrayList()
 
@@ -29,25 +41,41 @@ class RemoteConnection : Connection {
 
     private val writer : ClientMessageWriter = ClientMessageOutputStream(socket.outputStream)
 
+    /**
+     * Поток, который считывает сообщения [UpdateMessage] от сервера и добавляет их в очередь [messageQueue]
+     * @see queueLock
+     */
     private val readerThread = Thread(Runnable {
-        while (true) {
-            val msg = reader.read()
-            queueLock.lock()
-            messageQueue.add(msg)
-            queueLock.unlock()
+        try {
+            while (true) {
+                val msg = reader.read()
+                queueLock.lock()
+                messageQueue.add(msg)
+                queueLock.unlock()
+            }
         }
-    }).apply {
-        start()
-    }
+        catch(ex: InterruptedException) { }
+    })
 
     private val writeLock = ReentrantLock()
 
+    /**
+     * Отправляет сообщение [msg] на сервер
+     */
     fun sendMessage(msg: ClientMessage) {
         writeLock.lock()
         writer.write(msg)
         writeLock.unlock()
     }
 
+    /**
+     * Таймер, который каждые [SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL] мс
+     * отправляет на сервер информацию о движении персонажа игрока
+     * @see setMoving
+     * @see setMoveDirection
+     * @see bufferedMoving
+     * @see bufferedMoveDirection
+     */
     private val bufferWriterTimer = Timer(SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL) {
         bufferedMoveDirection?.let {
             sendMessage(MoveDirectionClientMessage(it))
@@ -55,8 +83,11 @@ class RemoteConnection : Connection {
         bufferedMoving?.let {
             sendMessage(SetMovingClientMessage(it))
         }
-    }.apply {
-        start()
+    }
+
+    init {
+        readerThread.start()
+        bufferWriterTimer.start()
     }
 
     override fun setMoveDirection(md: MoveDirection) {

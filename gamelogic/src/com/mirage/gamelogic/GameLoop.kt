@@ -3,6 +3,7 @@ package com.mirage.gamelogic
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.utils.Disposable
 import com.mirage.scriptrunner.logic.LogicEventHandler
 import com.mirage.utils.*
 import com.mirage.utils.Timer
@@ -14,7 +15,12 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.collections.HashMap
 
-internal class GameLoop {
+internal class GameLoop : Disposable {
+
+    override fun dispose() {
+        //TODO
+        loopTimer.stop()
+    }
 
     /**
      * Мьютекс, который занят во время итерации обновления логики

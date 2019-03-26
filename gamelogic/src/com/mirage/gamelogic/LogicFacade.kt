@@ -1,9 +1,11 @@
 package com.mirage.gamelogic
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.utils.Disposable
 import com.mirage.scriptrunner.logic.MapLogicEventListener
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Point
@@ -11,10 +13,17 @@ import com.mirage.utils.extensions.*
 import com.mirage.utils.messaging.MapChangeMessage
 import com.mirage.utils.messaging.NewObjectMessage
 import com.mirage.utils.messaging.UpdateMessage
+import java.io.File
 import java.util.*
 
 
-class LogicFacade {
+class LogicFacade : Disposable {
+
+    override fun dispose() {
+        //TODO
+        gameLoop.dispose()
+    }
+
     /**
      * Цикл игровой логики
      */
@@ -60,6 +69,7 @@ class LogicFacade {
         }
         return map
     }
+
 
     fun addUpdateTickListener(listener: () -> Unit) {
         gameLoop.updateTickListeners.add(listener)

@@ -4,9 +4,20 @@ import com.badlogic.gdx.net.Socket
 import com.mirage.utils.messaging.ClientMessage
 import javax.swing.SwingUtilities
 
+/**
+ * Синглтон, представляющий собой сервер.
+ * Предоставляет слушателей для обработки различных событий, таких как:
+ *  - Получение сообщения от игрока //TODO Возможно, стоит перенести в другое место
+ *  - Отключение игрока
+ *  - Подключение игрока
+ * Содержит коллекцию комнат, по которым распределяет игроков
+ * @see Room
+ * @see ClientMessage
+ * @see AdminMessage
+ */
 object Server {
 
-    private val rooms = ArrayList<Room>()
+    private val rooms : MutableCollection<Room> = ArrayList()
 
     private val playerMessageListener : (ClientMessage) -> Unit = {
         //TODO
@@ -30,7 +41,7 @@ object Server {
      * //TODO
      */
     private fun selectRoomForConnectedPlayer(player: Player) : Room {
-        return rooms[0]
+        return rooms.first()
     }
 
     private val socketFactory = SocketFactory(::newSocketListener)
@@ -38,8 +49,8 @@ object Server {
     init {
         rooms.add(Room())
         rooms.add(Room())
-        sendAdminMessage(RoomAddedAdminMessage(rooms[0]))
-        sendAdminMessage(RoomAddedAdminMessage(rooms[1]))
+        sendAdminMessage(RoomAddedAdminMessage(rooms.first()))
+        sendAdminMessage(RoomAddedAdminMessage(rooms.last()))
         socketFactory.start()
     }
 

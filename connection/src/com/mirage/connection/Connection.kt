@@ -1,9 +1,15 @@
 package com.mirage.connection
 
+import com.badlogic.gdx.utils.Disposable
 import com.mirage.utils.messaging.UpdateMessage
 import com.mirage.utils.messaging.MoveDirection
 
-interface Connection {
+interface Connection : Disposable {
+
+    /**
+     * Проверяет, есть ли новые сообщения
+     */
+    fun hasNewMessages() : Boolean
 
     /**
      * Отправляет запрос на изменение направления движения игрока
