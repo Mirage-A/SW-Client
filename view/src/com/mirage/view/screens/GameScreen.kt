@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.utils.*
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.position
 import com.mirage.utils.messaging.GameState
 import com.mirage.utils.messaging.SnapshotManager
@@ -104,11 +104,11 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
             val mdBtnPos = if (player != null && snapshot.isMoving[playerID] == true) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
                 val angle = (snapshot.moveDirections[playerID]?.toAngle()?.toDouble() ?: (Math.PI / 4)) - Math.PI / 4
-                Point(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
+                MutablePoint(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
                         mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
             }
             else {
-                Point(mdAreaCenterX - mdBtnRadius, mdAreaCenterX - mdBtnRadius)
+                MutablePoint(mdAreaCenterX - mdBtnRadius, mdAreaCenterX - mdBtnRadius)
             }
             val scrX = camera.position.x - camera.viewportWidth / 2
             val scrY = camera.position.y - camera.viewportHeight / 2

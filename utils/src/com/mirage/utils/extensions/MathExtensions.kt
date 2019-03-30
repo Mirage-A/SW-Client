@@ -1,9 +1,9 @@
 package com.mirage.utils.extensions
 
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 
-val Rectangle.points : Array<Point>
-    get() = arrayOf(Point(x, y), Point(x + width, y),
-            Point(x, y + height), Point(x + width, y + height))
+val Rectangle.points : Array<MutablePoint>
+    get() = arrayOf(MutablePoint(x, y), MutablePoint(x + width, y),
+            MutablePoint(x, y + height), MutablePoint(x + width, y + height))
 

@@ -1,7 +1,7 @@
 package com.mirage.utils.messaging
 
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.isRigid
 import com.mirage.utils.extensions.position
 import com.mirage.utils.extensions.set
@@ -25,14 +25,14 @@ internal class ServerMessageTest {
 
         testSeri(RemoveObjectMessage(228L))
         testSeri(PositionSnapshotMessage(PositionSnapshot(
-                hashMapOf(1L to Point(0f ,0f), 228L to Point(1f, -2f)),
+                hashMapOf(1L to MutablePoint(0f ,0f), 228L to MutablePoint(1f, -2f)),
                 hashMapOf(1L to MoveDirection.DOWN_LEFT, 23L to MoveDirection.UP_RIGHT),
                 hashMapOf(1L to true, 1324L to false),
                 228L)))
         testSeri(MapChangeMessage("anvil"))
 
         val obj = MapObject().apply {
-            position = Point(5f, 10f)
+            position = MutablePoint(5f, 10f)
             opacity = 5f
             name = "testy"
             isVisible = false

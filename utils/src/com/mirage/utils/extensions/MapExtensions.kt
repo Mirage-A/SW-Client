@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.MapProperties
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.datastructures.IntPair
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 
 operator fun Map.iterator() : Iterator<MapObject> {
     return object : Iterator<MapObject> {
@@ -44,15 +44,15 @@ var MapObject.moveDirection: MoveDirection
         properties.put("move-direction", md.toString())
     }
 
-var MapObject.position : Point
-    get() = Point(properties.getFloat("x", 0f), properties.getFloat("y", 0f))
+var MapObject.position : MutablePoint
+    get() = MutablePoint(properties.getFloat("x", 0f), properties.getFloat("y", 0f))
     set(p) {
         properties.put("x", p.x)
         properties.put("y", p.y)
     }
 
 val Rectangle.center
-    get() = Point(x + width / 2, y + height / 2)
+    get() = MutablePoint(x + width / 2, y + height / 2)
 
 var MapObject.isMoving : Boolean
     get() = properties.getBoolean("is-moving", false)

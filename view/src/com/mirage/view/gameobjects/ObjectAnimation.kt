@@ -2,7 +2,7 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.view.TextureLoader
 import com.mirage.view.animation.*
 
@@ -94,8 +94,8 @@ class ObjectAnimation(name: String) : ObjectDrawer {
     /**
      * Аналогично, но возвращает точку между двумя точками (покоординатное curValue)
      */
-    private fun curValue(startPoint: Point, endPoint: Point, progress: Float) : Point {
-        return Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
+    private fun curValue(startPoint: MutablePoint, endPoint: MutablePoint, progress: Float) : MutablePoint {
+        return MutablePoint(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
     }
 
 }

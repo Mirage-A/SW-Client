@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Disposable
 import com.mirage.scriptrunner.logic.LogicEventHandler
 import com.mirage.utils.*
 import com.mirage.utils.Timer
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.*
 import com.mirage.utils.messaging.*
 import java.util.*
@@ -96,7 +96,7 @@ internal class GameLoop : Disposable {
             }
         }
         for (listener in updateTickListeners) listener()
-        val positions = HashMap<Long, Point>()
+        val positions = HashMap<Long, MutablePoint>()
         for ((id, obj) in objects) {
             positions[id] = obj.position
         }

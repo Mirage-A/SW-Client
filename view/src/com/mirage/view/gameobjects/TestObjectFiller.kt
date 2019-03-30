@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.points
 import com.mirage.utils.extensions.rectangle
 import com.mirage.view.game.getVirtualScreenPointFromScene
@@ -18,7 +18,7 @@ class TestObjectFiller(private val obj: MapObject, private val camera: Orthograp
         sr.begin(ShapeRenderer.ShapeType.Filled)
         val points = obj.rectangle.points.map {
             getVirtualScreenPointFromScene(it) -
-                    Point(camera.position.x - camera.viewportWidth / 2,
+                    MutablePoint(camera.position.x - camera.viewportWidth / 2,
                             camera.position.y - camera.viewportHeight / 2)
         }
         sr.triangle(points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y)

@@ -2,7 +2,7 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.view.animation.*
 
 
@@ -115,8 +115,8 @@ class HumanoidAnimation : ObjectDrawer {
     /**
      * Аналогично, но возвращает точку между двумя точками (покоординатное curValue)
      */
-    private fun curValue(startPoint: Point, endPoint: Point, progress: Float) : Point {
-        return Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
+    private fun curValue(startPoint: MutablePoint, endPoint: MutablePoint, progress: Float) : MutablePoint {
+        return MutablePoint(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
     }
 
     /**
@@ -136,7 +136,7 @@ class HumanoidAnimation : ObjectDrawer {
             val bodyEndFrame = bodyFrames[Math.min((bodyTime * (bodyFrames.size - 1) / bodyAnimation.duration).toInt() + 1, bodyFrames.size - 1)]
             val bodyInterval = bodyAnimation.duration / (bodyFrames.size - 1f)
             val bodyProgress = bodyTime % bodyInterval / bodyInterval
-            val bodyPoint: Point
+            val bodyPoint: MutablePoint
 
             val legsFrames = legsAnimation.data[moveDirection]!![weaponType]!!
             val legsTime: Long
@@ -159,7 +159,7 @@ class HumanoidAnimation : ObjectDrawer {
                 legsStartFrame = Frame()
                 legsEndFrame = Frame()
                 legsProgress = 0f
-                bodyPoint = Point(0f, 0f)
+                bodyPoint = MutablePoint(0f, 0f)
             }
             val bodyX = x + bodyPoint.x
             val bodyY = y - bodyPoint.y
@@ -211,14 +211,14 @@ class HumanoidAnimation : ObjectDrawer {
      * Просматривает слои кадра и возвращает координаты центра слоя bodypoint
      * Если такого слоя нет, возвращает (0f, 0f)
      */
-    private fun getBodyPoint(startFrame: Frame, endFrame : Frame, progress: Float) : Point {
+    private fun getBodyPoint(startFrame: Frame, endFrame : Frame, progress: Float) : MutablePoint {
         val startLayerIndex = findLayer(startFrame, "bodypoint")
         val endLayerIndex = findLayer(endFrame, "bodypoint")
         if (startLayerIndex != -1 && endLayerIndex != -1) {
             return curValue(startFrame.layers[startLayerIndex].getPosition(),
                     endFrame.layers[endLayerIndex].getPosition(), progress)
         }
-        return Point(0f, 0f)
+        return MutablePoint(0f, 0f)
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.mirage.view.animation
 
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 
 /**
  * Слой на кадре анимации
@@ -15,8 +15,8 @@ class Layer (var imageName: String, var x : Float = 0f, var y : Float = 0f, var 
     /**
      * Возвращает точку - координаты слоя
      */
-    fun getPosition() : Point {
-        return Point(x, y)
+    fun getPosition() : MutablePoint {
+        return MutablePoint(x, y)
     }
 
 }

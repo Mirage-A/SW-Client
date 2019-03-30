@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.MapProperties
 import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.mirage.utils.MAP_OBJ_DLMTR
 import com.mirage.utils.PROPS_DLMTR
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.set
 
 
@@ -119,10 +119,10 @@ fun deserializePositionSnapshot(str: String) : PositionSnapshot {
     val moveDirections = args[1].split(PROPS_DLMTR)
     val isMoving = args[2].split(PROPS_DLMTR)
     return PositionSnapshot(
-            HashMap<Long, Point>().apply {
+            HashMap<Long, MutablePoint>().apply {
                 if (args[0].isNotBlank()) {
                     for (i in 0 until positions.size step 3) {
-                        put(positions[i].toLong(), Point(positions[i + 1].toFloat(), positions[i + 2].toFloat()))
+                        put(positions[i].toLong(), MutablePoint(positions[i + 1].toFloat(), positions[i + 2].toFloat()))
                     }
                 }
             },

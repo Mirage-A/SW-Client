@@ -1,18 +1,16 @@
 package com.mirage.utils.datastructures
 
 /**
- * Точка с координатами типа Float
- * Используется для хранения позиции объектов на сцене, поэтому имеет метод move
+ * Неизменяемая точка с координатами типа Float
+ * Используется для хранения позиции объектов на сцене
  */
-data class Point (var x : Float = 0f, var y : Float = 0f){
+data class Point (val x: Float, val y: Float){
 
     /**
-     * Передвигает точку в сторону заданного угла на заданное расстояние
+     * Создаёт точку, сдвинутую на заданное расстояние в сторону заданного угла
      */
-    fun move(angle: Float, range: Float) {
-        x += (Math.cos(angle.toDouble()) * range).toFloat()
-        y += (Math.sin(angle.toDouble()) * range).toFloat()
-    }
+    fun move(angle: Float, range: Float) : Point =
+            Point(x + (Math.cos(angle.toDouble()) * range).toFloat(), y + (Math.sin(angle.toDouble()) * range).toFloat())
 
     operator fun plus(p: Point) = Point(x + p.x, y + p.y)
 

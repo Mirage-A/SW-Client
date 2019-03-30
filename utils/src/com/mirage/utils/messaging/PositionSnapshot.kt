@@ -1,14 +1,14 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import java.util.*
 
 data class PositionSnapshot (
-        val positions: Map<Long, Point>,
+        val positions: Map<Long, MutablePoint>,
         val moveDirections: Map<Long, MoveDirection>,
         val isMoving: Map<Long, Boolean>,
         val createdTimeMillis : Long = System.currentTimeMillis()
-        ) : Comparable<PositionSnapshot>, Iterable<Map.Entry<Long, Point>> {
+        ) : Comparable<PositionSnapshot>, Iterable<Map.Entry<Long, MutablePoint>> {
 
 
     /**
@@ -32,9 +32,9 @@ data class PositionSnapshot (
      * Иначе [changeCreatedTime] равен времени создания оригинала.
      */
     fun clone(changeCreatedTime: Boolean = false) : PositionSnapshot {
-        val newPositions = HashMap<Long, Point>()
+        val newPositions = HashMap<Long, MutablePoint>()
         for ((id, pos) in positions) {
-            newPositions[id] = Point(pos.x, pos.y)
+            newPositions[id] = MutablePoint(pos.x, pos.y)
         }
         val newMoveDirections = HashMap<Long, MoveDirection>()
         for ((id, md) in moveDirections) {

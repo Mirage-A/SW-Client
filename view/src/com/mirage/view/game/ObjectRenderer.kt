@@ -7,7 +7,7 @@ import com.mirage.utils.DEFAULT_MAP_POINT
 import com.mirage.utils.messaging.GameState
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.PositionSnapshot
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.*
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
@@ -63,7 +63,7 @@ fun renderObjects(batch: SpriteBatch, state: GameState, snapshot: PositionSnapsh
         val scenePoint = snapshot.positions[id] ?: DEFAULT_MAP_POINT
         val width = obj.properties.getFloat("width", 0f)
         val height = obj.properties.getFloat("height", 0f)
-        val sceneCenter = Point(scenePoint.x + width / 2, scenePoint.y + height / 2)
+        val sceneCenter = MutablePoint(scenePoint.x + width / 2, scenePoint.y + height / 2)
         val pos = getVirtualScreenPointFromScene(sceneCenter)
         drawer?.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
     }
@@ -122,7 +122,7 @@ private fun depthSort(objs: ArrayList<Pair<Long, MapObject>>) {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-private fun compare(p : Point, rect: Rectangle) : Int {
+private fun compare(p : MutablePoint, rect: Rectangle) : Int {
     /**
      * Находит значение функции f(x,y) = x + y - x0 - y0 для данной точки
      * Знак функции позволяет узнать расположение точки (x,y) относительно диагональной прямой,
@@ -159,20 +159,20 @@ private fun compareDisjoint(a: MapObject, b: MapObject) : Int {
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
-            return compare(Point(rectA.x, rectA.y), rectB)
+            return compare(MutablePoint(rectA.x, rectA.y), rectB)
         }
         !aIsPoint && bIsPoint -> {
             if (rectA.overlaps(rectB)) return 1
-            return -compare(Point(rectB.x, rectB.y), rectA)
+            return -compare(MutablePoint(rectB.x, rectB.y), rectA)
         }
         else -> {
-            var res = compare(Point(rectA.x, rectA.y), rectB)
+            var res = compare(MutablePoint(rectA.x, rectA.y), rectB)
             if (res != 0) return res
-            res = compare(Point(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
+            res = compare(MutablePoint(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
             if (res != 0) return res
-            res = compare(Point(rectB.x, rectB.y), rectA)
+            res = compare(MutablePoint(rectB.x, rectB.y), rectA)
             if (res != 0) return -res
-            res = compare(Point(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
+            res = compare(MutablePoint(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
             if (res != 0) return -res
             return 0
         }
@@ -193,20 +193,20 @@ private fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : I
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
-            return compare(Point(rectA.x, rectA.y), rectB)
+            return compare(MutablePoint(rectA.x, rectA.y), rectB)
         }
         !aIsPoint && bIsPoint -> {
             if (rectA.overlaps(rectB)) return 1
-            return -compare(Point(rectB.x, rectB.y), rectA)
+            return -compare(MutablePoint(rectB.x, rectB.y), rectA)
         }
         else -> {
-            var res = compare(Point(rectA.x, rectA.y), rectB)
+            var res = compare(MutablePoint(rectA.x, rectA.y), rectB)
             if (res != 0) return res
-            res = compare(Point(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
+            res = compare(MutablePoint(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
             if (res != 0) return res
-            res = compare(Point(rectB.x, rectB.y), rectA)
+            res = compare(MutablePoint(rectB.x, rectB.y), rectA)
             if (res != 0) return -res
-            res = compare(Point(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
+            res = compare(MutablePoint(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
             if (res != 0) return -res
             return 0
         }

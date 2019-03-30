@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.utils.Disposable
 import com.mirage.scriptrunner.logic.MapLogicEventListener
 import com.mirage.utils.*
-import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.*
 import com.mirage.utils.messaging.MapChangeMessage
 import com.mirage.utils.messaging.NewObjectMessage
@@ -90,7 +90,7 @@ class LogicFacade : Disposable {
      */
     fun addNewPlayer() : Long {
         val spawnPoint = findObject("spawn-point") ?: MapObject().apply {
-            position = Point(0f, 0f)
+            position = MutablePoint(0f, 0f)
             speed = 2.8f
         }
         val player = MapObject().apply {
@@ -167,10 +167,10 @@ class LogicFacade : Disposable {
     /**
      * Переход от кривого базиса карты после загрузки через TmxLoader к базису сцены (тайлы)
      */
-    private fun getScenePointFromTiledMap(tiledMapPoint: Point) : Point {
+    private fun getScenePointFromTiledMap(tiledMapPoint: MutablePoint) : MutablePoint {
         val x = tiledMapPoint.x / 64f
         val y = tiledMapPoint.y / 64f
-        return Point(x, y)
+        return MutablePoint(x, y)
     }
 
 }
