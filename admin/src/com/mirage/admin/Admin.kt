@@ -17,6 +17,7 @@ import javax.swing.JFrame
 
 internal class Admin : JFrame() {
 
+
     private fun adminMessageListener(msg: AdminMessage) {
         when (msg) {
             is RoomAddedAdminMessage -> {

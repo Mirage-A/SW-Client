@@ -1,5 +1,6 @@
 package com.mirage.connection
 
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.mirage.gamelogic.LogicFacade
 import com.mirage.utils.*
 import com.mirage.utils.Timer
@@ -112,6 +113,8 @@ class LocalConnection : Connection {
     }
 
     fun startGame() {
+        //TODO выбор карты
+        logic.map = logic.loadMap("${Assets.assetsPath}maps/test.tmx", InternalFileHandleResolver())
         logic.startGame()
         playerID = logic.addNewPlayer()
     }

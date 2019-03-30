@@ -1,0 +1,8 @@
+{
+  "width": 4.0,
+  "height": 3.0,
+  "texture": "wall",
+  "texture-transparent": "wall-transparent-edge",
+  "transparency-range": 5.0,
+  "is-rigid": true
+}

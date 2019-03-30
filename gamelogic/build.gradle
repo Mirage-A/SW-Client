@@ -10,9 +10,10 @@ dependencies {
     implementation 'org.dom4j:dom4j:2.1.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
     implementation 'org.luaj:luaj-jse:3.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api'
 }
 
 sourceCompatibility = 1.8

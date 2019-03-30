@@ -1,6 +1,8 @@
 package com.mirage.server
 
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.mirage.gamelogic.LogicFacade
+import com.mirage.utils.Assets
 import com.mirage.utils.Timer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -20,7 +22,7 @@ class Room {
 
 
     //TODO Убрать
-    private val TEST = Timer(1000L) {
+    private val TEST = Timer(5L) {
         try {
             for (pl in players) {
                 pl.checkNewMessages()
@@ -30,6 +32,7 @@ class Room {
             ex.printStackTrace()
         }
     }
+
     init {
         TEST.start()
     }
@@ -55,6 +58,8 @@ class Room {
     fun getPlayersCount() = players.size
 
     fun start() {
+        //TODO выбор карты
+        logic.map = logic.loadMap("""D:\Shattered World\Shattered-World\android\assets\maps\test-server.tmx""", DesktopFileHandleResolver())
         logic.startGame()
         logic.startLogic()
     }

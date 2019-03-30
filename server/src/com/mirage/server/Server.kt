@@ -1,11 +1,22 @@
 package com.mirage.server
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.assets.loaders.resolvers.AbsoluteFileHandleResolver
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.net.Socket
+import com.mirage.gamelogic.LogicFacade
+import com.mirage.utils.Assets
 import com.mirage.utils.Timer
 import com.mirage.utils.messaging.CityJoinClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.LoginClientMessage
 import com.mirage.utils.messaging.ReturnCodeMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import java.io.File
 import javax.swing.SwingUtilities
 
 /**
@@ -21,6 +32,16 @@ import javax.swing.SwingUtilities
  */
 object Server {
 
+    init {
+        println(Thread.currentThread().toString())
+        println(Thread.currentThread().id)
+        CoroutineScope(newSingleThreadContext("hello")).launch {
+            println(Thread.currentThread().toString())
+            println(Thread.currentThread().id)
+            println(LogicFacade().loadMap("""D:\Shattered World\Shattered-World\android\assets\maps\test-server.tmx""", DesktopFileHandleResolver()))
+        }
+
+    }
     private val rooms : MutableCollection<Room> = ArrayList()
     private val playersWithoutRoom : MutableList<Player> = ArrayList()
 

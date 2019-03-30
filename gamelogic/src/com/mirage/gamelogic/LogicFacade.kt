@@ -1,5 +1,6 @@
 package com.mirage.gamelogic
 
+import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
@@ -32,6 +33,7 @@ class LogicFacade : Disposable {
         set(newMap) {
             Log.i("Map changed to $map")
             gameLoop.loopLock.lock()
+            gameLoop.sendMessage(MapChangeMessage(newMap.properties["name"].toString()))
             val oldObjects = gameLoop.objects
             val oldPlayerIDs = gameLoop.playerIDs
             gameLoop.map = newMap
@@ -58,8 +60,8 @@ class LogicFacade : Disposable {
      * Загружает карту по данному пути
      * Этот метод не меняет карту на загруженную, нужно вызвать setMap
      */
-    fun loadMap(path: String) : TiledMap {
-        val map = TmxMapLoader().load("${Assets.assetsPath}maps/$path.tmx")
+    fun loadMap(path: String, fileHandleResolver: FileHandleResolver) : TiledMap {
+        val map = TmxMapLoader(fileHandleResolver).load(path)
         for (obj in map) {
             obj.position = getScenePointFromTiledMap(obj.position)
             obj.properties.put("width", obj.properties.getFloat("width") / TILE_HEIGHT)
@@ -67,7 +69,6 @@ class LogicFacade : Disposable {
         }
         return map
     }
-
 
     fun addUpdateTickListener(listener: () -> Unit) {
         gameLoop.updateTickListeners.add(listener)
@@ -111,11 +112,10 @@ class LogicFacade : Disposable {
 
     /**
      * Начать игру (логика на паузе, следует вызвать startLogic)
+     * Перед началом игры следует выбрать карту через свойство [map]
      */
     fun startGame() {
         //TODO Сделать нормальную реализацию отправки сообщений о карте
-        gameLoop.sendMessage(MapChangeMessage("test"))
-        map = loadMap("test")
         gameLoop.loopTimer.start()
     }
 
