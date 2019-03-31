@@ -9,6 +9,8 @@ import com.mirage.utils.*
 import com.mirage.utils.Timer
 import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.*
+import com.mirage.utils.maps.GameMap
+import com.mirage.utils.maps.GameObjects
 import com.mirage.utils.messaging.*
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
@@ -16,34 +18,17 @@ import kotlin.collections.HashMap
 
 internal class GameLoop : Disposable {
 
-    override fun dispose() {
-        //TODO
-        loopTimer.stop()
-    }
-
-    /**
-     * Мьютекс, который занят во время итерации обновления логики
-     */
-    val loopLock = ReentrantLock()
-
     /**
      * Поток, в котором работает этот цикл
      */
     val loopTimer = com.mirage.utils.Timer(GAME_LOOP_TICK_INTERVAL, ::update)
 
-    /**
-     * Карта
-     * Эта карта используется только для работы с тайлами
-     * Для работы с объектами следует использовать словарь objects
-     */
-    var map = TiledMap()
+    var map : GameMap? = null
+
+    var objects: GameObjects? = null
 
     val logicEventHandler = LogicEventHandler(LogicScriptActionsImpl(this))
 
-    /**
-     * Все объекты карты
-     */
-    val objects : MutableMap<Long, MapObject> = HashMap()
     /**
      * Следующее ID, которое можно использовать при добавлении нового объекта
      * //TODO Рассмотреть невероятный случай, когда за время работы цикла добавилось более 1e18 объектов
@@ -196,6 +181,11 @@ internal class GameLoop : Disposable {
         }
         obj.position = newPosition
         logicEventHandler.handleObjectMove(obj, oldPosition, newPosition)
+    }
+
+    override fun dispose() {
+        //TODO
+        loopTimer.stop()
     }
 
 }

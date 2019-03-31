@@ -5,9 +5,7 @@ import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.google.gson.Gson
-import com.mirage.utils.maps.GameMap
-import com.mirage.utils.maps.GameObject
-import com.mirage.utils.maps.GameObjects
+import com.mirage.utils.maps.*
 import java.io.File
 import java.io.InputStream
 import java.io.Reader
@@ -51,32 +49,5 @@ object Assets {
     fun loadAnimation(name: String) : InputStream? =
         loadFile("animations/$name.swa")?.read()
 
-    /**
-     * Загружает сцену (пару из карты и объектов) по названию карты (папки, в которой хранится карта - например, "test")
-     */
-    fun loadScene(name: String) : Pair<GameMap, GameObjects> =
-            Assets.loadScene(Gdx.files.internal("${assetsPath}maps/$name/map.json").reader(),
-                    Gdx.files.internal("${assetsPath}maps/$name/objects.json").reader())
 
-    /**
-     * Загружает сцену (пару из карты и объектов)
-     */
-    fun loadScene(mapReader: Reader, objectsReader: Reader) : Pair<GameMap, GameObjects> {
-        val gson = Gson()
-        return Pair(gson.fromJson<GameMap>(mapReader, GameMap::class.java),
-                gson.fromJson<GameObjects>(mapReader, GameObjects::class.java))
-    }
-
-    /**
-     * Загружает шаблон объекта по названию
-     */
-    fun loadTemplate(name: String) : GameObject =
-            loadTemplate(Gdx.files.internal("${assetsPath}templates/$name.json").reader())
-
-    /**
-     * Загружает шаблон объекта
-     */
-    fun loadTemplate(reader: Reader) : GameObject =
-            Gson().fromJson<GameObject>(reader, GameObject::class.java)
-    }
 }

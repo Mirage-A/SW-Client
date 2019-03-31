@@ -1,41 +1,57 @@
 package com.mirage.utils.maps
 
 /**
- * Неизменяемый объект карты
+ * Неизменяемое строение на карте.
  */
-interface GameObject {
+data class Building (
         /**
          * Название объекта. Используется, например, для поиска объектов по названию.
          */
-        val name: String?
+        override val name: String?,
         /**
          * Название шаблона объекта.
          */
-        val template: String?
+        override val template: String?,
         /**
          * Координата x объекта в тайлах
          */
-        val x: Float
+        override val x: Float,
         /**
          * Координата y объекта в тайлах
          */
-        val y: Float
+        override val y: Float,
         /**
          * Ширина объекта в тайлах
          */
-        val width: Float
+        override val width: Float,
         /**
          * Высота объекта в тайлах
          */
-        val height: Float
+        override val height: Float,
         /**
          * Состояние объекта.
          * Просто кастомная строка, которую можно использовать для хранения какой-нибудь информации,
          * например, в скриптах.
          */
-        val state: String?
+        override val state: String?,
         /**
          * Является ли объект твердым телом (свойство используется при проверке коллизий)
          */
-        val isRigid: Boolean
+        override val isRigid: Boolean
+) : GameObject {
+    /**
+     * Функция клонирования объекта с изменением некоторых свойств.
+     * Пример синтаксиса вызова:
+     * val newObj = obj.with(name="NewName", width=1.4f, state="overpowered")
+     */
+    fun with(name: String? = this.name,
+             template: String? = this.template,
+             x: Float = this.x,
+             y: Float = this.y,
+             width: Float = this.width,
+             height: Float = this.height,
+             state: String? = this.state,
+             isRigid: Boolean = this.isRigid) : Building =
+            Building(name, template, x, y, width, height, state, isRigid)
+
 }

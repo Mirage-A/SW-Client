@@ -1,7 +1,7 @@
 {
+  "template": "main-gate-door",
   "width": 6.0,
   "height": 0.0,
   "state": "closed",
-  "texture": "main-gate-door",
   "isRigid": false
 }

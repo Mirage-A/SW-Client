@@ -1,7 +1,9 @@
 {
+  "template": "spawn-point",
   "width": 0.25,
   "height": 0.25,
   "moveDirection": "UP_RIGHT",
   "speed": 2.8,
-  "isRigid": false
+  "isRigid": false,
+  "layer": 0
 }

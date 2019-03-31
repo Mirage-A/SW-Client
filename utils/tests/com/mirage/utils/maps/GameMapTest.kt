@@ -9,22 +9,19 @@ internal class GameMapTest {
 
     @Test
     fun testGSONSerialization() {
-        val obj = GameObject(
-                null,
-                0f,
-                0f,
-                0f,
-                0f,
-                null,
-                0,
+        val obj = Building(
                 null,
                 null,
                 0f,
+                0f,
+                0f,
+                0f,
+                null,
                 false
         )
         val gson = Gson()
         val str = gson.toJson(obj)
-        val newObj = gson.fromJson<GameObject>(str, GameObject::class.java)
+        val newObj = gson.fromJson<Building>(str, Building::class.java)
         assertEquals(obj, newObj)
 
         val mapStr = """{
