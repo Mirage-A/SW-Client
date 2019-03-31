@@ -19,11 +19,11 @@ internal class SceneLoaderTest {
                 }
             }
         """.trimIndent().reader()
-        val nullable : NullableBuilding = Gson().fromJson<NullableBuilding>(reader, NullableBuilding::class.java)
-        println(nullable)
-        val template = SceneLoader.loadBuildingTemplate(nullable.template!!)
+        val difference : BuildingDifference = Gson().fromJson<BuildingDifference>(reader, BuildingDifference::class.java)
+        println(difference)
+        val template = SceneLoader.loadBuildingTemplate(difference.template!!)
         println(template)
-        val result = nullable.let {
+        val result = difference.let {
             Building(name = it.name ?: template.name,
                     template = it.template,
                     x = it.x ?: template.x,
@@ -53,7 +53,7 @@ internal class SceneLoaderTest {
     fun listMatchingTest() {
         val reader = """
             {
-            "buildings": [
+            "buildingDifferences": [
             {
                 "template": "main-gate",
                 "name": "main-gate",
@@ -87,7 +87,7 @@ internal class SceneLoaderTest {
         """.trimIndent().reader()
         val buildingsReader = """
             {
-            "buildings": [
+            "buildingDifferences": [
                 {
                     "template": "main-gate",
                     "name": "main-gate",
@@ -104,7 +104,7 @@ internal class SceneLoaderTest {
         """.trimIndent().reader()
         val entitiesReader = """
             {
-            "entities": [
+            "entityDifferences": [
                 {
                     "template": "spawn-point",
                     "x": 16.0,
@@ -119,7 +119,7 @@ internal class SceneLoaderTest {
             }
         """.trimIndent().reader()
         //val gson = Gson()
-        //val list = gson.fromJson<List<NullableBuilding>>(buildingsReader, ArrayList::class.java)
+        //val list = gson.fromJson<List<BuildingDifference>>(buildingsReader, ArrayList::class.java)
         //println(list)
         //println(list[0])
         //println(list[0]::class.java)

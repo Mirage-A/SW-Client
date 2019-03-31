@@ -18,7 +18,7 @@ object SceneLoader {
     fun loadScene(name: String) : Pair<GameMap, GameObjects> =
             loadScene(Assets.loadReader("maps/$name/map.json"),
                     Assets.loadReader("maps/$name/objects.json"),
-                    Assets.loadReader("maps/$name/entities.json"))
+                    Assets.loadReader("maps/$name/entityDifferences.json"))
 
     /**
      * Загружает сцену (пару из карты и объектов)
@@ -26,8 +26,9 @@ object SceneLoader {
     fun loadScene(mapReader: Reader, buildingReader: Reader, entitiesReader: Reader) : Pair<GameMap, GameObjects> {
         val gson = Gson()
         val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-        val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildings.map {
-            if (it.template == null) {
+        val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildingDifferences.map {
+            val templateName = it.template
+            if (templateName == null) {
                 Building(name = it.name,
                         template = it.template,
                         x = it.x ?: 0f,
@@ -39,21 +40,13 @@ object SceneLoader {
                         scripts = it.scripts)
             }
             else {
-                val template = loadBuildingTemplate(it.template)
-                Building(name = it.name ?: template.name,
-                        template = it.template,
-                        x = it.x ?: template.x,
-                        y = it.y ?: template.y,
-                        width = it.width ?: template.width,
-                        height = it.height ?: template.height,
-                        state = it.state ?: template.state,
-                        isRigid = it.isRigid ?: template.isRigid,
-                        scripts = it.scripts ?: template.scripts
-                )
+                val template = loadBuildingTemplate(templateName)
+                it.projectOn(template)
             }
         }
-        val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entities.map {
-            if (it.template == null) {
+        val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entityDifferences.map {
+            val templateName = it.template
+            if (templateName == null) {
                 Entity(name = it.name,
                         template = it.template,
                         x = it.x ?: 0f,
@@ -67,19 +60,8 @@ object SceneLoader {
                         moveDirection = it.moveDirection ?: "DOWN")
             }
             else {
-                val template = loadEntityTemplate(it.template)
-                Entity(name = it.name ?: template.name,
-                        template = it.template,
-                        x = it.x ?: template.x,
-                        y = it.y ?: template.y,
-                        width = it.width ?: template.width,
-                        height = it.height ?: template.height,
-                        state = it.state ?: template.state,
-                        isRigid = it.isRigid ?: template.isRigid,
-                        scripts = it.scripts ?: template.scripts,
-                        speed = it.speed ?: template.speed,
-                        moveDirection = it.moveDirection ?: template.moveDirection
-                )
+                val template = loadEntityTemplate(templateName)
+                it.projectOn(template)
             }
         }
         var counter = Long.MIN_VALUE
