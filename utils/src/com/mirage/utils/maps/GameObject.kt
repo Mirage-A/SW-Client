@@ -33,6 +33,14 @@ data class GameObject(
          */
         val state: String?,
         /**
+         * Номер слоя, на котором расположен объект.
+         * По умолчанию:
+         * -128 - слой floor, рисуется раньше всех
+         * 0 - слой default
+         * 127 - слой roof, рисуется позже всех
+         */
+        val layer: Int,
+        /**
          * Название файла с текстурой объекта.
          * //TODO Убрать и переместить куда-нибудь подальше от логики.
          */
@@ -62,10 +70,11 @@ data class GameObject(
              width: Float = this.width,
              height: Float = this.height,
              state: String? = this.state,
+             layer: Int = this.layer,
              texture: String? = this.texture,
              transparentTexture: String? = this.transparentTexture,
              transparencyRange: Float = this.transparencyRange,
              isRigid: Boolean = this.isRigid) : GameObject =
-            GameObject(name, x, y, width, height, state, texture, transparentTexture, transparencyRange, isRigid)
+            GameObject(name, x, y, width, height, state, layer, texture, transparentTexture, transparencyRange, isRigid)
 
 }

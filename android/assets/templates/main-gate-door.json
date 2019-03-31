@@ -3,5 +3,5 @@
   "height": 0.0,
   "state": "closed",
   "texture": "main-gate-door",
-  "is-rigid": false
+  "isRigid": false
 }
