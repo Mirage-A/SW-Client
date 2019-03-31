@@ -1,6 +1,7 @@
 package com.mirage.utils
 
 import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 
 const val LOG_ALL_MESSAGES = true
 
@@ -25,12 +26,10 @@ const val SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL = 50L //Интервал меж�
 
 const val DESKTOP_FULL_SCREEN = false //Полноэкранный режим для десктопа
 
-val DEFAULT_MAP_POINT = MutablePoint(0f, 0f) //Точка карты "по-умолчанию", куда попадают объекты в любой непонятной ситуации
-
-const val DEBUG_MODE = true //Режим дебага
+val DEFAULT_MAP_POINT = Point(0f, 0f) //Точка карты "по-умолчанию", куда попадают объекты в любой непонятной ситуации
 
 const val SHOW_INVISIBLE_OBJECTS_MODE = false //Режим отображения невидимых предметов //TODO Забагованный
 
-var PLATFORM = "" //Платформа, на которой запущен клиент
+var PLATFORM = "test" //Платформа, на которой запущен клиент
 
 const val TILE_HEIGHT = 64f //Высота тайла в пикселях

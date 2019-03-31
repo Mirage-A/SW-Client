@@ -39,6 +39,10 @@ data class Entity (
          */
         override val isRigid: Boolean,
         /**
+         * Скрипты, которые связаны с объектом и вызываются при определенных условиях
+         */
+        override val scripts: Map<String, String>?,
+        /**
          * Скорость объекта в тайлах
          */
         val speed: Float,
@@ -60,8 +64,9 @@ data class Entity (
              height: Float = this.height,
              state: String? = this.state,
              isRigid: Boolean = this.isRigid,
+             scripts: Map<String, String>? = this.scripts,
              speed: Float = this.speed,
              moveDirection: String? = this.moveDirection) : Entity =
-            Entity(name, template, x, y, width, height, state, isRigid, speed, moveDirection)
+            Entity(name, template, x, y, width, height, state, isRigid, scripts, speed, moveDirection)
 
 }

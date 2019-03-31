@@ -5,6 +5,7 @@ import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -50,7 +51,7 @@ class SnapshotManager(private val state: GameState) {
             Log.e("INTERPOLATION ERROR firstTime=${first.createdTimeMillis} secondTime=${second.createdTimeMillis} renderTime=$renderTime")
         }
         val progress = (renderTime - first.createdTimeMillis).toFloat() / (second.createdTimeMillis - first.createdTimeMillis).toFloat()
-        val newPositions = HashMap<Long, MutablePoint>()
+        val newPositions = HashMap<Long, Point>()
         for ((id, pos) in first.positions) {
             newPositions[id] = interpolatePositions(pos, second.positions[id], progress)
         }
@@ -67,10 +68,10 @@ class SnapshotManager(private val state: GameState) {
         return PositionSnapshot(newPositions, newMoveDirections, newMoving)
     }
 
-    private fun interpolatePositions(first: MutablePoint?, second: MutablePoint?, progress: Float) : MutablePoint {
+    private fun interpolatePositions(first: Point?, second: Point?, progress: Float) : Point {
         first ?: return DEFAULT_MAP_POINT
         second ?: return DEFAULT_MAP_POINT
-        return MutablePoint(first.x + (second.x - first.x) * progress, first.y + (second.y - first.y) * progress)
+        return Point(first.x + (second.x - first.x) * progress, first.y + (second.y - first.y) * progress)
     }
 
     private fun interpolateMoveDirections(first: MoveDirection?, second: MoveDirection?, progress: Float) : MoveDirection {

@@ -12,6 +12,7 @@ internal data class NullableEntity (
         val height: Float?,
         val state: String?,
         val isRigid: Boolean?,
+        val scripts: Map<String, String>?,
         val speed: Float?,
         val moveDirection: String?
 )

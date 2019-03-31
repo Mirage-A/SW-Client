@@ -11,5 +11,6 @@ internal data class NullableBuilding (
         val width: Float?,
         val height: Float?,
         val state: String?,
-        val isRigid: Boolean?
+        val isRigid: Boolean?,
+        val scripts: Map<String, String>?
 )

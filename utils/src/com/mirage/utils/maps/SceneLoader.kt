@@ -1,6 +1,5 @@
 package com.mirage.utils.maps
 
-import com.badlogic.gdx.Gdx
 import com.google.gson.Gson
 import com.mirage.utils.Assets
 import java.io.Reader
@@ -17,9 +16,9 @@ object SceneLoader {
      * Используется Gdx.files.internal
      */
     fun loadScene(name: String) : Pair<GameMap, GameObjects> =
-            loadScene(Gdx.files.internal("${Assets.assetsPath}maps/$name/map.json").reader(),
-                    Gdx.files.internal("${Assets.assetsPath}maps/$name/objects.json").reader(),
-                    Gdx.files.internal("${Assets.assetsPath}maps/$name/entities.json").reader())
+            loadScene(Assets.loadReader("maps/$name/map.json"),
+                    Assets.loadReader("maps/$name/objects.json"),
+                    Assets.loadReader("maps/$name/entities.json"))
 
     /**
      * Загружает сцену (пару из карты и объектов)
@@ -27,7 +26,7 @@ object SceneLoader {
     fun loadScene(mapReader: Reader, buildingReader: Reader, entitiesReader: Reader) : Pair<GameMap, GameObjects> {
         val gson = Gson()
         val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-        val buildingsList : List<Building> = gson.fromJson<List<NullableBuilding>>(buildingReader, ArrayList::class.java).map {
+        val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildings.map {
             if (it.template == null) {
                 Building(name = it.name,
                         template = it.template,
@@ -36,7 +35,8 @@ object SceneLoader {
                         width = it.width ?: 0f,
                         height = it.height ?: 0f,
                         state = it.state,
-                        isRigid = it.isRigid ?: false)
+                        isRigid = it.isRigid ?: false,
+                        scripts = it.scripts)
             }
             else {
                 val template = loadBuildingTemplate(it.template)
@@ -47,11 +47,12 @@ object SceneLoader {
                         width = it.width ?: template.width,
                         height = it.height ?: template.height,
                         state = it.state ?: template.state,
-                        isRigid = it.isRigid ?: template.isRigid
+                        isRigid = it.isRigid ?: template.isRigid,
+                        scripts = it.scripts ?: template.scripts
                 )
             }
         }
-        val entitiesList : List<Entity> = gson.fromJson<List<NullableEntity>>(entitiesReader, ArrayList::class.java).map {
+        val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entities.map {
             if (it.template == null) {
                 Entity(name = it.name,
                         template = it.template,
@@ -61,6 +62,7 @@ object SceneLoader {
                         height = it.height ?: 0f,
                         state = it.state,
                         isRigid = it.isRigid ?: false,
+                        scripts = it.scripts,
                         speed = it.speed ?: 0f,
                         moveDirection = it.moveDirection ?: "DOWN")
             }
@@ -74,6 +76,7 @@ object SceneLoader {
                         height = it.height ?: template.height,
                         state = it.state ?: template.state,
                         isRigid = it.isRigid ?: template.isRigid,
+                        scripts = it.scripts ?: template.scripts,
                         speed = it.speed ?: template.speed,
                         moveDirection = it.moveDirection ?: template.moveDirection
                 )
@@ -97,7 +100,7 @@ object SceneLoader {
      * //TODO Использовать не Gdx.files.internal, а использовать Assets.getReader, а уже в нем отказаться от libGdx при запуске сервера.
      */
     fun loadEntityTemplate(name: String) : Entity = cachedEntityTemplates[name] ?: run {
-        val t = loadEntityTemplate(Gdx.files.internal("${Assets.assetsPath}templates/entities/$name.json").reader())
+        val t = loadEntityTemplate(Assets.loadReader("templates/entities/$name.json"))
         cachedEntityTemplates[name] = t
         t
     }
@@ -113,7 +116,7 @@ object SceneLoader {
      * Загружает шаблон [Building] по названию.
      */
     fun loadBuildingTemplate(name: String) : Building = cachedBuildingTemplates[name] ?: run {
-        val t = loadBuildingTemplate(Gdx.files.internal("${Assets.assetsPath}templates/buildings/$name.json").reader())
+        val t = loadBuildingTemplate(Assets.loadReader("templates/buildings/$name.json"))
         cachedBuildingTemplates[name] = t
         t
     }

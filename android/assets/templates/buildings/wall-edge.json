@@ -1,4 +1,5 @@
 {
+  "name": "wall-edge",
   "template": "wall-edge",
   "width": 4.0,
   "height": 3.0,

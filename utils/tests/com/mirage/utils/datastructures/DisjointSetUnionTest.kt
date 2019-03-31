@@ -25,19 +25,19 @@ internal class DisjointSetUnionTest {
 
     @Test
     fun testPoints() {
-        val dsu = DisjointSetUnion<MutablePoint>()
-        assertEquals(MutablePoint(0f, 0f), dsu.findRoot(MutablePoint(0f, 0f)))
-        dsu.makeSet(MutablePoint(0f, 0f))
-        dsu.makeSet(MutablePoint(1f, 1f))
-        dsu.makeSet(MutablePoint(2f, 2f))
-        assertEquals(MutablePoint(0f, 0f), dsu.findRoot(MutablePoint(0f, 0f)))
-        assertEquals(MutablePoint(1f, 1f), dsu.findRoot(MutablePoint(1f, 1f)))
-        assertEquals(MutablePoint(2f, 2f), dsu.findRoot(MutablePoint(2f, 2f)))
-        dsu.unite(MutablePoint(-1f, -1f), MutablePoint(0f, 0f))
-        dsu.unite(MutablePoint(0f, 0f), MutablePoint(1f, 1f))
-        assertEquals(MutablePoint(0f, 0f), dsu.findRoot(MutablePoint(0f, 0f)))
-        assertEquals(MutablePoint(0f, 0f), dsu.findRoot(MutablePoint(1f, 1f)))
-        dsu.unite(MutablePoint(1f, 1f), MutablePoint(2f, 2f))
-        assertEquals(MutablePoint(0f, 0f), dsu.findRoot(MutablePoint(2f, 2f)))
+        val dsu = DisjointSetUnion<Point>()
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(0f, 0f)))
+        dsu.makeSet(Point(0f, 0f))
+        dsu.makeSet(Point(1f, 1f))
+        dsu.makeSet(Point(2f, 2f))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(0f, 0f)))
+        assertEquals(Point(1f, 1f), dsu.findRoot(Point(1f, 1f)))
+        assertEquals(Point(2f, 2f), dsu.findRoot(Point(2f, 2f)))
+        dsu.unite(Point(-1f, -1f), Point(0f, 0f))
+        dsu.unite(Point(0f, 0f), Point(1f, 1f))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(0f, 0f)))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(1f, 1f)))
+        dsu.unite(Point(1f, 1f), Point(2f, 2f))
+        assertEquals(Point(0f, 0f), dsu.findRoot(Point(2f, 2f)))
     }
 }

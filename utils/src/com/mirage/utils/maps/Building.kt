@@ -37,7 +37,11 @@ data class Building (
         /**
          * Является ли объект твердым телом (свойство используется при проверке коллизий)
          */
-        override val isRigid: Boolean
+        override val isRigid: Boolean,
+        /**
+         * Скрипты, которые связаны с объектом и вызываются при определенных условиях
+         */
+        override val scripts: Map<String, String>?
 ) : GameObject {
     /**
      * Функция клонирования объекта с изменением некоторых свойств.
@@ -51,7 +55,8 @@ data class Building (
              width: Float = this.width,
              height: Float = this.height,
              state: String? = this.state,
-             isRigid: Boolean = this.isRigid) : Building =
-            Building(name, template, x, y, width, height, state, isRigid)
+             isRigid: Boolean = this.isRigid,
+             scripts: Map<String, String>? = this.scripts) : Building =
+            Building(name, template, x, y, width, height, state, isRigid, scripts)
 
 }

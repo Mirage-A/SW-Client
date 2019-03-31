@@ -1,11 +1,13 @@
-[
-  {
-    "template": "spawn-point",
-    "x": 16.0,
-    "y": 29.875,
-    "moveDirection": "UP_RIGHT",
-    "scripts": {
-      "onTileEntered": "gate-door"
+{
+  "entities": [
+    {
+      "template": "spawn-point",
+      "x": 16.0,
+      "y": 29.875,
+      "moveDirection": "UP_RIGHT",
+      "scripts": {
+        "onTileEntered": "gate-door"
+      }
     }
-  }
-]
+  ]
+}

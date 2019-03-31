@@ -17,7 +17,8 @@ internal class GameMapTest {
                 0f,
                 0f,
                 null,
-                false
+                false,
+                null
         )
         val gson = Gson()
         val str = gson.toJson(obj)

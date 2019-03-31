@@ -1,6 +1,7 @@
 package com.mirage.utils
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
@@ -12,20 +13,32 @@ import java.io.Reader
 
 object Assets {
 
-    val assetsPath = if (DEBUG_MODE && File("./android/assets/").exists())
-                                "./android/assets/" else ""
+    private val assetsResolver : FileHandleResolver = when (PLATFORM) {
+        "test" -> FileHandleResolver {
+            FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
+        }
+        "server" -> FileHandleResolver {
+            FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
+        }
+        "desktop", "android", "ios" -> FileHandleResolver {
+            Gdx.files.internal(it)
+        }
+        else -> {
+            throw Exception("Unknown platform: $PLATFORM")
+        }
+    }
 
     fun loadFile(path: String) : FileHandle? {
-        val file = Gdx.files.internal(assetsPath + path)
+        val file = assetsResolver.resolve(path)
         return if (file == null) {
-            Log.e("File not found: ${assetsPath + path}")
+            Log.e("File not found: $path")
             null
         }
         else file
     }
 
-    fun loadReader(path: String) : Reader? =
-            Gdx.files.internal(assetsPath + path).reader()
+    fun loadReader(path: String) =
+            assetsResolver.resolve(path).reader()
 
     fun loadClientScript(name: String) : Reader? =
             loadReader("scripts/client/$name.lua")
@@ -39,7 +52,7 @@ object Assets {
      * Загружает текстуры из папки drawable по относительному пути path и применяет к ним заданные фильтры.
      */
     fun getRawTexture(name: String) : Texture {
-        val file = Gdx.files.internal("${assetsPath}drawable/$name.png")
+        val file = assetsResolver.resolve("drawable/$name.png")
         file ?: return Texture(0, 0, Pixmap.Format.Alpha)
         val loadedTexture = Texture(file, true)
         loadedTexture.setFilter(MIN_FILTER, MAG_FILTER)
