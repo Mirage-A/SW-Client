@@ -4,7 +4,6 @@ import com.mirage.utils.DEFAULT_MAP_POINT
 import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
-import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
 import java.util.*
@@ -13,7 +12,8 @@ import kotlin.collections.HashMap
 /**
  * Данный класс хранит в себе все состояния карты за последнее время и позволяет реализовать интерполяцию состояний.
  */
-class SnapshotManager(private val state: GameState) {
+@Deprecated("old logic")
+class SnapshotManager(private val infoClient: ClientGameInfo) {
 
     /**
      * Коллекция хранимых состояний
@@ -92,7 +92,7 @@ class SnapshotManager(private val state: GameState) {
         val newSnapshot = snapshot.clone()
         for ((id, moving) in snapshot.isMoving) {
             if (moving) {
-                newSnapshot.positions[id]?.move(newSnapshot.moveDirections[id]?.toAngle() ?: 0f, (state.objects[id]?.speed ?: 0f) * delta / 1000f)
+                newSnapshot.positions[id]?.move(newSnapshot.moveDirections[id]?.toAngle() ?: 0f, (infoClient.objects[id]?.speed ?: 0f) * delta / 1000f)
             }
         }
         return newSnapshot

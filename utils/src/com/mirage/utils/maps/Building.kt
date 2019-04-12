@@ -5,6 +5,11 @@ package com.mirage.utils.maps
  */
 data class Building (
         /**
+         * ID экземпляра объекта на сцене.
+         * Не может быть изменено.
+         */
+        override val id: Long,
+        /**
          * Название объекта. Используется, например, для поиска объектов по названию.
          */
         override val name: String?,
@@ -57,6 +62,6 @@ data class Building (
              state: String? = this.state,
              isRigid: Boolean = this.isRigid,
              scripts: Map<String, String>? = this.scripts) : Building =
-            Building(name, template, x, y, width, height, state, isRigid, scripts)
+            Building(id, name, template, x, y, width, height, state, isRigid, scripts)
 
 }

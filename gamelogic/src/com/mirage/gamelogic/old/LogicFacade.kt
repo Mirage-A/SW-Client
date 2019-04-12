@@ -1,5 +1,5 @@
-package com.mirage.gamelogic
-
+package com.mirage.gamelogic.old
+/*
 import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
@@ -173,4 +173,4 @@ class LogicFacade : Disposable {
         return MutablePoint(x, y)
     }
 
-}
+}*/

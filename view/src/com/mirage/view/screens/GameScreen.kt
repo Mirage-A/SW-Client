@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.position
-import com.mirage.utils.messaging.GameState
+import com.mirage.utils.messaging.ClientGameInfo
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
@@ -18,7 +18,7 @@ import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
 
 
-class GameScreen(private val stateManager: SnapshotManager, private val state: GameState): ScreenAdapter() {
+class GameScreen(private val stateManager: SnapshotManager, private val infoClient: ClientGameInfo): ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
@@ -72,12 +72,12 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-        val playerID : Long = state.playerID ?: return
+        val playerID : Long = infoClient.playerID ?: return
 
         val snapshot = stateManager.getInterpolatedSnapshot()
 
-        val player = state.objects[playerID]
-        val playerPosOnScene = snapshot.positions[playerID] ?: state.objects[playerID]?.position ?: DEFAULT_MAP_POINT
+        val player = infoClient.objects[playerID]
+        val playerPosOnScene = snapshot.positions[playerID] ?: infoClient.objects[playerID]?.position ?: DEFAULT_MAP_POINT
 
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
@@ -91,12 +91,12 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
         camera.update()
 
         //TODO отрисовка
-        renderer.map = state.map
+        renderer.map = infoClient.map
         renderer.setView(camera)
         renderer.render()
 
         batch.begin()
-        renderObjects(batch, state, snapshot, drawers)
+        renderObjects(batch, infoClient, snapshot, drawers)
         //TODO
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
         if (PLATFORM == "android") {
@@ -124,7 +124,7 @@ class GameScreen(private val stateManager: SnapshotManager, private val state: G
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
     fun updateResources() {
-        loadObjectDrawers(state.map)
+        loadObjectDrawers(infoClient.map)
     }
 
     /**

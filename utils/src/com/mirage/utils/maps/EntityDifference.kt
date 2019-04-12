@@ -24,7 +24,9 @@ class EntityDifference (
      * Метод позволяет применить некоторые изменения к изначальному объекту и получить новый.
      */
     fun projectOn(origin: Entity) : Entity =
-        Entity(name = name ?: origin.name,
+        Entity(
+                id = origin.id,
+                name = name ?: origin.name,
                 template = template ?: origin.template,
                 x = x ?: origin.x,
                 y = y ?: origin.y,

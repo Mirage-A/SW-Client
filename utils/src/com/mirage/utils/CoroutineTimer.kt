@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock
  * Если listener работает слишком долго, следующий вызов произойдет сразу же после окончания текущего.
  * В listener как аргумент передаётся время в наносекундах, прошедшее с прошлого вызова.
  */
+@Deprecated("unstable, use Timer")
 class CoroutineTimer(private val scope: CoroutineScope = CoroutineScope(Dispatchers.Default + Job()),
                      private val delayMillis: Long,
                      private val updateListener: suspend (deltaMillis: Long) -> Unit) {

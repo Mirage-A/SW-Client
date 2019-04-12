@@ -2,14 +2,13 @@ package com.mirage.client
 
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.client.controllers.GameController
-import com.mirage.scriptrunner.client.ClientScriptActions
+import com.mirage.scriptrunner.ClientScriptActions
 import com.mirage.scriptrunner.runClientScript
 import com.mirage.view.screens.GameScreen
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.luaj.vm2.LuaTable
-import org.luaj.vm2.lib.jse.CoerceJavaToLua
 
 class ClientScriptActionsImpl(private val client: Client) : ClientScriptActions {
 

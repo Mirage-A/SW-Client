@@ -4,6 +4,11 @@ import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.datastructures.Point
 import java.util.*
 
+/**
+ * Снапшот позиций
+ * //TODO Изменить вообще всю логику
+ */
+@Deprecated("old logic")
 data class PositionSnapshot (
         val positions: Map<Long, Point>,
         val moveDirections: Map<Long, MoveDirection>,

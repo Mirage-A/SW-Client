@@ -1,8 +1,8 @@
-package com.mirage.gamelogic
-
+package com.mirage.gamelogic.old
+/*
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.Log
-import com.mirage.scriptrunner.logic.LogicScriptActions
+import com.mirage.scriptrunner.LogicScriptActions
 import org.luaj.vm2.LuaTable
 
 internal class LogicScriptActionsImpl(private val loop: GameLoop) : LogicScriptActions {
@@ -44,4 +44,4 @@ internal class LogicScriptActionsImpl(private val loop: GameLoop) : LogicScriptA
         Log.d("Finding all players")
         return LuaTable()
     }
-}
+}*/

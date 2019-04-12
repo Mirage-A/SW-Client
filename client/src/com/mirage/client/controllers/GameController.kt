@@ -9,7 +9,7 @@ import com.mirage.utils.PLATFORM
 import com.mirage.utils.extensions.get
 import com.mirage.utils.extensions.isMoving
 import com.mirage.utils.extensions.moveDirection
-import com.mirage.utils.messaging.GameState
+import com.mirage.utils.messaging.ClientGameInfo
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.screens.GameScreen
@@ -29,7 +29,7 @@ class GameController(var connection: Connection) : Controller {
      */
     private val EPS_TIME = 50L
 
-    val state = GameState()
+    val state = ClientGameInfo()
 
     val snapshotManager = SnapshotManager(state)
 
@@ -312,9 +312,9 @@ class GameController(var connection: Connection) : Controller {
         return false
     }
 
-    private fun isPlayerMoving(state: GameState) : Boolean = state.objects[state.playerID]?.isMoving ?: false
+    private fun isPlayerMoving(infoClient: ClientGameInfo) : Boolean = infoClient.objects[infoClient.playerID]?.isMoving ?: false
 
-    private fun getPlayerMoveDirection(state: GameState) : MoveDirection = state.objects[state.playerID]?.moveDirection ?: MoveDirection.DOWN
+    private fun getPlayerMoveDirection(infoClient: ClientGameInfo) : MoveDirection = infoClient.objects[infoClient.playerID]?.moveDirection ?: MoveDirection.DOWN
 
     override fun dispose() {
         screen.dispose()

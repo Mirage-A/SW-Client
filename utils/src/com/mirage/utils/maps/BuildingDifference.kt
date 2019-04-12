@@ -22,7 +22,9 @@ class BuildingDifference (
      * Метод позволяет применить некоторые изменения к изначальному объекту и получить новый.
      */
     fun projectOn(origin: Building) : Building =
-            Building(name = name ?: origin.name,
+            Building(
+                    id = origin.id,
+                    name = name ?: origin.name,
                     template = template ?: origin.template,
                     x = x ?: origin.x,
                     y = y ?: origin.y,

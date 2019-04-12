@@ -1,20 +1,17 @@
-package com.mirage.scriptrunner.logic
+package com.mirage.scriptrunner
 
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.scriptrunner.client.ClientScriptActions
 import org.luaj.vm2.LuaTable
 
 /**
  * Интерфейс, который определяет методы, которыми может пользоваться вызываемый скрипт.
  * Этот интерфейс должен быть реализован в другом модуле.
  */
-interface LogicScriptActions {
+interface ClientScriptActions {
 
-    fun runLogicScript(scriptName: String, args: LuaTable)
+    fun runScript(scriptName: String, args: LuaTable)
 
-    fun runClientScriptForPlayer(player: MapObject, scriptName: String, args: LuaTable)
-
-    fun runClientScriptForAllInRoom(scriptName: String, args: LuaTable)
+    fun runScriptAfterDelay(scriptName: String, args: LuaTable, delayTime: Long)
 
     fun findObject(objName: String) : MapObject?
 
@@ -22,5 +19,6 @@ interface LogicScriptActions {
 
     fun findAllPlayers() : LuaTable
 
-    fun print(msg: Any?)
+    fun updateObjectDrawer(obj: MapObject)
+
 }

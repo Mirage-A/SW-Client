@@ -5,6 +5,11 @@ package com.mirage.utils.maps
  */
 data class Entity (
         /**
+         * ID экземпляра объекта на сцене.
+         * Не может быть изменено.
+         */
+        override val id: Long,
+        /**
          * Название объекта. Используется, например, для поиска объектов по названию.
          */
         override val name: String?,
@@ -67,6 +72,6 @@ data class Entity (
              scripts: Map<String, String>? = this.scripts,
              speed: Float = this.speed,
              moveDirection: String? = this.moveDirection) : Entity =
-            Entity(name, template, x, y, width, height, state, isRigid, scripts, speed, moveDirection)
+            Entity(id, name, template, x, y, width, height, state, isRigid, scripts, speed, moveDirection)
 
 }

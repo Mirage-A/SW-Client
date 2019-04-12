@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.DEFAULT_MAP_POINT
-import com.mirage.utils.messaging.GameState
+import com.mirage.utils.messaging.ClientGameInfo
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.PositionSnapshot
 import com.mirage.utils.datastructures.MutablePoint
@@ -26,17 +26,17 @@ private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
 /**
  * Отрисовывает все объекты карты
  */
-fun renderObjects(batch: SpriteBatch, state: GameState, snapshot: PositionSnapshot, drawers: Drawers) {
+fun renderObjects(batch: SpriteBatch, infoClient: ClientGameInfo, snapshot: PositionSnapshot, drawers: Drawers) {
     val objs = ArrayList<Pair<Long, MapObject>>()
 
-    for ((id, obj) in state.objects) {
+    for ((id, obj) in infoClient.objects) {
         objs.add(Pair(id, obj))
     }
 
     depthSort(objs)
 
     for ((id, obj) in objs) {
-        val isOpaque = isOpaque(obj, state)
+        val isOpaque = isOpaque(obj, infoClient)
         if (drawers[obj, isOpaque] == null) {
             drawers.addObjectDrawer(obj)
         }
@@ -75,8 +75,8 @@ fun renderObjects(batch: SpriteBatch, state: GameState, snapshot: PositionSnapsh
  * Объект становится прозрачным, если у него есть свойство tp-range и
  * внутри этого объекта или на расстоянии tp-range тайлов за объектом находится entity
  */
-private fun isOpaque(obj: MapObject, state: GameState) : Boolean {
-    for ((_, other) in state.objects) {
+private fun isOpaque(obj: MapObject, infoClient: ClientGameInfo) : Boolean {
+    for ((_, other) in infoClient.objects) {
         val rect = obj.rectangle
         val otherRect = other.rectangle
         val center = rect.center

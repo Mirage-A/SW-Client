@@ -13,7 +13,6 @@ object SceneLoader {
 
     /**
      * Загружает сцену (пару из карты и объектов) по названию карты (папки, в которой хранится карта - например, "test").
-     * Используется Gdx.files.internal
      */
     fun loadScene(name: String) : Pair<GameMap, GameObjects> =
             loadScene(Assets.loadReader("maps/$name/map.json"),
@@ -26,10 +25,13 @@ object SceneLoader {
     fun loadScene(mapReader: Reader, buildingReader: Reader, entitiesReader: Reader) : Pair<GameMap, GameObjects> {
         val gson = Gson()
         val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
+        var counter = Long.MIN_VALUE
         val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildingDifferences.map {
             val templateName = it.template
             if (templateName == null) {
-                Building(name = it.name,
+                Building(
+                        id = counter++,
+                        name = it.name,
                         template = it.template,
                         x = it.x ?: 0f,
                         y = it.y ?: 0f,
@@ -47,7 +49,9 @@ object SceneLoader {
         val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entityDifferences.map {
             val templateName = it.template
             if (templateName == null) {
-                Entity(name = it.name,
+                Entity(
+                        id = counter++,
+                        name = it.name,
                         template = it.template,
                         x = it.x ?: 0f,
                         y = it.y ?: 0f,
@@ -64,17 +68,14 @@ object SceneLoader {
                 it.projectOn(template)
             }
         }
-        var counter = Long.MIN_VALUE
         val objectsMap = HashMap<Long, GameObject>()
         for (obj in buildingsList) {
-            objectsMap[counter] = obj
-            ++counter
+            objectsMap[obj.id] = obj
         }
         for (obj in entitiesList) {
-            objectsMap[counter] = obj
-            ++counter
+            objectsMap[obj.id] = obj
         }
-        return Pair(map, GameObjects(objectsMap, counter))
+        return Pair(map, GameObjects(objectsMap, buildingsList.size + entitiesList.size + Long.MIN_VALUE))
     }
 
     /**
