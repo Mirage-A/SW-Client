@@ -25,12 +25,10 @@ object SceneLoader {
     fun loadScene(mapReader: Reader, buildingReader: Reader, entitiesReader: Reader) : Pair<GameMap, GameObjects> {
         val gson = Gson()
         val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-        var counter = Long.MIN_VALUE
         val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildingDifferences.map {
             val templateName = it.template
             if (templateName == null) {
                 Building(
-                        id = counter++,
                         name = it.name,
                         template = it.template,
                         x = it.x ?: 0f,
@@ -43,14 +41,13 @@ object SceneLoader {
             }
             else {
                 val template = loadBuildingTemplate(templateName)
-                it.projectOn(template)
+                it.projectOn(template) as Building
             }
         }
         val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entityDifferences.map {
             val templateName = it.template
             if (templateName == null) {
                 Entity(
-                        id = counter++,
                         name = it.name,
                         template = it.template,
                         x = it.x ?: 0f,
@@ -65,15 +62,16 @@ object SceneLoader {
             }
             else {
                 val template = loadEntityTemplate(templateName)
-                it.projectOn(template)
+                it.projectOn(template) as Entity
             }
         }
         val objectsMap = HashMap<Long, GameObject>()
+        var counter = Long.MIN_VALUE
         for (obj in buildingsList) {
-            objectsMap[obj.id] = obj
+            objectsMap[counter++] = obj
         }
         for (obj in entitiesList) {
-            objectsMap[obj.id] = obj
+            objectsMap[counter++] = obj
         }
         return Pair(map, GameObjects(objectsMap, buildingsList.size + entitiesList.size + Long.MIN_VALUE))
     }

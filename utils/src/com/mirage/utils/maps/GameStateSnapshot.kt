@@ -8,5 +8,4 @@ package com.mirage.utils.maps
  * которые были подключены на момент тика.
  */
 data class GameStateSnapshot(val originState: GameObjects,
-                             val stateDifference: StateDifference,
-                             val scripts: List<String>)
+                             val stateDifference: StateDifference)

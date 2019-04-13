@@ -31,6 +31,7 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
         val msgs = ArrayList<ClientMessage>()
         clientMessages.subscribe( {msgs.add(it)}, {println("ERROR $it")} ).unsubscribe()
         val changes = updateState(delta, originState, gameMap, msgs)
+        observable.onNext(GameStateSnapshot(originState, changes))
         updateLock.unlock()
         updateLock.lock()
         if (!isStopped) {

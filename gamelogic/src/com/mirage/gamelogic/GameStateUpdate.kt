@@ -2,10 +2,8 @@ package com.mirage.gamelogic
 
 import com.mirage.utils.maps.GameMap
 import com.mirage.utils.maps.GameObjects
-import com.mirage.utils.maps.GameStateSnapshot
 import com.mirage.utils.maps.StateDifference
 import com.mirage.utils.messaging.ClientMessage
-import rx.subjects.Subject
 
 
 /**
@@ -17,10 +15,12 @@ internal fun updateState(delta: Long,
                         gameMap: GameMap,
                         clientMessages: Iterable<ClientMessage>) : StateDifference {
     val changes = StateDifference()
-
+    //TODO Обработка сообщений от клиентов
     for (msg in clientMessages) {
         println(msg)
     }
     println(delta)
+    //TODO Обработка логики
+
     return changes
 }

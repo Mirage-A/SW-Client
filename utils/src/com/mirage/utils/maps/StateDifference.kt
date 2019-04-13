@@ -8,8 +8,8 @@ class StateDifference {
 
     val newObjects : MutableList<GameObject> = ArrayList()
     val removedObjects : MutableList<Long> = ArrayList()
-    val entityDifferences : MutableMap<Long, EntityDifference> = HashMap()
-    val buildingDifferences : MutableMap<Long, BuildingDifference> = HashMap()
+    val objectDifferences : MutableMap<Long, ObjectDifference> = HashMap()
+    val newClientScripts : MutableList<String> = ArrayList()
 
     /**
      * Применяет эту разность к состоянию [origin], создавая новые такое состояние
@@ -18,10 +18,6 @@ class StateDifference {
     fun projectOn(origin: GameObjects) : GameObjects = origin.update(newObjects) {
         id, obj ->
         if (id in removedObjects) null
-        else when (obj) {
-            is Building -> buildingDifferences[id]?.projectOn(obj)
-            is Entity -> entityDifferences[id]?.projectOn(obj)
-            else -> null
-        }
+        else objectDifferences[id]?.projectOn(obj)
     }
 }
