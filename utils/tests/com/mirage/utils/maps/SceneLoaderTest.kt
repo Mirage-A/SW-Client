@@ -30,8 +30,10 @@ internal class SceneLoaderTest {
                     y = it.y ?: template.y,
                     width = it.width ?: template.width,
                     height = it.height ?: template.height,
-                    state = it.state ?: template.state,
                     isRigid = it.isRigid ?: template.isRigid,
+                    speed = it.speed ?: template.speed,
+                    moveDirection = it.moveDirection ?: template.moveDirection,
+                    isMoving = it.isMoving ?: template.isMoving,
                     scripts = it.scripts ?: template.scripts
             )
         }
@@ -43,8 +45,10 @@ internal class SceneLoaderTest {
                 y = 0.7f,
                 width = 8f,
                 height = 3f,
-                state = null,
                 isRigid = false,
+                speed = 0f,
+                moveDirection = null,
+                isMoving = false,
                 scripts = mapOf("onDestroy" to "kill-them-all")
         ))
     }
@@ -151,8 +155,10 @@ internal class SceneLoaderTest {
                 y = 0.7f,
                 width = 8f,
                 height = 3f,
-                state = null,
                 isRigid = false,
+                speed = 0f,
+                moveDirection = null,
+                isMoving = false,
                 scripts = null
         ), objs[0].value)
         assertEquals(Building(
@@ -162,8 +168,10 @@ internal class SceneLoaderTest {
                 y = 2.5f,
                 width = 4f,
                 height = 3f,
-                state = null,
                 isRigid = true,
+                speed = 0f,
+                moveDirection = null,
+                isMoving = false,
                 scripts = null
         ), objs[1].value)
         assertEquals(Entity(
@@ -173,8 +181,8 @@ internal class SceneLoaderTest {
                 y = 29.875f,
                 width = 0.25f,
                 height = 0.25f,
-                state = null,
                 isRigid = true,
+                isMoving = false,
                 scripts = mapOf("onTileEntered" to "gate-door"),
                 speed = 2.8f,
                 moveDirection = "UP_RIGHT"
@@ -191,8 +199,10 @@ internal class SceneLoaderTest {
                 y = 0f,
                 width = 8.0f,
                 height = 3.0f,
-                state = null,
                 isRigid = false,
+                speed = 0f,
+                moveDirection = null,
+                isMoving = false,
                 scripts = null
         ), obj)
     }
@@ -207,8 +217,8 @@ internal class SceneLoaderTest {
                 y = 0f,
                 width = 0.25f,
                 height = 0.25f,
-                state = null,
                 isRigid = false,
+                isMoving = false,
                 scripts = null,
                 speed = 2.8f,
                 moveDirection = "UP_RIGHT"
@@ -233,8 +243,10 @@ internal class SceneLoaderTest {
                 y = 0f,
                 width = 8.0f,
                 height = 3.0f,
-                state = null,
                 isRigid = false,
+                speed = 0f,
+                moveDirection = null,
+                isMoving = false,
                 scripts = null
         ), obj)
     }
@@ -260,8 +272,8 @@ internal class SceneLoaderTest {
                 y = 0f,
                 width = 0.25f,
                 height = 0.25f,
-                state = null,
                 isRigid = false,
+                isMoving = false,
                 scripts = null,
                 speed = 2.8f,
                 moveDirection = "UP_RIGHT"

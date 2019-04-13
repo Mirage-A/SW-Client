@@ -35,8 +35,10 @@ object SceneLoader {
                         y = it.y ?: 0f,
                         width = it.width ?: 0f,
                         height = it.height ?: 0f,
-                        state = it.state,
                         isRigid = it.isRigid ?: false,
+                        speed = it.speed ?: 0f,
+                        moveDirection = it.moveDirection,
+                        isMoving = it.isMoving ?: false,
                         scripts = it.scripts)
             }
             else {
@@ -54,11 +56,12 @@ object SceneLoader {
                         y = it.y ?: 0f,
                         width = it.width ?: 0f,
                         height = it.height ?: 0f,
-                        state = it.state,
                         isRigid = it.isRigid ?: false,
-                        scripts = it.scripts,
                         speed = it.speed ?: 0f,
-                        moveDirection = it.moveDirection ?: "DOWN")
+                        moveDirection = it.moveDirection,
+                        isMoving = it.isMoving ?: false,
+                        scripts = it.scripts
+                )
             }
             else {
                 val template = loadEntityTemplate(templateName)

@@ -14,7 +14,8 @@ internal fun updateState(delta: Long,
                         originState: GameObjects,
                         gameMap: GameMap,
                         clientMessages: Iterable<ClientMessage>) : StateDifference {
-    val changes = StateDifference()
+    val objs = originState.createMutableObjectsCopy()
+    val newClientScripts : MutableList<String> = ArrayList()
     //TODO Обработка сообщений от клиентов
     for (msg in clientMessages) {
         println(msg)
@@ -22,5 +23,5 @@ internal fun updateState(delta: Long,
     println(delta)
     //TODO Обработка логики
 
-    return changes
+    return objs.findDifferenceWithOrigin(newClientScripts)
 }

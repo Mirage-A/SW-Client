@@ -9,8 +9,10 @@ sealed class ObjectDifference(
         var y: Float? = null,
         var width: Float? = null,
         var height: Float? = null,
-        var state: String? = null,
         var isRigid: Boolean? = null,
+        var speed: Float? = null,
+        var moveDirection: String? = null,
+        var isMoving: Boolean? = null,
         var scripts: Map<String, String>? = null
 )
 {
@@ -35,10 +37,12 @@ class BuildingDifference (
         y: Float? = null,
         width: Float? = null,
         height: Float? = null,
-        state: String? = null,
         isRigid: Boolean? = null,
+        speed: Float? = null,
+        moveDirection: String? = null,
+        isMoving: Boolean? = null,
         scripts: Map<String, String>? = null
-) : ObjectDifference(name, template, x, y, width, height, state, isRigid, scripts) {
+) : ObjectDifference(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts) {
     /**
      * "Проецирует" эту разность на [origin], возвращая новое [Building], свойства которого равны свойствам
      * данного объекта, если они не null, иначе они равны свойствам [origin].
@@ -53,8 +57,10 @@ class BuildingDifference (
                         y = y ?: origin.y,
                         width = width ?: origin.width,
                         height = height ?: origin.height,
-                        state = state ?: origin.state,
                         isRigid = isRigid ?: origin.isRigid,
+                        speed = speed ?: origin.speed,
+                        moveDirection = moveDirection ?: origin.moveDirection,
+                        isMoving = isMoving ?: origin.isMoving,
                         scripts = scripts ?: origin.scripts
                 )
                 is Entity -> {
@@ -66,11 +72,11 @@ class BuildingDifference (
                             y = y ?: origin.y,
                             width = width ?: origin.width,
                             height = height ?: origin.height,
-                            state = state ?: origin.state,
                             isRigid = isRigid ?: origin.isRigid,
-                            scripts = scripts ?: origin.scripts,
-                            speed = origin.speed,
-                            moveDirection = origin.moveDirection
+                            speed = speed ?: origin.speed,
+                            moveDirection = moveDirection ?: origin.moveDirection,
+                            isMoving = isMoving ?: origin.isMoving,
+                            scripts = scripts ?: origin.scripts
                     )
                 }
                 else -> {
@@ -82,8 +88,10 @@ class BuildingDifference (
                             y = y ?: origin.y,
                             width = width ?: origin.width,
                             height = height ?: origin.height,
-                            state = state ?: origin.state,
                             isRigid = isRigid ?: origin.isRigid,
+                            speed = speed ?: origin.speed,
+                            moveDirection = moveDirection ?: origin.moveDirection,
+                            isMoving = isMoving ?: origin.isMoving,
                             scripts = scripts ?: origin.scripts
                     )
                 }
@@ -103,12 +111,12 @@ class EntityDifference (
         y: Float? = null,
         width: Float? = null,
         height: Float? = null,
-        state: String? = null,
         isRigid: Boolean? = null,
-        scripts: Map<String, String>? = null,
-        var speed: Float? = null,
-        var moveDirection: String? = null
-) : ObjectDifference(name, template, x, y, width, height, state, isRigid, scripts) {
+        speed: Float? = null,
+        moveDirection: String? = null,
+        isMoving: Boolean? = null,
+        scripts: Map<String, String>? = null
+) : ObjectDifference(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts) {
     /**
      * "Проецирует" эту разность на [origin], возвращая новое [Entity], свойства которого равны свойствам
      * данного объекта, если они не null, иначе они равны свойствам [origin].
@@ -123,11 +131,11 @@ class EntityDifference (
                         y = y ?: origin.y,
                         width = width ?: origin.width,
                         height = height ?: origin.height,
-                        state = state ?: origin.state,
                         isRigid = isRigid ?: origin.isRigid,
-                        scripts = scripts ?: origin.scripts,
                         speed = speed ?: origin.speed,
-                        moveDirection = moveDirection ?: origin.moveDirection
+                        moveDirection = moveDirection ?: origin.moveDirection,
+                        isMoving = isMoving ?: origin.isMoving,
+                        scripts = scripts ?: origin.scripts
                 )
                 is Building -> {
                     Log.e("Warning: EntityDifference should not be applied to Building")
@@ -138,8 +146,10 @@ class EntityDifference (
                             y = y ?: origin.y,
                             width = width ?: origin.width,
                             height = height ?: origin.height,
-                            state = state ?: origin.state,
                             isRigid = isRigid ?: origin.isRigid,
+                            speed = speed ?: origin.speed,
+                            moveDirection = moveDirection ?: origin.moveDirection,
+                            isMoving = isMoving ?: origin.isMoving,
                             scripts = scripts ?: origin.scripts
                     )
                 }
@@ -152,8 +162,10 @@ class EntityDifference (
                             y = y ?: origin.y,
                             width = width ?: origin.width,
                             height = height ?: origin.height,
-                            state = state ?: origin.state,
                             isRigid = isRigid ?: origin.isRigid,
+                            speed = speed ?: origin.speed,
+                            moveDirection = moveDirection ?: origin.moveDirection,
+                            isMoving = isMoving ?: origin.isMoving,
                             scripts = scripts ?: origin.scripts
                     )
                 }

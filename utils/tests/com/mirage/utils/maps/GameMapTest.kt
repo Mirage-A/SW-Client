@@ -16,7 +16,9 @@ internal class GameMapTest {
                 0f,
                 0f,
                 0f,
-                null,
+                false,
+                0f,
+                "DOWN",
                 false,
                 null
         )

@@ -4,12 +4,13 @@ package com.mirage.utils.maps
  * Изменяемая разность двух состояний сцены.
  * Может использоваться только в однопоточной среде.
  */
-class StateDifference {
+class StateDifference(
+        val newObjects : List<GameObject> = ArrayList(),
+        val removedObjects : Collection<Long> = ArrayList(),
+        val objectDifferences : Map<Long, ObjectDifference> = HashMap(),
+        val newClientScripts : List<String> = ArrayList()
+) {
 
-    val newObjects : MutableList<GameObject> = ArrayList()
-    val removedObjects : MutableList<Long> = ArrayList()
-    val objectDifferences : MutableMap<Long, ObjectDifference> = HashMap()
-    val newClientScripts : MutableList<String> = ArrayList()
 
     /**
      * Применяет эту разность к состоянию [origin], создавая новые такое состояние

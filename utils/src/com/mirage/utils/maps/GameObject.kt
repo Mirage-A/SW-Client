@@ -1,5 +1,7 @@
 package com.mirage.utils.maps
 
+import com.mirage.utils.extensions.mutableCopy
+
 /**
  * Неизменяемый объект карты
  */
@@ -29,19 +31,30 @@ interface GameObject {
          */
         val height: Float
         /**
-         * Состояние объекта.
-         * Просто кастомная строка, которую можно использовать для хранения какой-нибудь информации,
-         * например, в скриптах.
-         */
-        val state: String?
-        /**
          * Является ли объект твердым телом (свойство используется при проверке коллизий)
          */
         val isRigid: Boolean
         /**
+         * Скорость движения объекта
+         */
+        val speed: Float
+        /**
+         * Направление движения объекта
+         */
+        val moveDirection: String?
+        /**
+         * Находится ли объект в движении
+         */
+        val isMoving: Boolean
+        /**
          * Скрипты, которые связаны с объектом и вызываются при определённых условиях
          */
         val scripts: Map<String, String>?
+
+        /**
+         * Создаёт изменяемую копию объекта
+         */
+        fun mutableCopy() : MutableGameObject
 }
 
 
@@ -55,8 +68,10 @@ data class Building (
         override val y: Float,
         override val width: Float,
         override val height: Float,
-        override val state: String?,
         override val isRigid: Boolean,
+        override val speed: Float,
+        override val moveDirection: String?,
+        override val isMoving: Boolean,
         override val scripts: Map<String, String>?
 ) : GameObject {
         /**
@@ -70,11 +85,26 @@ data class Building (
                  y: Float = this.y,
                  width: Float = this.width,
                  height: Float = this.height,
-                 state: String? = this.state,
                  isRigid: Boolean = this.isRigid,
+                 speed: Float = this.speed,
+                 moveDirection: String? = this.moveDirection,
+                 isMoving: Boolean = this.isMoving,
                  scripts: Map<String, String>? = this.scripts) : Building =
-                Building(name, template, x, y, width, height, state, isRigid, scripts)
+                Building(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts)
 
+        override fun mutableCopy() : MutableGameObject = MutableBuilding(
+                this.name,
+                this.template,
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+                this.isRigid,
+                this.speed,
+                this.moveDirection,
+                this.isMoving,
+                this.scripts?.mutableCopy()
+        )
 }
 
 
@@ -88,11 +118,11 @@ data class Entity (
         override val y: Float,
         override val width: Float,
         override val height: Float,
-        override val state: String?,
         override val isRigid: Boolean,
-        override val scripts: Map<String, String>?,
-        val speed: Float,
-        val moveDirection: String?
+        override val speed: Float,
+        override val moveDirection: String?,
+        override val isMoving: Boolean,
+        override val scripts: Map<String, String>?
 ) : GameObject {
         /**
          * Функция клонирования объекта с изменением некоторых свойств.
@@ -105,11 +135,25 @@ data class Entity (
                  y: Float = this.y,
                  width: Float = this.width,
                  height: Float = this.height,
-                 state: String? = this.state,
                  isRigid: Boolean = this.isRigid,
-                 scripts: Map<String, String>? = this.scripts,
                  speed: Float = this.speed,
-                 moveDirection: String? = this.moveDirection) : Entity =
-                Entity(name, template, x, y, width, height, state, isRigid, scripts, speed, moveDirection)
+                 moveDirection: String? = this.moveDirection,
+                 isMoving: Boolean = this.isMoving,
+                 scripts: Map<String, String>? = this.scripts) : Entity =
+                Entity(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts)
 
+
+        override fun mutableCopy() : MutableGameObject = MutableEntity(
+                this.name,
+                this.template,
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+                this.isRigid,
+                this.speed,
+                this.moveDirection,
+                this.isMoving,
+                this.scripts?.mutableCopy()
+        )
 }

@@ -33,6 +33,13 @@ class GameObjects(initialObjects: Map<Long, GameObject>, private val nextID: Lon
         return GameObjects(newMap, counter)
     }
 
+    /**
+     * Создаёт изменяемую копию
+     */
+    fun createMutableObjectsCopy() : MutableGameObjects = MutableGameObjects(objects, nextID)
+
     override fun iterator(): Iterator<Map.Entry<Long, GameObject>> = objects.iterator()
+
+
 
 }

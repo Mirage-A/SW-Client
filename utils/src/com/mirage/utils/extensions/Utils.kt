@@ -16,3 +16,9 @@ operator fun <K, V> Map<K, V>.get(key: K?) : V? {
 }
 
 fun <E> NavigableSet<E>.second() : E? = try { higher(first()) } catch(ex: NoSuchElementException) { null }
+
+fun <K, V> Map<K, V>.mutableCopy() : MutableMap<K, V> = HashMap<K, V>().apply {
+    for ((key, value) in this@mutableCopy) {
+        this[key] = value
+    }
+}
