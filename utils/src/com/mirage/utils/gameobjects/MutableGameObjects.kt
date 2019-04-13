@@ -1,5 +1,6 @@
-package com.mirage.utils.maps
+package com.mirage.utils.gameobjects
 
+import com.mirage.utils.maps.StateDifference
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap

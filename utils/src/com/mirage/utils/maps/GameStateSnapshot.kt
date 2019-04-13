@@ -1,5 +1,7 @@
 package com.mirage.utils.maps
 
+import com.mirage.utils.gameobjects.GameObjects
+
 /**
  * Полная информация о текущем состоянии игры.
  * Создаётся логикой после каждого тика цикла логики.

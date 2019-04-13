@@ -1,7 +1,11 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.gameobjects.Entity
+import com.mirage.utils.gameobjects.GameObject
+import com.mirage.utils.gameobjects.GameObjects
 import com.mirage.utils.maps.*
 import com.mirage.utils.messaging.ClientMessage
+import io.reactivex.subjects.PublishSubject
 import rx.subjects.BehaviorSubject
 import rx.subjects.Subject
 import java.util.concurrent.locks.ReentrantLock
@@ -15,8 +19,9 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
 
     /**
      * Observable, в котором хранятся получаемые сообщения от клиентов.
+     * Первый аргумент пары - id персонажа игрока (не самого игрока, а его персонажа на сцене).
      */
-    private val clientMessages : Subject<ClientMessage, ClientMessage> = EventSubjectAdapter()
+    private val clientMessages : Subject<Pair<Long, ClientMessage>, Pair<Long, ClientMessage>> = EventSubjectAdapter()
 
     @Volatile
     private var isStopped = false
@@ -27,30 +32,78 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
      */
     private tailrec fun update(delta: Long, originState: GameObjects, gameMap: GameMap) {
+
+
         val startTime = System.currentTimeMillis()
-        val msgs = ArrayList<ClientMessage>()
+        val msgs = ArrayList<Pair<Long, ClientMessage>>()
         clientMessages.subscribe( {msgs.add(it)}, {println("ERROR $it")} ).unsubscribe()
         val changes = updateState(delta, originState, gameMap, msgs)
-        observable.onNext(GameStateSnapshot(originState, changes))
+
+
+        val newState = changes.projectOn(originState)
+        //TODO Добавление игроков
+        //Список, в который будут добавляться персонажи игроков
+        val newPlayersList = ArrayList<Entity>()
+        //Отслеживаем ID добавляемых игроков
+        var counter = newState.nextID
+        for (subj in newPlayerRequests) {
+            //TODO Заполнение характеристик персонажа игрока, в том числе в зависимости от карты
+            newPlayersList.add(createPlayer(gameMap))
+            subj.onNext(counter++)
+            subj.onComplete()
+        }
+
+
+        val finalState = newState.update(newPlayersList) {_, obj -> obj}
+        val finalChanges = StateDifference(
+                changes.newObjects + newPlayersList,
+                changes.removedObjects,
+                changes.objectDifferences,
+                changes.newClientScripts
+        )
+        observable.onNext(GameStateSnapshot(finalState, finalChanges))
+
+
         updateLock.unlock()
         updateLock.lock()
         if (!isStopped) {
-            val timeDiff = System.currentTimeMillis()
+            val timeDiff = System.currentTimeMillis() - startTime
             if (timeDiff < 95L) {
                 Thread.sleep(100L - timeDiff)
             }
             val newDelta = Math.min(System.currentTimeMillis() - startTime, 200L)
-            update(newDelta, changes.projectOn(originState), gameMap)
+            update(newDelta, finalState, gameMap)
         }
     }
 
-    private val updateLock = ReentrantLock()
+    private val updateLock = ReentrantLock(true)
 
-    override fun start() = Thread {
+    /**
+     * Изменяемый небезопасный список, в котором хранятся запросы на создание персонажа игрока.
+     * При каждом запросе создаётся Subject, на который подписывается этот запрос.
+     * После каждого тика логики логика пробегает по этому списку, добавляет игроков на карту
+     * и для каждого Subject-а вызывает onNext от ID добавленного персонажа на карте.
+     */
+    private val newPlayerRequests : MutableList<io.reactivex.subjects.Subject<Long>> = ArrayList()
+
+    override fun addNewPlayer(): Long {
+        val subj = PublishSubject.create<Long>()
         updateLock.lock()
-        val (map, objs) = SceneLoader.loadScene(gameMapName)
-        update(0L, objs, map)
-    }.start()
+        newPlayerRequests.add(subj)
+        updateLock.unlock()
+        return subj.blockingFirst()
+    }
+
+    //TODO Возможно, при потере ссылки на поток он может остановиться, но это не точно
+    override fun start() {
+        updateLock.lock()
+        Thread {
+            updateLock.lock()
+            val (map, objs) = SceneLoader.loadScene(gameMapName)
+            update(0L, objs, map)
+        }.start()
+        updateLock.unlock()
+    }
 
     override fun pause() = updateLock.lock()
 
@@ -67,5 +120,5 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
         //TODO
     }
 
-    override fun handleMessage(msg: ClientMessage) = clientMessages.onNext(msg)
+    override fun handleMessage(id: Long, msg: ClientMessage) = clientMessages.onNext(Pair(id, msg))
 }

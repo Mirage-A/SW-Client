@@ -1,17 +1,11 @@
-package com.mirage.utils.maps
+package com.mirage.utils.gameobjects
 
 /**
  * Неизменяемый словарь объектов карты.
- * @param initialObjects Неизменяемый словарь, в котором будут храниться объекты.
+ * @param objects Неизменяемый словарь, в котором будут храниться объекты.
  * @param nextID ID, большее максимального ID в словаре. Используется в методе [update] для выбора ID для новых объектов.
  */
-class GameObjects(initialObjects: Map<Long, GameObject>, private val nextID: Long) : Iterable<Map.Entry<Long, GameObject>> {
-
-    private val objects : Map<Long, GameObject> = HashMap<Long, GameObject>().apply {
-        for ((id, obj) in initialObjects) {
-            this[id] = obj
-        }
-    }
+data class GameObjects(val objects : Map<Long, GameObject>, val nextID: Long) : Iterable<Map.Entry<Long, GameObject>> {
 
     /**
      * Создаёт новый экземпляр GameObjects с некоторыми изменениями.

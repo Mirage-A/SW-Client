@@ -1,12 +1,19 @@
 package com.mirage.utils.maps
 
+import com.mirage.utils.gameobjects.GameObject
+import com.mirage.utils.gameobjects.GameObjects
+import com.mirage.utils.gameobjects.ObjectDifference
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+
 /**
  * Изменяемая разность двух состояний сцены.
  * Может использоваться только в однопоточной среде.
  */
-class StateDifference(
+data class StateDifference(
         val newObjects : List<GameObject> = ArrayList(),
-        val removedObjects : Collection<Long> = ArrayList(),
+        val removedObjects : Collection<Long> = TreeSet(),
         val objectDifferences : Map<Long, ObjectDifference> = HashMap(),
         val newClientScripts : List<String> = ArrayList()
 ) {
@@ -19,6 +26,6 @@ class StateDifference(
     fun projectOn(origin: GameObjects) : GameObjects = origin.update(newObjects) {
         id, obj ->
         if (id in removedObjects) null
-        else objectDifferences[id]?.projectOn(obj)
+        else objectDifferences[id]?.projectOn(obj) ?: obj
     }
 }

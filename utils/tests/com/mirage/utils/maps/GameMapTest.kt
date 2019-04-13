@@ -1,6 +1,7 @@
 package com.mirage.utils.maps
 
 import com.google.gson.Gson
+import com.mirage.utils.gameobjects.Building
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

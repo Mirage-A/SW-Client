@@ -4,8 +4,12 @@ dependencies {
     implementation project(":gamelogic")
     implementation project(":utils")
     
-    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation 'io.netty:netty:4.0.0.Alpha8'
+    implementation 'io.reactivex:rxnetty-common:0.5.3'
+    implementation 'io.reactivex:rxnetty-tcp:0.5.3'
+    implementation 'io.reactivex:rxnetty-examples:0.5.3'
+    implementation 'io.reactivex:rxnetty-spectator-tcp:0.5.3'
 }
 
 sourceCompatibility = 1.8

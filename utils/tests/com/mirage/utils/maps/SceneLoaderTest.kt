@@ -1,6 +1,10 @@
 package com.mirage.utils.maps
 
 import com.google.gson.Gson
+import com.mirage.utils.gameobjects.Building
+import com.mirage.utils.gameobjects.BuildingDifference
+import com.mirage.utils.gameobjects.Entity
+import com.mirage.utils.gameobjects.NullableBuildingsList
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -57,7 +61,7 @@ internal class SceneLoaderTest {
     fun listMatchingTest() {
         val reader = """
             {
-            "buildingDifferences": [
+            "buildings": [
             {
                 "template": "main-gate",
                 "name": "main-gate",
@@ -91,7 +95,7 @@ internal class SceneLoaderTest {
         """.trimIndent().reader()
         val buildingsReader = """
             {
-            "buildingDifferences": [
+            "buildings": [
                 {
                     "template": "main-gate",
                     "name": "main-gate",
@@ -108,7 +112,7 @@ internal class SceneLoaderTest {
         """.trimIndent().reader()
         val entitiesReader = """
             {
-            "entityDifferences": [
+            "entities": [
                 {
                     "template": "spawn-point",
                     "x": 16.0,

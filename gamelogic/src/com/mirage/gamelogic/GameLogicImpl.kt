@@ -1,7 +1,7 @@
 package com.mirage.gamelogic
 
 import com.mirage.scriptrunner.LogicScriptActions
-import com.mirage.utils.maps.GameObject
+import com.mirage.utils.gameobjects.GameObject
 import com.mirage.utils.maps.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
 import org.luaj.vm2.LuaTable
@@ -13,6 +13,8 @@ class GameLogicImpl(mapName: String) : GameLogic {
 
     override fun startLogic() = loop.start()
 
+    override fun addNewPlayer(): Long = loop.addNewPlayer()
+
     override fun pauseLogic() = loop.pause()
 
     override fun resumeLogic() = loop.resume()
@@ -23,7 +25,7 @@ class GameLogicImpl(mapName: String) : GameLogic {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun handleMessage(msg: ClientMessage) = loop.handleMessage(msg)
+    override fun handleMessage(id: Long, msg: ClientMessage) = loop.handleMessage(id, msg)
 
     override val observable: Observable<GameStateSnapshot>
         get() = loop.observable

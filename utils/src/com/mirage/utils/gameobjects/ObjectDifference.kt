@@ -1,21 +1,20 @@
-package com.mirage.utils.maps
+package com.mirage.utils.gameobjects
 
 import com.mirage.utils.Log
 
-sealed class ObjectDifference(
-        var name: String? = null,
-        var template: String? = null,
-        var x: Float? = null,
-        var y: Float? = null,
-        var width: Float? = null,
-        var height: Float? = null,
-        var isRigid: Boolean? = null,
-        var speed: Float? = null,
-        var moveDirection: String? = null,
-        var isMoving: Boolean? = null,
-        var scripts: Map<String, String>? = null
-)
-{
+interface ObjectDifference {
+        var name: String?
+        var template: String?
+        var x: Float?
+        var y: Float?
+        var width: Float?
+        var height: Float?
+        var isRigid: Boolean?
+        var speed: Float?
+        var moveDirection: String?
+        var isMoving: Boolean?
+        var scripts: Map<String, String>?
+
     /**
      * Функция, позволяющая применить изменения к объекту [origin]. Возвращает новый объект с измененными свойствами.
      * Важно, чтобы BuildingDifference применялось к Building (аналогично для Entity),
@@ -30,19 +29,19 @@ sealed class ObjectDifference(
  * объект с этим, чтобы перезаписать то, что было изменено.
  * Работать с этим объектом нужно только в однопоточной среде!
  */
-class BuildingDifference (
-        name: String? = null,
-        template: String? = null,
-        x: Float? = null,
-        y: Float? = null,
-        width: Float? = null,
-        height: Float? = null,
-        isRigid: Boolean? = null,
-        speed: Float? = null,
-        moveDirection: String? = null,
-        isMoving: Boolean? = null,
-        scripts: Map<String, String>? = null
-) : ObjectDifference(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts) {
+data class BuildingDifference (
+        override var name: String? = null,
+        override var template: String? = null,
+        override var x: Float? = null,
+        override var y: Float? = null,
+        override var width: Float? = null,
+        override var height: Float? = null,
+        override var isRigid: Boolean? = null,
+        override var speed: Float? = null,
+        override var moveDirection: String? = null,
+        override var isMoving: Boolean? = null,
+        override var scripts: Map<String, String>? = null
+) : ObjectDifference {
     /**
      * "Проецирует" эту разность на [origin], возвращая новое [Building], свойства которого равны свойствам
      * данного объекта, если они не null, иначе они равны свойствам [origin].
@@ -104,19 +103,19 @@ class BuildingDifference (
  * объект с этим, чтобы перезаписать то, что было изменено.
  * Работать с этим объектом нужно только в однопоточной среде!
  */
-class EntityDifference (
-        name: String? = null,
-        template: String? = null,
-        x: Float? = null,
-        y: Float? = null,
-        width: Float? = null,
-        height: Float? = null,
-        isRigid: Boolean? = null,
-        speed: Float? = null,
-        moveDirection: String? = null,
-        isMoving: Boolean? = null,
-        scripts: Map<String, String>? = null
-) : ObjectDifference(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts) {
+data class EntityDifference (
+        override var name: String? = null,
+        override var template: String? = null,
+        override var x: Float? = null,
+        override var y: Float? = null,
+        override var width: Float? = null,
+        override var height: Float? = null,
+        override var isRigid: Boolean? = null,
+        override var speed: Float? = null,
+        override var moveDirection: String? = null,
+        override var isMoving: Boolean? = null,
+        override var scripts: Map<String, String>? = null
+) : ObjectDifference {
     /**
      * "Проецирует" эту разность на [origin], возвращая новое [Entity], свойства которого равны свойствам
      * данного объекта, если они не null, иначе они равны свойствам [origin].

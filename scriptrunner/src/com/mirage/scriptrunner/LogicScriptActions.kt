@@ -1,7 +1,6 @@
 package com.mirage.scriptrunner
 
-import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.maps.GameObject
+import com.mirage.utils.gameobjects.GameObject
 import org.luaj.vm2.LuaTable
 
 /**

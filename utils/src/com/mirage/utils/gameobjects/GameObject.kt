@@ -1,4 +1,4 @@
-package com.mirage.utils.maps
+package com.mirage.utils.gameobjects
 
 import com.mirage.utils.extensions.mutableCopy
 

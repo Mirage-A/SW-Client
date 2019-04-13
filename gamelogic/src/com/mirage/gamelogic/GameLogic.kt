@@ -15,6 +15,12 @@ interface GameLogic {
     fun startLogic()
 
     /**
+     * Добавляет игрока на карту и возвращает его ID на карте
+     * //TODO Передавать информацию о скиллах, экипировке и т.д. игрока
+     */
+    fun addNewPlayer() : Long
+
+    /**
      * Приостанавливает цикл логики
      */
     fun pauseLogic()
@@ -35,14 +41,15 @@ interface GameLogic {
     fun dispose()
 
     /**
-     * Передаёт сообщение клиента в логику.
-     * Сообщение будет обработано при следующем тике цикла логики.
+     * Добавляет сообщение [msg] в очередь сообщений.
+     * [id] - ID персонажа игрока (не путать с playerID, используемое в модуле server!)
      */
-    fun handleMessage(msg: ClientMessage)
+    fun handleMessage(id: Long, msg: ClientMessage)
 
     /**
      * Возвращает Observable, на который можно подписаться, чтобы получать уведомления об изменении
      * состояния игры после каждого тика цикла логики.
      */
     val observable : Observable<GameStateSnapshot>
+
 }

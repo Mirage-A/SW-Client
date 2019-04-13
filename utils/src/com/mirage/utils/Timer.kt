@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class Timer(private val delayMillis: Long, private val updateListener: (deltaMillis: Long) -> Unit) {
 
-    private val lock = ReentrantLock()
+    private val lock = ReentrantLock(true)
 
     private var lastTickTime = System.currentTimeMillis()
 

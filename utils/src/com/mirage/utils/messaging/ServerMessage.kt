@@ -2,10 +2,13 @@ package com.mirage.utils.messaging
 
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.INNER_DLMTR
+import com.mirage.utils.gameobjects.GameObjects
+import com.mirage.utils.maps.StateDifference
 
 /**
  * Сообщение об изменении состояния карты
  * Сохраняется в MessageQueue и передаётся клиентам
+ * //TODO Забить на всякую преждевременную оптимизацию и заюзать GSON
  */
 sealed class ServerMessage {
     companion object {
@@ -15,6 +18,7 @@ sealed class ServerMessage {
          * @see serialize
          */
         fun deserialize(str: String) : ServerMessage {
+            //TODO Поддержка новых типов сообщений
             val args = str.split(INNER_DLMTR)
             return when (args[0]) {
                 "SCR" -> RunScriptMessage(args[1])
@@ -30,32 +34,12 @@ sealed class ServerMessage {
     abstract fun serialize() : String
 }
 
-/**
- * Клиент должен запустить данный скрипт
- */
-data class RunScriptMessage(val scriptName: String) : ServerMessage() {
-    override fun serialize(): String = "SCR$INNER_DLMTR$scriptName"
+data class FullStateMessage(val objs: GameObjects) : ServerMessage() {
+    override fun serialize(): String = TODO("not implemented")
 }
 
-/**
- * Добавление нового объекта на карту
- */
-data class NewObjectMessage(val id: Long, val obj: MapObject) : ServerMessage() {
-    override fun serialize(): String = "NEW$INNER_DLMTR$id$INNER_DLMTR${obj.serialize()}"//TODO
-}
-
-/**
- * Удаление объекта с карты
- */
-data class RemoveObjectMessage(val id: Long) : ServerMessage() {
-    override fun serialize(): String = "RM$INNER_DLMTR$id"
-}
-
-/**
- * Новые позиции объектов
- */
-data class PositionSnapshotMessage(val snapshot: PositionSnapshot) : ServerMessage() {
-    override fun serialize(): String = "PS$INNER_DLMTR${snapshot.serialize()}"//TODO
+data class StateDifferenceMessage(val diff: StateDifference) : ServerMessage() {
+    override fun serialize(): String = TODO("not implemented")
 }
 
 /**

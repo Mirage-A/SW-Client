@@ -10,7 +10,7 @@ import com.mirage.utils.Timer
 import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.extensions.*
 import com.mirage.utils.maps.GameMap
-import com.mirage.utils.maps.GameObjects
+import com.mirage.utils.gameobjects.GameObjects
 import com.mirage.utils.messaging.*
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock

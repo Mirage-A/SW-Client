@@ -1,15 +1,15 @@
 package com.mirage.connection
 
-import com.badlogic.gdx.utils.Disposable
 import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.MoveDirection
+import io.reactivex.Observable
 
-interface Connection : Disposable {
+interface Connection {
 
     /**
-     * Проверяет, есть ли новые сообщения
+     * [Observable], который позволяет следить за получаемыми от логики сообщениями.
      */
-    fun hasNewMessages() : Boolean
+    val observable: Observable<ServerMessage>
 
     /**
      * Отправляет запрос на изменение направления движения игрока
@@ -30,30 +30,6 @@ interface Connection : Disposable {
      * Отправляет запрос на остановку игрока
      */
     fun stopMoving()
-
-    /**
-     * Добавляет слушателя новых данных, полученных с сервера.
-     * Метод слушателя срабатывает каждый раз, когда с сервера приходят новые данные.
-     */
-    fun addMessageListener(listener: (msg: ServerMessage) -> Unit)
-
-    /**
-     * Удаляет всех слушателей новых данных
-     * @see addMessageListener
-     */
-    fun removeAllMessageListeners()
-
-    /**
-     * Заставляет проверить наличие новых сообщений и вызвать слушателей для каждого сообщения.
-     * Этот метод нужно вызывать в методе render клиента //TODO
-     */
-    fun checkNewMessages()
-
-    /**
-     * Обрабатывает одно сообщение, если оно есть
-     */
-    fun readOneMessage()
-
     /**
      * Возвращает ID игрока
      */
@@ -63,11 +39,10 @@ interface Connection : Disposable {
 
     var bufferedMoving: Boolean?
 
-
     /**
-     * Блокирует текущий поток, пока очередь сообщений пуста.
-     * Если в очереди есть сообщение или оно появится, блокировка снимется.
+     * Полностью останавливает взаимодействие с логикой и освобождает все ресурсы
      */
-    fun blockUntilHaveMessages()
+    fun close()
+
 
 }

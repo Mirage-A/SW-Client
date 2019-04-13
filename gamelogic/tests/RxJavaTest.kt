@@ -15,7 +15,7 @@ class RxJavaTest {
         val observersScheduler = Schedulers.from(Executors.newFixedThreadPool(2))
         for (i in 0..1000) {
             subj.subscribeOn(subscribeScheduler).observeOn(observersScheduler).subscribeBy(
-                    onNext = {println("got $it ${Thread.currentThread().id}")}
+                    onNext = {}
             )
         }
         Thread.sleep(100L)

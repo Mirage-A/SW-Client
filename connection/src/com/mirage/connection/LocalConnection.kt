@@ -1,49 +1,21 @@
 package com.mirage.connection
 
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
-import com.mirage.gamelogic.LogicFacade
-import com.mirage.utils.*
-import com.mirage.utils.Timer
-import com.mirage.utils.extensions.get
-import com.mirage.utils.extensions.isMoving
-import com.mirage.utils.extensions.moveDirection
+import com.mirage.gamelogic.GameLogic
+import com.mirage.gamelogic.GameLogicImpl
+import com.mirage.utils.gameobjects.GameObjects
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.ServerMessage
-import java.util.*
-import java.util.concurrent.locks.ReentrantLock
+import com.mirage.utils.messaging.StateDifferenceMessage
+import rx.Observable
 
 /**
  * Реализация интерфейса Connection, работающая с локальным сервером (одиночная игра)
  */
-class LocalConnection : Connection {
+class LocalConnection(mapName: String) : Connection {
 
-    override fun readOneMessage() {
-        if (messageQueue.isNotEmpty()) {
-            queueLock.lock()
-            val msg = messageQueue.poll()
-            for (msgListener in messageListeners) {
-                msgListener(msg)
-            }
-            queueLock.unlock()
-        }
-    }
+    private val logic : GameLogic = GameLogicImpl(mapName)
 
-    override fun removeAllMessageListeners() {
-        queueLock.lock()
-        messageListeners.clear()
-        queueLock.unlock()
-    }
-
-    override fun hasNewMessages(): Boolean = messageQueue.isNotEmpty()
-
-    override fun dispose() {
-        logic.stopLogic()
-        logic.dispose()
-    }
-
-    private val messageListeners : MutableCollection<(msg: ServerMessage) -> Unit> = ArrayList()
-
-    private val logic : LogicFacade = LogicFacade()
+    override val observable: Observable<ServerMessage> = logic.observable.map { StateDifferenceMessage(it.stateDifference) }
 
     private var playerID: Long? = null
 
@@ -52,32 +24,7 @@ class LocalConnection : Connection {
     override var bufferedMoveDirection : MoveDirection? = null
     override var bufferedMoving : Boolean? = null
 
-    private val messageQueue = ArrayDeque<ServerMessage>()
-    private val queueLock = ReentrantLock()
-
-    private val messageBufferTimer = Timer(CONNECTION_MESSAGE_BUFFER_UPDATE_INTERVAL) {
-        while (!logic.msgs.isEmpty()) {
-            queueLock.lock()
-            logic.lockMsgQueue()
-            val msg = logic.msgs.poll()
-            logic.unlockMsgQueue()
-            messageQueue.add(msg)
-            queueLock.unlock()
-        }
-    }
-
-    init {
-        logic.addUpdateTickListener {
-            bufferedMoveDirection?.let {
-                logic.objects[playerID]?.moveDirection = it
-            }
-            bufferedMoving?.let {
-                logic.objects[playerID]?.isMoving = it
-            }
-        }
-        messageBufferTimer.start()
-    }
-
+    //TODO Отправка сообщений о движении
     override fun setMoveDirection(md: MoveDirection) {
         bufferedMoveDirection = md
     }
@@ -95,36 +42,19 @@ class LocalConnection : Connection {
         setMoving(false)
     }
 
-    override fun addMessageListener(listener: (msg: ServerMessage) -> Unit) {
-        messageListeners.add(listener)
-    }
-
-    override fun checkNewMessages() {
-        if (messageQueue.isNotEmpty()) {
-            queueLock.lock()
-            while (messageQueue.isNotEmpty()) {
-                val msg = messageQueue.poll()
-                for (msgListener in messageListeners) {
-                    msgListener(msg)
-                }
-            }
-            queueLock.unlock()
-        }
-    }
-
+    /**
+     * Стартует логику и блокирует поток, пока не будет получено первое состояние, затем возвращает это состояние.
+     * Следует подписываться на [observable] до вызова [startGame]
+     */
     fun startGame() {
-        //TODO выбор карты
-        logic.map = logic.loadMap("${Assets.assetsPath}maps/test.tmx", InternalFileHandleResolver())
-        logic.startGame()
+        //TODO Разобраться с многопоточностью
+        //TODO Разобраться с получением начального состояния
         playerID = logic.addNewPlayer()
+        val obs = logic.observable.first()
+        logic.startLogic()
+        return obs.toBlocking().first().originState
     }
 
-    fun startLogic() = logic.startLogic()
-
-    override fun blockUntilHaveMessages() {
-        while(!hasNewMessages()) {
-            Thread.sleep(1L)
-        }
-    }
+    override fun close() = logic.dispose()
 
 }

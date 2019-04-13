@@ -2,6 +2,9 @@ package com.mirage.utils.maps
 
 import com.google.gson.Gson
 import com.mirage.utils.Assets
+import com.mirage.utils.gameobjects.*
+import com.mirage.utils.gameobjects.NullableBuildingsList
+import com.mirage.utils.gameobjects.NullableEntitiesList
 import java.io.Reader
 
 object SceneLoader {
@@ -16,8 +19,8 @@ object SceneLoader {
      */
     fun loadScene(name: String) : Pair<GameMap, GameObjects> =
             loadScene(Assets.loadReader("maps/$name/map.json"),
-                    Assets.loadReader("maps/$name/objects.json"),
-                    Assets.loadReader("maps/$name/entityDifferences.json"))
+                    Assets.loadReader("maps/$name/buildings.json"),
+                    Assets.loadReader("maps/$name/entities.json"))
 
     /**
      * Загружает сцену (пару из карты и объектов)
@@ -25,7 +28,7 @@ object SceneLoader {
     fun loadScene(mapReader: Reader, buildingReader: Reader, entitiesReader: Reader) : Pair<GameMap, GameObjects> {
         val gson = Gson()
         val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-        val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildingDifferences.map {
+        val buildingsList : List<Building> = gson.fromJson<NullableBuildingsList>(buildingReader, NullableBuildingsList::class.java).buildings.map {
             val templateName = it.template
             if (templateName == null) {
                 Building(
@@ -46,7 +49,7 @@ object SceneLoader {
                 it.projectOn(template) as Building
             }
         }
-        val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entityDifferences.map {
+        val entitiesList : List<Entity> = gson.fromJson<NullableEntitiesList>(entitiesReader, NullableEntitiesList::class.java).entities.map {
             val templateName = it.template
             if (templateName == null) {
                 Entity(
