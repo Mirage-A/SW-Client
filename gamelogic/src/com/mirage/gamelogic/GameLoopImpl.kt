@@ -32,7 +32,7 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
      */
     private tailrec fun update(delta: Long, originState: GameObjects, gameMap: GameMap) {
-
+        println("Logic update $delta ms")
 
         val startTime = System.currentTimeMillis()
         val msgs = ArrayList<Pair<Long, ClientMessage>>()
@@ -43,26 +43,25 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
         val newState = changes.projectOn(originState)
         //TODO Добавление игроков
         //Список, в который будут добавляться персонажи игроков
-        val newPlayersList = ArrayList<Entity>()
+        val newPlayersMap = HashMap<Long, Entity>()
         //Отслеживаем ID добавляемых игроков
         var counter = newState.nextID
         for (subj in newPlayerRequests) {
             //TODO Заполнение характеристик персонажа игрока, в том числе в зависимости от карты
-            newPlayersList.add(createPlayer(gameMap))
-            subj.onNext(counter++)
+            newPlayersMap[counter] = createPlayer(gameMap)
+            subj.onNext(counter)
+            ++counter
             subj.onComplete()
         }
 
-
-        val finalState = newState.update(newPlayersList) {_, obj -> obj}
         val finalChanges = StateDifference(
-                changes.newObjects + newPlayersList,
+                changes.newObjects + newPlayersMap,
                 changes.removedObjects,
                 changes.objectDifferences,
                 changes.newClientScripts
         )
-        observable.onNext(GameStateSnapshot(finalState, finalChanges))
-
+        val finalState = finalChanges.projectOn(originState)
+        observable.onNext(GameStateSnapshot(finalState, finalChanges, System.currentTimeMillis()))
 
         updateLock.unlock()
         updateLock.lock()
@@ -96,13 +95,14 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
 
     //TODO Возможно, при потере ссылки на поток он может остановиться, но это не точно
     override fun start() {
-        updateLock.lock()
-        Thread {
-            updateLock.lock()
+        println("Starting logic thread....")
+        Thread (Runnable{
+            println("Logic thread started!")
             val (map, objs) = SceneLoader.loadScene(gameMapName)
+            println("Map loaded in logic!")
+            updateLock.lock()
             update(0L, objs, map)
-        }.start()
-        updateLock.unlock()
+        }).start()
     }
 
     override fun pause() = updateLock.lock()

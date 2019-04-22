@@ -2,7 +2,7 @@ package com.mirage.connection
 
 import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.MoveDirection
-import io.reactivex.Observable
+import rx.Observable
 
 interface Connection {
 

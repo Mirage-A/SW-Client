@@ -78,7 +78,8 @@ class MutableBuilding (
         override var speed: Float,
         override var moveDirection: String?,
         override var isMoving: Boolean,
-        override var scripts: Map<String, String>?
+        override var scripts: Map<String, String>?,
+        var transparencyRange: Float
 ) : MutableGameObject {
 
     override fun findDifference(origin: GameObject): ObjectDifference = when (origin) {
@@ -93,7 +94,8 @@ class MutableBuilding (
                 if (speed == origin.speed) null else speed,
                 if (moveDirection == origin.moveDirection) null else moveDirection,
                 if (isMoving == origin.isMoving) null else isMoving,
-                if (scripts == origin.scripts) null else scripts
+                if (scripts == origin.scripts) null else scripts,
+                if (transparencyRange == origin.transparencyRange) null else transparencyRange
         )
         is Entity -> {
             Log.e("Warning: MutableBuilding should not find difference with Entity")
@@ -104,6 +106,9 @@ class MutableBuilding (
             BuildingDifference()
         }
     }
+
+    override fun with(x: Float, y: Float): MutableBuilding =
+            MutableBuilding(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts, transparencyRange)
 
 }
 
@@ -124,6 +129,10 @@ data class MutableEntity (
         override var isMoving: Boolean,
         override var scripts: Map<String, String>?
 ) : MutableGameObject {
+
+
+    override fun with(x: Float, y: Float): MutableEntity =
+            MutableEntity(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts)
 
     override fun findDifference(origin: GameObject): ObjectDifference = when (origin) {
         is Entity -> EntityDifference(

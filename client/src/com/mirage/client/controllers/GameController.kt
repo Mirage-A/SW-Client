@@ -6,10 +6,6 @@ import com.mirage.client.Client
 import com.mirage.client.ClientScriptActionsImpl
 import com.mirage.connection.Connection
 import com.mirage.utils.PLATFORM
-import com.mirage.utils.extensions.get
-import com.mirage.utils.extensions.isMoving
-import com.mirage.utils.extensions.moveDirection
-import com.mirage.utils.messaging.ClientGameInfo
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.screens.GameScreen

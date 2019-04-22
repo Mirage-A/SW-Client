@@ -10,7 +10,10 @@ dependencies {
     implementation 'io.reactivex:rxnetty-tcp:0.5.3'
     implementation 'io.reactivex:rxnetty-examples:0.5.3'
     implementation 'io.reactivex:rxnetty-spectator-tcp:0.5.3'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
 }
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.test.java.srcDirs = [ "tests/" ]

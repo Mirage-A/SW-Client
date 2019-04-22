@@ -3,19 +3,31 @@ package com.mirage.connection
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.gameobjects.GameObjects
+import com.mirage.utils.messaging.MapChangeMessage
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.StateDifferenceMessage
 import rx.Observable
+import rx.subjects.PublishSubject
+import kotlin.concurrent.thread
 
 /**
  * Реализация интерфейса Connection, работающая с локальным сервером (одиночная игра)
  */
-class LocalConnection(mapName: String) : Connection {
+class LocalConnection(private val mapName: String) : Connection {
 
     private val logic : GameLogic = GameLogicImpl(mapName)
 
-    override val observable: Observable<ServerMessage> = logic.observable.map { StateDifferenceMessage(it.stateDifference) }
+    /**
+     * Приватный Subject, который повторяет сообщения от логики, но при этом позволяет добавлять новые сообщения.
+     */
+    private val messageRepeater = PublishSubject.create<ServerMessage>()
+    /**
+     * [Observable], из которого можно получать сообщения от логики.
+     * На него следует подписаться до запуска логики.
+     * @see startGame
+     */
+    override val observable: Observable<ServerMessage> = messageRepeater
 
     private var playerID: Long? = null
 
@@ -43,16 +55,23 @@ class LocalConnection(mapName: String) : Connection {
     }
 
     /**
-     * Стартует логику и блокирует поток, пока не будет получено первое состояние, затем возвращает это состояние.
+     * Стартует логику в отдельном потоке.
      * Следует подписываться на [observable] до вызова [startGame]
      */
     fun startGame() {
-        //TODO Разобраться с многопоточностью
-        //TODO Разобраться с получением начального состояния
-        playerID = logic.addNewPlayer()
-        val obs = logic.observable.first()
+        var gotInitialState = false
+        logic.observable.subscribe {
+            println("got msg from logic in connection! $it")
+            if (!gotInitialState) {
+                gotInitialState = true
+                messageRepeater.onNext(MapChangeMessage(mapName, it.finalState, it.createdTimeMillis))
+            }
+            else {
+                messageRepeater.onNext(StateDifferenceMessage(it.stateDifference, it.createdTimeMillis))
+            }
+        }
         logic.startLogic()
-        return obs.toBlocking().first().originState
+        playerID = logic.addNewPlayer()
     }
 
     override fun close() = logic.dispose()

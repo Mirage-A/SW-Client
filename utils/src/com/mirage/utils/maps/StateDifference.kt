@@ -12,12 +12,11 @@ import kotlin.collections.HashMap
  * Может использоваться только в однопоточной среде.
  */
 data class StateDifference(
-        val newObjects : List<GameObject> = ArrayList(),
+        val newObjects : Map<Long, GameObject> = HashMap(),
         val removedObjects : Collection<Long> = TreeSet(),
         val objectDifferences : Map<Long, ObjectDifference> = HashMap(),
         val newClientScripts : List<String> = ArrayList()
 ) {
-
 
     /**
      * Применяет эту разность к состоянию [origin], создавая новые такое состояние

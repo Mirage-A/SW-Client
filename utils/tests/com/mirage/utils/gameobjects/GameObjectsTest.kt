@@ -1,6 +1,5 @@
 package com.mirage.utils.gameobjects
 
-import com.mirage.utils.maps.StateDifference
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -19,7 +18,8 @@ internal class GameObjectsTest{
                 speed = 5f,
                 moveDirection = "UP",
                 isMoving = true,
-                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"))
+                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"),
+                transparencyRange = 0f)
         val origin = GameObjects(
                 mapOf(
                         Long.MIN_VALUE to building,
@@ -33,7 +33,7 @@ internal class GameObjectsTest{
         )
         assertEquals(6, origin.toList().size)
         val new = origin.update(
-                newObjects = listOf(building),
+                newObjects = mapOf(Long.MIN_VALUE + 6 to building),
                 map = {id, obj ->
                     if (id == Long.MIN_VALUE || id == Long.MIN_VALUE + 2) null
                     else if (id == Long.MIN_VALUE + 3) building.with(
@@ -67,7 +67,8 @@ internal class GameObjectsTest{
                 speed = 5f,
                 moveDirection = "WOW",
                 isMoving = true,
-                scripts = mapOf("foo" to "bar")
+                scripts = mapOf("foo" to "bar"),
+                transparencyRange = 0f
         )
         assertEquals(expected, objs[1].value)
     }

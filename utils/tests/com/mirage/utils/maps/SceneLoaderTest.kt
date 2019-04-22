@@ -20,7 +20,8 @@ internal class SceneLoaderTest {
                 "y": 0.7,
                 "scripts": {
                     "onDestroy": "kill-them-all"
-                }
+                },
+                "transparencyRange": 5.0
             }
         """.trimIndent().reader()
         val difference : BuildingDifference = Gson().fromJson<BuildingDifference>(reader, BuildingDifference::class.java)
@@ -38,7 +39,8 @@ internal class SceneLoaderTest {
                     speed = it.speed ?: template.speed,
                     moveDirection = it.moveDirection ?: template.moveDirection,
                     isMoving = it.isMoving ?: template.isMoving,
-                    scripts = it.scripts ?: template.scripts
+                    scripts = it.scripts ?: template.scripts,
+                    transparencyRange = it.transparencyRange ?: template.transparencyRange
             )
         }
         println(result)
@@ -53,7 +55,8 @@ internal class SceneLoaderTest {
                 speed = 0f,
                 moveDirection = null,
                 isMoving = false,
-                scripts = mapOf("onDestroy" to "kill-them-all")
+                scripts = mapOf("onDestroy" to "kill-them-all"),
+                transparencyRange = 5f
         ))
     }
 
@@ -105,7 +108,8 @@ internal class SceneLoaderTest {
                 {
                     "template": "wall",
                     "x": 0.0,
-                    "y": 2.5
+                    "y": 2.5,
+                    "transparencyRange": 6.0
                 }
             ]
             }
@@ -163,7 +167,8 @@ internal class SceneLoaderTest {
                 speed = 0f,
                 moveDirection = null,
                 isMoving = false,
-                scripts = null
+                scripts = null,
+                transparencyRange = 0f
         ), objs[0].value)
         assertEquals(Building(
                 name = "wall",
@@ -176,7 +181,8 @@ internal class SceneLoaderTest {
                 speed = 0f,
                 moveDirection = null,
                 isMoving = false,
-                scripts = null
+                scripts = null,
+                transparencyRange = 6f
         ), objs[1].value)
         assertEquals(Entity(
                 name = "spawn-point",
@@ -207,7 +213,8 @@ internal class SceneLoaderTest {
                 speed = 0f,
                 moveDirection = null,
                 isMoving = false,
-                scripts = null
+                scripts = null,
+                transparencyRange = 0f
         ), obj)
     }
 
@@ -251,7 +258,8 @@ internal class SceneLoaderTest {
                 speed = 0f,
                 moveDirection = null,
                 isMoving = false,
-                scripts = null
+                scripts = null,
+                transparencyRange = 0f
         ), obj)
     }
 

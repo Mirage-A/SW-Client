@@ -8,4 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
  */
 interface ObjectDrawer {
     fun draw(batch: SpriteBatch, x: Float, y: Float)
+
+    /**
+     * Позволяет сделать представление прозрачным/непрозрачным.
+     * [isOpaque] true, если непрозрачно, false, если прозрачно
+     */
+    fun setOpaque(isOpaque: Boolean) {}
 }

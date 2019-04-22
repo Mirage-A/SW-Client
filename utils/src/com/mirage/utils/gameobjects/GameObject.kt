@@ -55,6 +55,34 @@ interface GameObject {
          * Создаёт изменяемую копию объекта
          */
         fun mutableCopy() : MutableGameObject
+
+        /**
+         * Создаёт копию объекта с измененной позицией (движение этого объекта за [deltaTimeMillis] мс)
+         */
+        fun move(deltaTimeMillis: Long): GameObject =
+                this.with(
+                        x = this.x + this.speed * when (this.moveDirection) {
+                            "UP", "DOWN" -> 0f
+                            "LEFT" -> -1f
+                            "RIGHT" -> 1f
+                            "UP_RIGHT", "DOWN_RIGHT" -> 1.41421f
+                            "UP_LEFT", "DOWN_LEFT" -> -1.41421f
+                            else -> 0f
+                        } * deltaTimeMillis / 1000L,
+                        y = this.y + this.speed * when (this.moveDirection) {
+                            "LEFT", "RIGHT" -> 0f
+                            "DOWN" -> -1f
+                            "UP" -> 1f
+                            "UP_RIGHT", "UP_LEFT" -> 1.41421f
+                            "DOWN_RIGHT", "DOWN_LEFT" -> -1.41421f
+                            else -> 0f
+                        } * deltaTimeMillis / 1000L
+                )
+
+        /**
+         * Создаёт копию объекта с измененной позицией
+         */
+        fun with(x : Float, y : Float) : GameObject
 }
 
 
@@ -72,7 +100,8 @@ data class Building (
         override val speed: Float,
         override val moveDirection: String?,
         override val isMoving: Boolean,
-        override val scripts: Map<String, String>?
+        override val scripts: Map<String, String>?,
+        val transparencyRange: Float
 ) : GameObject {
         /**
          * Функция клонирования объекта с изменением некоторых свойств.
@@ -89,8 +118,11 @@ data class Building (
                  speed: Float = this.speed,
                  moveDirection: String? = this.moveDirection,
                  isMoving: Boolean = this.isMoving,
-                 scripts: Map<String, String>? = this.scripts) : Building =
-                Building(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts)
+                 scripts: Map<String, String>? = this.scripts,
+                 transparencyRange: Float = this.transparencyRange) : Building =
+                Building(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts, transparencyRange)
+
+        override fun with(x: Float, y: Float): Building = this.with(x = x, y = y, name = this.name)
 
         override fun mutableCopy() : MutableGameObject = MutableBuilding(
                 this.name,
@@ -103,7 +135,8 @@ data class Building (
                 this.speed,
                 this.moveDirection,
                 this.isMoving,
-                this.scripts?.mutableCopy()
+                this.scripts?.mutableCopy(),
+                this.transparencyRange
         )
 }
 
@@ -142,6 +175,7 @@ data class Entity (
                  scripts: Map<String, String>? = this.scripts) : Entity =
                 Entity(name, template, x, y, width, height, isRigid, speed, moveDirection, isMoving, scripts)
 
+        override fun with(x: Float, y: Float): Entity = this.with(x = x, y = y, name = this.name)
 
         override fun mutableCopy() : MutableGameObject = MutableEntity(
                 this.name,

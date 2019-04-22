@@ -2,29 +2,61 @@ package com.mirage.view.gameobjects
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.SHOW_INVISIBLE_OBJECTS_MODE
+import com.mirage.utils.Log
+import com.mirage.utils.gameobjects.GameObject
 import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.extensions.getString
-import com.mirage.utils.extensions.moveDirection
+import com.mirage.utils.gameobjects.GameObjects
+import com.mirage.utils.gameobjects.ObjectDifference
+import com.mirage.utils.maps.StateDifference
 import com.mirage.view.TextureLoader
-import com.mirage.view.animation.BodyAction
-import com.mirage.view.animation.LegsAction
-import com.mirage.view.animation.WeaponType
 
 /**
- * Класс, хранящий визуальные представления объектов
+ * Класс, хранящий визуальные представления объектов и позволяющий получать их по ID объекта.
  */
 //TODO Убрать камеру из параметров, она нужна только для теста невидимых объектов
 class Drawers(private val camera: OrthographicCamera) {
 
-    private val opaqueDrawers = HashMap<MapObject, ObjectDrawer?>()
-    private val transparentDrawers = HashMap<MapObject, ObjectDrawer?>()
+    private val drawers : MutableMap<Long, ObjectDrawer?> = HashMap()
 
     /**
-     * Загружает objectDrawer данного объекта карты
+     * Обновляет словарь [drawers], изменяя визуальные представления объектов, измененных за тик.
+     * Этот метод следует вызывать при переходе [SnapshotManager] на новое состояние.
+     * @see SnapshotManager
+     * //TODO
      */
-    fun addObjectDrawer(obj: MapObject) {
-        opaqueDrawers[obj] = when {
+    fun updateDrawers(diff: StateDifference) {
+        for ((id, obj) in diff.newObjects) {
+            drawers[id] = loadDrawer(obj)
+        }
+        for ((id, objDiff) in diff.objectDifferences) {
+            val originDrawer = drawers[id]
+            if (originDrawer == null) {
+                Log.e("ERROR (Drawers::updateDrawers): initial drawer not found")
+            }
+            else {
+                drawers[id] = updateDrawer(originDrawer, objDiff)
+            }
+        }
+        for (id in diff.removedObjects) {
+            //TODO drawers[id].dispose()
+        }
+    }
+
+    /**
+     * Возвращает новое представление объекта в зависимости от изменений за тик.
+     * //TODO
+     */
+    private fun updateDrawer(originDrawer: ObjectDrawer, objDiff: ObjectDifference) : ObjectDrawer {
+        return originDrawer
+    }
+
+    /**
+     * Полностью загружает представление объекта [obj] и возвращает его.
+     */
+    private fun loadDrawer(obj: GameObject) : ObjectDrawer {
+        return TestObjectFiller(obj, camera)
+        /*
+        drawers[id] = when {
             obj.name == "player" -> HumanoidAnimation(loadPlayerTexturesMap(obj), BodyAction.IDLE, LegsAction.IDLE, obj.moveDirection, WeaponType.UNARMED)
             obj.properties.containsKey("animation") -> ObjectAnimation(obj.properties.getString("animation", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture", "null.png"), Image.Alignment.CENTER)
@@ -34,6 +66,16 @@ class Drawers(private val camera: OrthographicCamera) {
             obj.properties.containsKey("animation-tp") -> ObjectAnimation(obj.properties.getString("animation-tp", "MAIN_GATE_OPEN"))
             obj.properties.containsKey("texture-tp") -> TextureLoader.getStaticTexture("objects/" + obj.properties.getString("texture-tp", "null.png"), Image.Alignment.CENTER)
             else -> this[obj, true]
+        }
+        */
+    }
+
+    /**
+     * Полностью загружает визуальные представления всех объектов.
+     */
+    fun loadDrawers(objs: GameObjects) {
+        for ((id, obj) in objs) {
+            drawers[id] = loadDrawer(obj)
         }
     }
 
@@ -59,23 +101,10 @@ class Drawers(private val camera: OrthographicCamera) {
         return texturesMap
     }
 
-    fun addOpaqueDrawer(obj: MapObject, drawer: ObjectDrawer?) {
-        opaqueDrawers[obj] = drawer
-    }
 
-    fun addTransparentDrawer(obj: MapObject, drawer: ObjectDrawer?) {
-        transparentDrawers[obj] = drawer
-    }
+    operator fun get(id: Long) = drawers[id]
 
-    fun getOpaqueDrawer(obj: MapObject) = opaqueDrawers[obj]
-
-    fun getTransparentDrawer(obj: MapObject) = transparentDrawers[obj]
-
-    operator fun get(obj: MapObject, isOpaque: Boolean) =
-            if (isOpaque) opaqueDrawers[obj] else transparentDrawers[obj]
-
-    operator fun set(obj: MapObject, isOpaque: Boolean, drawer: ObjectDrawer?) {
-        if (isOpaque) opaqueDrawers[obj] = drawer
-        else transparentDrawers[obj] = drawer
+    operator fun set(id: Long, drawer: ObjectDrawer?) {
+        drawers[id] = drawer
     }
 }

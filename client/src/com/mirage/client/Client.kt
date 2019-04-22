@@ -12,6 +12,7 @@ import com.mirage.connection.Connection
 import com.mirage.scriptrunner.runClientScript
 import com.mirage.utils.*
 import com.mirage.utils.extensions.*
+import com.mirage.utils.maps.SceneLoader
 import com.mirage.utils.messaging.*
 import com.mirage.view.screens.GameScreen
 import org.luaj.vm2.lib.jse.JsePlatform
@@ -44,6 +45,23 @@ object Client : Game() {
     fun messageListener(msg: ServerMessage) {
         when (msg) {
             is MapChangeMessage -> {
+                Log.i("MapChangeMessage received: $msg")
+                val gameController = (controller as? GameController) ?: return
+                gameController.state.map = SceneLoader.loadScene(msg.mapName).first
+                for (layer in gameController.state.map.layers) {
+                    while (layer.objects.count != 0) {
+                        layer.objects.remove(0)
+                    }
+                }
+                (screen as? GameScreen)?.updateResources()
+            }
+            is StateDifferenceMessage -> {
+                Log.i("StateDifferenceMessage received: $msg")
+            }
+            is ReturnCodeMessage -> {
+                Log.i("ReturnCodeMessage received: $msg")
+            }
+            /*is MapChangeMessage -> {
                 Log.i("MapChangeMessage received: $msg")
                 val gameController = (controller as? GameController) ?: return
                 //TODO objects.clear()
@@ -80,22 +98,13 @@ object Client : Game() {
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 
-    /**
-     * Проверять ли наличие новых сообщений перед рендерингом
-     * Обработку сообщений имеет смысл отключать в начале загрузки ресурсов
-     */
-    var checkMessagesOnRender : Boolean = false
-
     override fun render() {
-        if (checkMessagesOnRender) {
-            (controller as? GameController)?.apply {
-                connection.checkNewMessages()
-                state.playerID = connection.getPlayerID()
-            }
+        (controller as? GameController)?.apply {
+            state.playerID = connection.getPlayerID()
         }
         super.render()
     }

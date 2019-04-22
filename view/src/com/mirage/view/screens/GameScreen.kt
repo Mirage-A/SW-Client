@@ -9,8 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.MutablePoint
-import com.mirage.utils.extensions.position
-import com.mirage.utils.messaging.ClientGameInfo
+import com.mirage.utils.maps.GameMap
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
@@ -18,11 +17,10 @@ import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
 
 
-class GameScreen(private val stateManager: SnapshotManager, private val infoClient: ClientGameInfo): ScreenAdapter() {
+class GameScreen(private val stateManager: SnapshotManager, private val gameMap: GameMap, private val playerID: Long): ScreenAdapter() {
 
     private val batch: SpriteBatch = SpriteBatch()
     var camera: OrthographicCamera = OrthographicCamera()
-    private val renderer: IsometricTiledMapRenderer = IsometricTiledMapRenderer(null, batch)
 
     companion object {
         /**
@@ -124,26 +122,19 @@ class GameScreen(private val stateManager: SnapshotManager, private val infoClie
      * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
      */
     fun updateResources() {
-        loadObjectDrawers(infoClient.map)
+        loadObjectDrawers(gameMap)
     }
 
     /**
      * Загружает drawers для объектов сцены
      */
-    private fun loadObjectDrawers(map: TiledMap) {
+    private fun loadObjectDrawers(map: GameMap) {
         for (layer in map.layers) {
             for (obj in layer.objects) {
                 drawers.addObjectDrawer(obj)
             }
         }
     }
-
-
-
-    override fun dispose() {
-
-    }
-
 
     /**
      * Обновить размер виртуального экрана, вычислив его через ScreenSizeCalculator

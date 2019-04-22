@@ -1,11 +1,7 @@
 package com.mirage.utils.messaging
 
-import com.badlogic.gdx.maps.MapObject
-import com.mirage.utils.datastructures.MutablePoint
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.isRigid
-import com.mirage.utils.extensions.position
-import com.mirage.utils.extensions.set
+import com.mirage.utils.gameobjects.Building
+import com.mirage.utils.gameobjects.GameObjects
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -24,36 +20,33 @@ internal class ServerMessageTest {
             println()
         }
 
-        testSeri(RemoveObjectMessage(228L))
-        testSeri(PositionSnapshotMessage(PositionSnapshot(
-                hashMapOf(1L to Point(0f ,0f), 228L to Point(1f, -2f)),
-                hashMapOf(1L to MoveDirection.DOWN_LEFT, 23L to MoveDirection.UP_RIGHT),
-                hashMapOf(1L to true, 1324L to false),
-                228L)))
-        testSeri(MapChangeMessage("anvil"))
+        val building = Building(
+                name = "wall",
+                template = "wtf",
+                x = 2f,
+                y = 5f,
+                width = 2f,
+                height = 6f,
+                isRigid = true,
+                speed = 5f,
+                moveDirection = "UP",
+                isMoving = true,
+                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"),
+                transparencyRange = 4f)
 
-        val obj = MapObject().apply {
-            position = MutablePoint(5f, 10f)
-            opacity = 5f
-            name = "testy"
-            isVisible = false
-            properties["width"] = 200f
-            properties["height"] = 10
-            properties["rigid"] = true
-            properties["script"] = "pass-tests"
-        }
-        println(obj.serialize())
-        val newObj = deserializeMapObject(obj.serialize())
-        newObj.let {
-            assertEquals(5f, it.position.x)
-            assertEquals(10f, it.position.y)
-            assertEquals("testy", it.name)
-            assertEquals(false, it.isVisible)
-            assertEquals(200f, it.properties["width"])
-            assertEquals(10, it.properties["height"])
-            assertEquals(true, it.isRigid)
-            assertEquals(true, it.properties["rigid"])
-            assertEquals("pass-tests", it.properties["script"])
-        }
+        val origin = GameObjects(
+                mapOf(
+                        Long.MIN_VALUE to building,
+                        (Long.MIN_VALUE + 1) to building,
+                        (Long.MIN_VALUE + 2) to building,
+                        (Long.MIN_VALUE + 3) to building,
+                        (Long.MIN_VALUE + 4) to building,
+                        (Long.MIN_VALUE + 5) to building
+                ),
+                Long.MIN_VALUE + 6
+        )
+
+        testSeri(MapChangeMessage("anvil", origin, 0L))
+        //TODO
     }
 }

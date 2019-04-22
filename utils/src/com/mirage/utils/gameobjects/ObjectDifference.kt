@@ -1,6 +1,7 @@
 package com.mirage.utils.gameobjects
 
 import com.mirage.utils.Log
+import kotlin.contracts.contract
 
 interface ObjectDifference {
         var name: String?
@@ -40,7 +41,8 @@ data class BuildingDifference (
         override var speed: Float? = null,
         override var moveDirection: String? = null,
         override var isMoving: Boolean? = null,
-        override var scripts: Map<String, String>? = null
+        override var scripts: Map<String, String>? = null,
+        var transparencyRange: Float? = null
 ) : ObjectDifference {
     /**
      * "Проецирует" эту разность на [origin], возвращая новое [Building], свойства которого равны свойствам
@@ -60,7 +62,8 @@ data class BuildingDifference (
                         speed = speed ?: origin.speed,
                         moveDirection = moveDirection ?: origin.moveDirection,
                         isMoving = isMoving ?: origin.isMoving,
-                        scripts = scripts ?: origin.scripts
+                        scripts = scripts ?: origin.scripts,
+                        transparencyRange = transparencyRange ?: origin.transparencyRange
                 )
                 is Entity -> {
                     Log.e("Warning: BuildingDifference should not be applied to Entity")
@@ -91,7 +94,8 @@ data class BuildingDifference (
                             speed = speed ?: origin.speed,
                             moveDirection = moveDirection ?: origin.moveDirection,
                             isMoving = isMoving ?: origin.isMoving,
-                            scripts = scripts ?: origin.scripts
+                            scripts = scripts ?: origin.scripts,
+                            transparencyRange = 0f
                     )
                 }
             }
@@ -149,7 +153,8 @@ data class EntityDifference (
                             speed = speed ?: origin.speed,
                             moveDirection = moveDirection ?: origin.moveDirection,
                             isMoving = isMoving ?: origin.isMoving,
-                            scripts = scripts ?: origin.scripts
+                            scripts = scripts ?: origin.scripts,
+                            transparencyRange = 0f
                     )
                 }
                 else -> {
@@ -165,7 +170,8 @@ data class EntityDifference (
                             speed = speed ?: origin.speed,
                             moveDirection = moveDirection ?: origin.moveDirection,
                             isMoving = isMoving ?: origin.isMoving,
-                            scripts = scripts ?: origin.scripts
+                            scripts = scripts ?: origin.scripts,
+                            transparencyRange = 0f
                     )
                 }
             }

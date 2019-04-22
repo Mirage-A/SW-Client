@@ -5,20 +5,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.points
 import com.mirage.utils.extensions.rectangle
+import com.mirage.utils.gameobjects.GameObject
 import com.mirage.view.game.getVirtualScreenPointFromScene
 
-class TestObjectFiller(private val obj: MapObject, private val camera: OrthographicCamera) : ObjectDrawer {
+class TestObjectFiller(private val obj: GameObject, private val camera: OrthographicCamera) : ObjectDrawer {
 
     private val sr = ShapeRenderer()
 
     override fun draw(batch: SpriteBatch, x: Float, y: Float) {
         batch.end()
         sr.begin(ShapeRenderer.ShapeType.Filled)
-        val points = obj.rectangle.points.map {
+        val points = arrayOf(
+                Point(obj.x, obj.y),
+                Point(obj.x + obj.width, obj.y),
+                Point(obj.x + obj.width, obj.y + obj.height),
+                Point(obj.x, obj.y + obj.height)
+        ).map {
             getVirtualScreenPointFromScene(it) -
-                    MutablePoint(camera.position.x - camera.viewportWidth / 2,
+                    Point(camera.position.x - camera.viewportWidth / 2,
                             camera.position.y - camera.viewportHeight / 2)
         }
         sr.triangle(points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y)

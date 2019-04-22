@@ -1,6 +1,7 @@
 package com.mirage.gamelogic
 
 import com.mirage.utils.gameobjects.*
+import com.mirage.utils.maps.GameStateSnapshot
 import com.mirage.utils.maps.SceneLoader
 import com.mirage.utils.maps.StateDifference
 import org.junit.jupiter.api.Assertions.*
@@ -22,10 +23,14 @@ internal class GameLogicImplTest{
     @Test
     fun testStart() {
         val logic = GameLogicImpl("micro-test")
+        var snapshot : GameStateSnapshot? = null
+        val subs = logic.observable.subscribe {
+            if (snapshot == null) snapshot = it
+        }
         logic.startLogic()
-        Thread.sleep(1L)
+        while (snapshot == null) { Thread.sleep(10L) }
+        subs.unsubscribe()
         logic.pauseLogic()
-        val snapshot = logic.observable.first().toBlocking().first()
         val expectedInitialState = GameObjects(
                 mapOf(
                         Long.MIN_VALUE to SceneLoader.loadBuildingTemplate("wall").with(
@@ -43,7 +48,7 @@ internal class GameLogicImplTest{
         val expectedStateDifference = StateDifference(
                 objectDifferences = mapOf(Long.MIN_VALUE to BuildingDifference(), (Long.MIN_VALUE + 1) to EntityDifference())
         )
-        assertEquals(expectedInitialState, snapshot.originState)
-        assertEquals(expectedStateDifference, snapshot.stateDifference)
+        assertEquals(expectedInitialState, snapshot?.finalState)
+        assertEquals(expectedStateDifference, snapshot?.stateDifference)
     }
 }

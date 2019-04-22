@@ -1,14 +1,15 @@
 package com.mirage.view.game
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.utils.DEFAULT_MAP_POINT
-import com.mirage.utils.messaging.ClientGameInfo
+import com.mirage.utils.Log
+import com.mirage.utils.gameobjects.GameObjects
 import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.messaging.PositionSnapshot
-import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.*
+import com.mirage.utils.gameobjects.Building
+import com.mirage.utils.gameobjects.Entity
+import com.mirage.utils.gameobjects.GameObject
 import com.mirage.view.animation.BodyAction
 import com.mirage.view.animation.LegsAction
 import com.mirage.view.gameobjects.Drawers
@@ -26,24 +27,19 @@ private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
 /**
  * Отрисовывает все объекты карты
  */
-fun renderObjects(batch: SpriteBatch, infoClient: ClientGameInfo, snapshot: PositionSnapshot, drawers: Drawers) {
-    val objs = ArrayList<Pair<Long, MapObject>>()
+fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawers: Drawers) {
 
-    for ((id, obj) in infoClient.objects) {
-        objs.add(Pair(id, obj))
-    }
+    val sortedObjs = depthSort(objs)
 
-    depthSort(objs)
-
-    for ((id, obj) in objs) {
-        val isOpaque = isOpaque(obj, infoClient)
-        if (drawers[obj, isOpaque] == null) {
-            drawers.addObjectDrawer(obj)
+    for ((id, obj) in sortedObjs) {
+        val isOpaque = isOpaque(obj, objs)
+        val drawer = drawers[id] ?: run {
+            Log.e("ERROR (ObjectRenderer::renderObjects): ObjectDrawer for object $id: $obj not found")
+            null
         }
-        val drawer = drawers[obj, isOpaque]
         //TODO Направление движения может влиять не только на HumanoidAnimation
         if (drawer is HumanoidAnimation) {
-            val updatedMoveDirection = snapshot.moveDirections[id] ?: MoveDirection.DOWN
+            val updatedMoveDirection = MoveDirection.fromString(obj.moveDirection ?: "DOWN")
             if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
                 drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
                 drawer.bufferedMoveDirection = updatedMoveDirection
@@ -51,7 +47,7 @@ fun renderObjects(batch: SpriteBatch, infoClient: ClientGameInfo, snapshot: Posi
                 drawer.moveDirection = drawer.bufferedMoveDirection
             }
 
-            val isMoving = snapshot.isMoving[id] ?: false
+            val isMoving = obj.isMoving
             if (isMoving) {
                 drawer.setBodyAction(BodyAction.RUNNING)
                 drawer.setLegsAction(LegsAction.RUNNING)
@@ -60,11 +56,7 @@ fun renderObjects(batch: SpriteBatch, infoClient: ClientGameInfo, snapshot: Posi
                 drawer.setLegsAction(LegsAction.IDLE)
             }
         }
-        val scenePoint = snapshot.positions[id] ?: DEFAULT_MAP_POINT
-        val width = obj.properties.getFloat("width", 0f)
-        val height = obj.properties.getFloat("height", 0f)
-        val sceneCenter = MutablePoint(scenePoint.x + width / 2, scenePoint.y + height / 2)
-        val pos = getVirtualScreenPointFromScene(sceneCenter)
+        val pos = getVirtualScreenPointFromScene(obj.position)
         drawer?.draw(batch, Math.round(pos.x).toFloat(), Math.round(pos.y).toFloat())
     }
 }
@@ -72,19 +64,19 @@ fun renderObjects(batch: SpriteBatch, infoClient: ClientGameInfo, snapshot: Posi
 /**
  * Проверяет, нужно ли делать объект obj прозрачным (например, если за ним находится entity)
  * Возвращает true, если obj должен быть непрозрачным
- * Объект становится прозрачным, если у него есть свойство tp-range и
- * внутри этого объекта или на расстоянии tp-range тайлов за объектом находится entity
+ * [Building] становится прозрачным, если внутри него или на расстоянии tp-range тайлов за ним находится [Entity]
+ * [Entity] не может быть прозрачным.
  */
-private fun isOpaque(obj: MapObject, infoClient: ClientGameInfo) : Boolean {
-    for ((_, other) in infoClient.objects) {
-        val rect = obj.rectangle
-        val otherRect = other.rectangle
-        val center = rect.center
-        val otherCenter = otherRect.center
-        if (other.properties.getString("type", "") == "entity" &&
-                - otherCenter.x + otherCenter.y + center.x - center.y < obj.properties.getFloat("tp-range") * 2 &&
-                (rect.overlaps(otherRect) || compareEntityAndBuilding(other, obj) == -1))
-            return false
+private fun isOpaque(obj : GameObject, objs : GameObjects) : Boolean {
+    if (obj is Building) {
+        for ((_, other) in objs) {
+            val rect = obj.rectangle
+            val otherRect = other.rectangle
+            if (other is Entity &&
+                    -other.x + other.y + obj.x - obj.y < obj.transparencyRange * 2 &&
+                    (rect.overlaps(otherRect) || compareEntityAndBuilding(other, obj) == -1))
+                return false
+        }
     }
     return true
 }
@@ -94,26 +86,29 @@ private fun isOpaque(obj: MapObject, infoClient: ClientGameInfo) : Boolean {
  * Используется алгоритм топологической сортировки ориентированного графа
  * (На множестве объектов задан частичный порядок, а не линейный)
  */
-private fun depthSort(objs: ArrayList<Pair<Long, MapObject>>) {
+private fun depthSort(objs: GameObjects) : List<Map.Entry<Long, GameObject>> {
 
-    val q = ArrayDeque<Pair<Long, MapObject>>()
-    val visited = BooleanArray(objs.size) {false}
+    val objsList = objs.toMutableList()
+
+    val q = ArrayDeque<Map.Entry<Long, GameObject>>()
+    val visited = BooleanArray(objsList.size) {false}
     fun dfs(index: Int) {
         if (visited[index]) return
         visited[index] = true
-        for (i in 0 until objs.size) {
-            if (compare(objs[index].second, objs[i].second) == 1) {
+        for (i in 0 until objsList.size) {
+            if (compare(objsList[index].value, objsList[i].value) == 1) {
                 dfs(i)
             }
         }
-        q.add(objs[index])
+        q.add(objsList[index])
     }
-    for (i in 0 until objs.size) {
+    for (i in 0 until objsList.size) {
         dfs(i)
     }
-    for (i in 0 until objs.size) {
-        objs[i] = q.pop()
+    for (i in 0 until objsList.size) {
+        objsList[i] = q.pop()
     }
+    return objsList
 }
 
 /**
@@ -122,7 +117,7 @@ private fun depthSort(objs: ArrayList<Pair<Long, MapObject>>) {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-private fun compare(p : MutablePoint, rect: Rectangle) : Int {
+private fun compare(p : Point, rect: Rectangle) : Int {
     /**
      * Находит значение функции f(x,y) = x + y - x0 - y0 для данной точки
      * Знак функции позволяет узнать расположение точки (x,y) относительно диагональной прямой,
@@ -146,7 +141,7 @@ private fun compare(p : MutablePoint, rect: Rectangle) : Int {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-private fun compareDisjoint(a: MapObject, b: MapObject) : Int {
+private fun compareDisjoint(a: GameObject, b: GameObject) : Int {
     val rectA = a.rectangle
     val rectB = b.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -159,27 +154,27 @@ private fun compareDisjoint(a: MapObject, b: MapObject) : Int {
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
-            return compare(MutablePoint(rectA.x, rectA.y), rectB)
+            return compare(Point(rectA.x, rectA.y), rectB)
         }
         !aIsPoint && bIsPoint -> {
             if (rectA.overlaps(rectB)) return 1
-            return -compare(MutablePoint(rectB.x, rectB.y), rectA)
+            return -compare(Point(rectB.x, rectB.y), rectA)
         }
         else -> {
-            var res = compare(MutablePoint(rectA.x, rectA.y), rectB)
+            var res = compare(Point(rectA.x, rectA.y), rectB)
             if (res != 0) return res
-            res = compare(MutablePoint(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
+            res = compare(Point(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
             if (res != 0) return res
-            res = compare(MutablePoint(rectB.x, rectB.y), rectA)
+            res = compare(Point(rectB.x, rectB.y), rectA)
             if (res != 0) return -res
-            res = compare(MutablePoint(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
+            res = compare(Point(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
             if (res != 0) return -res
             return 0
         }
     }
 }
 
-private fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : Int {
+private fun compareEntityAndBuilding(entity: Entity, building: Building) : Int {
     val rectA = entity.rectangle
     val rectB = building.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -193,31 +188,27 @@ private fun compareEntityAndBuilding(entity: MapObject, building: MapObject) : I
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
-            return compare(MutablePoint(rectA.x, rectA.y), rectB)
+            return compare(Point(rectA.x, rectA.y), rectB)
         }
         !aIsPoint && bIsPoint -> {
             if (rectA.overlaps(rectB)) return 1
-            return -compare(MutablePoint(rectB.x, rectB.y), rectA)
+            return -compare(Point(rectB.x, rectB.y), rectA)
         }
         else -> {
-            var res = compare(MutablePoint(rectA.x, rectA.y), rectB)
+            var res = compare(Point(rectA.x, rectA.y), rectB)
             if (res != 0) return res
-            res = compare(MutablePoint(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
+            res = compare(Point(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
             if (res != 0) return res
-            res = compare(MutablePoint(rectB.x, rectB.y), rectA)
+            res = compare(Point(rectB.x, rectB.y), rectA)
             if (res != 0) return -res
-            res = compare(MutablePoint(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
+            res = compare(Point(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
             if (res != 0) return -res
             return 0
         }
     }
 }
 
-private fun compare(a: MapObject, b: MapObject) : Int {
-    val typeA = a.properties["type"]
-    val typeB = b.properties["type"]
-    if (typeA == typeB) return compareDisjoint(a, b)
-    if (typeA == "entity") return compareEntityAndBuilding(a, b)
-    if (typeB == "entity") return -compareEntityAndBuilding(b, a)
-    return compareDisjoint(a, b)
-}
+private fun compare(a: GameObject, b: GameObject) : Int =
+        if (a is Entity && b is Building) compareEntityAndBuilding(a, b)
+        else if (a is Building && b is Entity) -compareEntityAndBuilding(b, a)
+        else compareDisjoint(a, b)

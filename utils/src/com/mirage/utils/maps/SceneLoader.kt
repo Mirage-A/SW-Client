@@ -42,7 +42,8 @@ object SceneLoader {
                         speed = it.speed ?: 0f,
                         moveDirection = it.moveDirection,
                         isMoving = it.isMoving ?: false,
-                        scripts = it.scripts)
+                        scripts = it.scripts,
+                        transparencyRange = it.transparencyRange ?: 0f)
             }
             else {
                 val template = loadBuildingTemplate(templateName)

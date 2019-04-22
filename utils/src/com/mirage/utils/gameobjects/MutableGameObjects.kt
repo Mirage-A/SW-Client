@@ -18,16 +18,13 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
      */
     operator fun get(id : Long) : MutableGameObject? = objects[id]
 
-    private val newObjects : MutableList<MutableGameObject> = ArrayList()
-    private val removedObjects : MutableCollection<Long> = TreeSet()
-
     /**
      * Добавляет объект и возвращает его ID
      */
     fun add(newObject: MutableGameObject) : Long {
         objects[nextID] = newObject
-        newObjects.add(newObject)
-        return ++nextID
+        ++nextID
+        return nextID
     }
 
     /**
@@ -35,7 +32,6 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
      */
     fun remove(removedObjectID: Long) {
         objects.remove(removedObjectID)
-        removedObjects.add(removedObjectID)
     }
 
     override fun iterator(): Iterator<Map.Entry<Long, MutableGameObject>> = objects.iterator()
@@ -45,8 +41,20 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
      * Для создания объекта [StateDifference] используется список [newClientScripts] как один из параметров.
      */
     fun findDifferenceWithOrigin(newClientScripts: List<String> = ArrayList()) : StateDifference = StateDifference(
-            newObjects = newObjects,
-            removedObjects = removedObjects,
+            newObjects = HashMap<Long, GameObject>().apply {
+                for ((newID, newObj) in objects) {
+                    if (!initialObjects.containsKey(newID)) {
+                        this[newID] = newObj
+                    }
+                }
+            },
+            removedObjects = TreeSet<Long>().apply {
+                for ((oldID, _) in initialObjects) {
+                    if (!objects.containsKey(oldID)) {
+                        this.add(oldID)
+                    }
+                }
+            },
             objectDifferences = HashMap<Long, ObjectDifference>().apply {
                 for ((id, originObj) in initialObjects) {
                     val newObj = objects[id] ?: continue

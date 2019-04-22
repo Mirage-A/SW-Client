@@ -1,5 +1,7 @@
 package com.mirage.utils.gameobjects
 
+import com.mirage.utils.Log
+
 /**
  * Неизменяемый словарь объектов карты.
  * @param objects Неизменяемый словарь, в котором будут храниться объекты.
@@ -14,17 +16,18 @@ data class GameObjects(val objects : Map<Long, GameObject>, val nextID: Long) : 
      * Если возвращается объект, то он добавляется в коллекцию вместо старого.
      * Если возвращается null, то старый объект не добавляется в новую коллекцию (удаление объекта).
      */
-    fun update(newObjects: Collection<GameObject>, map: (Long, GameObject) -> GameObject?) : GameObjects {
+    fun update(newObjects: Map<Long, GameObject>, map: (Long, GameObject) -> GameObject?) : GameObjects {
         val newMap = HashMap<Long, GameObject>()
         for ((id, obj) in objects) {
             map(id, obj)?.let { newMap[id] = it }
         }
-        var counter = nextID
-        for (obj in newObjects) {
-            newMap[counter] = obj
-            ++counter
+        for ((id, obj) in newObjects) {
+            if (newMap.containsKey(id)) Log.e("ERROR (GameObjects::update): new object's ID is already taken")
+            newMap[id] = obj
         }
-        return GameObjects(newMap, counter)
+        val newNextID = nextID + newObjects.size
+        if (newMap.any {it.key == newNextID} ) Log.e("ERROR (GameObjects::update): Invalid object ID found")
+        return GameObjects(newMap, newNextID)
     }
 
     /**
@@ -34,6 +37,7 @@ data class GameObjects(val objects : Map<Long, GameObject>, val nextID: Long) : 
 
     override fun iterator(): Iterator<Map.Entry<Long, GameObject>> = objects.iterator()
 
+    operator fun get(id: Long) = objects[id]
 
 
 }

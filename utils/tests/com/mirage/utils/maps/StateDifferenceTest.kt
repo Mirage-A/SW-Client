@@ -19,9 +19,10 @@ internal class StateDifferenceTest{
                 speed = 5f,
                 moveDirection = "UP",
                 isMoving = true,
-                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"))
+                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"),
+                transparencyRange = 8f)
         val diff = StateDifference(
-                newObjects = listOf(obj),
+                newObjects = mapOf(Long.MIN_VALUE + 6 to obj),
                 removedObjects = listOf(Long.MIN_VALUE, Long.MIN_VALUE + 2),
                 objectDifferences = mapOf(
                         (Long.MIN_VALUE + 3) to BuildingDifference(
@@ -47,6 +48,7 @@ internal class StateDifferenceTest{
         )
         assertEquals(6, origin.toList().size)
         val new = diff.projectOn(origin)
+        assertEquals(Long.MIN_VALUE + 7, new.nextID)
         val objs = new.toList()
         assertEquals(5, objs.size)
         assertEquals(Long.MIN_VALUE + 1, objs[0].key)
@@ -69,7 +71,8 @@ internal class StateDifferenceTest{
                 speed = 5f,
                 moveDirection = "WOW",
                 isMoving = true,
-                scripts = mapOf("foo" to "bar")
+                scripts = mapOf("foo" to "bar"),
+                transparencyRange = 8f
         )
         assertEquals(expected, objs[1].value)
         assertEquals(expected, obj.with(
