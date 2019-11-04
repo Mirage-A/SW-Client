@@ -14,8 +14,10 @@ class DesktopLauncher {
         ConfigurationKt.setPLATFORM("desktop");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Shattered World";
-        config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
-        config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
+        config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
+        config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
+        //config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
+        //config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
         if (ConfigurationKt.DESKTOP_FULL_SCREEN) {
             config.fullscreen = true;
             config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;

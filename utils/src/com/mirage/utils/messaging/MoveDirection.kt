@@ -15,17 +15,15 @@ enum class MoveDirection {
     DOWN,
     DOWN_RIGHT;
 
-    fun toAngle() : Float {
-        return when (this) {
-            DOWN_RIGHT -> 0f
-            RIGHT -> Math.PI.toFloat() / 4
-            UP_RIGHT -> Math.PI.toFloat() / 2
-            UP -> Math.PI.toFloat() * 3 / 4
-            UP_LEFT -> Math.PI.toFloat()
-            LEFT -> Math.PI.toFloat() * 5 / 4
-            DOWN_LEFT -> Math.PI.toFloat() * 3 / 2
-            DOWN -> Math.PI.toFloat() * 7 / 4
-        }
+    fun toMoveAngle(): Float = Math.PI.toFloat() * when (this) {
+        DOWN_RIGHT -> 0f
+        RIGHT -> 0.25f
+        UP_RIGHT -> 0.5f
+        UP -> 0.75f
+        UP_LEFT -> 1f
+        LEFT -> 1.25f
+        DOWN_LEFT -> 1.5f
+        DOWN -> 1.75f
     }
 
 

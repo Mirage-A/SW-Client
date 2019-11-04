@@ -9,12 +9,19 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.extensions.findDifferenceWith
+import com.mirage.utils.extensions.position
+import com.mirage.utils.gameobjects.GameObjects
 import com.mirage.utils.maps.GameMap
+import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.game.calculateViewportSize
 import com.mirage.view.game.getVirtualScreenPointFromScene
 import com.mirage.view.game.renderObjects
 import com.mirage.view.gameobjects.Drawers
+import kotlin.math.cos
+import kotlin.math.roundToInt
+import kotlin.math.sin
 
 
 class GameScreen(private val stateManager: SnapshotManager, private val gameMap: GameMap, private val playerID: Long): ScreenAdapter() {
@@ -67,15 +74,21 @@ class GameScreen(private val stateManager: SnapshotManager, private val gameMap:
     private var scrH: Float = 0f
 
     /**
+     * Состояние, которое было отрисовано на предыдущем вызове [render]
+     * Нужно для определения разницы с текущим состоянием и обновления [drawers]
+     */
+    private var lastRenderedObjs = GameObjects(mapOf(), Long.MIN_VALUE)
+
+    /**
      * Отрисовка экрана
      */
     override fun render(delta: Float) {
-        val playerID : Long = infoClient.playerID ?: return
 
-        val snapshot = stateManager.getInterpolatedSnapshot()
+        val objs = stateManager.getInterpolatedSnapshot()
+        drawers.updateDrawers(objs.findDifferenceWith(lastRenderedObjs))
 
-        val player = infoClient.objects[playerID]
-        val playerPosOnScene = snapshot.positions[playerID] ?: infoClient.objects[playerID]?.position ?: DEFAULT_MAP_POINT
+        val player = objs[playerID]
+        val playerPosOnScene = player?.position ?: DEFAULT_MAP_POINT
 
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPosOnScene)
 
@@ -84,26 +97,27 @@ class GameScreen(private val stateManager: SnapshotManager, private val gameMap:
 
         camera.position.x = playerPosOnVirtualScreen.x
         camera.position.y = playerPosOnVirtualScreen.y + DELTA_CENTER_Y
-        camera.position.x = Math.round(camera.position.x).toFloat()
-        camera.position.y = Math.round(camera.position.y).toFloat()
+        camera.position.x = camera.position.x.roundToInt().toFloat()
+        camera.position.y = camera.position.y.roundToInt().toFloat()
         camera.update()
 
-        //TODO отрисовка
-        renderer.map = infoClient.map
+        //TODO отрисовка карты
+        /*renderer.map = infoClient.map
         renderer.setView(camera)
-        renderer.render()
+        renderer.render()*/
 
         batch.begin()
-        renderObjects(batch, infoClient, snapshot, drawers)
+
+        renderObjects(batch, objs, drawers)
         //TODO
         //Временное решение для управления на андроиде, потом этот код должен быть вынесен в UI
         if (PLATFORM == "android") {
 
-            val mdBtnPos = if (player != null && snapshot.isMoving[playerID] == true) {
+            val mdBtnPos = if (player != null && player.isMoving) {
                 val mdBtnCenterShift = mdAreaRadius - mdBtnRadius
-                val angle = (snapshot.moveDirections[playerID]?.toAngle()?.toDouble() ?: (Math.PI / 4)) - Math.PI / 4
-                MutablePoint(mdAreaCenterX + mdBtnCenterShift * Math.cos(angle).toFloat() - mdBtnRadius,
-                        mdAreaCenterX + mdBtnCenterShift * Math.sin(angle).toFloat() - mdBtnRadius)
+                val angle = (MoveDirection.fromString(player.moveDirection ?: "RIGHT").toMoveAngle())
+                MutablePoint(mdAreaCenterX + mdBtnCenterShift * cos(angle) - mdBtnRadius,
+                        mdAreaCenterX + mdBtnCenterShift * sin(angle) - mdBtnRadius)
             }
             else {
                 MutablePoint(mdAreaCenterX - mdBtnRadius, mdAreaCenterX - mdBtnRadius)
@@ -116,24 +130,6 @@ class GameScreen(private val stateManager: SnapshotManager, private val gameMap:
 
         batch.end()
 
-    }
-
-    /**
-     * Загружает все текстуры, объекты и прочие ресурсы, необходимые на данной сцене
-     */
-    fun updateResources() {
-        loadObjectDrawers(gameMap)
-    }
-
-    /**
-     * Загружает drawers для объектов сцены
-     */
-    private fun loadObjectDrawers(map: GameMap) {
-        for (layer in map.layers) {
-            for (obj in layer.objects) {
-                drawers.addObjectDrawer(obj)
-            }
-        }
     }
 
     /**

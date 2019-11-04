@@ -4,9 +4,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.mirage.gamelogic.LogicFacade
 import com.mirage.utils.Assets
 import com.mirage.utils.Timer
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.*
 
 /**

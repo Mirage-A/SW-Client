@@ -45,6 +45,7 @@ object Client : Game() {
     fun messageListener(msg: ServerMessage) {
         when (msg) {
             is MapChangeMessage -> {
+                //TODO Разобраться со сменой карты, пересозданием контроллеров/экранов
                 Log.i("MapChangeMessage received: $msg")
                 val gameController = (controller as? GameController) ?: return
                 gameController.state.map = SceneLoader.loadScene(msg.mapName).first
@@ -53,7 +54,7 @@ object Client : Game() {
                         layer.objects.remove(0)
                     }
                 }
-                (screen as? GameScreen)?.updateResources()
+                setScreen(gameController.screen)
             }
             is StateDifferenceMessage -> {
                 Log.i("StateDifferenceMessage received: $msg")
@@ -104,7 +105,7 @@ object Client : Game() {
 
     override fun render() {
         (controller as? GameController)?.apply {
-            state.playerID = connection.getPlayerID()
+            playerID = connection.getPlayerID()
         }
         super.render()
     }

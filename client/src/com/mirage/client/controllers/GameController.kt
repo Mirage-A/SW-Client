@@ -6,11 +6,15 @@ import com.mirage.client.Client
 import com.mirage.client.ClientScriptActionsImpl
 import com.mirage.connection.Connection
 import com.mirage.utils.PLATFORM
+import com.mirage.utils.maps.GameMap
 import com.mirage.utils.messaging.MoveDirection
 import com.mirage.utils.messaging.SnapshotManager
 import com.mirage.view.screens.GameScreen
+import kotlin.math.atan
+import kotlin.math.pow
+import kotlin.math.sqrt
 
-class GameController(var connection: Connection) : Controller {
+class GameController(val connection: Connection, val map: GameMap) : Controller {
 
     /**
      * Время отпускания клавиши передвижения
@@ -25,11 +29,9 @@ class GameController(var connection: Connection) : Controller {
      */
     private val EPS_TIME = 50L
 
-    val state = ClientGameInfo()
+    private val snapshotManager = SnapshotManager()
 
-    val snapshotManager = SnapshotManager(state)
-
-    override val screen = GameScreen(snapshotManager, state)
+    override val screen = GameScreen(snapshotManager, connection.getPlayerID() ?: 0)
 
     /*var connection : Connection = if (ONLINE_MODE) {
         RemoteConnection().apply {
@@ -267,7 +269,7 @@ class GameController(var connection: Connection) : Controller {
     }
 
     private fun handleAndroidMoving(x: Float, y: Float) : Boolean {
-        val range = Math.sqrt(Math.pow(GameScreen.mdAreaCenterX - x.toDouble(), 2.0) + Math.pow(GameScreen.mdAreaCenterX - y.toDouble(), 2.0))
+        val range = sqrt((GameScreen.mdAreaCenterX - x.toDouble()).pow(2.0) + (GameScreen.mdAreaCenterX - y.toDouble()).pow(2.0))
         if (range < GameScreen.mdAreaRadius) {
             if (range < GameScreen.mdAreaRadius / 2) {
                 mdBtnPressed = false
@@ -282,10 +284,10 @@ class GameController(var connection: Connection) : Controller {
             val deltaY = y - GameScreen.mdAreaCenterX
             val angle = when {
                 deltaX < 0 -> {
-                    Math.atan(deltaY / deltaX.toDouble()) + Math.PI
+                    atan(deltaY / deltaX.toDouble()) + Math.PI
                 }
                 deltaX > 0 -> {
-                    Math.atan(deltaY / deltaX.toDouble())
+                    atan(deltaY / deltaX.toDouble())
                 }
                 deltaY < 0 -> {
                     Math.PI / 2
@@ -307,11 +309,6 @@ class GameController(var connection: Connection) : Controller {
     override fun scrolled(amount: Int): Boolean {
         return false
     }
-
-    private fun isPlayerMoving(infoClient: ClientGameInfo) : Boolean = infoClient.objects[infoClient.playerID]?.isMoving ?: false
-
-    private fun getPlayerMoveDirection(infoClient: ClientGameInfo) : MoveDirection = infoClient.objects[infoClient.playerID]?.moveDirection ?: MoveDirection.DOWN
-
     override fun dispose() {
         screen.dispose()
     }
