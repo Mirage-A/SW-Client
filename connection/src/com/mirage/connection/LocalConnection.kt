@@ -2,6 +2,7 @@ package com.mirage.connection
 
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
+import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.MapChangeMessage
 import com.mirage.utils.game.objects.MoveDirection
 import com.mirage.utils.messaging.ServerMessage
@@ -31,11 +32,11 @@ class LocalConnection(private val mapName: String) : Connection {
 
     override fun getPlayerID(): Long? = playerID
 
-    override var bufferedMoveDirection : MoveDirection? = null
+    override var bufferedMoveDirection : GameObject.MoveDirection? = null
     override var bufferedMoving : Boolean? = null
 
     //TODO Отправка сообщений о движении
-    override fun setMoveDirection(md: MoveDirection) {
+    override fun setMoveDirection(md: GameObject.MoveDirection) {
         bufferedMoveDirection = md
     }
 
@@ -43,7 +44,7 @@ class LocalConnection(private val mapName: String) : Connection {
         bufferedMoving = isMoving
     }
 
-    override fun startMoving(md: MoveDirection) {
+    override fun startMoving(md: GameObject.MoveDirection) {
         setMoveDirection(md)
         setMoving(true)
     }

@@ -22,3 +22,9 @@ fun <K, V> Map<K, V>.mutableCopy() : MutableMap<K, V> = HashMap<K, V>().apply {
         this[key] = value
     }
 }
+
+fun <T> treeSetOf(vararg args: T) : TreeSet<T> = TreeSet<T>().apply {
+    for (arg in args) {
+        add(arg)
+    }
+}

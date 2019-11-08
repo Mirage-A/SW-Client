@@ -1,7 +1,7 @@
 package com.mirage.connection
 
+import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.game.objects.MoveDirection
 import rx.Observable
 
 interface Connection {
@@ -14,7 +14,7 @@ interface Connection {
     /**
      * Отправляет запрос на изменение направления движения игрока
      */
-    fun setMoveDirection(md: MoveDirection)
+    fun setMoveDirection(md: GameObject.MoveDirection)
 
     /**
      * Отправляет запрос на движение/остановку игрока
@@ -24,7 +24,7 @@ interface Connection {
     /**
      * Отправляет запрос на начало движения в данном направлении
      */
-    fun startMoving(md: MoveDirection)
+    fun startMoving(md: GameObject.MoveDirection)
 
     /**
      * Отправляет запрос на остановку игрока
@@ -35,7 +35,7 @@ interface Connection {
      */
     fun getPlayerID() : Long?
 
-    var bufferedMoveDirection : MoveDirection?
+    var bufferedMoveDirection : GameObject.MoveDirection?
 
     var bufferedMoving: Boolean?
 

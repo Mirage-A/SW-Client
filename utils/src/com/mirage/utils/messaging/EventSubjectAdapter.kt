@@ -1,4 +1,4 @@
-package com.mirage.gamelogic
+package com.mirage.utils.messaging
 
 import me.khol.reactive.subjects.EventSubject
 import rx.Subscription

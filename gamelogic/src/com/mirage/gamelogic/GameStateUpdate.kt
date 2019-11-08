@@ -25,7 +25,7 @@ internal fun updateState(
         gameMap: GameMap,
         clientMessages: Iterable<Pair<Long, ClientMessage>>
 ) : Pair<MutableGameObjects, ArrayDeque<ServerMessage>> {
-    val objs = originState.createMutableObjectsCopy()
+    val objs = originState.mutableCopy()
     val serverMessages : ArrayDeque<ServerMessage> = ArrayDeque()
     //TODO Обработка сообщений от клиентов
     for ((id, msg) in clientMessages) {

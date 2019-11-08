@@ -26,6 +26,8 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
         return nextID
     }
 
+    fun add(newObject: GameObject) : Long = add(newObject.mutableCopy())
+
     /**
      * Удаляет объект
      */

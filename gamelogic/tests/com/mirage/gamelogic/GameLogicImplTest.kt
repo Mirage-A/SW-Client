@@ -33,11 +33,11 @@ internal class GameLogicImplTest{
         logic.pauseLogic()
         val expectedInitialState = GameObjects(
                 mapOf(
-                        Long.MIN_VALUE to SceneLoader.loadBuildingTemplate("wall").with(
+                        Long.MIN_VALUE to SceneLoader.loadTemplate("wall").with(
                                 x = 0.6f,
                                 y = 1.1f
                         ),
-                        (Long.MIN_VALUE + 1) to SceneLoader.loadEntityTemplate("spawn-point").with(
+                        (Long.MIN_VALUE + 1) to SceneLoader.loadTemplate("spawn-point").with(
                                 x = 1.0f,
                                 y = 1.6f,
                                 moveDirection = "UP_RIGHT"

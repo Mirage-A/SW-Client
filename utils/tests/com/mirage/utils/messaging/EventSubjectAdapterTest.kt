@@ -1,5 +1,6 @@
-package com.mirage.gamelogic
+package com.mirage.utils.messaging
 
+import com.mirage.utils.messaging.EventSubjectAdapter
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.*

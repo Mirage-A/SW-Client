@@ -6,6 +6,7 @@ import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.extensions.*
 import com.mirage.utils.game.objects.GameObjects
 import java.util.*
+import kotlin.math.min
 
 /**
  * Данный класс хранит в себе все состояния карты за последнее время и позволяет реализовать интерполяцию состояний.
@@ -25,9 +26,12 @@ class SnapshotManager {
 
     /**
      * Создаёт состояние, интерполированное между двумя соседними состояниями
+     * @param currentTimeMillis Текущее время в мс.
+     * @return Состояние на момент [currentTimeMillis] - [INTERPOLATION_DELAY_MILLIS],
+     * что позволяет компенсировать задержку в обмене данными с сервером.
      */
-    fun getInterpolatedSnapshot() : GameObjects {
-        val renderTime = getRenderTime()
+    fun getInterpolatedSnapshot(currentTimeMillis: Long) : GameObjects {
+        val renderTime = currentTimeMillis - INTERPOLATION_DELAY_MILLIS
         removeOldSnapshots(renderTime)
         val firstSnapshot = try { snapshots.first() } catch (ex: NoSuchElementException) { null }
         val secondSnapshot = snapshots.second()
@@ -73,18 +77,12 @@ class SnapshotManager {
      */
     private fun extrapolateSnapshot(objs: GameObjects, deltaTimeMillis: Long) : GameObjects {
         if (deltaTimeMillis < 0) return objs
-        val delta = Math.min(deltaTimeMillis, MAX_EXTRAPOLATION_INTERVAL)
+        val delta = min(deltaTimeMillis, MAX_EXTRAPOLATION_INTERVAL)
         return objs.update(mapOf()) {_, obj ->
             if (obj.isMoving) obj.move(delta)
             else obj
         }
     }
-
-    /**
-     * Серверное время, которое в данный момент должен отображать клиент.
-     * В задержку времени входит и пинг, и задержка для интерполяции.
-     */
-    private fun getRenderTime() = System.currentTimeMillis() - INTERPOLATION_DELAY_MILLIS
 
     /**
      * Удаляет состояния, которые уже никогда не будут использоваться.

@@ -39,7 +39,7 @@ internal class MutableGameObjectsTest {
                 state = "hello!"
         )
         val emptyState = GameObjects(hashMapOf(99L to obj1, 100L to obj2), 0L)
-        val mutableState = emptyState.createMutableObjectsCopy()
+        val mutableState = emptyState.mutableCopy()
         mutableState.remove(99L)
         mutableState.add(obj1.mutableCopy())
         mutableState.add(obj2.mutableCopy())

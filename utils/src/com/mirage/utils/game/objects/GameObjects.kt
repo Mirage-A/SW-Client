@@ -34,7 +34,7 @@ data class GameObjects(val objects : Map<Long, GameObject>, val nextID: Long) : 
     /**
      * Создаёт изменяемую копию
      */
-    fun createMutableObjectsCopy() : MutableGameObjects = MutableGameObjects(objects, nextID)
+    fun mutableCopy() : MutableGameObjects = MutableGameObjects(objects, nextID)
 
     override fun iterator(): Iterator<Map.Entry<Long, GameObject>> = objects.iterator()
 
