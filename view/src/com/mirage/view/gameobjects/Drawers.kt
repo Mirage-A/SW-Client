@@ -3,11 +3,10 @@ package com.mirage.view.gameobjects
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.Log
-import com.mirage.utils.gameobjects.GameObject
-import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.gameobjects.GameObjects
-import com.mirage.utils.gameobjects.ObjectDifference
-import com.mirage.utils.maps.StateDifference
+import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.MoveDirection
+import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.ObjectDifference
 import com.mirage.view.TextureLoader
 
 /**

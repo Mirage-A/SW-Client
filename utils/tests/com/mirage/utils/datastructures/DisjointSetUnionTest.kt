@@ -1,5 +1,7 @@
 package com.mirage.utils.datastructures
 
+import com.mirage.utils.datastructures.DisjointSetUnion
+import com.mirage.utils.datastructures.Point
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

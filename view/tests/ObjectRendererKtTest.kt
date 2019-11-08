@@ -1,6 +1,5 @@
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.utils.extensions.rectangle
 import org.junit.jupiter.api.Test
 
 internal class ObjectRendererKtTest {

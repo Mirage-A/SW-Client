@@ -1,0 +1,9 @@
+{
+  "_comment": "This template is used for tests. Don't change this file.",
+  "name": "main-gate",
+  "template": "test-building",
+  "type": "BUILDING",
+  "width": 6.0,
+  "height": 0.0,
+  "isRigid": false
+}

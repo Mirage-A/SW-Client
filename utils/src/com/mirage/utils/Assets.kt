@@ -5,8 +5,6 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
-import com.google.gson.Gson
-import com.mirage.utils.maps.*
 import java.io.File
 import java.io.InputStream
 import java.io.Reader

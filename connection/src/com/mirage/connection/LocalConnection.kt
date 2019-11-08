@@ -2,14 +2,12 @@ package com.mirage.connection
 
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.gameobjects.GameObjects
 import com.mirage.utils.messaging.MapChangeMessage
-import com.mirage.utils.messaging.MoveDirection
+import com.mirage.utils.game.objects.MoveDirection
 import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.StateDifferenceMessage
 import rx.Observable
 import rx.subjects.PublishSubject
-import kotlin.concurrent.thread
 
 /**
  * Реализация интерфейса Connection, работающая с локальным сервером (одиночная игра)

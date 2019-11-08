@@ -5,8 +5,7 @@ import com.badlogic.gdx.net.NetJavaServerSocketImpl
 import com.badlogic.gdx.net.NetJavaSocketImpl
 import com.badlogic.gdx.net.ServerSocketHints
 import com.badlogic.gdx.net.SocketHints
-import com.mirage.utils.INNER_DLMTR
-import com.mirage.utils.messaging.MoveDirection
+import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.SetMovingClientMessage
 import kotlinx.coroutines.*
@@ -31,12 +30,12 @@ internal class ClientMessageOutputStreamTest {
             val reader = ClientMessageInputStream(player.inputStream)
             val out = ClientMessageOutputStream(client.outputStream)
             launch {
-                out.write(MoveDirectionClientMessage(MoveDirection.DOWN_LEFT))
+                out.write(MoveDirectionClientMessage(GameObject.MoveDirection.DOWN_LEFT))
                 out.write(SetMovingClientMessage(false))
                 out.flush()
             }
             launch {
-                assertEquals(MoveDirectionClientMessage(MoveDirection.DOWN_LEFT), reader.read())
+                assertEquals(MoveDirectionClientMessage(GameObject.MoveDirection.DOWN_LEFT), reader.read())
                 assertEquals(SetMovingClientMessage(false), reader.read())
             }
         }

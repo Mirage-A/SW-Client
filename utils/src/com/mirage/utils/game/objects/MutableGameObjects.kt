@@ -1,8 +1,7 @@
-package com.mirage.utils.gameobjects
+package com.mirage.utils.game.objects
 
-import com.mirage.utils.maps.StateDifference
+import com.mirage.utils.game.states.StateDifference
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, private var nextID: Long) : Iterable<Map.Entry<Long, MutableGameObject>> {
@@ -38,13 +37,12 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
 
     /**
      * Находит различия между этим объектом и объектом [initialObjects], переданным в конструктор.
-     * Для создания объекта [StateDifference] используется список [newClientScripts] как один из параметров.
      */
-    fun findDifferenceWithOrigin(newClientScripts: List<String> = ArrayList()) : StateDifference = StateDifference(
+    fun findDifferenceWithOrigin() : StateDifference = StateDifference(
             newObjects = HashMap<Long, GameObject>().apply {
                 for ((newID, newObj) in objects) {
                     if (!initialObjects.containsKey(newID)) {
-                        this[newID] = newObj
+                        this[newID] = newObj.saveChanges()
                     }
                 }
             },
@@ -55,12 +53,23 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
                     }
                 }
             },
-            objectDifferences = HashMap<Long, ObjectDifference>().apply {
+            changedObjects = HashMap<Long, GameObject>().apply {
                 for ((id, originObj) in initialObjects) {
-                    val newObj = objects[id] ?: continue
-                    this[id] = newObj.findDifference(originObj)
+                    val newObj = objects[id]?.saveChanges() ?: continue
+                    if (newObj != originObj) this[id] = newObj
+                }
+            }
+    )
+
+    /**
+     * Создаёт неизменяемую копию этого состояния.
+     */
+    fun saveChanges() : GameObjects = GameObjects(
+            objects = HashMap<Long, GameObject>().apply {
+                for ((key, value) in objects) {
+                    this[key] = value.saveChanges()
                 }
             },
-            newClientScripts = newClientScripts
+            nextID = nextID
     )
 }

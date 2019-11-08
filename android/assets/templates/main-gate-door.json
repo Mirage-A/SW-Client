@@ -1,6 +1,7 @@
 {
   "name": "main-gate-door",
   "template": "main-gate-door",
+  "type": "BUILDING",
   "width": 6.0,
   "height": 0.0,
   "state": "closed",

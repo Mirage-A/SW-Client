@@ -1,9 +1,9 @@
 package com.mirage.gamelogic
 
-import com.mirage.utils.gameobjects.*
-import com.mirage.utils.maps.GameStateSnapshot
-import com.mirage.utils.maps.SceneLoader
-import com.mirage.utils.maps.StateDifference
+import com.mirage.utils.game.objects.*
+import com.mirage.utils.game.states.GameStateSnapshot
+import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.game.states.StateDifference
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

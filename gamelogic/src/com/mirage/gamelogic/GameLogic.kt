@@ -1,6 +1,6 @@
 package com.mirage.gamelogic
 
-import com.mirage.utils.maps.GameStateSnapshot
+import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
 import rx.Observable
 

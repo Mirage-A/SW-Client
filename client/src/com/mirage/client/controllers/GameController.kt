@@ -6,9 +6,9 @@ import com.mirage.client.Client
 import com.mirage.client.ClientScriptActionsImpl
 import com.mirage.connection.Connection
 import com.mirage.utils.PLATFORM
-import com.mirage.utils.maps.GameMap
-import com.mirage.utils.messaging.MoveDirection
-import com.mirage.utils.messaging.SnapshotManager
+import com.mirage.utils.game.maps.GameMap
+import com.mirage.utils.game.objects.MoveDirection
+import com.mirage.utils.game.states.SnapshotManager
 import com.mirage.view.screens.GameScreen
 import kotlin.math.atan
 import kotlin.math.pow

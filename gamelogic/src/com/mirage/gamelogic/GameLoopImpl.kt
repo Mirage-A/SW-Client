@@ -1,9 +1,8 @@
 package com.mirage.gamelogic
 
-import com.mirage.utils.gameobjects.Entity
-import com.mirage.utils.gameobjects.GameObject
-import com.mirage.utils.gameobjects.GameObjects
-import com.mirage.utils.maps.*
+import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.maps.*
+import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
 import io.reactivex.subjects.PublishSubject
 import rx.subjects.BehaviorSubject

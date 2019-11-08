@@ -1,7 +1,7 @@
 package com.mirage.gamelogic
 
-import com.mirage.utils.gameobjects.Entity
-import com.mirage.utils.maps.GameMap
+import com.mirage.utils.game.objects.Entity
+import com.mirage.utils.game.maps.GameMap
 
 /**
  * Создаёт персонажа игрока.

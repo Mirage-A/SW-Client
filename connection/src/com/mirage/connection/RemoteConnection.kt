@@ -1,5 +1,6 @@
 package com.mirage.connection
 
+import com.mirage.utils.game.objects.MoveDirection
 import com.mirage.utils.messaging.*
 import rx.Observable
 import rx.subjects.PublishSubject

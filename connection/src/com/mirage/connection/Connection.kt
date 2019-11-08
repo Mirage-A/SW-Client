@@ -1,7 +1,7 @@
 package com.mirage.connection
 
 import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.MoveDirection
+import com.mirage.utils.game.objects.MoveDirection
 import rx.Observable
 
 interface Connection {

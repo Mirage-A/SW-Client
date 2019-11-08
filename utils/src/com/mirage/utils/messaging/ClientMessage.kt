@@ -1,6 +1,7 @@
 package com.mirage.utils.messaging
 
 import com.mirage.utils.INNER_DLMTR
+import com.mirage.utils.game.objects.GameObject
 
 sealed class ClientMessage {
     companion object {
@@ -12,7 +13,7 @@ sealed class ClientMessage {
         fun deserialize(str: String) : ClientMessage {
             val args = str.split(INNER_DLMTR)
             return when (args[0]) {
-                "MD" -> MoveDirectionClientMessage(MoveDirection.fromString(args[1]))
+                "MD" -> MoveDirectionClientMessage(GameObject.MoveDirection.fromString(args[1]))
                 "MV" -> SetMovingClientMessage(args[1].toBoolean())
                 "RG" -> RegisterClientMessage(args[1], args[2], args[3])
                 "LG" -> LoginClientMessage(args[1], args[2])
@@ -25,7 +26,7 @@ sealed class ClientMessage {
     abstract fun serialize() : String
 }
 
-data class MoveDirectionClientMessage(val md: MoveDirection) : ClientMessage() {
+data class MoveDirectionClientMessage(val md: GameObject.MoveDirection) : ClientMessage() {
     override fun serialize(): String = "MD$INNER_DLMTR$md"
 }
 

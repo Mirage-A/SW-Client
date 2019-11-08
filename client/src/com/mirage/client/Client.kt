@@ -2,19 +2,14 @@ package com.mirage.client
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.mirage.client.controllers.Controller
 import com.mirage.client.controllers.EmptyController
 import com.mirage.client.controllers.GameController
 import com.mirage.client.controllers.MainMenuController
-import com.mirage.utils.Assets
 import com.mirage.connection.Connection
-import com.mirage.scriptrunner.runClientScript
 import com.mirage.utils.*
-import com.mirage.utils.extensions.*
-import com.mirage.utils.maps.SceneLoader
+import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.*
-import com.mirage.view.screens.GameScreen
 import org.luaj.vm2.lib.jse.JsePlatform
 
 

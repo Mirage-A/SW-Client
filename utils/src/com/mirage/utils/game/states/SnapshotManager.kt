@@ -1,11 +1,10 @@
-package com.mirage.utils.messaging
+package com.mirage.utils.game.states
 
 import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.extensions.*
-import com.mirage.utils.gameobjects.GameObjects
-import com.mirage.utils.maps.GameStateSnapshot
+import com.mirage.utils.game.objects.GameObjects
 import java.util.*
 
 /**
@@ -56,11 +55,11 @@ class SnapshotManager {
         return objs.update(mapOf()) {id, obj ->
             if (diff.removedObjects.contains(id)) null
             else {
-                val newObjDiff = diff.objectDifferences[id]
-                if (newObjDiff == null) obj
+                val newObj = diff.changedObjects[id]
+                if (newObj == null) obj
                 else obj.with(
-                        x = interpolateValues(obj.x, newObjDiff.x ?: obj.x, progress),
-                        y = interpolateValues(obj.y, newObjDiff.y ?: obj.y, progress)
+                        x = interpolateValues(obj.x, newObj.x, progress),
+                        y = interpolateValues(obj.y, newObj.y, progress)
                 )
             }
         }

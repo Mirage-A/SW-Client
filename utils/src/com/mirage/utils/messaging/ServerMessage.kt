@@ -1,9 +1,8 @@
 package com.mirage.utils.messaging
 
-import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.INNER_DLMTR
-import com.mirage.utils.gameobjects.GameObjects
-import com.mirage.utils.maps.StateDifference
+import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.states.StateDifference
 
 /**
  * Сообщение об изменении состояния карты

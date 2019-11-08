@@ -1,12 +1,11 @@
-package com.mirage.utils.maps
+package com.mirage.utils.game.states
 
-import com.mirage.utils.gameobjects.GameObjects
+import com.mirage.utils.game.objects.GameObjects
 
 /**
  * Создаётся логикой после каждого тика цикла логики.
- * Содержит полную информацию о состоянии на момент конца тика,
- * изменение состояния за время тика и список скриптов, которые должны выполнить клиенты,
- * которые были подключены на момент тика.
+ * Содержит полную информацию о состоянии на момент конца тика и об
+ * изменении состояния за время тика.
  */
 data class GameStateSnapshot(val finalState: GameObjects,
                              val stateDifference: StateDifference,

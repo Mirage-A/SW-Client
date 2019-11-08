@@ -1,7 +1,7 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.gameobjects.Building
-import com.mirage.utils.gameobjects.GameObjects
+import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.GameObjects
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -20,28 +20,29 @@ internal class ServerMessageTest {
             println()
         }
 
-        val building = Building(
+        val obj = GameObject(
                 name = "wall",
                 template = "wtf",
+                type = GameObject.Type.BUILDING,
                 x = 2f,
                 y = 5f,
                 width = 2f,
                 height = 6f,
                 isRigid = true,
                 speed = 5f,
-                moveDirection = "UP",
+                moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
-                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"),
-                transparencyRange = 4f)
+                transparencyRange = 4f,
+                state = "WTF")
 
         val origin = GameObjects(
                 mapOf(
-                        Long.MIN_VALUE to building,
-                        (Long.MIN_VALUE + 1) to building,
-                        (Long.MIN_VALUE + 2) to building,
-                        (Long.MIN_VALUE + 3) to building,
-                        (Long.MIN_VALUE + 4) to building,
-                        (Long.MIN_VALUE + 5) to building
+                        Long.MIN_VALUE to obj,
+                        (Long.MIN_VALUE + 1) to obj,
+                        (Long.MIN_VALUE + 2) to obj,
+                        (Long.MIN_VALUE + 3) to obj,
+                        (Long.MIN_VALUE + 4) to obj,
+                        (Long.MIN_VALUE + 5) to obj
                 ),
                 Long.MIN_VALUE + 6
         )

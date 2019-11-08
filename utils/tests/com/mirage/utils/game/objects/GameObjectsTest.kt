@@ -1,4 +1,4 @@
-package com.mirage.utils.gameobjects
+package com.mirage.utils.game.objects
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -7,19 +7,20 @@ internal class GameObjectsTest{
 
     @Test
     fun testUpdate() {
-        val building = Building(
+        val building = GameObject(
                 name = "wall",
                 template = "wtf",
+                type = GameObject.Type.BUILDING,
                 x = 2f,
                 y = 5f,
                 width = 2f,
                 height = 6f,
                 isRigid = true,
                 speed = 5f,
-                moveDirection = "UP",
+                moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
-                scripts = mapOf("on-enter" to "wtf", "hello" to "hi"),
-                transparencyRange = 0f)
+                transparencyRange = 0f,
+                state = "")
         val origin = GameObjects(
                 mapOf(
                         Long.MIN_VALUE to building,
@@ -39,8 +40,7 @@ internal class GameObjectsTest{
                     else if (id == Long.MIN_VALUE + 3) building.with(
                             template = "new_wtf",
                             x = 99f,
-                            moveDirection = "WOW",
-                            scripts = mapOf("foo" to "bar")
+                            moveDirection = GameObject.MoveDirection.DOWN
                     )
                     else obj
                 }
@@ -56,19 +56,20 @@ internal class GameObjectsTest{
         assertEquals(building, objs[2].value)
         assertEquals(building, objs[3].value)
         assertEquals(building, objs[4].value)
-        val expected = Building(
+        val expected = GameObject(
                 name = "wall",
                 template = "new_wtf",
+                type = GameObject.Type.BUILDING,
                 x = 99f,
                 y = 5f,
                 width = 2f,
                 height = 6f,
                 isRigid = true,
                 speed = 5f,
-                moveDirection = "WOW",
+                moveDirection = GameObject.MoveDirection.DOWN,
                 isMoving = true,
-                scripts = mapOf("foo" to "bar"),
-                transparencyRange = 0f
+                transparencyRange = 0f,
+                state = ""
         )
         assertEquals(expected, objs[1].value)
     }

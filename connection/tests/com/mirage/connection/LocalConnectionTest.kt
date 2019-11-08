@@ -1,7 +1,7 @@
 package com.mirage.connection
 
-import com.mirage.utils.gameobjects.Entity
-import com.mirage.utils.maps.SceneLoader
+import com.mirage.utils.game.objects.Entity
+import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.MapChangeMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.junit.jupiter.api.Assertions.*

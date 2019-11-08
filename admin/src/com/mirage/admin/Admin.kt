@@ -7,7 +7,7 @@ import com.badlogic.gdx.net.SocketHints
 import com.mirage.server.*
 import com.mirage.utils.SERVER_ADDRESS
 import com.mirage.utils.SERVER_PORT
-import com.mirage.utils.messaging.MoveDirection
+import com.mirage.utils.game.objects.MoveDirection
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
 import kotlinx.coroutines.*

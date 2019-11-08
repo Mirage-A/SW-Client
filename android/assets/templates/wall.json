@@ -1,6 +1,7 @@
 {
   "name": "wall",
   "template": "wall",
+  "type": "BUILDING",
   "width": 4.0,
   "height": 3.0,
   "isRigid": true

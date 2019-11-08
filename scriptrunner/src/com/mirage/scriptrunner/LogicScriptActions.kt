@@ -1,6 +1,6 @@
 package com.mirage.scriptrunner
 
-import com.mirage.utils.gameobjects.GameObject
+import com.mirage.utils.game.objects.GameObject
 import org.luaj.vm2.LuaTable
 
 /**

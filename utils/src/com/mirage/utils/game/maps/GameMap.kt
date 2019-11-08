@@ -1,6 +1,4 @@
-package com.mirage.utils.maps
-
-import com.mirage.utils.datastructures.Point
+package com.mirage.utils.game.maps
 
 /**
  * Неизменяемая информация об игровой карте.

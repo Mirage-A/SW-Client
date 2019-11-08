@@ -1,6 +1,7 @@
 {
   "name": "player",
   "template": "player",
+  "type": "ENTITY",
   "width": 0.25,
   "height": 0.25,
   "moveDirection": "UP_RIGHT",
