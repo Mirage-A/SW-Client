@@ -8,16 +8,16 @@ internal class TimerTest {
     @Test
     fun test() {
         var a = 0
-        val timer = Timer(5L) {
+        val timer = Timer(10L) {
             ++a
         }
         timer.start()
-        Thread.sleep(27L)
+        Thread.sleep(50L)
         timer.pause()
-        assertEquals(5, a)
+        assert(a in 4..6)
         timer.resume()
-        Thread.sleep(27L)
+        Thread.sleep(50L)
         timer.stop()
-        assertEquals(10, a)
+        assert(a in 8..12)
     }
 }

@@ -22,8 +22,7 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
      */
     fun add(newObject: MutableGameObject) : Long {
         objects[nextID] = newObject
-        ++nextID
-        return nextID
+        return nextID++
     }
 
     fun add(newObject: GameObject) : Long = add(newObject.mutableCopy())
@@ -74,4 +73,6 @@ class MutableGameObjects(private val initialObjects: Map<Long, GameObject>, priv
             },
             nextID = nextID
     )
+
+    fun getNextID() : Long = nextID
 }

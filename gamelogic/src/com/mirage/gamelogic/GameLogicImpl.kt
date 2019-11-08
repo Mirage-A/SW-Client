@@ -2,8 +2,10 @@ package com.mirage.gamelogic
 
 import com.mirage.scriptrunner.LogicScriptActions
 import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.ServerMessage
 import org.luaj.vm2.LuaTable
 import rx.Observable
 
@@ -27,8 +29,11 @@ class GameLogicImpl(mapName: String) : GameLogic {
 
     override fun handleMessage(id: Long, msg: ClientMessage) = loop.handleMessage(id, msg)
 
-    override val observable: Observable<GameStateSnapshot>
-        get() = loop.observable
+    override val latestState: Observable<Pair<GameObjects, Long>>
+        get() = loop.latestState
+
+    override val serverMessages: Observable<ServerMessage>
+        get() = loop.serverMessages
 
     private inner class ScriptActions : LogicScriptActions {
 

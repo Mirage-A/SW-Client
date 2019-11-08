@@ -1,7 +1,9 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.ServerMessage
 import rx.Observable
 
 /**
@@ -47,9 +49,15 @@ interface GameLogic {
     fun handleMessage(id: Long, msg: ClientMessage)
 
     /**
-     * Возвращает Observable, на который можно подписаться, чтобы получать уведомления об изменении
-     * состояния игры после каждого тика цикла логики.
+     * Возвращает Observable, на который нужно подписаться, чтобы получать сообщения, которые в дальнейшем
+     * рассылаются ВСЕМ клиентам.
      */
-    val observable : Observable<GameStateSnapshot>
+    val serverMessages : Observable<ServerMessage>
+
+    /**
+     * Observable, который при подписке выдаёт последнее состояние игры, а также
+     * уведомляет об изменении состояния.
+     */
+    val latestState: Observable<Pair<GameObjects, Long>>
 
 }

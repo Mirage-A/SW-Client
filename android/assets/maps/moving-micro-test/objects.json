@@ -1,0 +1,14 @@
+{
+  "objects": [
+    {
+      "template": "test-entity",
+      "x": 0.5,
+      "y": 0.5,
+      "width": 0.0,
+      "height": 0.0,
+      "speed": 10.0,
+      "isMoving": true,
+      "moveDirection": "RIGHT"
+    }
+  ]
+}

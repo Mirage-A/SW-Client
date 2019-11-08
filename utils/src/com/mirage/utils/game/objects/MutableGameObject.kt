@@ -1,5 +1,8 @@
 package com.mirage.utils.game.objects
 
+import com.badlogic.gdx.math.Rectangle
+import com.mirage.utils.datastructures.Point
+
 /**
  * Изменяемый объект карты.
  * Используется в однопоточной среде во время обработки изменений состояния игры за тик игровой логики.
@@ -26,4 +29,11 @@ class MutableGameObject(
     fun saveChanges() : GameObject =
             GameObject(name, template, type, x, y, width, height, isRigid, speed, moveDirection, isMoving, transparencyRange, state)
 
+    val rectangle : Rectangle
+        get() = Rectangle(
+                x - width / 2, y - height / 2, width, height
+        )
+
+    val position : Point
+        get() = Point(x, y)
 }

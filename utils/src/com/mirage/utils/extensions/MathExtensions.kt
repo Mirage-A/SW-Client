@@ -7,3 +7,5 @@ val Rectangle.points : Array<MutablePoint>
     get() = arrayOf(MutablePoint(x, y), MutablePoint(x + width, y),
             MutablePoint(x, y + height), MutablePoint(x + width, y + height))
 
+
+fun sqr(a: Float) = a * a

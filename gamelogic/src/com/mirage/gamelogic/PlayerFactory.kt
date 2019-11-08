@@ -7,7 +7,7 @@ import com.mirage.utils.game.objects.GameObject
  * Создаёт персонажа игрока.
  * //TODO Передавать в эту функцию также информацию о прогрессе игрока для заполнения всяких скиллов/экипировки
  */
-fun createPlayer(gameMap: GameMap) : GameObject = GameObject(
+internal fun createPlayer(gameMap: GameMap) : GameObject = GameObject(
         name = "player",
         template = "player",
         type = GameObject.Type.ENTITY,

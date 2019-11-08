@@ -4,6 +4,7 @@ dependencies {
     implementation project(":utils")
     implementation project(":scriptrunner")
 
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation 'org.dom4j:dom4j:2.1.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"

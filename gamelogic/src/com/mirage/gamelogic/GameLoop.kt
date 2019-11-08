@@ -1,14 +1,18 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.ServerMessage
 import rx.Observable
 
 internal interface GameLoop {
 
     fun start()
 
-    val observable : Observable<GameStateSnapshot>
+    val latestState: Observable<Pair<GameObjects, Long>>
+
+    val serverMessages : Observable<ServerMessage>
 
     /**
      * Выполняет запрос на добавление нового игрока и возвращает его ID при добавлении.

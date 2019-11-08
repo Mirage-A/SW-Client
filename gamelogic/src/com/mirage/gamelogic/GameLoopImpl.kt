@@ -1,21 +1,34 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.Log
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.maps.*
 import com.mirage.utils.game.states.GameStateSnapshot
+import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.EventSubjectAdapter
 import io.reactivex.subjects.PublishSubject
 import rx.subjects.BehaviorSubject
 import rx.subjects.Subject
 import java.util.concurrent.locks.ReentrantLock
+import com.mirage.utils.messaging.EventSubjectAdapter
+import com.mirage.utils.messaging.ServerMessage
+import com.mirage.utils.messaging.StateDifferenceMessage
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.min
 
 internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
 
     /**
-     * Observable, в который логика скидывает новые состояния игры после каждого тика цикла
+     * Observable, в который логика скидывает новые состояния игры и время их создания после каждого тика цикла
      */
-    override val observable : Subject<GameStateSnapshot, GameStateSnapshot> = BehaviorSubject.create()!!
+    override val latestState : Subject<Pair<GameObjects, Long>, Pair<GameObjects, Long>> = BehaviorSubject.create()!!
+
+    /**
+     * Observable, в который логика скидывает сообщения, которые должны быть отправлены ВСЕМ клиентам,
+     * подключившимся после отправки сообщения.
+     */
+    override val serverMessages : Subject<ServerMessage, ServerMessage> = EventSubjectAdapter()
 
     /**
      * Observable, в котором хранятся получаемые сообщения от клиентов.
@@ -28,40 +41,36 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
 
     /**
      * Функция, которая обновляет состояние игры,
-     * отправляя сообщение об этом в [observable].
+     * отправляя сообщение об этом в [latestState] и [serverMessages].
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
      */
     private tailrec fun update(delta: Long, originState: GameObjects, gameMap: GameMap) {
         println("Logic update $delta ms")
+        if (delta > 200L) Log.i("Slow update: $delta ms")
 
         val startTime = System.currentTimeMillis()
         val msgs = ArrayList<Pair<Long, ClientMessage>>()
         clientMessages.subscribe( {msgs.add(it)}, {println("ERROR $it")} ).unsubscribe()
-        val changes = updateState(delta, originState, gameMap, msgs)
+        val (mutableState, newMessages) = updateState(delta, originState, gameMap, msgs)
 
-
-        val newState = changes.projectOn(originState)
         //TODO Добавление игроков
-        //Список, в который будут добавляться персонажи игроков
-        val newPlayersMap = HashMap<Long, Entity>()
-        //Отслеживаем ID добавляемых игроков
-        var counter = newState.nextID
-        for (subj in newPlayerRequests) {
+
+        while (newPlayerRequests.isNotEmpty()) {
             //TODO Заполнение характеристик персонажа игрока, в том числе в зависимости от карты
-            newPlayersMap[counter] = createPlayer(gameMap)
-            subj.onNext(counter)
-            ++counter
+            val player = createPlayer(gameMap)
+            val id = mutableState.add(player)
+            val subj = newPlayerRequests.poll()
+            subj.onNext(id)
             subj.onComplete()
         }
 
-        val finalChanges = StateDifference(
-                changes.newObjects + newPlayersMap,
-                changes.removedObjects,
-                changes.objectDifferences,
-                changes.newClientScripts
-        )
-        val finalState = finalChanges.projectOn(originState)
-        observable.onNext(GameStateSnapshot(finalState, finalChanges, System.currentTimeMillis()))
+        val finalChanges = mutableState.findDifferenceWithOrigin()
+        val finalState = mutableState.saveChanges()
+        latestState.onNext(Pair(finalState, System.currentTimeMillis()))
+        serverMessages.onNext(StateDifferenceMessage(finalChanges, System.currentTimeMillis()))
+        for (msg in newMessages) {
+            serverMessages.onNext(msg)
+        }
 
         updateLock.unlock()
         updateLock.lock()
@@ -70,7 +79,7 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
             if (timeDiff < 95L) {
                 Thread.sleep(100L - timeDiff)
             }
-            val newDelta = Math.min(System.currentTimeMillis() - startTime, 200L)
+            val newDelta = min(System.currentTimeMillis() - startTime, 200L)
             update(newDelta, finalState, gameMap)
         }
     }
@@ -78,12 +87,12 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
     private val updateLock = ReentrantLock(true)
 
     /**
-     * Изменяемый небезопасный список, в котором хранятся запросы на создание персонажа игрока.
+     * Изменяемая небезопасная очередь, в которой хранятся запросы на создание персонажа игрока.
      * При каждом запросе создаётся Subject, на который подписывается этот запрос.
-     * После каждого тика логики логика пробегает по этому списку, добавляет игроков на карту
+     * После каждого тика логики логика пробегает по этой очереди, добавляет игроков на карту
      * и для каждого Subject-а вызывает onNext от ID добавленного персонажа на карте.
      */
-    private val newPlayerRequests : MutableList<io.reactivex.subjects.Subject<Long>> = ArrayList()
+    private val newPlayerRequests : Queue<io.reactivex.subjects.Subject<Long>> = ArrayDeque()
 
     override fun addNewPlayer(): Long {
         val subj = PublishSubject.create<Long>()

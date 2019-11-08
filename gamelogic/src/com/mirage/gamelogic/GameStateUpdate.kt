@@ -1,12 +1,29 @@
 package com.mirage.gamelogic
 
+import com.badlogic.gdx.math.Rectangle
+import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.points
 import com.mirage.utils.game.maps.GameMap
+import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.MutableGameObject
 import com.mirage.utils.game.objects.MutableGameObjects
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
+/**
+ * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
+ * Длинные перемещения разбиваются на малые такой длины
+ */
+private const val SMALL_MOVE_RANGE = 0.5f
+
+/**
+ * Отступ от границы непроходимого тайла
+ */
+internal const val EPS = 0.000001f
 
 /**
  * Функция со всей игровой логикой.
@@ -32,8 +49,55 @@ internal fun updateState(
         println("Got client message $id $msg")
 
     }
+    for ((_, obj) in objs) {
+        if (obj.isMoving) {
+            moveObject(obj, delta, gameMap, objs)
+        }
+    }
     println("Delta time $delta")
     //TODO Обработка логики
 
     return Pair(objs, serverMessages)
+}
+
+/**
+ * Обрабатывает передвижение данного объекта за тик.
+ * Функция не является чистой, в процессе ее выполнения изменяются координаты [obj]
+ */
+private fun moveObject(obj: MutableGameObject, deltaMillis: Long, gameMap: GameMap, gameObjects: MutableGameObjects) {
+    val range = obj.speed * deltaMillis.toFloat() / 1000f
+    for (i in 0 until (range / SMALL_MOVE_RANGE).toInt()) {
+        smallMove(obj, SMALL_MOVE_RANGE, gameMap, gameObjects)
+    }
+    smallMove(obj, range % SMALL_MOVE_RANGE, gameMap, gameObjects)
+}
+
+/**
+ * Обрабатывает короткое (на расстояние не более [SMALL_MOVE_RANGE]) передвижение данного объекта
+ * Для обычного передвижения следует использовать [moveObject]
+ * Функция не является чистой, в процессе ее выполнения изменяются координаты [obj]
+ */
+private fun smallMove(obj: MutableGameObject, range: Float, gameMap: GameMap, gameObjects: MutableGameObjects) {
+    var newPosition = obj.position
+    newPosition = newPosition.move(obj.moveDirection.toMoveAngle(), range)
+    newPosition = Point(
+            max(EPS + obj.width / 2, min(gameMap.width - EPS - obj.width / 2, newPosition.x)),
+            max(EPS + obj.width / 2, min(gameMap.height - EPS - obj.height / 2, newPosition.y))
+    )
+    //TODO Пересечения объектов
+    val thisRect = Rectangle(obj.x - obj.width / 2, obj.y - obj.height / 2, obj.width, obj.height)
+    if (obj.isRigid) {
+        for ((_, otherObj) in gameObjects) {
+            //Сравнение по ссылке
+            val otherRect = Rectangle(otherObj.x - otherObj.width / 2, otherObj.y - otherObj.height / 2, otherObj.width, otherObj.height)
+            if (otherObj !== obj && thisRect.overlaps(otherRect) && otherObj.isRigid) return
+        }
+    }
+    for (point in thisRect.points) {
+        if (!gameMap.isTileWalkable(point.x.toInt(), point.y.toInt())) {
+            return
+        }
+    }
+    obj.x = newPosition.x
+    obj.y = newPosition.y
 }

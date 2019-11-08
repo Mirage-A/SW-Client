@@ -1,5 +1,10 @@
 package com.mirage.utils.datastructures
 
+import com.mirage.utils.extensions.sqr
+import java.lang.Math.abs
+import java.lang.Math.sqrt
+import kotlin.math.sqrt
+
 /**
  * Неизменяемая точка с координатами типа Float
  * Используется для хранения позиции объектов на сцене
@@ -19,5 +24,12 @@ data class Point (val x: Float, val y: Float){
     override fun toString(): String {
         return "[$x, $y]"
     }
+
+    /**
+     * Проверяет, что данная точка находится на расстоянии менее 1e-3 от точки [point].
+     * Используется для тестов.
+     */
+    infix fun near(point: Point) : Boolean = sqrt(sqr(this.x - point.x) + sqr(this.y - point.y)) < 1e-3
+
 
 }

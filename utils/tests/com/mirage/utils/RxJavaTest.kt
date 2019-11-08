@@ -1,4 +1,4 @@
-
+package com.mirage.utils
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
