@@ -2,7 +2,7 @@ apply plugin: "kotlin"
 
 dependencies {
     implementation project(":utils")
-    implementation project(":scriptrunner")
+    implementation project(':scripting')
 
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
