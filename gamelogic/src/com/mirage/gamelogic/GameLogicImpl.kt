@@ -1,9 +1,8 @@
 package com.mirage.gamelogic
 
-import com.mirage.scriptrunner.LogicScriptActions
+import com.mirage.gamelogic.scripting.LogicScriptActions
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.luaj.vm2.LuaTable

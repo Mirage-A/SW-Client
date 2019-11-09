@@ -1,4 +1,4 @@
-package com.mirage.scriptrunner
+package com.mirage.gamelogic.scripting
 
 import com.mirage.utils.game.objects.GameObject
 import org.luaj.vm2.LuaTable

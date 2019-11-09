@@ -1,19 +1,10 @@
-package com.mirage.scriptrunner
+package com.mirage.gamelogic.scripting
 
 import com.mirage.utils.Assets
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import org.luaj.vm2.lib.jse.JsePlatform
 
-/**
- * Запускает скрипт c аргументом-таблицей args, добавляя аргумент actions
- */
-fun runClientScript(name: String, args: LuaTable, clientActions: ClientScriptActions) {
-    val globals = JsePlatform.standardGlobals()
-    val chunk = globals.load(Assets.loadClientScript(name)?.readText() ?: "")
-    args.set("actions", CoerceJavaToLua.coerce(clientActions))
-    chunk.call(args)
-}
 
 /**
  * Запускает скрипт c аргументом-таблицей args, добавляя аргумент actions
