@@ -1,5 +1,8 @@
-package com.mirage.view.old
+package com.mirage.ui
 
+class Wtf() {
+
+}
 /*
 /**
  * Экран главного меню

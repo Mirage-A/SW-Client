@@ -81,7 +81,7 @@ class Drawers {
      * @return Словарь с текстурами брони игрока
      * //TODO
      */
-    private fun loadPlayerTexturesMap(obj: MapObject): MutableMap<String, Image> {
+    private fun loadPlayerTexturesMap(obj: GameObject): MutableMap<String, Image> {
         val texturesMap = java.util.HashMap<String, Image>()
         for (md in GameObject.MoveDirection.values()) {
             texturesMap["head$md"] = TextureLoader.getStaticTexture("equipment/head/0000$md")

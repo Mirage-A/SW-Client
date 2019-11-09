@@ -24,7 +24,7 @@ private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
 /**
  * Отрисовывает все объекты карты
  */
-internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawers: Drawers) {
+internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawers: Drawers, cameraX: Float, cameraY: Float) {
 
     val sortedObjs = depthSort(objs)
 
@@ -54,7 +54,7 @@ internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawers: Drawe
             }
         }
         val pos = getVirtualScreenPointFromScene(obj.position)
-        drawer?.draw(batch, pos.x.roundToInt().toFloat(), pos.y.roundToInt().toFloat())
+        drawer?.draw(batch, (pos.x - cameraX).roundToInt().toFloat(), (pos.y - cameraY).roundToInt().toFloat())
     }
 }
 

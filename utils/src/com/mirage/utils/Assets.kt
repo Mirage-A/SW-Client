@@ -5,9 +5,11 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import java.io.File
 import java.io.InputStream
 import java.io.Reader
+import kotlin.math.roundToInt
 
 object Assets {
 
@@ -59,6 +61,12 @@ object Assets {
 
     fun loadAnimation(name: String) : InputStream? =
         loadFile("animations/$name.swa")?.read()
+
+    fun loadTileTexturesList(name: String) : List<TextureRegion> {
+        val fullTexture = getRawTexture("tiles/$name.png")
+        val regions = TextureRegion.split(fullTexture, TILE_WIDTH.roundToInt(), TILE_HEIGHT.roundToInt())
+        return regions.flatten()
+    }
 
 
 }

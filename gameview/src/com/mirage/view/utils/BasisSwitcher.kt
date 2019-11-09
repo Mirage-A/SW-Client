@@ -10,7 +10,7 @@ import com.mirage.utils.datastructures.Point
  */
 fun getVirtualScreenPointFromScene(scenePoint: Point): Point {
     val x = TILE_WIDTH / 2 * scenePoint.x + TILE_WIDTH / 2 * scenePoint.y
-    val y = -TILE_HEIGHT / 2 * scenePoint.x + TILE_HEIGHT / 2 * scenePoint.y + TILE_HEIGHT / 2
+    val y = - TILE_HEIGHT / 2 * scenePoint.x + TILE_HEIGHT / 2 * scenePoint.y
     return Point(x, y)
 }
 
@@ -18,7 +18,7 @@ fun getVirtualScreenPointFromScene(scenePoint: Point): Point {
  * Переход от базиса виртуального экрана (пиксели) к базису сцены (тайлы)
  */
 fun getScenePointFromVirtualScreen(virtualScreenPoint: Point): Point {
-    val x = virtualScreenPoint.x / TILE_WIDTH - (virtualScreenPoint.y - TILE_HEIGHT / 2) / TILE_HEIGHT
-    val y = virtualScreenPoint.x / TILE_WIDTH + (virtualScreenPoint.y - TILE_HEIGHT / 2) / TILE_HEIGHT
+    val x = virtualScreenPoint.x / TILE_WIDTH - virtualScreenPoint.y / TILE_HEIGHT
+    val y = virtualScreenPoint.x / TILE_WIDTH + virtualScreenPoint.y / TILE_HEIGHT
     return Point(x, y)
 }

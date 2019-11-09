@@ -1,4 +1,4 @@
-package com.mirage.view.old
+package com.mirage.ui
 
 /*
 class GameScreen(private val stateManager: SnapshotManager, private val gameMap: GameMap, private val playerID: Long): ScreenAdapter() {

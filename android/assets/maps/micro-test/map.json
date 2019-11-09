@@ -11,5 +11,6 @@
   "collisions": [
     1,1,
     1,1
-  ]
+  ],
+  "defaultTileID": 1
 }

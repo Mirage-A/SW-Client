@@ -9,10 +9,10 @@ import com.mirage.view.utils.getVirtualScreenPointFromScene
 
 class TestObjectFiller(private val obj: GameObject) : ObjectDrawer {
 
-    //private val sr = ShapeRenderer()
+    private val sr = ShapeRenderer()
 
     override fun draw(batch: SpriteBatch, x: Float, y: Float) {
-        /*
+
         batch.end()
         sr.begin(ShapeRenderer.ShapeType.Filled)
         val points = arrayOf(
@@ -21,14 +21,14 @@ class TestObjectFiller(private val obj: GameObject) : ObjectDrawer {
                 Point(obj.x + obj.width, obj.y + obj.height),
                 Point(obj.x, obj.y + obj.height)
         ).map {
-            getVirtualScreenPointFromScene(it) -
-                    Point(camera.position.x - camera.viewportWidth / 2,
-                            camera.position.y - camera.viewportHeight / 2)
+            getVirtualScreenPointFromScene(it)
+            /*- Point(- camera.viewportWidth / 2,
+                            - camera.viewportHeight / 2)*/
         }
         sr.triangle(points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y)
         sr.triangle(points[2].x, points[2].y, points[3].x, points[3].y, points[1].x, points[1].y)
         sr.end()
         batch.begin()
-         */
+
     }
 }
