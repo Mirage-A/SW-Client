@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.MapObject
 import com.mirage.client.controllers.GameController
 import com.mirage.scriptrunner.ClientScriptActions
 import com.mirage.scriptrunner.runClientScript
-import com.mirage.view.screens.GameScreen
+import com.mirage.view.old.GameScreen
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -9,7 +9,7 @@ import com.mirage.utils.PLATFORM
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.MoveDirection
 import com.mirage.utils.game.states.SnapshotManager
-import com.mirage.view.screens.GameScreen
+import com.mirage.view.old.GameScreen
 import kotlin.math.atan
 import kotlin.math.pow
 import kotlin.math.sqrt

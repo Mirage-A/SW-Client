@@ -1,7 +1,7 @@
 apply plugin: "kotlin"
 
 dependencies {
-    implementation project(":view")
+    implementation project(':gameview')
     implementation project(":ui")
     implementation project(":connection")
     implementation project(":utils")
