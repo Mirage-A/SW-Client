@@ -1,6 +1,6 @@
 package com.mirage.connection
 
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
 import rx.Observable
 
@@ -9,35 +9,18 @@ interface Connection {
     /**
      * [Observable], который позволяет следить за получаемыми от логики сообщениями.
      */
-    val observable: Observable<ServerMessage>
+    val serverMessages: Observable<ServerMessage>
 
     /**
-     * Отправляет запрос на изменение направления движения игрока
+     * Подключается к логике.
+     * До вызова этого метода рекомендуется подписаться на [serverMessages]
      */
-    fun setMoveDirection(md: GameObject.MoveDirection)
+    fun start()
 
     /**
-     * Отправляет запрос на движение/остановку игрока
+     * Отправляет сообщение [msg] логике.
      */
-    fun setMoving(isMoving: Boolean)
-
-    /**
-     * Отправляет запрос на начало движения в данном направлении
-     */
-    fun startMoving(md: GameObject.MoveDirection)
-
-    /**
-     * Отправляет запрос на остановку игрока
-     */
-    fun stopMoving()
-    /**
-     * Возвращает ID игрока
-     */
-    fun getPlayerID() : Long?
-
-    var bufferedMoveDirection : GameObject.MoveDirection?
-
-    var bufferedMoving: Boolean?
+    fun sendMessage(msg: ClientMessage)
 
     /**
      * Полностью останавливает взаимодействие с логикой и освобождает все ресурсы

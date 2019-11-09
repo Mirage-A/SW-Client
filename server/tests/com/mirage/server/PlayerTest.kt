@@ -37,7 +37,7 @@ internal class PlayerTest {
             }, {
                 disconnected = true
             })
-            player.sendMessage(MapChangeMessage("1"))
+            player.sendMessage(InitialGameStateMessage("1"))
             player.sendMessage(ReturnCodeMessage(2))
             val clientWriter = ClientMessageOutputStream(clientSocket.outputStream)
             clientWriter.write(SetMovingClientMessage(false))
@@ -49,7 +49,7 @@ internal class PlayerTest {
             assertEquals(SetMovingClientMessage(false), playerGotMessages[0])
             assertEquals(MoveDirectionClientMessage(MoveDirection.DOWN), playerGotMessages[1])
             val clientReader = ServerMessageInputStream(clientSocket.inputStream)
-            assertEquals(MapChangeMessage("1"), clientReader.read())
+            assertEquals(InitialGameStateMessage("1"), clientReader.read())
             assertEquals(ReturnCodeMessage(2), clientReader.read())
             assertEquals(RemoveObjectMessage(3), clientReader.read())
             val out = BufferedWriter(OutputStreamWriter(clientSocket.outputStream))

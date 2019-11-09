@@ -24,7 +24,7 @@ class GameLogicImpl(mapName: String) : GameLogic {
     override fun stopLogic() = loop.stop()
 
     override fun dispose() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+       //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun handleMessage(id: Long, msg: ClientMessage) = loop.handleMessage(id, msg)

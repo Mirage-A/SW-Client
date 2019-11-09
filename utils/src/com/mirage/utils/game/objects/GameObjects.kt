@@ -23,11 +23,11 @@ data class GameObjects(val objects : Map<Long, GameObject>, val nextID: Long) : 
             map(id, obj)?.let { newMap[id] = it }
         }
         for ((id, obj) in newObjects) {
-            if (newMap.containsKey(id)) Log.e("ERROR (GameObjects::update): new object's ID is already taken")
+            if (newMap.containsKey(id)) Log.e("WARNING (GameObjects::update): new object's ID is already taken (maybe because of some desync between client and server, it's ok)")
             newMap[id] = obj
         }
         val newNextID = nextID + newObjects.size
-        if (newMap.any {it.key == newNextID} ) Log.e("ERROR (GameObjects::update): Invalid object ID found")
+        if (newMap.any {it.key == newNextID} ) Log.e("WARNING (GameObjects::update): Invalid object ID found (maybe because of some desync between client and server, it's ok)")
         return GameObjects(newMap, newNextID)
     }
 

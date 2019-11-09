@@ -9,7 +9,9 @@ import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.objects.MutableGameObject
 import com.mirage.utils.game.objects.MutableGameObjects
 import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.ServerMessage
+import com.mirage.utils.messaging.SetMovingClientMessage
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -47,7 +49,14 @@ internal fun updateState(
     //TODO Обработка сообщений от клиентов
     for ((id, msg) in clientMessages) {
         println("Got client message $id $msg")
-
+        when (msg) {
+            is MoveDirectionClientMessage -> {
+                objs[id]?.moveDirection = msg.md
+            }
+            is SetMovingClientMessage -> {
+                objs[id]?.isMoving = msg.isMoving
+            }
+        }
     }
     for ((_, obj) in objs) {
         if (obj.isMoving) {

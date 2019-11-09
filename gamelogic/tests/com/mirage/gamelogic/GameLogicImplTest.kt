@@ -2,12 +2,10 @@ package com.mirage.gamelogic
 
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.treeSetOf
-import com.mirage.utils.game.objects.*
-import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.StateDifferenceMessage
+import com.mirage.utils.messaging.GameStateUpdateMessage
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -54,9 +52,9 @@ internal class GameLogicImplTest{
 
         println(messages)
         assertEquals(2, messages.size)
-        val firstDiff = (messages[0] as StateDifferenceMessage).diff
+        val firstDiff = (messages[0] as GameStateUpdateMessage).diff
         assertEquals(StateDifference(hashMapOf(), treeSetOf(), hashMapOf()), firstDiff)
-        val secondDiff = (messages[1] as StateDifferenceMessage).diff
+        val secondDiff = (messages[1] as GameStateUpdateMessage).diff
         assertEquals(secondState.first, secondDiff.projectOn(firstState.first))
     }
 }

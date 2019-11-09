@@ -2,13 +2,9 @@ package com.mirage.connection
 
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.messaging.MapChangeMessage
-import com.mirage.utils.game.objects.MoveDirection
-import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.StateDifferenceMessage
-import rx.Observable
-import rx.subjects.PublishSubject
+import com.mirage.utils.Log
+import com.mirage.utils.messaging.*
+import rx.subjects.Subject
 
 /**
  * Реализация интерфейса Connection, работающая с локальным сервером (одиночная игра)
@@ -17,62 +13,39 @@ class LocalConnection(private val mapName: String) : Connection {
 
     private val logic : GameLogic = GameLogicImpl(mapName)
 
-    /**
-     * Приватный Subject, который повторяет сообщения от логики, но при этом позволяет добавлять новые сообщения.
-     */
-    private val messageRepeater = PublishSubject.create<ServerMessage>()
-    /**
-     * [Observable], из которого можно получать сообщения от логики.
-     * На него следует подписаться до запуска логики.
-     * @see startGame
-     */
-    override val observable: Observable<ServerMessage> = messageRepeater
+    override val serverMessages: Subject<ServerMessage, ServerMessage> = EventSubjectAdapter()
 
-    private var playerID: Long? = null
-
-    override fun getPlayerID(): Long? = playerID
-
-    override var bufferedMoveDirection : GameObject.MoveDirection? = null
-    override var bufferedMoving : Boolean? = null
-
-    //TODO Отправка сообщений о движении
-    override fun setMoveDirection(md: GameObject.MoveDirection) {
-        bufferedMoveDirection = md
-    }
-
-    override fun setMoving(isMoving: Boolean) {
-        bufferedMoving = isMoving
-    }
-
-    override fun startMoving(md: GameObject.MoveDirection) {
-        setMoveDirection(md)
-        setMoving(true)
-    }
-
-    override fun stopMoving() {
-        setMoving(false)
-    }
+    private var playerID : Long? = null
 
     /**
-     * Стартует логику в отдельном потоке.
-     * Следует подписываться на [observable] до вызова [startGame]
+     * Запускает локальную логику
+     * Вызов этого метода блокирует поток, пока не будет получено первое состояние
      */
-    fun startGame() {
-        var gotInitialState = false
-        logic.observable.subscribe {
-            println("got msg from logic in connection! $it")
-            if (!gotInitialState) {
-                gotInitialState = true
-                messageRepeater.onNext(MapChangeMessage(mapName, it.finalState, it.createdTimeMillis))
-            }
-            else {
-                messageRepeater.onNext(StateDifferenceMessage(it.stateDifference, it.createdTimeMillis))
-            }
-        }
+    override fun start() {
         logic.startLogic()
         playerID = logic.addNewPlayer()
+        val initialState = logic.latestState.toBlocking().first()
+        val initialMsg = InitialGameStateMessage(mapName, initialState.first, playerID!!, initialState.second)
+        println("got initial state from logic! $initialMsg")
+        serverMessages.onNext(initialMsg)
+        logic.serverMessages.subscribe {
+            println("got msg from logic in connection! $it")
+            serverMessages.onNext(it)
+        }
     }
 
-    override fun close() = logic.dispose()
+    override fun sendMessage(msg: ClientMessage) {
+        playerID?.let {
+            logic.handleMessage(it, msg)
+        }
+        if (playerID == null) {
+            Log.e("PlayerID is null, invoke connection.start() before sending any messages.")
+        }
+    }
+
+    override fun close() {
+        logic.stopLogic()
+        logic.dispose()
+    }
 
 }

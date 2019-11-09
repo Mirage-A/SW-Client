@@ -3,8 +3,6 @@ package com.mirage.gamelogic
 import com.mirage.utils.Log
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.maps.*
-import com.mirage.utils.game.states.GameStateSnapshot
-import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.ClientMessage
 import io.reactivex.subjects.PublishSubject
 import rx.subjects.BehaviorSubject
@@ -12,7 +10,7 @@ import rx.subjects.Subject
 import java.util.concurrent.locks.ReentrantLock
 import com.mirage.utils.messaging.EventSubjectAdapter
 import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.StateDifferenceMessage
+import com.mirage.utils.messaging.GameStateUpdateMessage
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -67,7 +65,7 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
         val finalChanges = mutableState.findDifferenceWithOrigin()
         val finalState = mutableState.saveChanges()
         latestState.onNext(Pair(finalState, System.currentTimeMillis()))
-        serverMessages.onNext(StateDifferenceMessage(finalChanges, System.currentTimeMillis()))
+        serverMessages.onNext(GameStateUpdateMessage(finalChanges, System.currentTimeMillis()))
         for (msg in newMessages) {
             serverMessages.onNext(msg)
         }

@@ -30,17 +30,21 @@ sealed class ServerMessage {
 }
 
 /**
- * Изменение карты на карту с названием [mapName] и изначальным состоянием объектов [initialObjects]
+ * Сообщение с полной информацией о карте и состоянии на момент подключения клиента.
+ * Это сообщение является первым, которое получает клиент при подключении к игре,
+ * и больше никогда не отправляется.
  * [stateCreatedTimeMillis] - время, в которое было создано состояние [initialObjects]
  */
-data class MapChangeMessage(val mapName: String, val initialObjects: GameObjects, val stateCreatedTimeMillis: Long) : ServerMessage() {
+data class InitialGameStateMessage(val mapName: String, val initialObjects: GameObjects, val playerID: Long, val stateCreatedTimeMillis: Long) : ServerMessage() {
     override fun serialize(): String = TODO("not implemented")
 }
 
-data class StateDifferenceMessage(val diff: StateDifference, val stateCreatedTimeMillis: Long) : ServerMessage() {
+/**
+ * Сообщение, которое логика отправляет после каждого тика обновления состояния игры.
+ */
+data class GameStateUpdateMessage(val diff: StateDifference, val stateCreatedTimeMillis: Long) : ServerMessage() {
     override fun serialize(): String = TODO("not implemented")
 }
-
 
 data class ReturnCodeMessage(val returnCode: Int) : ServerMessage() {
     override fun serialize(): String = "RC$INNER_DLMTR$returnCode"
