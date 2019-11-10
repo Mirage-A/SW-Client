@@ -1,5 +1,5 @@
-package com.mirage.client.controllers
-
+package com.mirage.ui.old
+/*
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.mirage.client.Client
@@ -126,4 +126,4 @@ class MainMenuController : Controller {
         startOnlineGame()
         return true
     }
-}
+}*/

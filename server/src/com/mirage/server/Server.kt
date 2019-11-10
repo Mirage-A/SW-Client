@@ -5,7 +5,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.AbsoluteFileHandleResolver
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.net.Socket
-import com.mirage.gamelogic.LogicFacade
 import com.mirage.utils.Assets
 import com.mirage.utils.Timer
 import com.mirage.utils.messaging.CityJoinClientMessage
@@ -38,7 +37,6 @@ object Server {
         CoroutineScope(newSingleThreadContext("hello")).launch {
             println(Thread.currentThread().toString())
             println(Thread.currentThread().id)
-            println(LogicFacade().loadMap("""D:\Shattered World\Shattered-World\android\assets\maps\test-server.tmx""", DesktopFileHandleResolver()))
         }
 
     }

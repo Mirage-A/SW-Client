@@ -1,7 +1,8 @@
 package com.mirage.server
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
-import com.mirage.gamelogic.LogicFacade
+import com.mirage.gamelogic.GameLogic
+import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.Assets
 import com.mirage.utils.Timer
 import java.util.*
@@ -13,7 +14,7 @@ import java.util.*
  */
 class Room {
 
-    private val logic = LogicFacade()
+    private lateinit var logic: GameLogic
 
     private val players : MutableList<Player> = Collections.synchronizedList(ArrayList())
 
@@ -55,9 +56,8 @@ class Room {
     fun getPlayersCount() = players.size
 
     fun start() {
-        //TODO выбор карты
-        logic.map = logic.loadMap("""D:\Shattered World\Shattered-World\android\assets\maps\test-server.tmx""", DesktopFileHandleResolver())
-        logic.startGame()
+        //TODO выбор карты, подписка на логику
+        logic = GameLogicImpl("test-server")
         logic.startLogic()
     }
 

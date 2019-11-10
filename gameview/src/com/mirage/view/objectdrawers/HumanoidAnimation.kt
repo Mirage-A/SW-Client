@@ -12,7 +12,7 @@ import com.mirage.view.objectdrawers.animation.*
  */
 class HumanoidAnimation : ObjectDrawer {
     /**
-     * Направление движения
+     * Направление движения (на сцене)
      */
     var moveDirection: GameObject.MoveDirection = GameObject.MoveDirection.RIGHT
     /**
@@ -120,13 +120,28 @@ class HumanoidAnimation : ObjectDrawer {
     }
 
     /**
+     * Получает направление движения объекта относительно сцены и возвращает направление движения, которое используется для анимации.
+     */
+    private fun getViewMoveDirection(sceneMoveDirection: GameObject.MoveDirection) : GameObject.MoveDirection =
+            when (sceneMoveDirection) {
+                GameObject.MoveDirection.RIGHT -> GameObject.MoveDirection.DOWN_RIGHT
+                GameObject.MoveDirection.UP_RIGHT -> GameObject.MoveDirection.RIGHT
+                GameObject.MoveDirection.UP -> GameObject.MoveDirection.UP_RIGHT
+                GameObject.MoveDirection.UP_LEFT -> GameObject.MoveDirection.UP
+                GameObject.MoveDirection.LEFT -> GameObject.MoveDirection.UP_LEFT
+                GameObject.MoveDirection.DOWN_LEFT -> GameObject.MoveDirection.LEFT
+                GameObject.MoveDirection.DOWN -> GameObject.MoveDirection.DOWN_LEFT
+                GameObject.MoveDirection.DOWN_RIGHT -> GameObject.MoveDirection.DOWN
+            }
+
+    /**
      * Метод рисования всего объекта
      */
     override fun draw(batch: SpriteBatch, x: Float, y: Float) {
         val bodyTimePassedSinceStart = System.currentTimeMillis() - bodyStartTime
         val legsTimePassedSinceStart = System.currentTimeMillis() - legsStartTime
 
-        val bodyFrames = bodyAnimation.data[moveDirection]!![weaponType]!!
+        val bodyFrames = bodyAnimation.data[getViewMoveDirection(moveDirection)]!![weaponType]!!
         if (bodyFrames.isNotEmpty()) {
             val bodyTime = when (true) {
                 bodyAnimation.isRepeatable -> bodyTimePassedSinceStart % bodyAnimation.duration
@@ -138,7 +153,7 @@ class HumanoidAnimation : ObjectDrawer {
             val bodyProgress = bodyTime % bodyInterval / bodyInterval
             val bodyPoint: MutablePoint
 
-            val legsFrames = legsAnimation.data[moveDirection]!![weaponType]!!
+            val legsFrames = legsAnimation.data[getViewMoveDirection(moveDirection)]!![weaponType]!!
             val legsTime: Long
             val legsStartFrame: Frame
             val legsEndFrame: Frame

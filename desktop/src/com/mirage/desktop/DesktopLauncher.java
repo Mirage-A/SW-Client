@@ -7,17 +7,22 @@ import com.mirage.utils.Assets;
 import com.mirage.client.Client;
 import com.mirage.utils.ConfigurationKt;
 
+import java.io.File;
+
 class DesktopLauncher {
 
     public static void main(String[] args) {
         System.setProperty("user.name", "CorrectUserName");
-        ConfigurationKt.setPLATFORM("desktop");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Shattered World";
-        config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
-        config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
-        //config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
-        //config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
+        //TODO Во время тестирования в IDE активными должны быть три нижние строчки,
+        //TODO во время создания jar-файла активными должны быть три верхние строчки.
+        //ConfigurationKt.setPLATFORM("desktop");
+        //config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
+        //config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
+        ConfigurationKt.setPLATFORM("test");
+        config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
+        config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
         if (ConfigurationKt.DESKTOP_FULL_SCREEN) {
             config.fullscreen = true;
             config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;

@@ -13,6 +13,9 @@ import kotlin.math.roundToInt
 
 object Assets {
 
+    val assetsPath = if (PLATFORM == "test" && File("./android/assets/").exists())
+        "./android/assets/" else ""
+
     private val assetsResolver : FileHandleResolver = when (PLATFORM) {
         "test" -> FileHandleResolver {
             FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))

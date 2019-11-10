@@ -1,42 +1,50 @@
 package com.mirage.client
 
-import com.badlogic.gdx.Game
+import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
-import com.mirage.client.controllers.Controller
-import com.mirage.client.controllers.EmptyController
-import com.mirage.client.controllers.GameController
-import com.mirage.client.controllers.MainMenuController
-import com.mirage.connection.Connection
-import com.mirage.utils.*
-import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.utils.messaging.*
+import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mirage.ui.Screen
+import com.mirage.view.utils.calculateViewportSize
 import org.luaj.vm2.lib.jse.JsePlatform
 
+object Client : ApplicationListener {
 
-object Client : Game() {
+    private var currentScreen : Screen? = null
+    private var virtualScreenWidth : Int = 0
+    private var virtualScreenHeight : Int = 0
+    private var batch : SpriteBatch? = null
+    private val camera : OrthographicCamera = OrthographicCamera()
 
-    /**
-     * Текущий [Controller]
-     */
-    var controller : Controller = EmptyController()
-
-    /**
-     * Метод вызывает [dispose] у текущего контроллера, изменяет контроллер на новый и обновляет экран
-     * @see Controller.dispose
-     */
-    fun changeController(newController: Controller) {
-        val oldController = controller
-        controller = newController
-        Gdx.input.inputProcessor = newController
-        setScreen(newController.screen)
-        oldController.dispose()
+    override fun create() {
+        JsePlatform.standardGlobals()
+        Gdx.input.inputProcessor = currentScreen
+        batch = SpriteBatch()
+        camera.position.x = 0f
+        camera.position.y = 0f
+        camera.update()
     }
 
-    /**
-     * Обработчик сообщений [ServerMessage], полученных от логики через [Connection]
-     * @see ServerMessage
-     * @see Connection
-     */
+    override fun pause() {}
+    override fun resume() {}
+    override fun dispose() {}
+
+    override fun render() {
+        Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        batch?.let {
+            currentScreen?.render(it, virtualScreenWidth, virtualScreenHeight, System.currentTimeMillis())
+        }
+    }
+
+    override fun resize(width: Int, height: Int) {
+        val newVirtualScreenSize = calculateViewportSize(width.toFloat(), height.toFloat())
+        virtualScreenWidth = newVirtualScreenSize.width.toInt()
+        virtualScreenHeight = newVirtualScreenSize.height.toInt()
+        camera.setToOrtho(false, newVirtualScreenSize.width, newVirtualScreenSize.height)
+    }
+/*
     fun messageListener(msg: ServerMessage) {
         when (msg) {
             is InitialGameStateMessage -> {
@@ -97,19 +105,6 @@ object Client : Game() {
             }*/
         }
     }
-
-    override fun render() {
-        (controller as? GameController)?.apply {
-            playerID = connection.getPlayerID()
-        }
-        super.render()
-    }
-
-    override fun create() {
-        JsePlatform.standardGlobals()
-        controller = MainMenuController()
-        Gdx.input.inputProcessor = controller
-        setScreen(controller.screen)
-    }
+*/
 
 }

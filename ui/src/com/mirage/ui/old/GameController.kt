@@ -1,5 +1,5 @@
-package com.mirage.client.controllers
-
+package com.mirage.ui.old
+/*
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.mirage.client.Client
@@ -312,4 +312,4 @@ class GameController(val connection: Connection, val map: GameMap) : Controller 
     override fun dispose() {
         screen.dispose()
     }
-}
+}*/
