@@ -11,7 +11,7 @@ import org.luaj.vm2.lib.jse.JsePlatform
  */
 fun runLogicScript(name: String, args: LuaTable, logicActions: LogicScriptActions) {
     val globals = JsePlatform.standardGlobals()
-    val chunk = globals.load(Assets.loadLogicScript(name)?.readText() ?: "")
+    val chunk = globals.load(Assets.loadScript(name)?.readText() ?: "")
     args.set("actions", CoerceJavaToLua.coerce(logicActions))
     chunk.call(args)
 }

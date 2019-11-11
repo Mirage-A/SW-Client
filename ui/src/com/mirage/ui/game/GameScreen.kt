@@ -7,14 +7,12 @@ import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.treeSetOf
 import com.mirage.utils.game.maps.GameMap
+import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.game.states.SnapshotManager
 import com.mirage.utils.game.states.StateDifference
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.GameStateUpdateMessage
-import com.mirage.utils.messaging.InitialGameStateMessage
-import com.mirage.utils.messaging.ServerMessage
+import com.mirage.utils.messaging.*
 import com.mirage.view.GameViewImpl
 import rx.Observable
 
@@ -57,6 +55,29 @@ class GameScreen(gameMap: GameMap) : Screen {
     override fun render(batch: SpriteBatch, screenWidth: Int, screenHeight: Int, currentTimeMillis: Long) {
         inputProcessor.uiState.lock.lock()
         val uiStateSnapshot = inputProcessor.uiState.copy()
+        uiStateSnapshot.let {
+            if (it.bufferedMoving != it.lastSentMoving) {
+                it.bufferedMoving?.let { newMoving ->
+                    inputProcessor.uiState.lastSentMoving = newMoving
+                    inputProcessor.inputMessages.onNext(SetMovingClientMessage(newMoving))
+                }
+            }
+            if (it.bufferedMoveDirection != it.lastSentMoveDirection) {
+                it.bufferedMoveDirection?.let { newMoveDirection ->
+                    inputProcessor.uiState.lastSentMoveDirection = newMoveDirection
+                    inputProcessor.inputMessages.onNext(MoveDirectionClientMessage(when (newMoveDirection) {
+                        GameObject.MoveDirection.RIGHT -> GameObject.MoveDirection.UP_RIGHT
+                        GameObject.MoveDirection.UP_RIGHT -> GameObject.MoveDirection.UP
+                        GameObject.MoveDirection.UP -> GameObject.MoveDirection.UP_LEFT
+                        GameObject.MoveDirection.UP_LEFT -> GameObject.MoveDirection.LEFT
+                        GameObject.MoveDirection.LEFT -> GameObject.MoveDirection.DOWN_LEFT
+                        GameObject.MoveDirection.DOWN_LEFT -> GameObject.MoveDirection.DOWN
+                        GameObject.MoveDirection.DOWN -> GameObject.MoveDirection.DOWN_RIGHT
+                        GameObject.MoveDirection.DOWN_RIGHT -> GameObject.MoveDirection.RIGHT
+                    }))
+                }
+            }
+        }
         inputProcessor.uiState.lock.unlock()
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
         batch.begin()

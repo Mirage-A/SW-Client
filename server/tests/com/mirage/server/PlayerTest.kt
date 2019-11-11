@@ -1,20 +1,6 @@
 package com.mirage.server
 
-import com.badlogic.gdx.Net
-import com.badlogic.gdx.net.NetJavaServerSocketImpl
-import com.badlogic.gdx.net.NetJavaSocketImpl
-import com.badlogic.gdx.net.ServerSocketHints
-import com.badlogic.gdx.net.SocketHints
-import com.mirage.utils.TestSamples
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.messaging.*
-import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
-import com.mirage.utils.messaging.streams.impls.ServerMessageInputStream
-import kotlinx.coroutines.*
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.io.BufferedWriter
-import java.io.OutputStreamWriter
 
 internal class PlayerTest {
 

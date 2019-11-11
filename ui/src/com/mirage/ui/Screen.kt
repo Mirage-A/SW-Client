@@ -1,7 +1,6 @@
 package com.mirage.ui
 
 import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage

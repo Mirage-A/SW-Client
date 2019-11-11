@@ -3,7 +3,7 @@ package com.mirage.view.utils
 import com.mirage.utils.TestSamples
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class DepthSortKtTest {

@@ -1,8 +1,12 @@
 package com.mirage.admin
 
 import com.mirage.server.Room
-import java.awt.*
-import java.awt.event.*
+import java.awt.Color
+import java.awt.Dimension
+import java.awt.Font
+import java.awt.Toolkit
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 import javax.swing.*
 
 

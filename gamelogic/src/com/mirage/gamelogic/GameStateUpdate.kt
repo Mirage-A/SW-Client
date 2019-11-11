@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.points
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.objects.MutableGameObject
 import com.mirage.utils.game.objects.MutableGameObjects
@@ -63,7 +62,6 @@ internal fun updateState(
             moveObject(obj, delta, gameMap, objs)
         }
     }
-    //println("Delta time $delta")
     //TODO Обработка логики
 
     return Pair(objs, serverMessages)
@@ -94,7 +92,7 @@ private fun smallMove(obj: MutableGameObject, range: Float, gameMap: GameMap, ga
             max(EPS + obj.width / 2, min(gameMap.height - EPS - obj.height / 2, newPosition.y))
     )
     //TODO Пересечения объектов
-    val thisRect = Rectangle(obj.x - obj.width / 2, obj.y - obj.height / 2, obj.width, obj.height)
+    val thisRect = Rectangle(newPosition.x - obj.width / 2, newPosition.y - obj.height / 2, obj.width, obj.height)
     if (obj.isRigid) {
         for ((_, otherObj) in gameObjects) {
             //Сравнение по ссылке

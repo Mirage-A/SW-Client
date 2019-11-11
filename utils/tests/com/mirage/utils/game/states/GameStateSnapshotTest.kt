@@ -2,7 +2,7 @@ package com.mirage.utils.game.states
 
 import com.mirage.utils.extensions.treeSetOf
 import com.mirage.utils.game.objects.GameObjects
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class GameStateSnapshotTest{

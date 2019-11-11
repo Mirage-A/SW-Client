@@ -1,7 +1,7 @@
 package com.mirage.utils.messaging.streams.impls
 
 import com.mirage.utils.LOG_ALL_MESSAGES
-import com.mirage.utils.messaging.*
+import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.streams.ServerMessageReader
 import java.io.BufferedReader
 import java.io.InputStream

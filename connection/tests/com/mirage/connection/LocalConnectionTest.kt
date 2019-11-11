@@ -1,13 +1,9 @@
 package com.mirage.connection
 
-import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.treeSetOf
-import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
 

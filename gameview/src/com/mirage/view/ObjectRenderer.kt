@@ -2,12 +2,13 @@ package com.mirage.view
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.Log
-import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.objects.GameObject
-import com.mirage.view.objectdrawers.animation.BodyAction
-import com.mirage.view.objectdrawers.animation.LegsAction
+import com.mirage.utils.game.objects.GameObjects
 import com.mirage.view.objectdrawers.Drawers
 import com.mirage.view.objectdrawers.HumanoidAnimation
+import com.mirage.view.objectdrawers.OpaqueTransparentObjectDrawer
+import com.mirage.view.objectdrawers.animation.BodyAction
+import com.mirage.view.objectdrawers.animation.LegsAction
 import com.mirage.view.utils.compareEntityAndBuilding
 import com.mirage.view.utils.depthSort
 import com.mirage.view.utils.getVirtualScreenPointFromScene
@@ -34,6 +35,10 @@ internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawers: Drawe
             Log.e("ERROR (ObjectRenderer::renderObjects): ObjectDrawer for object $id: $obj not found")
             null
         }
+        if (drawer is OpaqueTransparentObjectDrawer) {
+            drawer.setOpaque(isOpaque)
+        }
+        else if (!isOpaque) continue
         //TODO Направление движения может влиять не только на HumanoidAnimation
         if (drawer is HumanoidAnimation) {
             val updatedMoveDirection = obj.moveDirection

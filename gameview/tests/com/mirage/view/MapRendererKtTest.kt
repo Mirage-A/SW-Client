@@ -6,7 +6,8 @@ import com.mirage.utils.TILE_HEIGHT
 import com.mirage.utils.TILE_WIDTH
 import com.mirage.utils.game.maps.SceneLoader
 import com.nhaarman.mockitokotlin2.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import kotlin.math.roundToInt
 

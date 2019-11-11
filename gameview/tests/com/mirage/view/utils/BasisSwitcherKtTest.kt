@@ -1,12 +1,9 @@
 package com.mirage.view.utils
 
-import com.mirage.utils.Log
 import com.mirage.utils.TILE_HEIGHT
 import com.mirage.utils.TILE_WIDTH
 import com.mirage.utils.datastructures.Point
-import com.mirage.view.utils.getScenePointFromVirtualScreen
-import com.mirage.view.utils.getVirtualScreenPointFromScene
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class BasisSwitcherKtTest {

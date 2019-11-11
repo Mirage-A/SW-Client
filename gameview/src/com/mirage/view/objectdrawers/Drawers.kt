@@ -1,7 +1,5 @@
 package com.mirage.view.objectdrawers
 
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.maps.MapObject
 import com.mirage.utils.Log
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects

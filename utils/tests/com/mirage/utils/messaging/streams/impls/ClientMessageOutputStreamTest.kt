@@ -9,7 +9,7 @@ import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.SetMovingClientMessage
 import kotlinx.coroutines.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ClientMessageOutputStreamTest {

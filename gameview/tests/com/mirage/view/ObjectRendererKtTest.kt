@@ -1,6 +1,5 @@
 package com.mirage.view
 
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.mirage.utils.TILE_WIDTH
@@ -9,7 +8,6 @@ import com.mirage.utils.game.objects.GameObjects
 import com.mirage.view.objectdrawers.Drawers
 import com.mirage.view.objectdrawers.ObjectDrawer
 import com.nhaarman.mockitokotlin2.*
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class ObjectRendererKtTest {

@@ -3,8 +3,12 @@ package com.mirage.view.objectdrawers
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.game.objects.GameObject
+import com.mirage.view.objectdrawers.animation.Animation
+import com.mirage.view.objectdrawers.animation.AnimationLoader
+import com.mirage.view.objectdrawers.animation.Frame
+import com.mirage.view.objectdrawers.animation.Layer
 import com.mirage.view.utils.TextureLoader
-import com.mirage.view.objectdrawers.animation.*
+import kotlin.math.min
 
 
 /**
@@ -16,7 +20,7 @@ class ObjectAnimation(name: String) : ObjectDrawer {
     private var startTime: Long = System.currentTimeMillis()
 
     private val animation: Animation = AnimationLoader.getObjectAnimation(name)
-    private val frames : ArrayList<Frame> = animation.data[GameObject.MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
+    private val frames : ArrayList<Frame> = animation.data[GameObject.MoveDirection.RIGHT]!![GameObject.WeaponType.UNARMED]!!
 
     /**
      * Метод рисования всего объекта
@@ -24,9 +28,9 @@ class ObjectAnimation(name: String) : ObjectDrawer {
     override fun draw(batch: SpriteBatch, x: Float, y: Float) {
         val timePassedSinceStart = System.currentTimeMillis() - startTime
         if (frames.isNotEmpty()) {
-            val time = when (true) {
+            val time = when {
                 animation.isRepeatable -> timePassedSinceStart % animation.duration
-                else -> Math.min(timePassedSinceStart, animation.duration - 1L)
+                else -> min(timePassedSinceStart, animation.duration - 1L)
             }
             val startFrame = frames[(time * (frames.size - 1) / animation.duration).toInt()]
             val endFrame = frames[Math.min((time * (frames.size - 1) / animation.duration).toInt() + 1, frames.size - 1)]

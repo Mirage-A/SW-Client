@@ -1,9 +1,7 @@
 package com.mirage.server
 
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.Assets
 import com.mirage.utils.Timer
 import java.util.*
 

@@ -1,7 +1,6 @@
 package com.mirage.utils.game.objects
 
 import com.mirage.utils.Log
-import kotlin.collections.HashMap
 
 /**
  * Неизменяемый словарь объектов карты.

@@ -2,7 +2,7 @@ package com.mirage.utils.game.objects
 
 import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.datastructures.Point
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class GameObjectTest {

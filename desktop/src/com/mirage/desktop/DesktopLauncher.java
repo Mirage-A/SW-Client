@@ -3,12 +3,9 @@ package com.mirage.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.mirage.utils.Assets;
 import com.mirage.client.Client;
+import com.mirage.utils.Assets;
 import com.mirage.utils.ConfigurationKt;
-
-import java.io.File;
 
 class DesktopLauncher {
 

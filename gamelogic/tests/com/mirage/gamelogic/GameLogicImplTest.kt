@@ -4,9 +4,9 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.treeSetOf
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.states.StateDifference
-import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.messaging.GameStateUpdateMessage
-import org.junit.jupiter.api.Assertions.*
+import com.mirage.utils.messaging.ServerMessage
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class GameLogicImplTest{

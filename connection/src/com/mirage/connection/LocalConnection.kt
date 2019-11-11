@@ -29,7 +29,7 @@ class LocalConnection(private val mapName: String) : Connection {
         println("got initial state from logic! $initialMsg")
         serverMessages.onNext(initialMsg)
         logic.serverMessages.subscribe {
-            println("got msg from logic in connection! $it")
+            if (it !is GameStateUpdateMessage) println("got msg from logic in connection! $it")
             serverMessages.onNext(it)
         }
     }

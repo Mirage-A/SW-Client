@@ -1,6 +1,7 @@
 package com.mirage.utils.messaging
 
 import com.mirage.utils.INNER_DLMTR
+import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.StateDifference
 
@@ -48,4 +49,22 @@ data class GameStateUpdateMessage(val diff: StateDifference, val stateCreatedTim
 
 data class ReturnCodeMessage(val returnCode: Int) : ServerMessage() {
     override fun serialize(): String = "RC$INNER_DLMTR$returnCode"
+}
+
+/**
+ * Сообщение об изменении экипировки гуманоида (не обязательно игрока).
+ * При получении этого сообщения клиент должен обновить используемые для отрисовки объекта текстуры.
+ */
+data class HumanoidEquipmentUpdateMessage(
+        val objectID: Long,
+        val weaponType: GameObject.WeaponType,
+        val helmetID: Int,
+        val chestID: Int,
+        val legsID: Int,
+        val glovesID: Int,
+        val cloakID: Int,
+        val rightWeaponID: Int,
+        val leftWeaponID: Int
+    ) : ServerMessage() {
+    override fun serialize(): String = TODO("not implemented")
 }

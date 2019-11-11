@@ -2,12 +2,11 @@ package com.mirage.ui.game
 
 import com.badlogic.gdx.InputProcessor
 import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.EventSubjectAdapter
-import rx.Observable
+import rx.subjects.Subject
 
 interface GameInputProcessor : InputProcessor {
 
-    val inputMessages: Observable<ClientMessage>
+    val inputMessages: Subject<ClientMessage, ClientMessage>
 
     val uiState: GameUIState
 }

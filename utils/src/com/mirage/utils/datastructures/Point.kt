@@ -1,8 +1,6 @@
 package com.mirage.utils.datastructures
 
 import com.mirage.utils.extensions.sqr
-import java.lang.Math.abs
-import java.lang.Math.sqrt
 import kotlin.math.sqrt
 
 /**

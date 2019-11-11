@@ -1,6 +1,5 @@
 package com.mirage.utils
 
-import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.datastructures.Point
 
 const val LOG_ALL_MESSAGES = true

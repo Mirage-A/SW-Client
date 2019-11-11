@@ -1,7 +1,7 @@
 package com.mirage.connection
 
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.messaging.*
+import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.ServerMessage
 import rx.Observable
 import rx.subjects.PublishSubject
 

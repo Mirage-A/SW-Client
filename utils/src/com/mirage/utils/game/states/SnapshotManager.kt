@@ -3,7 +3,7 @@ package com.mirage.utils.game.states
 import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
-import com.mirage.utils.extensions.*
+import com.mirage.utils.extensions.second
 import com.mirage.utils.game.objects.GameObjects
 import java.util.*
 import kotlin.math.min

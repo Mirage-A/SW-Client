@@ -10,8 +10,9 @@ import com.mirage.utils.SERVER_PORT
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
-import kotlinx.coroutines.*
-import java.lang.Exception
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.swing.JFrame
 

@@ -2,7 +2,10 @@ package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
 import com.mirage.utils.Assets
-import com.mirage.utils.game.objects.*
+import com.mirage.utils.Log
+import com.mirage.utils.TestSamples
+import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.GameObjects
 import java.io.Reader
 
 object SceneLoader {
@@ -14,76 +17,94 @@ object SceneLoader {
      * Загружает сцену (пару из карты и объектов) по названию карты (папки, в которой хранится карта - например, "test").
      */
     fun loadScene(name: String) : Pair<GameMap, GameObjects> =
-            loadScene(Assets.loadReader("maps/$name/map.json"),
-                    Assets.loadReader("maps/$name/objects.json"))
+            try {
+                loadScene(Assets.loadReader("maps/$name/map.json")!!,
+                        Assets.loadReader("maps/$name/objects.json")!!)
+            }
+            catch(ex: Exception) {
+                Log.e("Error while loading scene: $name")
+                Log.e(ex.stackTrace.toString())
+                Pair(TestSamples.TEST_SMALL_MAP, TestSamples.TEST_NO_GAME_OBJECTS)
+            }
 
     /**
      * Загружает сцену (пару из карты и объектов)
      */
     fun loadScene(mapReader: Reader, objsReader: Reader) : Pair<GameMap, GameObjects> {
-        val gson = Gson()
-        val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-        val objsList : List<GameObject> = gson.fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
-            val templateName = it.template
-            if (templateName == null) {
-                GameObject (
-                        name = it.name ?: "",
-                        template = it.template ?: "",
-                        type = GameObject.Type.fromString(it.type ?: ""),
-                        x = it.x ?: 0f,
-                        y = it.y ?: 0f,
-                        width = it.width ?: 0f,
-                        height = it.height ?: 0f,
-                        isRigid = it.isRigid ?: false,
-                        speed = it.speed ?: 0f,
-                        moveDirection = GameObject.MoveDirection.fromString(it.moveDirection ?: ""),
-                        isMoving = it.isMoving ?: false,
-                        transparencyRange = it.transparencyRange ?: 0f,
-                        state = it.state ?: "")
+        try {
+            val gson = Gson()
+            val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
+            val objsList: List<GameObject> = gson.fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
+                val templateName = it.template
+                if (templateName == null) {
+                    GameObject(
+                            name = it.name ?: "",
+                            template = it.template ?: "",
+                            type = GameObject.Type.fromString(it.type ?: ""),
+                            x = it.x ?: 0f,
+                            y = it.y ?: 0f,
+                            width = it.width ?: 0f,
+                            height = it.height ?: 0f,
+                            isRigid = it.isRigid ?: false,
+                            speed = it.speed ?: 0f,
+                            moveDirection = GameObject.MoveDirection.fromString(it.moveDirection ?: ""),
+                            isMoving = it.isMoving ?: false,
+                            transparencyRange = it.transparencyRange ?: 0f,
+                            state = it.state ?: "")
+                } else {
+                    val template = loadTemplate(templateName)
+                    template.with(
+                            name = it.name ?: template.name ?: "",
+                            template = templateName,
+                            type = GameObject.Type.fromString(it.type ?: template.type.toString()),
+                            x = it.x ?: template.x ?: 0f,
+                            y = it.y ?: template.y ?: 0f,
+                            width = it.width ?: template.width ?: 0f,
+                            height = it.height ?: template.height ?: 0f,
+                            isRigid = it.isRigid ?: template.isRigid ?: false,
+                            speed = it.speed ?: template.speed ?: 0f,
+                            moveDirection = GameObject.MoveDirection.fromString(it.moveDirection
+                                    ?: template.moveDirection.toString()),
+                            isMoving = it.isMoving ?: template.isMoving ?: false,
+                            transparencyRange = it.transparencyRange ?: template.transparencyRange ?: 0f,
+                            state = it.state ?: template.state ?: ""
+                    )
+                }
             }
-            else {
-                val template = loadTemplate(templateName)
-                template.with(
-                        name = it.name ?: template.name ?: "",
-                        template = templateName,
-                        type = GameObject.Type.fromString(it.type ?: template.type.toString()),
-                        x = it.x ?: template.x ?: 0f,
-                        y = it.y ?: template.y ?: 0f,
-                        width = it.width ?: template.width ?: 0f,
-                        height = it.height ?: template.height ?: 0f,
-                        isRigid = it.isRigid ?: template.isRigid ?: false,
-                        speed = it.speed ?: template.speed ?: 0f,
-                        moveDirection = GameObject.MoveDirection.fromString(it.moveDirection ?: template.moveDirection.toString()),
-                        isMoving = it.isMoving ?: template.isMoving ?: false,
-                        transparencyRange = it.transparencyRange ?: template.transparencyRange ?: 0f,
-                        state = it.state ?: template.state ?: ""
-                )
+            val objectsMap = HashMap<Long, GameObject>()
+            var counter = Long.MIN_VALUE
+            for (obj in objsList) {
+                objectsMap[counter++] = obj
             }
+            return Pair(map, GameObjects(objectsMap, objsList.size + Long.MIN_VALUE))
         }
-        val objectsMap = HashMap<Long, GameObject>()
-        var counter = Long.MIN_VALUE
-        for (obj in objsList) {
-            objectsMap[counter++] = obj
+        catch (ex: Exception) {
+            Log.e("Error while loading scene.")
+            Log.e(ex.stackTrace.toString())
+            return Pair(TestSamples.TEST_SMALL_MAP, TestSamples.TEST_NO_GAME_OBJECTS)
         }
-        return Pair(map, GameObjects(objectsMap, objsList.size + Long.MIN_VALUE))
     }
 
     /**
      * Загружает шаблон объекта по названию.
-     * //TODO Использовать не Gdx.files.internal, а использовать Assets.getReader, а уже в нем отказаться от libGdx при запуске сервера.
      */
-    fun loadTemplate(name: String) : GameObject = cachedTemplates[name] ?: run {
-        val t = loadTemplate(Assets.loadReader("templates/$name.json"))
+    fun loadTemplate(name: String) : GameObject = cachedTemplates[name] ?: try {
+        val t = loadTemplate(Assets.loadReader("templates/$name.json")!!)
         cachedTemplates[name] = t
         t
+    }
+    catch (ex: Exception) {
+        Log.e("Error while loading template: $name")
+        Log.e(ex.stackTrace.toString())
+        TestSamples.TEST_GAME_OBJECT
     }
 
     /**
      * Загружает шаблон объекта через [reader] без кэширования.
      */
-    fun loadTemplate(reader: Reader) : GameObject {
+    fun loadTemplate(reader: Reader) : GameObject = try {
         val t = Gson().fromJson<NullableGameObject>(reader, NullableGameObject::class.java)
-        return GameObject(
+        GameObject(
                 name = t.name ?: "",
                 template = t.template ?: "",
                 type = GameObject.Type.fromString(t.type ?: "BUILDING"),
@@ -99,6 +120,12 @@ object SceneLoader {
                 state = t.state ?: ""
         )
     }
+    catch (ex: Exception) {
+        Log.e("Error while loading template.")
+        Log.e(ex.stackTrace.toString())
+        TestSamples.TEST_GAME_OBJECT
+    }
+
 
     /**
      * Класс, объект которого создаётся при десериализации объекта из JSON-файла.

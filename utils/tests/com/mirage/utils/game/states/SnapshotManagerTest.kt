@@ -5,7 +5,8 @@ import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.extensions.treeSetOf
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class SnapshotManagerTest {

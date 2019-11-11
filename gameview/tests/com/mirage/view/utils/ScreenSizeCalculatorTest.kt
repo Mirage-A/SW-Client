@@ -1,8 +1,6 @@
 package com.mirage.view.utils
 
 import com.badlogic.gdx.math.Rectangle
-import com.mirage.view.utils.calculateTileSize
-import com.mirage.view.utils.calculateViewportSize
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

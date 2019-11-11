@@ -18,7 +18,7 @@ class HumanoidAnimation : ObjectDrawer {
     /**
      * Тип оружия гуманоида (одноручное, двуручное, два одноручных, одноручное и щит, лук и т.д.)
      */
-    var weaponType: WeaponType = WeaponType.UNARMED
+    var weaponType: GameObject.WeaponType = GameObject.WeaponType.UNARMED
 
     /**
      * Словарь из текстур экипировки данного гуманоида
@@ -61,7 +61,7 @@ class HumanoidAnimation : ObjectDrawer {
         this.textures = textures
     }
 
-    constructor(textures: MutableMap<String, Image>, bodyAction: BodyAction, legsAction: LegsAction, moveDirection: GameObject.MoveDirection, weaponType: WeaponType) {
+    constructor(textures: MutableMap<String, Image>, bodyAction: BodyAction, legsAction: LegsAction, moveDirection: GameObject.MoveDirection, weaponType: GameObject.WeaponType) {
         this.textures = textures
         this.bodyAction = bodyAction
         this.legsAction = legsAction
