@@ -1,0 +1,32 @@
+{
+  "width": 4,
+  "height": 4,
+  "spawnX": 0.5,
+  "spawnY": 0.5,
+  "tileSetName": "city",
+  "objects": [
+    {
+      "template": "test-entity",
+      "x": 0.5,
+      "y": 0.5,
+      "width": 0.0,
+      "height": 0.0,
+      "speed": 10.0,
+      "isMoving": true,
+      "moveDirection": "RIGHT"
+    }
+  ],
+  "tiles": [
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0
+  ],
+  "collisions": [
+    1,1,1,1,
+    1,1,1,1,
+    1,1,1,1,
+    1,1,1,1
+  ],
+  "defaultTileID": 2
+}

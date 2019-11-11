@@ -8,6 +8,29 @@ import org.junit.jupiter.api.Test
 internal class SceneLoaderTest {
 
     @Test
+    fun testJSON() {
+            val test1 = """            
+                {
+                "x": 0.0,
+                "objects": [
+    {
+      "template": "wall",
+      "x": 0.6,
+      "y": 1.1
+    },
+    {
+      "template": "spawn-point",
+      "x": 1.0,
+      "y": 1.6,
+      "moveDirection": "UP_RIGHT"
+    }
+  ]}"""
+            val testy1 = Gson().fromJson<SceneLoader.NullableObjectsList>(test1.reader(), SceneLoader.NullableObjectsList::class.java)
+            println(testy1)
+            println(testy1.objects)
+    }
+
+    @Test
     fun templateMatchingTest() {
         val reader = """
             {
@@ -18,7 +41,7 @@ internal class SceneLoaderTest {
                 "transparencyRange": 5.0
             }
         """.trimIndent().reader()
-        val difference : NullableGameObject = Gson().fromJson<NullableGameObject>(reader, NullableGameObject::class.java)
+        val difference : SceneLoader.NullableGameObject = Gson().fromJson<SceneLoader.NullableGameObject>(reader, SceneLoader.NullableGameObject::class.java)
         println(difference)
         val template = SceneLoader.loadTemplate(difference.template!!)
         println(template)
@@ -70,7 +93,7 @@ internal class SceneLoaderTest {
             ]
             }
         """.trimIndent().reader()
-        val list = Gson().fromJson<NullableObjectsList>(reader, NullableObjectsList::class.java)
+        val list = Gson().fromJson<SceneLoader.NullableObjectsList>(reader, SceneLoader.NullableObjectsList::class.java)
         println(list)
     }
 
@@ -81,17 +104,7 @@ internal class SceneLoaderTest {
                 "width": 2,
                 "height": 2,
                 "tileSetName": "city",
-                "tiles": [
-                 1,2,3,4
-                ],
-                "collisions": [
-                  1,2,3,1
-                ]
-            }
-        """.trimIndent().reader()
-        val objsReader = """
-            {
-            "objects": [
+                "objects": [
                 {
                     "template": "test-building",
                     "name": "main-gate",
@@ -105,15 +118,16 @@ internal class SceneLoaderTest {
                     "transparencyRange": 6.0,
                     "moveDirection": "UP_RIGHT"
                 }
-            ]
+                ],
+                "tiles": [
+                 1,2,3,4
+                ],
+                "collisions": [
+                  1,2,3,1
+                ]
             }
         """.trimIndent().reader()
-        //val gson = Gson()
-        //val list = gson.fromJson<List<BuildingDifference>>(buildingsReader, ArrayList::class.java)
-        //println(list)
-        //println(list[0])
-        //println(list[0]::class.java)
-        val (map, objects) = SceneLoader.loadScene(mapReader, objsReader)
+        val (map, objects) = SceneLoader.loadScene(mapReader)
         assertEquals(map.width, 2)
         assertEquals(map.height, 2)
         assertEquals(map.tileSetName, "city")
@@ -266,22 +280,4 @@ internal class SceneLoaderTest {
                 state = ""
         ), obj)
     }
-
-    private data class NullableGameObject (
-            val name: String?,
-            val template: String?,
-            val type: String?,
-            val x: Float?,
-            val y: Float?,
-            val width: Float?,
-            val height: Float?,
-            val isRigid: Boolean?,
-            val speed: Float?,
-            val moveDirection: String?,
-            val isMoving: Boolean?,
-            val transparencyRange: Float?,
-            val state: String?
-    )
-
-    private data class NullableObjectsList(val objects: List<NullableGameObject>)
 }

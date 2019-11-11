@@ -47,4 +47,5 @@ internal class MapRendererKtTest {
         verify(mock, times(4)).draw(any<TextureRegion>(), any(), eq(-TILE_HEIGHT / 2f))
         verifyNoMoreInteractions(mock)
     }
+
 }

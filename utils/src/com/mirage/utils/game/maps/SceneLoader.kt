@@ -18,23 +18,24 @@ object SceneLoader {
      */
     fun loadScene(name: String) : Pair<GameMap, GameObjects> =
             try {
-                loadScene(Assets.loadReader("maps/$name/map.json")!!,
-                        Assets.loadReader("maps/$name/objects.json")!!)
+                loadScene(Assets.loadReader("maps/$name.json")!!)
             }
             catch(ex: Exception) {
                 Log.e("Error while loading scene: $name")
-                Log.e(ex.stackTrace.toString())
                 Pair(TestSamples.TEST_SMALL_MAP, TestSamples.TEST_NO_GAME_OBJECTS)
             }
 
     /**
      * Загружает сцену (пару из карты и объектов)
      */
-    fun loadScene(mapReader: Reader, objsReader: Reader) : Pair<GameMap, GameObjects> {
+    fun loadScene(sceneReader: Reader) : Pair<GameMap, GameObjects> {
         try {
-            val gson = Gson()
-            val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-            val objsList: List<GameObject> = gson.fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
+            val fullText = sceneReader.readText()
+            val mapReader = fullText.reader()
+            val objsReader = fullText.reader()
+            val map = Gson().fromJson<GameMap>(mapReader, GameMap::class.java)
+
+            val objsList: List<GameObject> = Gson().fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
                 val templateName = it.template
                 if (templateName == null) {
                     GameObject(
@@ -80,7 +81,7 @@ object SceneLoader {
         }
         catch (ex: Exception) {
             Log.e("Error while loading scene.")
-            Log.e(ex.stackTrace.toString())
+            ex.printStackTrace()
             return Pair(TestSamples.TEST_SMALL_MAP, TestSamples.TEST_NO_GAME_OBJECTS)
         }
     }
@@ -130,7 +131,7 @@ object SceneLoader {
     /**
      * Класс, объект которого создаётся при десериализации объекта из JSON-файла.
      */
-    private data class NullableGameObject (
+    internal data class NullableGameObject (
             val name: String?,
             val template: String?,
             val type: String?,
@@ -146,6 +147,6 @@ object SceneLoader {
             val state: String?
     )
 
-    private data class NullableObjectsList(val objects: List<NullableGameObject>)
+    internal data class NullableObjectsList(val objects: List<NullableGameObject>)
 
 }
