@@ -3,6 +3,7 @@ package com.mirage.desktop;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mirage.utils.Assets;
 import com.mirage.client.Client;
 import com.mirage.utils.ConfigurationKt;
@@ -20,7 +21,7 @@ class DesktopLauncher {
         //ConfigurationKt.setPLATFORM("desktop");
         //config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
         //config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
-        ConfigurationKt.setPLATFORM("test");
+        ConfigurationKt.setPLATFORM("desktop-test");
         config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
         config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
         if (ConfigurationKt.DESKTOP_FULL_SCREEN) {

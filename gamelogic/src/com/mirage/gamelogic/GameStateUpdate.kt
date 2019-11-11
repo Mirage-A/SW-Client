@@ -63,7 +63,7 @@ internal fun updateState(
             moveObject(obj, delta, gameMap, objs)
         }
     }
-    println("Delta time $delta")
+    //println("Delta time $delta")
     //TODO Обработка логики
 
     return Pair(objs, serverMessages)

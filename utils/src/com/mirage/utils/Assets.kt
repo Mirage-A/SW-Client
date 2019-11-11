@@ -13,15 +13,18 @@ import kotlin.math.roundToInt
 
 object Assets {
 
-    val assetsPath = if (PLATFORM == "test" && File("./android/assets/").exists())
+    val assetsPath = if ((PLATFORM == "test" || PLATFORM == "desktop-test") && File("./android/assets/").exists())
         "./android/assets/" else ""
 
     private val assetsResolver : FileHandleResolver = when (PLATFORM) {
         "test" -> FileHandleResolver {
             FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
         }
+        "desktop-test" -> FileHandleResolver {
+            FileHandle(File(File("").absolutePath + "/android/assets/$it"))
+        }
         "server" -> FileHandleResolver {
-            FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
+            FileHandle(File(File("").absolutePath + "/android/assets/$it"))
         }
         "desktop", "android", "ios" -> FileHandleResolver {
             Gdx.files.internal(it)
@@ -66,7 +69,7 @@ object Assets {
         loadFile("animations/$name.swa")?.read()
 
     fun loadTileTexturesList(name: String) : List<TextureRegion> {
-        val fullTexture = getRawTexture("tiles/$name.png")
+        val fullTexture = getRawTexture("tiles/$name")
         val regions = TextureRegion.split(fullTexture, TILE_WIDTH.roundToInt(), TILE_HEIGHT.roundToInt())
         return regions.flatten()
     }

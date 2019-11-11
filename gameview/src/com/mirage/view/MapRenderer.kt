@@ -19,17 +19,17 @@ import kotlin.math.roundToInt
  */
 fun renderGameMap(batch: SpriteBatch, gameMap: GameMap, tileTexturesList: List<TextureRegion>, cameraX: Float, cameraY: Float, virtualScreenWidth: Int, virtualScreenHeight: Int) {
     //Находим крайние координаты тайлов, которые помещаются на экран. Другие тайлы рисовать смысла нет.
-    val w = virtualScreenWidth / 2f
-    val h = virtualScreenHeight / 2f
+    val w = cameraX + virtualScreenWidth / 2f
+    val h = cameraY + virtualScreenHeight / 2f
     val x1 = getScenePointFromVirtualScreen(Point(-w, h)).x.trunc()
     val y1 = getScenePointFromVirtualScreen(Point(-w, -h)).y.trunc()
     val x2 = getScenePointFromVirtualScreen(Point(w, -h)).x.trunc()
     val y2 = getScenePointFromVirtualScreen(Point(w, h)).y.trunc()
     for (i in x1..x2) {
         for (j in y1..y2) {
-            val virtualCenterPoint = getVirtualScreenPointFromScene(Point(i + 0.5f, j + 0.5f))
-            val textureX = virtualCenterPoint.x - TILE_WIDTH / 2 - cameraX
-            val textureY = virtualCenterPoint.y - TILE_HEIGHT / 2 - cameraY
+            val virtualCenterPoint = getVirtualScreenPointFromScene(Point(i.toFloat(), j.toFloat()))
+            val textureX = virtualCenterPoint.x - cameraX
+            val textureY = virtualCenterPoint.y - cameraY - TILE_HEIGHT / 2
             try {
                 if (i in 0 until gameMap.width && j in 0 until gameMap.height) {
                     batch.draw(tileTexturesList[gameMap.getTileID(i, j)], textureX, textureY)

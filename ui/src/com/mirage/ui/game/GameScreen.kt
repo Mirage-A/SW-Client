@@ -2,6 +2,7 @@ package com.mirage.ui.game
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.ui.Screen
+import com.mirage.utils.PLATFORM
 import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.treeSetOf
@@ -19,9 +20,15 @@ import rx.Observable
 
 class GameScreen(gameMap: GameMap) : Screen {
 
-    private val inputProcessor = GameInputProcessor()
+    private val inputProcessor : GameInputProcessor = when (PLATFORM) {
+        "desktop", "test" -> DesktopGameInputProcessor()
+        else -> DesktopGameInputProcessor()
+    }
 
-    private val uiRenderer = GameUIRenderer()
+    private val uiRenderer : GameUIRenderer = when (PLATFORM) {
+        "desktop", "test" -> DesktopGameUIRenderer()
+        else -> DesktopGameUIRenderer()
+    }
 
     private val gameView = GameViewImpl(gameMap)
 
@@ -52,8 +59,10 @@ class GameScreen(gameMap: GameMap) : Screen {
         val uiStateSnapshot = inputProcessor.uiState.copy()
         inputProcessor.uiState.lock.unlock()
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
+        batch.begin()
         gameView.renderGameState(batch, state, state.objects[playerID]?.position ?: Point(0f, 0f), screenWidth, screenHeight)
         uiRenderer.renderUI(batch, screenWidth, screenHeight, uiStateSnapshot, currentTimeMillis)
+        batch.end()
     }
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages

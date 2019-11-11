@@ -43,7 +43,7 @@ internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
      */
     private tailrec fun update(delta: Long, originState: GameObjects, gameMap: GameMap) {
-        println("Logic update $delta ms")
+        //println("Logic update $delta ms")
         if (delta > 200L) Log.i("Slow update: $delta ms")
 
         val startTime = System.currentTimeMillis()
