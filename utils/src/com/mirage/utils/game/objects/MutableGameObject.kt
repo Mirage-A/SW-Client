@@ -20,14 +20,15 @@ class MutableGameObject(
         var moveDirection: GameObject.MoveDirection,
         var isMoving: Boolean,
         var transparencyRange: Float,
-        var state: String
+        var state: String,
+        var action: String
 ) {
 
     /**
      * Создаёт неизменяемую копию этого объекта.
      */
     fun saveChanges() : GameObject =
-            GameObject(name, template, type, x, y, width, height, isRigid, speed, moveDirection, isMoving, transparencyRange, state)
+            GameObject(name, template, type, x, y, width, height, isRigid, speed, moveDirection, isMoving, transparencyRange, state, action)
 
     val rectangle : Rectangle
         get() = Rectangle(

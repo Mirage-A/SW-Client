@@ -20,5 +20,6 @@ internal fun createPlayer(gameMap: GameMap) : GameObject = GameObject(
         moveDirection = GameObject.MoveDirection.UP_RIGHT,
         isMoving = false,
         transparencyRange = 0f,
-        state = ""
+        state = "",
+        action = ""
 )

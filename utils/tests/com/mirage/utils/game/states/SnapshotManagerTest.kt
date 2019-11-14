@@ -26,7 +26,8 @@ internal class SnapshotManagerTest {
                 moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
                 transparencyRange = 0f,
-                state = "coding"
+                state = "coding",
+                action = ""
         )
 
         // 0 мс, пустая сцена

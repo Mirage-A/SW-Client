@@ -58,7 +58,8 @@ internal class SceneLoaderTest {
                     moveDirection = GameObject.MoveDirection.fromString(it.moveDirection ?: template.moveDirection.toString()),
                     isMoving = it.isMoving ?: template.isMoving ?: false,
                     transparencyRange = it.transparencyRange ?: template.transparencyRange ?: 0f,
-                    state = it.state ?: template.state ?: ""
+                    state = it.state ?: template.state ?: "",
+                    action = it.action ?: template.action ?: ""
             )
         }
         println(result)
@@ -75,7 +76,8 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.DOWN,
                 isMoving = false,
                 transparencyRange = 5f,
-                state = ""
+                state = "",
+                action = ""
         ))
     }
 
@@ -160,7 +162,8 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.DOWN,
                 isMoving = false,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         ), objs[0].value)
         assertEquals(GameObject(
                 name = "spawn-point",
@@ -175,7 +178,8 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.UP_RIGHT,
                 isMoving = false,
                 transparencyRange = 6f,
-                state = ""
+                state = "",
+                action = ""
         ), objs[1].value)
     }
 
@@ -195,7 +199,8 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.DOWN,
                 isMoving = false,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         ), obj)
     }
 
@@ -215,7 +220,8 @@ internal class SceneLoaderTest {
                 speed = 2.8f,
                 moveDirection = GameObject.MoveDirection.UP_RIGHT,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         ), obj)
     }
 
@@ -244,7 +250,8 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.DOWN,
                 isMoving = false,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         ), obj)
     }
 
@@ -277,7 +284,8 @@ internal class SceneLoaderTest {
                 speed = 2.8f,
                 moveDirection = GameObject.MoveDirection.UP_RIGHT,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         ), obj)
     }
 }

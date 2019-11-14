@@ -6,7 +6,6 @@ import com.mirage.utils.TILE_HEIGHT
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.trunc
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.view.objectdrawers.Image
 import com.mirage.view.utils.getScenePointFromVirtualScreen
 import com.mirage.view.utils.getVirtualScreenPointFromScene
 

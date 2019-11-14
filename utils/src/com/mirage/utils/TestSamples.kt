@@ -21,7 +21,8 @@ object TestSamples {
             isMoving = false,
             moveDirection = GameObject.MoveDirection.DOWN,
             transparencyRange = 0f,
-            state = ""
+            state = "",
+            action = ""
     )
 
     val TEST_NO_GAME_OBJECTS = GameObjects(hashMapOf(), 0L)

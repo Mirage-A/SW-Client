@@ -60,7 +60,11 @@ data class GameObject (
         /**
          * Значение, характеризующее текущее состояние объекта. В основном используется скриптами.
          */
-        val state: String
+        val state: String,
+        /**
+         * Значение, характеризующие текущее действие объекта.
+         */
+        val action: String
 ) {
     /**
      * Создаёт изменяемую копию объекта.
@@ -78,7 +82,8 @@ data class GameObject (
             this.moveDirection,
             this.isMoving,
             this.transparencyRange,
-            this.state
+            this.state,
+            this.action
     )
 
     /**
@@ -119,8 +124,9 @@ data class GameObject (
              moveDirection: MoveDirection = this.moveDirection,
              isMoving: Boolean = this.isMoving,
              transparencyRange: Float = this.transparencyRange,
-             state: String = this.state): GameObject =
-            GameObject(name, template, type, x, y, width, height, isRigid, speed, moveDirection, isMoving, transparencyRange, state)
+             state: String = this.state,
+             action: String = this.action): GameObject =
+            GameObject(name, template, type, x, y, width, height, isRigid, speed, moveDirection, isMoving, transparencyRange, state, action)
 
 
     val rectangle : Rectangle
@@ -173,6 +179,17 @@ data class GameObject (
             DOWN_LEFT -> 1.25f
             DOWN -> 1.5f
             DOWN_RIGHT -> 1.75f
+        }
+
+        fun fromSceneToView(): MoveDirection = when (this) {
+            RIGHT -> DOWN_RIGHT
+            UP_RIGHT -> RIGHT
+            UP -> UP_RIGHT
+            UP_LEFT -> UP
+            LEFT -> UP_LEFT
+            DOWN_LEFT -> LEFT
+            DOWN -> DOWN_LEFT
+            DOWN_RIGHT -> DOWN
         }
 
 
@@ -247,5 +264,16 @@ data class GameObject (
             }
         }
     }
+
+    data class HumanoidEquipment(
+            val helmet: String,
+            val chest: String,
+            val gloves: String,
+            val cloak: String,
+            val legs: String,
+            val rightWeapon: String,
+            val leftWeapon: String,
+            val weaponType: WeaponType
+    )
 
 }

@@ -23,7 +23,8 @@ internal class GameMapTest {
                 GameObject.MoveDirection.DOWN,
                 false,
                 5f,
-                 "test_state"
+                 "test_state",
+                "test_action"
         )
         val gson = Gson()
         val str = gson.toJson(obj)

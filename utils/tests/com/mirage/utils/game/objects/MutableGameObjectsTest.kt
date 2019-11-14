@@ -21,7 +21,8 @@ internal class MutableGameObjectsTest {
                 moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
                 transparencyRange = 0f,
-                state = "coding"
+                state = "coding",
+                action = ""
         )
         val obj2 = GameObject(
                 name = "gate",
@@ -36,7 +37,8 @@ internal class MutableGameObjectsTest {
                 moveDirection = GameObject.MoveDirection.DOWN_RIGHT,
                 isMoving = false,
                 transparencyRange = -100f,
-                state = "hello!"
+                state = "hello!",
+                action = ""
         )
         val emptyState = GameObjects(hashMapOf(99L to obj1, 100L to obj2), 0L)
         val mutableState = emptyState.mutableCopy()

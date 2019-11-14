@@ -1,14 +1,9 @@
 package com.mirage.view
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.utils.Log
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
-import com.mirage.view.objectdrawers.Drawers
-import com.mirage.view.objectdrawers.HumanoidAnimation
-import com.mirage.view.objectdrawers.OpaqueTransparentObjectDrawer
-import com.mirage.view.objectdrawers.animation.BodyAction
-import com.mirage.view.objectdrawers.animation.LegsAction
+import com.mirage.view.drawers.DrawersManager
 import com.mirage.view.utils.compareEntityAndBuilding
 import com.mirage.view.utils.depthSort
 import com.mirage.view.utils.getVirtualScreenPointFromScene
@@ -16,50 +11,20 @@ import kotlin.math.roundToInt
 
 
 /**
- * Интервал времени, который должен пройти с последней смены направления движения,
- * чтобы изменение отобразилось
- * (эта задержка убирает моргание анимации при быстром нажатии разных кнопок)
- */
-private const val MOVE_DIRECTION_UPDATE_INTERVAL = 50L
-
-/**
  * Отрисовывает все объекты карты
  */
-internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawers: Drawers, cameraX: Float, cameraY: Float) {
+internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawersManager: DrawersManager, cameraX: Float, cameraY: Float) {
 
     val sortedObjs = depthSort(objs)
+    val currentTimeMillis = System.currentTimeMillis()
 
     for ((id, obj) in sortedObjs) {
         val isOpaque = isOpaque(obj, objs)
-        val drawer = drawers[id] ?: run {
-            Log.e("ERROR (ObjectRenderer::renderObjects): ObjectDrawer for object $id: $obj not found")
-            null
-        }
-        if (drawer is OpaqueTransparentObjectDrawer) {
-            drawer.setOpaque(isOpaque)
-        }
-        else if (!isOpaque) continue
-        //TODO Направление движения может влиять не только на HumanoidAnimation
-        if (drawer is HumanoidAnimation) {
-            val updatedMoveDirection = obj.moveDirection
-            if (updatedMoveDirection !== drawer.bufferedMoveDirection) {
-                drawer.lastMoveDirectionUpdateTime = System.currentTimeMillis()
-                drawer.bufferedMoveDirection = updatedMoveDirection
-            } else if (System.currentTimeMillis() - drawer.lastMoveDirectionUpdateTime > MOVE_DIRECTION_UPDATE_INTERVAL) {
-                drawer.moveDirection = drawer.bufferedMoveDirection
-            }
-
-            val isMoving = obj.isMoving
-            if (isMoving) {
-                drawer.setBodyAction(BodyAction.RUNNING)
-                drawer.setLegsAction(LegsAction.RUNNING)
-            } else {
-                drawer.setBodyAction(BodyAction.IDLE)
-                drawer.setLegsAction(LegsAction.IDLE)
-            }
-        }
         val pos = getVirtualScreenPointFromScene(obj.position)
-        drawer?.draw(batch, (pos.x - cameraX).roundToInt().toFloat(), (pos.y - cameraY).roundToInt().toFloat())
+        drawersManager.draw(id, batch,
+                (pos.x - cameraX).roundToInt().toFloat(),
+                (pos.y - cameraY).roundToInt().toFloat(),
+                isOpaque, currentTimeMillis, obj.moveDirection)
     }
 }
 

@@ -17,6 +17,9 @@ object Assets {
     val assetsPath = if ((PLATFORM == "test" || PLATFORM == "desktop-test") && File("./android/assets/").exists())
         "./android/assets/" else ""
 
+    val emptyTexture: Texture
+            get() = Texture(Pixmap(1, 1, Pixmap.Format.Alpha))
+
     private val assetsResolver : FileHandleResolver = when (PLATFORM) {
         "test" -> FileHandleResolver {
             FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
@@ -66,7 +69,7 @@ object Assets {
         catch (ex: Exception) {
             Log.e("Error while loading texture: $name")
             Log.e(ex.stackTrace.toString())
-            return Texture(Pixmap(1, 1, Pixmap.Format.Alpha))
+            return emptyTexture
         }
     }
 

@@ -20,7 +20,8 @@ internal class GameObjectsTest{
                 moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
                 transparencyRange = 0f,
-                state = "")
+                state = "",
+                action = "")
         val origin = GameObjects(
                 mapOf(
                         Long.MIN_VALUE to building,
@@ -69,7 +70,8 @@ internal class GameObjectsTest{
                 moveDirection = GameObject.MoveDirection.DOWN,
                 isMoving = true,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         )
         assertEquals(expected, objs[1].value)
     }

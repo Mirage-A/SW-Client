@@ -23,7 +23,8 @@ internal class StateDifferenceTest {
                 moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
                 transparencyRange = 0f,
-                state = "coding"
+                state = "coding",
+                action = ""
         )
         val obj2 = GameObject(
                 name = "gate",
@@ -38,7 +39,8 @@ internal class StateDifferenceTest {
                 moveDirection = GameObject.MoveDirection.DOWN_RIGHT,
                 isMoving = false,
                 transparencyRange = -100f,
-                state = "hello!"
+                state = "hello!",
+                action = ""
         )
         val firstState = GameObjects(hashMapOf(
                 0L to obj1,

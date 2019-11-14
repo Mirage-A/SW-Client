@@ -1,4 +1,4 @@
-package com.mirage.view.objectdrawers.animation
+package com.mirage.view.drawers.animation
 
 import com.mirage.utils.Assets
 import java.util.*
@@ -9,18 +9,18 @@ import java.util.*
  */
 object AnimationLoader {
     /**
-     * Словари с загруженными анимациями
+     * Словари с загруженными анимациями.
+     * Ключ - значение action.
      */
-    private var bodyAnimationsCache: MutableMap<BodyAction, Animation> = HashMap()
-    private var legsAnimationsCache: MutableMap<LegsAction, Animation> = HashMap()
-    private var nullAnimationsCache: MutableMap<NullAction, Animation> = HashMap()
+    private var bodyAnimationsCache: MutableMap<String, Animation> = HashMap()
+    private var legsAnimationsCache: MutableMap<String, Animation> = HashMap()
     private var objectAnimationsCache: MutableMap<String, Animation> = HashMap()
 
     /**
      * Возвращает данную анимацию
      * Если анимация еще не загружена, она загружается и сохраняется в кэш
      */
-    fun getBodyAnimation(action: BodyAction) : Animation {
+    fun getBodyAnimation(action: String) : Animation {
         val cached = bodyAnimationsCache[action]
         return if (cached == null) {
             val animation = Animation(Assets.loadAnimation("BODY/$action"))
@@ -29,20 +29,11 @@ object AnimationLoader {
         }
         else cached
     }
-    fun getLegsAnimation(action: LegsAction) : Animation {
+    fun getLegsAnimation(action: String) : Animation {
         val cached = legsAnimationsCache[action]
         return if (cached == null) {
             val animation = Animation(Assets.loadAnimation("LEGS/$action"))
             legsAnimationsCache[action] = animation
-            animation
-        }
-        else cached
-    }
-    fun getNullAnimation(action: NullAction) : Animation {
-        val cached = nullAnimationsCache[action]
-        return if (cached == null) {
-            val animation = Animation(Assets.loadAnimation("NULL/$action"))
-            nullAnimationsCache[action] = animation
             animation
         }
         else cached
@@ -63,7 +54,6 @@ object AnimationLoader {
     fun clearCache() {
         bodyAnimationsCache.clear()
         legsAnimationsCache.clear()
-        nullAnimationsCache.clear()
         objectAnimationsCache.clear()
     }
 

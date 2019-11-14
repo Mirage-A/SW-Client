@@ -1,6 +1,7 @@
-package com.mirage.view.objectdrawers.animation
+package com.mirage.view.drawers.animation
 
 import com.mirage.utils.Log
+import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.game.objects.GameObject
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
@@ -12,11 +13,7 @@ import java.io.InputStream
  * Объект этого класса содержит всю информацию об анимации,
  * а также конструктор загрузки анимации из XML-файла (.swa)
  */
-class Animation() {
-    /**
-     * Тип анимации
-     */
-    var type : AnimationType = AnimationType.NULL
+class Animation {
     /**
      * Список кадров анимации
      */
@@ -37,7 +34,7 @@ class Animation() {
     /**
      * Конструктор считывания анимации из файла XML (.swa)
      */
-    constructor(inputStream : InputStream?) : this() {
+    constructor(inputStream : InputStream?) {
         for (moveDirection in GameObject.MoveDirection.values()) {
             data[moveDirection] = HashMap()
             for (weaponType in GameObject.WeaponType.values()) {
@@ -51,7 +48,6 @@ class Animation() {
             val reader = SAXReader()
             val document = reader.read(inputStream)
             val animation = document.rootElement
-            type = AnimationType.fromString(animation.attributeValue("type"))
             duration = Integer.parseInt(animation.attributeValue("duration"))
             isRepeatable = animation.attributeValue("isRepeatable") == "true"
             for (md in animation.elements()) {
@@ -90,4 +86,35 @@ class Animation() {
             Log.e("Unexpected error occurred:\n" + ex.message)
         }
     }
+
+
+    /**
+     * Кадр анимации
+     */
+    class Frame {
+        /**
+         * Список слоёв на кадре
+         */
+        var layers : ArrayList<Layer> = ArrayList()
+    }
+
+    /**
+     * Слой на кадре анимации
+     */
+    class Layer (var imageName: String, var x : Float = 0f, var y : Float = 0f, var scale : Float = 1f, var scaleX : Float = 1f,
+                 var scaleY : Float = 1f, var angle : Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
+        /**
+         * Обрезает формат изображения и возвращает название слоя
+         */
+        fun getName() = imageName.substring(0, imageName.length - 4)
+
+        /**
+         * Возвращает точку - координаты слоя
+         */
+        fun getPosition() : MutablePoint {
+            return MutablePoint(x, y)
+        }
+
+    }
+
 }

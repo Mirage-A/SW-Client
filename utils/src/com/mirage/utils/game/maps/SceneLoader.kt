@@ -51,7 +51,8 @@ object SceneLoader {
                             moveDirection = GameObject.MoveDirection.fromString(it.moveDirection ?: ""),
                             isMoving = it.isMoving ?: false,
                             transparencyRange = it.transparencyRange ?: 0f,
-                            state = it.state ?: "")
+                            state = it.state ?: "",
+                            action = it.action ?: "")
                 } else {
                     val template = loadTemplate(templateName)
                     template.with(
@@ -118,7 +119,8 @@ object SceneLoader {
                 moveDirection = GameObject.MoveDirection.fromString(t.moveDirection ?: "DOWN"),
                 isMoving = t.isMoving ?: false,
                 transparencyRange = t.transparencyRange ?: 0f,
-                state = t.state ?: ""
+                state = t.state ?: "",
+                action = t.action ?: ""
         )
     }
     catch (ex: Exception) {
@@ -144,7 +146,8 @@ object SceneLoader {
             val moveDirection: String?,
             val isMoving: Boolean?,
             val transparencyRange: Float?,
-            val state: String?
+            val state: String?,
+            val action: String?
     )
 
     internal data class NullableObjectsList(val objects: List<NullableGameObject>)

@@ -8,19 +8,20 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.StateDifference
-import com.mirage.view.objectdrawers.Drawers
+import com.mirage.view.drawers.DrawersManager
+import com.mirage.view.drawers.DrawersManagerImpl
 import com.mirage.view.utils.getVirtualScreenPointFromScene
 
 class GameViewImpl(private val gameMap: GameMap) : GameView {
 
-    private val drawers: Drawers = Drawers()
+    private val drawersManager: DrawersManager = DrawersManagerImpl()
 
     override fun loadDrawers(initialState: GameObjects) {
-        drawers.loadDrawers(initialState)
+        drawersManager.loadDrawers(initialState)
     }
 
     override fun updateDrawers(oldState: GameObjects, diff: StateDifference) {
-        drawers.updateDrawers(oldState, diff)
+        drawersManager.updateDrawers(diff, oldState)
     }
 
     private val tileTexturesList: List<TextureRegion> = Assets.loadTileTexturesList(gameMap.tileSetName)
@@ -29,7 +30,7 @@ class GameViewImpl(private val gameMap: GameMap) : GameView {
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPositionOnScene)
         val cameraCenterPosition = Point(playerPosOnVirtualScreen.x, playerPosOnVirtualScreen.y + DELTA_CENTER_Y)
         renderGameMap(batch, gameMap, tileTexturesList, cameraCenterPosition.x, cameraCenterPosition.y, virtualScreenWidth, virtualScreenHeight)
-        renderObjects(batch, objs, drawers, cameraCenterPosition.x, cameraCenterPosition.y)
+        renderObjects(batch, objs, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y)
     }
 
 }

@@ -20,7 +20,8 @@ internal class MutableGameObjectTest {
                 moveDirection = GameObject.MoveDirection.UP,
                 isMoving = true,
                 transparencyRange = 0f,
-                state = ""
+                state = "",
+                action = ""
         )
         assertEquals(obj.mutableCopy().saveChanges(), obj)
     }
