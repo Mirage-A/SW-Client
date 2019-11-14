@@ -21,7 +21,7 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
 
     private val headTextures: Map<GameObject.MoveDirection, Texture> = HashMap<GameObject.MoveDirection, Texture>().apply {
         GameObject.MoveDirection.values().forEach {
-            this[it] = Assets.getRawTexture("equipment/head/${equipment.helmet}/$it")
+            this[it] = Assets.getRawTexture("equipment/head/${equipment.helmet}/${it.fromSceneToView()}")
         }
     }
     private val bodyTexture = Assets.getRawTexture("equipment/body/${equipment.chest}")
@@ -63,11 +63,11 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
         val legsAnimation = AnimationLoader.getLegsAnimation(if (isMoving) "RUNNING" else "IDLE")
 
         val bodyFrames : List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType) ?: run {
-            Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType)")
+            Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
             return
         }
         val legsFrames : List<Animation.Frame> = legsAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType) ?: run {
-            Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType)")
+            Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
             return
         }
         if (bodyFrames.isEmpty()) return
@@ -87,7 +87,7 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
         val bodyX = x + bodyPoint.x
         val bodyY = y - bodyPoint.y
 
-        for (bodyLayerIndex in 0..bodyStartFrame.layers.size) {
+        for (bodyLayerIndex in 0 until bodyStartFrame.layers.size) {
             val startLayer = bodyStartFrame.layers[bodyLayerIndex]
             val endLayer = bodyEndFrame.layers[bodyLayerIndex]
             val layerName = startLayer.getName()

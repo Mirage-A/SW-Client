@@ -32,6 +32,7 @@ val DEFAULT_MAP_POINT = Point(0f, 0f) //Точка карты "по-умолча
 const val SHOW_INVISIBLE_OBJECTS_MODE = false //Режим отображения невидимых предметов //TODO Забагованный
 
 var PLATFORM = "test" //Платформа, на которой запущен клиент
+var ENABLE_NO_GDX_CONTEXT_TEST_MODE = false
 
 /**
  * Эталонный размер экрана

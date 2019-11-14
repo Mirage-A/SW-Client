@@ -13,7 +13,7 @@ import java.io.InputStream
  * Объект этого класса содержит всю информацию об анимации,
  * а также конструктор загрузки анимации из XML-файла (.swa)
  */
-class Animation {
+class Animation() {
     /**
      * Список кадров анимации
      */
@@ -34,7 +34,7 @@ class Animation {
     /**
      * Конструктор считывания анимации из файла XML (.swa)
      */
-    constructor(inputStream : InputStream?) {
+    constructor(inputStream : InputStream?) : this() {
         for (moveDirection in GameObject.MoveDirection.values()) {
             data[moveDirection] = HashMap()
             for (weaponType in GameObject.WeaponType.values()) {

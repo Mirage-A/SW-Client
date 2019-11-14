@@ -40,8 +40,8 @@ private fun isOpaque(obj : GameObject, objs : GameObjects) : Boolean {
             val rect = obj.rectangle
             val otherRect = other.rectangle
             if (other.type == GameObject.Type.ENTITY &&
-                    -other.x + other.y + obj.x - obj.y < obj.transparencyRange * 2 &&
-                    (rect.overlaps(otherRect) || compareEntityAndBuilding(other, obj) == -1))
+                    ((-other.x + other.y + obj.x - obj.y < obj.transparencyRange * 2 &&
+                    compareEntityAndBuilding(other, obj) == -1) || rect.overlaps(otherRect)))
                 return false
         }
     }

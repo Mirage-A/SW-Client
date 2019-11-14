@@ -28,6 +28,7 @@
       "type": "humanoid",
       "helmet": "default",
       "chest": "default",
+      "cloak": "default",
       "gloves": "default",
       "legs": "default",
       "weaponType": "TWO_HANDED",

@@ -2,7 +2,14 @@
   "name": "main-gate",
   "template": "main-gate",
   "type": "BUILDING",
-  "width": 6.0,
-  "height": 0.0,
-  "isRigid": false
+  "width": 8.0,
+  "height": 3.0,
+  "isRigid": false,
+  "transparencyRange": 5.0,
+  "drawers": {
+    "default": {
+      "type": "staticTexture",
+      "textureName": "main-gate"
+    }
+  }
 }

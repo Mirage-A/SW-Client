@@ -47,7 +47,7 @@ internal fun updateState(
     val serverMessages : ArrayDeque<ServerMessage> = ArrayDeque()
     //TODO Обработка сообщений от клиентов
     for ((id, msg) in clientMessages) {
-        println("Got client message $id $msg")
+        if (msg !is MoveDirectionClientMessage && msg !is SetMovingClientMessage) println("Got client message $id $msg")
         when (msg) {
             is MoveDirectionClientMessage -> {
                 objs[id]?.moveDirection = msg.md
@@ -58,6 +58,8 @@ internal fun updateState(
         }
     }
     for ((_, obj) in objs) {
+        //TODO Нормальная обработка действий
+        obj.action = if (obj.isMoving) "RUNNING" else "IDLE"
         if (obj.isMoving) {
             moveObject(obj, delta, gameMap, objs)
         }

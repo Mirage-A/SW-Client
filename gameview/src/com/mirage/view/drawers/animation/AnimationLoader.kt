@@ -23,7 +23,12 @@ object AnimationLoader {
     fun getBodyAnimation(action: String) : Animation {
         val cached = bodyAnimationsCache[action]
         return if (cached == null) {
-            val animation = Animation(Assets.loadAnimation("BODY/$action"))
+            val animation = try {
+                Animation(Assets.loadAnimation("BODY/$action"))
+            }
+            catch (ex: Exception) {
+                Animation()
+            }
             bodyAnimationsCache[action] = animation
             animation
         }
@@ -32,7 +37,12 @@ object AnimationLoader {
     fun getLegsAnimation(action: String) : Animation {
         val cached = legsAnimationsCache[action]
         return if (cached == null) {
-            val animation = Animation(Assets.loadAnimation("LEGS/$action"))
+            val animation = try {
+                Animation(Assets.loadAnimation("LEGS/$action"))
+            }
+            catch (ex: Exception) {
+                Animation()
+            }
             legsAnimationsCache[action] = animation
             animation
         }
@@ -41,7 +51,12 @@ object AnimationLoader {
     fun getObjectAnimation(name: String) : Animation {
         val cached = objectAnimationsCache[name]
         return if (cached == null) {
-            val animation = Animation(Assets.loadAnimation("OBJECT/$name"))
+            val animation = try {
+                Animation(Assets.loadAnimation("OBJECT/$name"))
+            }
+            catch (ex: Exception) {
+                Animation()
+            }
             objectAnimationsCache[name] = animation
             animation
         }

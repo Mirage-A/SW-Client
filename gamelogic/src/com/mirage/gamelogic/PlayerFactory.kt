@@ -16,10 +16,10 @@ internal fun createPlayer(gameMap: GameMap) : GameObject = GameObject(
         width = 0.25f,
         height = 0.25f,
         isRigid = true,
-        speed = 2.8f,
+        speed = 4.0f,
         moveDirection = GameObject.MoveDirection.UP_RIGHT,
         isMoving = false,
         transparencyRange = 0f,
         state = "",
-        action = ""
+        action = "IDLE"
 )

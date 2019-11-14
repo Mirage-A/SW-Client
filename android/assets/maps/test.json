@@ -9,43 +9,43 @@
     {
       "template": "main-gate",
       "name": "main-gate",
-      "x": 12.0,
-      "y": 15.0
+      "x": 16.0,
+      "y": 16.5
     },
     {
       "template": "wall",
-      "x": 0.0,
-      "y": 15.0
+      "x": 2.0,
+      "y": 16.5
     },
     {
       "template": "wall",
-      "x": 4.0,
-      "y": 15.0
+      "x": 6.0,
+      "y": 16.5
     },
     {
       "template": "wall",
-      "x": 8.0,
-      "y": 15.0
+      "x": 10.0,
+      "y": 16.5
     },
     {
       "template": "wall",
-      "x": 20.0,
-      "y": 15.0
+      "x": 22.0,
+      "y": 16.5
     },
     {
       "template": "wall",
-      "x": 24.0,
-      "y": 15.0
+      "x": 26.0,
+      "y": 16.5
     },
     {
       "template": "wall",
-      "x": 28.0,
-      "y": 15.0
+      "x": 30.0,
+      "y": 16.5
     },
     {
       "template": "main-gate-door",
-      "x": 11.0,
-      "y": 18.0
+      "x": 14.0,
+      "y": 15.0
     },
     {
       "template": "spawn-point",

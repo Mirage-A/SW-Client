@@ -6,5 +6,10 @@
   "height": 0.25,
   "moveDirection": "UP_RIGHT",
   "speed": 2.8,
-  "isRigid": false
+  "isRigid": false,
+  "drawers": {
+    "default": {
+      "type": "empty"
+    }
+  }
 }
