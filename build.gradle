@@ -42,6 +42,10 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url("https://dl.bintray.com/s1m0nw1/KtsRunner") }
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 subprojects {
     dependencies {
@@ -69,8 +73,7 @@ task codeCoverageReport(type: JacocoReport) {
         html.enabled false
         csv.enabled false
     }
-}
-
-codeCoverageReport.dependsOn {
-    subprojects*.test
+    dependsOn{
+        subprojects*.test
+    }
 }
