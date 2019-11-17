@@ -18,6 +18,9 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: "java"
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
 
     version = '1.0'
     ext {
@@ -34,8 +37,33 @@ allprojects {
         jcenter()
         mavenCentral()
         google()
+        maven { url "http://repo1.maven.org/maven2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url("https://dl.bintray.com/s1m0nw1/KtsRunner") }
     }
+}
+subprojects {
+    dependencies {
+
+    }
+    test.useTestNG()
+}
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
