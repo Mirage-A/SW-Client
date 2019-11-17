@@ -18,6 +18,7 @@ dependencies {
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.test.java.srcDirs = [ "tests/" ]
 
 project.ext.mainClassName = "com.mirage.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets")
