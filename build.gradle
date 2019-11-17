@@ -49,6 +49,11 @@ subprojects {
     }
     test.useTestNG()
 }
+
+test {
+    useJUnitPlatform()
+}
+
 task codeCoverageReport(type: JacocoReport) {
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 
@@ -57,6 +62,8 @@ task codeCoverageReport(type: JacocoReport) {
     }
 
     reports {
+        setSourceDirectories(files(sourceSets["main"].allSource.srcDirs))
+        setClassDirectories(files(sourceSets["main"].output))
         xml.enabled true
         xml.destination "${buildDir}/reports/jacoco/report.xml"
         html.enabled false
