@@ -19,7 +19,6 @@ dependencies {
 }
 
 sourceCompatibility = 1.8
-sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "com.mirage.admin.AdminLauncher"
 project.ext.assetsDir = new File("../android/assets")
