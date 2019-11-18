@@ -18,6 +18,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
 }
 
+test {
+    useJUnitPlatform()
+}
 sourceCompatibility = 1.8
 
 project.ext.mainClassName = "com.mirage.admin.AdminLauncher"

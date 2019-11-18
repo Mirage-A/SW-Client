@@ -53,7 +53,10 @@ allprojects {
 }
 subprojects {
     dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+        testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
     }
     test.useTestNG()
 }
@@ -67,46 +70,20 @@ jacoco {
     reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination file("${buildDir}/jacocoHtml")
-    }
-}
-
 task codeCoverageReport(type: JacocoReport) {
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 
-
-    Set<File> srcDirsSet = new HashSet<File>()
-    Set<File> outputsSet = new HashSet<File>()
-    allprojects.each {
-        //sourceSets it.sourceSets["main"]
-        println(it.sourceSets["test"].allSource.srcDirs)
-        for (File file : it.sourceSets["main"].allSource.srcDirs) {
-            srcDirsSet.add(file)
-            println(file.path)
-        }
-        for (File file : it.sourceSets["main"].output) {
-            outputsSet.add(file)
-            outputsSet.add(new File(file.parentFile.parentFile.absolutePath + "\\kotlin\\main"))
-            println(file.path)
-            println(new File(file.parentFile.parentFile.absolutePath + "\\kotlin\\main").path)
-        }
-        //println(it.sourceSets["main"].properties)
-        //println(it.sourceSets)
-        //println(it.sourceSets["main"].allSource.srcDirs)
-        //println(it.sourceSets["main"].output)
+    subprojects.each {
+        sourceSets((SourceSet)it.sourceSets["main"])
     }
+
     reports {
-        setSourceDirectories(files(srcDirsSet))
-        setClassDirectories(files(outputsSet))
         xml.enabled true
-        xml.destination "${buildDir}\\reports\\jacoco\\report.xml"
-        println("${buildDir}\\reports\\jacoco\\report.xml")
         html.enabled true
         csv.enabled true
     }
-    dependsOn test
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }
