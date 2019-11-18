@@ -13,7 +13,7 @@ import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.game.states.SnapshotManager
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
-import com.mirage.view.GameViewImpl
+import com.mirage.gameview.GameViewImpl
 import rx.Observable
 
 class GameScreen(gameMap: GameMap) : Screen {

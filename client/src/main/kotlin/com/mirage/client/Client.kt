@@ -11,7 +11,7 @@ import com.mirage.connection.LocalConnection
 import com.mirage.ui.Screen
 import com.mirage.ui.game.GameScreen
 import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.view.utils.calculateViewportSize
+import com.mirage.gameview.utils.calculateViewportSize
 import org.luaj.vm2.lib.jse.JsePlatform
 
 object Client : ApplicationListener {

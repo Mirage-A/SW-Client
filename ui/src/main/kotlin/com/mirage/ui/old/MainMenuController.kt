@@ -9,7 +9,7 @@ import com.mirage.utils.messaging.CityJoinClientMessage
 import com.mirage.utils.messaging.LoginClientMessage
 import com.mirage.utils.messaging.ReturnCodeMessage
 import com.mirage.utils.messaging.ServerMessage
-import com.mirage.view.old.MainMenuScreen
+import com.mirage.gameview.old.MainMenuScreen
 
 class MainMenuController : Controller {
 
