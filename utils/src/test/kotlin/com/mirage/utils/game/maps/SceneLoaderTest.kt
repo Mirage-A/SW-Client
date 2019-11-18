@@ -59,7 +59,7 @@ internal class SceneLoaderTest {
                     isMoving = it.isMoving ?: template.isMoving ?: false,
                     transparencyRange = it.transparencyRange ?: template.transparencyRange ?: 0f,
                     state = it.state ?: template.state ?: "",
-                    action = it.action ?: template.action ?: ""
+                    action = it.action ?: template.action ?: "IDLE"
             )
         }
         println(result)
@@ -77,7 +77,7 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 transparencyRange = 5f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ))
     }
 
@@ -163,7 +163,7 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 transparencyRange = 0f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ), objs[0].value)
         assertEquals(GameObject(
                 name = "spawn-point",
@@ -179,7 +179,7 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 transparencyRange = 6f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ), objs[1].value)
     }
 
@@ -200,7 +200,7 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 transparencyRange = 0f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ), obj)
     }
 
@@ -221,7 +221,7 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.UP_RIGHT,
                 transparencyRange = 0f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ), obj)
     }
 
@@ -251,7 +251,7 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 transparencyRange = 0f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ), obj)
     }
 
@@ -285,7 +285,7 @@ internal class SceneLoaderTest {
                 moveDirection = GameObject.MoveDirection.UP_RIGHT,
                 transparencyRange = 0f,
                 state = "",
-                action = ""
+                action = "IDLE"
         ), obj)
     }
 }

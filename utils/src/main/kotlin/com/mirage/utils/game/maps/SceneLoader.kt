@@ -52,7 +52,7 @@ object SceneLoader {
                             isMoving = it.isMoving ?: false,
                             transparencyRange = it.transparencyRange ?: 0f,
                             state = it.state ?: "",
-                            action = it.action ?: "")
+                            action = it.action ?: "IDLE")
                 } else {
                     val template = loadTemplate(templateName)
                     template.with(
@@ -69,7 +69,8 @@ object SceneLoader {
                                     ?: template.moveDirection.toString()),
                             isMoving = it.isMoving ?: template.isMoving ?: false,
                             transparencyRange = it.transparencyRange ?: template.transparencyRange ?: 0f,
-                            state = it.state ?: template.state ?: ""
+                            state = it.state ?: template.state ?: "",
+                            action = it.action ?: template.action ?: "IDLE"
                     )
                 }
             }
@@ -120,7 +121,7 @@ object SceneLoader {
                 isMoving = t.isMoving ?: false,
                 transparencyRange = t.transparencyRange ?: 0f,
                 state = t.state ?: "",
-                action = t.action ?: ""
+                action = t.action ?: "IDLE"
         )
     }
     catch (ex: Exception) {
