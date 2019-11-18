@@ -1,0 +1,16 @@
+{
+  "name": "spawn-point",
+  "template": "spawn-point",
+  "type": "ENTITY",
+  "width": 0.25,
+  "height": 0.25,
+  "moveDirection": "UP_RIGHT",
+  "speed": 2.8,
+  "isRigid": false,
+  "action": "IDLE",
+  "drawers": {
+    "default": {
+      "type": "empty"
+    }
+  }
+}

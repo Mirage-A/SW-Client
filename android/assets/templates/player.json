@@ -1,0 +1,24 @@
+{
+  "name": "player",
+  "template": "player",
+  "type": "ENTITY",
+  "width": 0.25,
+  "height": 0.25,
+  "moveDirection": "UP_RIGHT",
+  "speed": 4.0,
+  "isRigid": false,
+  "action": "IDLE",
+  "drawers": {
+    "default": {
+      "type": "humanoid",
+      "helmet": "default",
+      "chest": "default",
+      "cloak": "default",
+      "gloves": "default",
+      "legs": "default",
+      "weaponType": "UNARMED",
+      "rightWeapon": "default",
+      "leftWeapon": "default"
+    }
+  }
+}

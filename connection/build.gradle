@@ -1,12 +1,25 @@
 apply plugin: "kotlin"
+apply plugin: 'org.junit.platform.gradle.plugin'
 
+junitPlatform {
+    platformVersion = "1.5.2"
+}
 dependencies {
     implementation project(":gamelogic")
     implementation project(":utils")
     
-    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-}
+    implementation 'io.netty:netty:4.0.0.Alpha8'
+    implementation 'io.reactivex:rxnetty-common:0.5.3'
+    implementation 'io.reactivex:rxnetty-tcp:0.5.3'
+    implementation 'io.reactivex:rxnetty-examples:0.5.3'
+    implementation 'io.reactivex:rxnetty-spectator-tcp:0.5.3'
+    implementation 'me.khol:eventsubject:1.0.0'
 
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+}
+test {
+    useJUnitPlatform()
+}
 sourceCompatibility = 1.8
-sourceSets.main.java.srcDirs = [ "src/" ]
