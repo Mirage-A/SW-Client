@@ -13,6 +13,36 @@ import com.mirage.utils.game.states.StateDifference
 sealed class ServerMessage {
     companion object {
         /**
+         *
+         * Список всех классов - наследников ServerMessage.
+         * При добавлении нового класса-наследника он обязательно должен добавляться в этот список.
+         * //TODO Можно сделать аннотацию ServerMessage, которой нужно будет помечать наследников.
+         * //TODO Тогда этот список будет сгенерирован автоматически.
+         */
+        private val serverMessageClasses = listOf<Class<*>>(
+                InitialGameStateMessage::class.java,
+                GameStateUpdateMessage::class.java,
+                ReturnCodeMessage::class.java,
+                HumanoidEquipmentUpdateMessage::class.java
+        )
+
+        internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
+            for ((index, value) in serverMessageClasses.withIndex()) {
+                this[index] = value
+            }
+        }
+
+        internal val classToCodeMap: Map<Class<*>, Int> = HashMap<Class<*>, Int>().apply {
+            for ((index, value) in serverMessageClasses.withIndex()) {
+                this[value] = index
+            }
+        }
+    }
+}
+/*{
+    companion object {
+
+        /**
          * Десериализует сообщение из строки.
          * @throws Exception если строка некорректна и была получена не методом serialize
          * @see serialize
@@ -28,7 +58,8 @@ sealed class ServerMessage {
         }
     }
     abstract fun serialize() : String
-}
+}*/
+
 
 /**
  * Сообщение с полной информацией о карте и состоянии на момент подключения клиента.
@@ -36,20 +67,24 @@ sealed class ServerMessage {
  * и больше никогда не отправляется.
  * [stateCreatedTimeMillis] - время, в которое было создано состояние [initialObjects]
  */
-data class InitialGameStateMessage(val mapName: String, val initialObjects: GameObjects, val playerID: Long, val stateCreatedTimeMillis: Long) : ServerMessage() {
-    override fun serialize(): String = TODO("not implemented")
-}
+data class InitialGameStateMessage(
+        val mapName: String,
+        val initialObjects: GameObjects,
+        val playerID: Long,
+        val stateCreatedTimeMillis: Long
+) : ServerMessage()
 
 /**
  * Сообщение, которое логика отправляет после каждого тика обновления состояния игры.
  */
-data class GameStateUpdateMessage(val diff: StateDifference, val stateCreatedTimeMillis: Long) : ServerMessage() {
-    override fun serialize(): String = TODO("not implemented")
-}
+data class GameStateUpdateMessage(
+        val diff: StateDifference,
+        val stateCreatedTimeMillis: Long
+) : ServerMessage()
 
-data class ReturnCodeMessage(val returnCode: Int) : ServerMessage() {
-    override fun serialize(): String = "RC$INNER_DLMTR$returnCode"
-}
+data class ReturnCodeMessage(
+        val returnCode: Int
+) : ServerMessage()
 
 /**
  * Сообщение об изменении экипировки гуманоида (не обязательно игрока).
@@ -57,14 +92,5 @@ data class ReturnCodeMessage(val returnCode: Int) : ServerMessage() {
  */
 data class HumanoidEquipmentUpdateMessage(
         val objectID: Long,
-        val weaponType: GameObject.WeaponType,
-        val helmetID: Int,
-        val chestID: Int,
-        val legsID: Int,
-        val glovesID: Int,
-        val cloakID: Int,
-        val rightWeaponID: Int,
-        val leftWeaponID: Int
-    ) : ServerMessage() {
-    override fun serialize(): String = TODO("not implemented")
-}
+        val newEquipment: GameObject.HumanoidEquipment
+) : ServerMessage()

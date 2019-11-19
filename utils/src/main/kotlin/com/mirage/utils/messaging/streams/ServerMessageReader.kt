@@ -11,6 +11,6 @@ interface ServerMessageReader {
     /**
      * Дождаться следующего сообщения и прочитать его
      */
-    fun read() : ServerMessage
+    fun read() : ServerMessage?
 
 }

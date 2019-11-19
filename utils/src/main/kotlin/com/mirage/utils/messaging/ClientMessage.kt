@@ -6,46 +6,43 @@ import com.mirage.utils.game.objects.GameObject
 sealed class ClientMessage {
     companion object {
         /**
-         * Десериализует сообщение из строки.
-         * @throws Exception если строка некорректна и была получена не методом serialize
-         * @see serialize
+         *
+         * Список всех классов - наследников ClientMessage.
+         * При добавлении нового класса-наследника он обязательно должен добавляться в этот список.
+         * //TODO Можно сделать аннотацию ClientMessage, которой нужно будет помечать наследников.
+         * //TODO Тогда этот список будет сгенерирован автоматически.
          */
-        fun deserialize(str: String) : ClientMessage {
-            val args = str.split(INNER_DLMTR)
-            return when (args[0]) {
-                "MD" -> MoveDirectionClientMessage(GameObject.MoveDirection.fromString(args[1]))
-                "MV" -> SetMovingClientMessage(args[1].toBoolean())
-                "RG" -> RegisterClientMessage(args[1], args[2], args[3])
-                "LG" -> LoginClientMessage(args[1], args[2])
-                "CJ" -> CityJoinClientMessage(args[1].toLong())
-                "RC" -> ReconnectClientMessage(args[1].toLong())
-                else -> throw Exception("Incorrect message: $args")
+        private val clientMessageClasses = listOf<Class<*>>(
+                MoveDirectionClientMessage::class.java,
+                SetMovingClientMessage::class.java,
+                RegisterClientMessage::class.java,
+                LoginClientMessage::class.java,
+                CityJoinClientMessage::class.java,
+                ReconnectClientMessage::class.java
+        )
+
+        internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
+            for ((index, value) in clientMessageClasses.withIndex()) {
+                this[index] = value
+            }
+        }
+
+        internal val classToCodeMap: Map<Class<*>, Int> = HashMap<Class<*>, Int>().apply {
+            for ((index, value) in clientMessageClasses.withIndex()) {
+                this[value] = index
             }
         }
     }
-    abstract fun serialize() : String
 }
 
-data class MoveDirectionClientMessage(val md: GameObject.MoveDirection) : ClientMessage() {
-    override fun serialize(): String = "MD$INNER_DLMTR$md"
-}
+data class MoveDirectionClientMessage(val md: GameObject.MoveDirection) : ClientMessage()
 
-data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage() {
-    override fun serialize(): String = "MV$INNER_DLMTR$isMoving"
-}
+data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage()
 
-data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage() {
-    override fun serialize(): String = "RG$INNER_DLMTR$nickname$INNER_DLMTR$login$INNER_DLMTR$password"
-}
+data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage()
 
-data class LoginClientMessage(val login: String, val password: String) : ClientMessage() {
-    override fun serialize(): String = "LG$INNER_DLMTR$login$INNER_DLMTR$password"
-}
+data class LoginClientMessage(val login: String, val password: String) : ClientMessage()
 
-data class CityJoinClientMessage(val cityID: Long) : ClientMessage() {
-    override fun serialize(): String = "CJ$INNER_DLMTR$cityID"
-}
+data class CityJoinClientMessage(val cityID: Long) : ClientMessage()
 
-data class ReconnectClientMessage(val roomID: Long) : ClientMessage() {
-    override fun serialize(): String = "RC$INNER_DLMTR$roomID"
-}
+data class ReconnectClientMessage(val roomID: Long) : ClientMessage()

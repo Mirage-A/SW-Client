@@ -10,8 +10,8 @@ interface ClientMessageReader {
 
     /**
      * Дождаться нового сообщения и прочесть его
-     * @throws Exception если сообщение некорректно (например, при десериализации)
+     * @return null если сообщение некорректно (например, при десериализации)
      */
-    fun read() : ClientMessage
+    fun read() : ClientMessage?
 
 }

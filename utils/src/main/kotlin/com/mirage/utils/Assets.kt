@@ -6,12 +6,17 @@ import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.nhaarman.mockitokotlin2.mock
 import java.io.File
 import java.io.InputStream
 import java.io.Reader
 import kotlin.math.roundToInt
 import kotlin.system.exitProcess
 
+//TODO Сделать так, чтобы в этом объекте кэшировались все текстуры, и чтобы текстуры можно было получать только по названию,
+//TODO т.е. ни один модуль не получал объекты класса Texture.
+//TODO Тогда надо будет также вызывать batch.draw внутри этого объекта, ну и тогда нужно будет хранить batch здесь же.
+//TODO Тогда можно будет сделать обертку над всей графикой из LibGDX, что серьезно облегчит тестирование.
 object Assets {
 
     val assetsPath = if ((PLATFORM == "test" || PLATFORM == "desktop-test") && File("./android/assets/").exists())
@@ -34,21 +39,30 @@ object Assets {
             Gdx.files.internal(it)
         }
         else -> {
-            throw Exception("Unknown platform: $PLATFORM")
+            Log.e("Unknown platform: $PLATFORM")
+            FileHandleResolver {
+                Gdx.files.internal(it)
+            }
         }
     }
 
-    fun loadFile(path: String) : FileHandle? {
-        val file = assetsResolver.resolve(path)
-        return if (file == null) {
+    fun loadFile(path: String) : FileHandle? =
+        try {
+            val file = assetsResolver.resolve(path)
+            if (file == null || !file.exists()) {
+                Log.e("File not found: $path")
+                null
+            }
+            else file
+        }
+        catch (ex: Exception) {
             Log.e("File not found: $path")
             null
         }
-        else file
-    }
+
 
     fun loadReader(path: String) : Reader? =
-            assetsResolver.resolve(path).reader()
+            loadFile(path)?.reader()
 
     fun loadScript(name: String) : Reader? =
             loadReader("scripts/$name.lua")
@@ -60,15 +74,15 @@ object Assets {
      */
     fun getRawTexture(name: String) : Texture {
         try {
-            val file = assetsResolver.resolve("drawable/$name.png")
-            file ?: return Texture(0, 0, Pixmap.Format.Alpha)
+            val file = loadFile("drawable/$name.png")
+            file ?: return emptyTexture
             val loadedTexture = Texture(file, true)
             loadedTexture.setFilter(MIN_FILTER, MAG_FILTER)
             return loadedTexture
         }
         catch (ex: Exception) {
             Log.e("Error while loading texture: $name")
-            Log.e(ex.stackTrace.toString())
+            Log.e(ex.message)
             return emptyTexture
         }
     }
@@ -85,8 +99,8 @@ object Assets {
     }
     catch (ex: Exception) {
         Log.e("Error while loading tile set: $name")
-        Log.e(ex.stackTrace.toString())
-        exitProcess(1)
+        Log.e(ex.message)
+        ArrayList()
     }
 
 

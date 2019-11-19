@@ -12,6 +12,7 @@ object SceneLoader {
 
     private val cachedTemplates = HashMap<String, GameObject>()
 
+    private val gson = Gson()
 
     /**
      * Загружает сцену (пару из карты и объектов) по названию карты (папки, в которой хранится карта - например, "test").
@@ -33,9 +34,9 @@ object SceneLoader {
             val fullText = sceneReader.readText()
             val mapReader = fullText.reader()
             val objsReader = fullText.reader()
-            val map = Gson().fromJson<GameMap>(mapReader, GameMap::class.java)
+            val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
 
-            val objsList: List<GameObject> = Gson().fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
+            val objsList: List<GameObject> = gson.fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
                 val templateName = it.template
                 if (templateName == null) {
                     GameObject(
@@ -106,7 +107,7 @@ object SceneLoader {
      * Загружает шаблон объекта через [reader] без кэширования.
      */
     fun loadTemplate(reader: Reader) : GameObject = try {
-        val t = Gson().fromJson<NullableGameObject>(reader, NullableGameObject::class.java)
+        val t = gson.fromJson<NullableGameObject>(reader, NullableGameObject::class.java)
         GameObject(
                 name = t.name ?: "",
                 template = t.template ?: "",
@@ -123,6 +124,7 @@ object SceneLoader {
                 state = t.state ?: "",
                 action = t.action ?: "IDLE"
         )
+
     }
     catch (ex: Exception) {
         Log.e("Error while loading template.")

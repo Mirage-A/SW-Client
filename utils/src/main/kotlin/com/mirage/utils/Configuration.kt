@@ -4,7 +4,7 @@ import com.mirage.utils.datastructures.Point
 
 const val LOG_ALL_MESSAGES = true
 
-const val OUTER_DLMTR = "\n" //Символ, который должен вставляться в конец каждого сериализованного сообщения
+const val OUTER_DLMTR = '\n' //Символ, который должен вставляться в конец каждого сериализованного сообщения
                             // Этот символ лучше не менять - ClientMessageInputStream читает сообщения построчно
 const val INNER_DLMTR = '@'//'φ' //Символ, который должен вставляться внутри сериализованного сообщения для разделения элементов
 const val MAP_OBJ_DLMTR = '|'//'ξ' //Символ, по которому разделяются элементы объекта

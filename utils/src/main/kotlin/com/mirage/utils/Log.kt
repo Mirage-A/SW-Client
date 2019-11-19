@@ -9,15 +9,15 @@ package com.mirage.utils
  */
 object Log {
 
-    fun i(msg: Any) {
+    fun i(msg: Any?) {
         println(msg.toString())
     }
 
-    fun d(msg: Any) {
+    fun d(msg: Any?) {
         println(msg.toString())
     }
 
-    fun e(msg: Any) {
+    fun e(msg: Any?) {
         println(msg.toString())
     }
 }
