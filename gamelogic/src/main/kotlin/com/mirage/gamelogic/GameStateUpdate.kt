@@ -1,8 +1,7 @@
 package com.mirage.gamelogic
 
-import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.points
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.objects.MutableGameObject
@@ -19,7 +18,7 @@ import kotlin.math.min
  * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
  * Длинные перемещения разбиваются на малые такой длины
  */
-private const val SMALL_MOVE_RANGE = 0.5f
+private const val SMALL_MOVE_RANGE = 0.1f
 
 /**
  * Отступ от границы непроходимого тайла
@@ -75,10 +74,12 @@ internal fun updateState(
  */
 private fun moveObject(obj: MutableGameObject, deltaMillis: Long, gameMap: GameMap, gameObjects: MutableGameObjects) {
     val range = obj.speed * deltaMillis.toFloat() / 1000f
-    for (i in 0 until (range / SMALL_MOVE_RANGE).toInt()) {
+    val smallMovesCount = (range / SMALL_MOVE_RANGE).toInt()
+    for (i in 0 until smallMovesCount) {
         smallMove(obj, SMALL_MOVE_RANGE, gameMap, gameObjects)
     }
-    smallMove(obj, range % SMALL_MOVE_RANGE, gameMap, gameObjects)
+    val rangeLeft = range - SMALL_MOVE_RANGE * smallMovesCount
+    smallMove(obj, rangeLeft, gameMap, gameObjects)
 }
 
 /**
@@ -94,11 +95,11 @@ private fun smallMove(obj: MutableGameObject, range: Float, gameMap: GameMap, ga
             max(EPS + obj.width / 2, min(gameMap.height - EPS - obj.height / 2, newPosition.y))
     )
     //TODO Пересечения объектов
-    val thisRect = Rectangle(newPosition.x - obj.width / 2, newPosition.y - obj.height / 2, obj.width, obj.height)
+    val thisRect = Rectangle(newPosition.x, newPosition.y, obj.width, obj.height)
     if (obj.isRigid) {
         for ((_, otherObj) in gameObjects) {
             //Сравнение по ссылке
-            val otherRect = Rectangle(otherObj.x - otherObj.width / 2, otherObj.y - otherObj.height / 2, otherObj.width, otherObj.height)
+            val otherRect = Rectangle(otherObj.x, otherObj.y, otherObj.width, otherObj.height)
             if (otherObj !== obj && thisRect.overlaps(otherRect) && otherObj.isRigid) return
         }
     }

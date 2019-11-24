@@ -1,33 +1,28 @@
 package com.mirage.gameview.drawers.templates
 
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.utils.Assets
+import com.mirage.gameview.drawers.DrawerTemplate
+import com.mirage.gameview.drawers.animation.*
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.MutablePoint
 import com.mirage.utils.game.objects.GameObject
-import com.mirage.gameview.drawers.DrawerTemplate
-import com.mirage.gameview.drawers.animation.*
-import com.mirage.gameview.drawers.animation.getAnimationCurrentTime
-import com.mirage.gameview.drawers.animation.getEndFrame
-import com.mirage.gameview.drawers.animation.getStartFrame
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : DrawerTemplate {
 
     private val weaponType: GameObject.WeaponType = equipment.weaponType
 
-    private val headTextures: Map<GameObject.MoveDirection, Texture> = HashMap<GameObject.MoveDirection, Texture>().apply {
+    private val headTextures: Map<GameObject.MoveDirection, String> = HashMap<GameObject.MoveDirection, String>().apply {
         GameObject.MoveDirection.values().forEach {
-            this[it] = Assets.getRawTexture("equipment/head/${equipment.helmet}/${it.fromSceneToView()}")
+            this[it] = "equipment/head/${equipment.helmet}/${it.fromSceneToView()}"
         }
     }
-    private val bodyTexture = Assets.getRawTexture("equipment/body/${equipment.chest}")
-    private val cloakTexture = Assets.getRawTexture("equipment/cloak/${equipment.cloak}")
-    private val handBottomTexture = Assets.getRawTexture("equipment/handbottom/${equipment.gloves}")
-    private val handTopTexture = Assets.getRawTexture("equipment/handtop/${equipment.chest}")
-    private val legBottomTexture = Assets.getRawTexture("equipment/legbottom/${equipment.legs}")
-    private val legTopTexture = Assets.getRawTexture("equipment/legtop/${equipment.legs}")
-    private val neckTexture = Assets.getRawTexture("equipment/neck/${equipment.chest}")
+    private val bodyTexture = "equipment/body/${equipment.chest}"
+    private val cloakTexture = "equipment/cloak/${equipment.cloak}"
+    private val handBottomTexture = "equipment/handbottom/${equipment.gloves}"
+    private val handTopTexture = "equipment/handtop/${equipment.chest}"
+    private val legBottomTexture = "equipment/legbottom/${equipment.legs}"
+    private val legTopTexture = "equipment/legtop/${equipment.legs}"
+    private val neckTexture = "equipment/neck/${equipment.chest}"
     private val rightWeaponFolder : String? = when(equipment.weaponType) {
         GameObject.WeaponType.UNARMED -> null
         GameObject.WeaponType.ONE_HANDED -> "onehanded"
@@ -38,8 +33,8 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
         GameObject.WeaponType.STAFF -> "staff"
     }
     private val rightWeaponTexture =
-            if (rightWeaponFolder != null) Assets.getRawTexture("equipment/$rightWeaponFolder/${equipment.rightWeapon}")
-            else Assets.emptyTexture
+            if (rightWeaponFolder != null) "equipment/$rightWeaponFolder/${equipment.rightWeapon}"
+            else "null"
     private val leftWeaponFolder : String? = when(equipment.weaponType) {
         GameObject.WeaponType.UNARMED -> null
         GameObject.WeaponType.ONE_HANDED -> null
@@ -50,11 +45,11 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
         GameObject.WeaponType.STAFF -> null
     }
     private val leftWeaponTexture =
-            if (leftWeaponFolder != null) Assets.getRawTexture("equipment/$leftWeaponFolder/${equipment.leftWeapon}")
-            else Assets.emptyTexture
+            if (leftWeaponFolder != null) "equipment/$leftWeaponFolder/${equipment.leftWeapon}"
+            else "null"
 
 
-    override fun draw(batch: SpriteBatch, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: GameObject.MoveDirection) {
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: GameObject.MoveDirection) {
         if (!isOpaque) return
         val bodyAnimation = AnimationLoader.getBodyAnimation(action)
         val legsAnimation = AnimationLoader.getLegsAnimation(if (isMoving) "RUNNING" else "IDLE")
@@ -93,17 +88,17 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
                 val bottomIndex = findLayer(legsStartFrame, "${layerName}bottom")
                 if (topIndex < bottomIndex) {
                     if (topIndex != -1) {
-                        drawLayer(batch, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                        drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
                     }
-                    drawLayer(batch, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                    drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
                 } else if (bottomIndex < topIndex) {
                     if (bottomIndex != -1) {
-                        drawLayer(batch, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                        drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
                     }
-                    drawLayer(batch, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                    drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
                 }
             }
-            else drawBodyLayer(batch, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
+            else drawBodyLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
 
         }
     }
@@ -128,12 +123,12 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
      * Отрисовывает слой изображения с проверкой имени слоя на некоторые специальные значения
      * (например, bodypoint не будет отрисован)
      */
-    private fun drawBodyLayer(batch: SpriteBatch, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, moveDirection: GameObject.MoveDirection) {
+    private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, moveDirection: GameObject.MoveDirection) {
         val layerName = startLayer.getName()
         if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
             return
         }
-        val texture : Texture = when (layerName) {
+        val texture : String = when (layerName) {
             "lefthandtop", "righthandtop" -> handTopTexture
             "lefthandbottom", "righthandbottom" -> handBottomTexture
             "leftlegtop", "rightlegtop" -> legTopTexture
@@ -143,10 +138,10 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
             "cloak" -> cloakTexture
             "body" -> bodyTexture
             "neck" -> neckTexture
-            "head" -> headTextures[moveDirection] ?: Assets.emptyTexture
-            else -> Assets.getRawTexture(startLayer.imageName.substring(0, startLayer.imageName.length - 4))
+            "head" -> headTextures[moveDirection] ?: "null"
+            else -> startLayer.imageName.substring(0, startLayer.imageName.length - 4)
         }
-        drawLayer(batch, texture, bodyX, bodyY, startLayer, endLayer, progress)
+        drawLayer(virtualScreen, texture, bodyX, bodyY, startLayer, endLayer, progress)
     }
 
 }

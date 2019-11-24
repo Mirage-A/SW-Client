@@ -4,7 +4,6 @@ import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class GameStateUpdateKtTest {
@@ -32,6 +31,7 @@ internal class GameStateUpdateKtTest {
         val state = GameObjects(mapOf(0L to obj), 1L)
         val map = TestSamples.TEST_SMALL_MAP
         val firstResult = updateState(250L, state, map, ArrayList())
+        println(firstResult.first[0]!!.position)
         assert(Point(0.5f, 1.5f) near firstResult.first[0]!!.position)
         assert(firstResult.second.isEmpty())
         val secondResult = updateState(1000L, state, map, ArrayList())

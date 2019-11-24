@@ -1,13 +1,13 @@
 package com.mirage.gameview.drawers
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface DrawersManager {
 
-    fun draw(objID: Long, batch: SpriteBatch, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection)
+    fun draw(objID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection)
 
     fun loadDrawers(initialState: GameObjects, currentTimeMillis: Long = System.currentTimeMillis())
 

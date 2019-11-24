@@ -1,13 +1,13 @@
 package com.mirage.gameview.drawers
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mirage.gameview.drawers.templates.EmptyDrawerTemplate
+import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
+import com.mirage.gameview.utils.loadDrawersFromTemplate
 import com.mirage.utils.Log
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.StateDifference
-import com.mirage.gameview.drawers.templates.EmptyDrawerTemplate
-import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
-import com.mirage.gameview.utils.loadDrawersFromTemplate
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 class DrawersManagerImpl : DrawersManager {
 
@@ -30,18 +30,18 @@ class DrawersManagerImpl : DrawersManager {
     private val equipment: MutableMap<Long, GameObject.HumanoidEquipment> = HashMap()
 
     /**
-     * Загружает шаблонные представления для всех состояний шаблона [template] и кэширует их в [cachedDrawerTemplates].
+     * Загружает шаблонные представления для всех состояний шаблона [templateName] и кэширует их в [cachedDrawerTemplates].
      */
     private fun loadTemplateDrawers(templateName: String) {
         cachedDrawerTemplates[templateName] = loadDrawersFromTemplate(templateName)
     }
 
-    override fun draw(objID: Long, batch: SpriteBatch, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection) {
+    override fun draw(objID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection) {
         val drawer : Drawer = drawers[objID] ?: run {
             Log.e("Drawer not loaded. objID=$objID")
             return
         }
-        drawer.draw(batch, x, y, isOpaque, currentTimeMillis, moveDirection)
+        drawer.draw(virtualScreen, x, y, isOpaque, currentTimeMillis, moveDirection)
     }
 
     override fun loadDrawers(initialState: GameObjects, currentTimeMillis: Long) {

@@ -1,6 +1,5 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.INNER_DLMTR
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.StateDifference

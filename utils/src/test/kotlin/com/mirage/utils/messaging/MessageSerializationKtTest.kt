@@ -4,7 +4,8 @@ import com.mirage.utils.INNER_DLMTR
 import com.mirage.utils.OUTER_DLMTR
 import com.mirage.utils.TestSamples
 import com.mirage.utils.game.objects.GameObject
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class MessageSerializationKtTest {

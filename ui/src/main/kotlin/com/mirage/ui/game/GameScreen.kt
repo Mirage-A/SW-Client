@@ -1,6 +1,6 @@
 package com.mirage.ui.game
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mirage.gameview.GameViewImpl
 import com.mirage.ui.Screen
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.TestSamples
@@ -13,7 +13,7 @@ import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.game.states.SnapshotManager
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
-import com.mirage.gameview.GameViewImpl
+import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
 class GameScreen(gameMap: GameMap) : Screen {
@@ -52,7 +52,7 @@ class GameScreen(gameMap: GameMap) : Screen {
         }
     }
 
-    override fun render(batch: SpriteBatch, screenWidth: Int, screenHeight: Int, currentTimeMillis: Long) {
+    override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
         inputProcessor.uiState.lock.lock()
         val uiStateSnapshot = inputProcessor.uiState.copy()
         uiStateSnapshot.let {
@@ -80,10 +80,10 @@ class GameScreen(gameMap: GameMap) : Screen {
         }
         inputProcessor.uiState.lock.unlock()
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
-        batch.begin()
-        gameView.renderGameState(batch, state, state.objects[playerID]?.position ?: Point(0f, 0f), screenWidth, screenHeight)
-        uiRenderer.renderUI(batch, screenWidth, screenHeight, uiStateSnapshot, currentTimeMillis)
-        batch.end()
+        virtualScreen.begin()
+        gameView.renderGameState(virtualScreen, state, state.objects[playerID]?.position ?: Point(0f, 0f))
+        uiRenderer.renderUI(virtualScreen, uiStateSnapshot, currentTimeMillis)
+        virtualScreen.end()
     }
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages

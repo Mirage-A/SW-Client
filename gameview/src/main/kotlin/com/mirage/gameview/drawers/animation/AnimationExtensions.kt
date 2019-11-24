@@ -1,8 +1,7 @@
 package com.mirage.gameview.drawers.animation
 
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.min
 
 internal fun getAnimationCurrentTime(animation: Animation, timePassed: Long) =
@@ -23,7 +22,7 @@ internal fun getAnimationProgress(frames: List<Animation.Frame>, duration: Int, 
 /**
  * Отрисовывает слой изображения (среднее состояние слоя между startLayer и endLayer)
  */
-internal fun drawLayer(batch: SpriteBatch, texture: Texture, x: Float, y: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float) {
+internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Float, y: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float) {
     val angle1 = (startLayer.angle % (2 * Math.PI)).toFloat()
     var angle2 = (endLayer.angle % (2 * Math.PI)).toFloat()
     if (angle2 > angle1) {
@@ -36,7 +35,19 @@ internal fun drawLayer(batch: SpriteBatch, texture: Texture, x: Float, y: Float,
             angle2 += 2 * Math.PI.toFloat()
         }
     }
-    batch.draw(texture,
+    virtualScreen.draw(
+            textureName = textureName,
+            x = x + curValue(startLayer.x, endLayer.x, progress),
+            y = y - curValue(startLayer.y, endLayer.y, progress),
+            basicWidth = curValue(startLayer.basicWidth, endLayer.basicWidth, progress),
+            basicHeight = curValue(startLayer.basicHeight, endLayer.basicHeight, progress),
+            scale = curValue(startLayer.scale, endLayer.scale, progress),
+            scaleX = curValue(startLayer.scaleX, endLayer.scaleX, progress),
+            scaleY = curValue(startLayer.scaleY, endLayer.scaleY, progress),
+            angle = curValue(angle1, angle2, progress)
+    )
+    /*
+    virtualScreen.draw(textureName,
             x + curValue(startLayer.x, endLayer.x, progress) - curValue(startLayer.basicWidth, endLayer.basicWidth, progress) / 2,
             y - curValue(startLayer.y, endLayer.y, progress) - curValue(startLayer.basicHeight, endLayer.basicHeight, progress) / 2,
             curValue(startLayer.basicWidth, endLayer.basicWidth, progress) / 2,
@@ -48,7 +59,7 @@ internal fun drawLayer(batch: SpriteBatch, texture: Texture, x: Float, y: Float,
             curValue(Math.toDegrees(angle1.toDouble()).toFloat(), Math.toDegrees(angle2.toDouble()).toFloat(), progress),
             0, 0,
             startLayer.basicWidth,
-            startLayer.basicHeight, false, false)
+            startLayer.basicHeight, false, false)*/
 }
 
 

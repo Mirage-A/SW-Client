@@ -1,9 +1,9 @@
 package com.mirage.gameview
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
  * Визуальное представление состояния игры.
@@ -27,15 +27,13 @@ interface GameView {
     fun updateDrawers(oldState: GameObjects, diff: StateDifference)
 
     /**
-     * Отрисовывает карту и состояние игры на [batch].
+     * Отрисовывает карту и состояние игры на [virtualScreen].
      * Центр камеры всегда должен находиться в точке (0, 0).
-     * @param batch Холст, на котором будет отрисовываться состояние.
+     * @param virtualScreen Холст, на котором будет отрисовываться состояние.
      * @param objs Состояние, которое будет отрисовано.
      * @param playerPositionOnScene Координаты игрока на сцене; используются для определения центра "камеры" (на самом деле камера не двигается)
-     * @param virtualScreenWidth Ширина виртуального экрана
-     * @param virtualScreenHeight Высота виртуального экрана
      */
-    fun renderGameState(batch: SpriteBatch, objs: GameObjects, playerPositionOnScene: Point, virtualScreenWidth: Int, virtualScreenHeight: Int)
+    fun renderGameState(virtualScreen: VirtualScreen, objs: GameObjects, playerPositionOnScene: Point)
 
 
 }

@@ -1,7 +1,7 @@
 package com.mirage.utils.game.objects
 
-import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.Rectangle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,7 +27,7 @@ internal class GameObjectTest {
         )
         assertEquals(obj.mutableCopy().saveChanges(), obj)
         assertEquals(obj.move(500L), obj.with(y = 7.5f))
-        assertEquals(obj.rectangle, Rectangle(1f, 2f, 2f, 6f))
+        assertEquals(obj.rectangle, Rectangle(2f, 5f, 2f, 6f))
         assertEquals(obj.position, Point(2f, 5f))
     }
 }

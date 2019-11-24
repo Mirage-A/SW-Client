@@ -1,6 +1,6 @@
-package com.mirage.gameview.utils
+package com.mirage.utils.virtualscreen
 
-import com.badlogic.gdx.math.Rectangle
+import com.mirage.utils.datastructures.Rectangle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

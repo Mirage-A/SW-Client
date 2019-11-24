@@ -1,19 +1,19 @@
 package com.mirage.gameview
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
 import com.mirage.gameview.drawers.DrawersManager
 import com.mirage.gameview.utils.compareEntityAndBuilding
 import com.mirage.gameview.utils.depthSort
 import com.mirage.gameview.utils.getVirtualScreenPointFromScene
+import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.roundToInt
 
 
 /**
  * Отрисовывает все объекты карты
  */
-internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawersManager: DrawersManager, cameraX: Float, cameraY: Float) {
+internal fun renderObjects(virtualScreen: VirtualScreen, objs: GameObjects, drawersManager: DrawersManager, cameraX: Float, cameraY: Float) {
 
     val sortedObjs = depthSort(objs)
     val currentTimeMillis = System.currentTimeMillis()
@@ -21,7 +21,7 @@ internal fun renderObjects(batch: SpriteBatch, objs: GameObjects, drawersManager
     for ((id, obj) in sortedObjs) {
         val isOpaque = isOpaque(obj, objs)
         val pos = getVirtualScreenPointFromScene(obj.position)
-        drawersManager.draw(id, batch,
+        drawersManager.draw(id, virtualScreen,
                 (pos.x - cameraX).roundToInt().toFloat(),
                 (pos.y - cameraY).roundToInt().toFloat(),
                 isOpaque, currentTimeMillis, obj.moveDirection)

@@ -1,9 +1,9 @@
 package com.mirage.ui
 
 import com.badlogic.gdx.InputProcessor
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
+import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
 interface Screen : InputProcessor {
@@ -12,6 +12,6 @@ interface Screen : InputProcessor {
 
     fun handleServerMessage(msg: ServerMessage)
 
-    fun render(batch: SpriteBatch, screenWidth: Int, screenHeight: Int, currentTimeMillis: Long)
+    fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long)
 
 }

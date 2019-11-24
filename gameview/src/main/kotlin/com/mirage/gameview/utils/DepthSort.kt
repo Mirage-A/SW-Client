@@ -1,8 +1,8 @@
 package com.mirage.gameview.utils
 
-import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import java.util.*
@@ -53,9 +53,9 @@ private fun compare(p : Point, rect: Rectangle) : Int {
     fun f(x: Float, y: Float) : Float = x + y - p.x - p.y
 
     //Если прямая и прямоугольник пересекаются
-    if (f(rect.x, rect.y) <= 0 && f(rect.x + rect.width, rect.y + rect.height) >= 0) {
+    if (f(rect.leftX, rect.bottomY) <= 0 && f(rect.rightX, rect.topY) >= 0) {
         //Вычисляем другую функцию - функцию от точки p относительно прямой, соединяющей 2 угловые точки прямоугольника
-        val fun2 = - p.y * rect.width + p.x * rect.height + rect.y * rect.width - rect.x * rect.height
+        val fun2 = - p.y * rect.width + p.x * rect.height + rect.bottomY * rect.width - rect.leftX * rect.height
         if (fun2 > 0) return 1
         if (fun2 < 0) return -1
     }
@@ -81,11 +81,11 @@ private fun compareDisjoint(a: GameObject, b: GameObject) : Int {
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
-            return compare(Point(rectA.x, rectA.y), rectB)
+            return compare(Point(rectA.leftX, rectA.bottomY), rectB)
         }
         !aIsPoint && bIsPoint -> {
             if (rectA.overlaps(rectB)) return 1
-            return -compare(Point(rectB.x, rectB.y), rectA)
+            return -compare(Point(rectB.leftX, rectB.bottomY), rectA)
         }
         else -> return compareRectangles(rectA, rectB)
     }
@@ -106,24 +106,24 @@ internal fun compareEntityAndBuilding(entity: GameObject, building: GameObject) 
         }
         aIsPoint && !bIsPoint -> {
             if (rectA.overlaps(rectB)) return -1
-            return compare(Point(rectA.x, rectA.y), rectB)
+            return compare(Point(rectA.leftX, rectA.bottomY), rectB)
         }
         !aIsPoint && bIsPoint -> {
             if (rectA.overlaps(rectB)) return 1
-            return -compare(Point(rectB.x, rectB.y), rectA)
+            return -compare(Point(rectB.leftX, rectB.bottomY), rectA)
         }
         else -> return compareRectangles(rectA, rectB)
     }
 }
 
 private fun compareRectangles(rectA: Rectangle, rectB: Rectangle) : Int {
-    var res = compare(Point(rectA.x, rectA.y), rectB)
+    var res = compare(Point(rectA.leftX, rectA.bottomY), rectB)
     if (res != 0) return res
-    res = compare(Point(rectA.x + rectA.width, rectA.y + rectA.height), rectB)
+    res = compare(Point(rectA.rightX, rectA.topY), rectB)
     if (res != 0) return res
-    res = compare(Point(rectB.x, rectB.y), rectA)
+    res = compare(Point(rectB.leftX, rectB.bottomY), rectA)
     if (res != 0) return -res
-    res = compare(Point(rectB.x + rectB.width, rectB.y + rectB.height), rectA)
+    res = compare(Point(rectB.rightX, rectB.topY), rectA)
     if (res != 0) return -res
     return 0
 }

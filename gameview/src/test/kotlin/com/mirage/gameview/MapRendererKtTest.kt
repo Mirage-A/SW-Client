@@ -1,50 +1,48 @@
 package com.mirage.gameview
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.mirage.utils.TILE_HEIGHT
 import com.mirage.utils.TILE_WIDTH
 import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.virtualscreen.VirtualScreen
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import kotlin.math.roundToInt
 
 internal class MapRendererKtTest {
 
     @Test
     fun testMockito() {
-        val mock: SpriteBatch = mock()
-        mock.draw(TextureRegion(), 0f, 0f)
-        verify(mock, after(100L).times(1)).draw(any<TextureRegion>(), eq(0f), eq(0f))
+        val mock: VirtualScreen = mock()
+        mock.draw("null", 0f, 0f)
+        verify(mock, after(100L).times(1)).draw(any(), eq(0f), eq(0f))
         verifyNoMoreInteractions(mock)
     }
 
     @Test
     fun testSmallMapRendering() {
         val gameMap = SceneLoader.loadScene("micro-test").first
-        val list = Array(5) {TextureRegion()}.toList()
+        val list = Array(5) {"null"}.toList()
         assertEquals(list[0], list[0])
-        assertNotEquals(list[0], list[1])
-        val mock: SpriteBatch = mock()
+        val mock: VirtualScreen = mock {
+            on {width} doReturn TILE_WIDTH * 3 / 2
+            on {height} doReturn TILE_HEIGHT * 3 / 2
+        }
         renderGameMap(
-                batch = mock,
+                virtualScreen = mock,
                 gameMap = gameMap,
-                tileTexturesList = list,
                 cameraX = 0f,
-                cameraY = 0f,
-                virtualScreenWidth = TILE_WIDTH.roundToInt() * 3 / 2,
-                virtualScreenHeight = TILE_HEIGHT.roundToInt() * 3 / 2
+                cameraY = 0f
         )
-        verify(mock, times(16)).draw(any<TextureRegion>(), any(), any())
-        verify(mock, times(4)).draw(eq(list[4]), any(), any())
-        verify(mock, times(12)).draw(eq(list[1]), any(), any())
-        verify(mock, times(4)).draw(any<TextureRegion>(), eq(-TILE_WIDTH / 2f), any())
-        verify(mock, times(3)).draw(any<TextureRegion>(), eq(-TILE_WIDTH), any())
-        verify(mock, times(2)).draw(any<TextureRegion>(), eq(-TILE_WIDTH * 3f / 2f), any())
-        verify(mock, times(1)).draw(any<TextureRegion>(), eq(-TILE_WIDTH * 2f), any())
-        verify(mock, times(4)).draw(any<TextureRegion>(), any(), eq(-TILE_HEIGHT / 2f))
+        verify(mock, times(16)).drawTile(any(), any(), any())
+        verify(mock, times(4)).drawTile(eq(4), any(), any())
+        verify(mock, times(12)).drawTile(eq(1), any(), any())
+        verify(mock, times(4)).drawTile(any(), eq(-TILE_WIDTH / 2f), any())
+        verify(mock, times(3)).drawTile(any(), eq(-TILE_WIDTH), any())
+        verify(mock, times(2)).drawTile(any(), eq(-TILE_WIDTH * 3f / 2f), any())
+        verify(mock, times(1)).drawTile(any(), eq(-TILE_WIDTH * 2f), any())
+        verify(mock, times(4)).drawTile(any(), any(), eq(-TILE_HEIGHT / 2f))
+        verify(mock, times(1)).width
+        verify(mock, times(1)).height
         verifyNoMoreInteractions(mock)
     }
 

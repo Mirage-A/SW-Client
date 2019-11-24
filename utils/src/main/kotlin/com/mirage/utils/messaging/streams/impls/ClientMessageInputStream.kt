@@ -1,6 +1,5 @@
 package com.mirage.utils.messaging.streams.impls
 
-import com.mirage.utils.LOG_ALL_MESSAGES
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.deserializeClientMessage
 import com.mirage.utils.messaging.streams.ClientMessageReader

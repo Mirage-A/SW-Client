@@ -1,8 +1,8 @@
 package com.mirage.gameview.drawers.templates
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.mirage.utils.game.objects.GameObject
 import com.mirage.gameview.drawers.DrawerTemplate
+import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
  * Composite из двух представлений.
@@ -16,9 +16,9 @@ class OpaqueTransparentDrawerTemplate(
         private val transparentDrawerTemplate: DrawerTemplate
 ) : DrawerTemplate {
 
-    override fun draw(batch: SpriteBatch, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: GameObject.MoveDirection) {
-        if (isOpaque) opaqueDrawerTemplate.draw(batch, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
-        else transparentDrawerTemplate.draw(batch, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: GameObject.MoveDirection) {
+        if (isOpaque) opaqueDrawerTemplate.draw(virtualScreen, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
+        else transparentDrawerTemplate.draw(virtualScreen, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
     }
 
 }

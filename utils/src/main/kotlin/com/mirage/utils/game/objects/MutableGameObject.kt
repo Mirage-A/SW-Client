@@ -1,7 +1,7 @@
 package com.mirage.utils.game.objects
 
-import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.Rectangle
 
 /**
  * Изменяемый объект карты.
@@ -32,7 +32,7 @@ class MutableGameObject(
 
     val rectangle : Rectangle
         get() = Rectangle(
-                x - width / 2, y - height / 2, width, height
+                x, y, width, height
         )
 
     val position : Point

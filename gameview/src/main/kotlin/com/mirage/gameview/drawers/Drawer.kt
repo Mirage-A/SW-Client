@@ -1,7 +1,7 @@
 package com.mirage.gameview.drawers
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
  * Представление конкретного объекта в одном из его состояний.
@@ -9,7 +9,7 @@ import com.mirage.utils.game.objects.GameObject
  */
 interface Drawer {
 
-    fun draw(batch: SpriteBatch, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection)
+    fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection)
 
     fun setAction(newAction: String, currentTimeMillis: Long = System.currentTimeMillis())
 

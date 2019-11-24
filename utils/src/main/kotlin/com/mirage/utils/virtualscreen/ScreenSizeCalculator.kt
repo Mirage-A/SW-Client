@@ -1,7 +1,7 @@
-package com.mirage.gameview.utils
+package com.mirage.utils.virtualscreen
 
-import com.badlogic.gdx.math.Rectangle
 import com.mirage.utils.*
+import com.mirage.utils.datastructures.Rectangle
 
 
 /**
@@ -13,7 +13,7 @@ import com.mirage.utils.*
      * @param realHeight Высота реального экрана
      * @return Оптимальный размер виртуального экрана
      */
-    fun calculateViewportSize(realWidth: Float, realHeight: Float): Rectangle {
+    internal fun calculateViewportSize(realWidth: Float, realHeight: Float): Rectangle {
         val tileSize = calculateTileSize(realWidth, realHeight)
         val width = evenRound(realWidth / tileSize.width * TILE_WIDTH).toFloat()
         val height = evenRound(realHeight / tileSize.height * TILE_HEIGHT).toFloat()
@@ -31,7 +31,7 @@ import com.mirage.utils.*
      * @param realHeight Высота реального экрана
      * @return Оптимальный размер одного тайла (хранится как ширина и высота прямоугольника)
      */
-    fun calculateTileSize(realWidth: Float, realHeight: Float): Rectangle {
+    internal fun calculateTileSize(realWidth: Float, realHeight: Float): Rectangle {
         // Используем тернарный поиск по высоте тайла
         var L = 0f
         var R = 512f
