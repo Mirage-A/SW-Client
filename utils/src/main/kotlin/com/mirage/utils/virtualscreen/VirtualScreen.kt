@@ -64,6 +64,11 @@ interface VirtualScreen {
     fun draw(textureName: String, x: Float, y: Float)
 
     /**
+     * Стандартный метод отрисовки текстуры с центром в точке (x, y) и размерами width x height.
+     */
+    fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float)
+
+    /**
      * Этот метод нацелен на отрисовку слоёв анимации из редактора.
      * @param textureName Название текстуры
      * @param x Координата центра текстуры на виртуальном экране.

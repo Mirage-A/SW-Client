@@ -17,7 +17,8 @@ sealed class ClientMessage {
                 RegisterClientMessage::class.java,
                 LoginClientMessage::class.java,
                 CityJoinClientMessage::class.java,
-                ReconnectClientMessage::class.java
+                ReconnectClientMessage::class.java,
+                ChangeSceneClientMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -45,3 +46,19 @@ data class LoginClientMessage(val login: String, val password: String) : ClientM
 data class CityJoinClientMessage(val cityID: Long) : ClientMessage()
 
 data class ReconnectClientMessage(val roomID: Long) : ClientMessage()
+
+/**
+ * Сообщение о смене экрана.
+ * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
+ */
+data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
+
+    enum class Scene {
+        MAIN_MENU,
+        SETTINGS_MENU,
+        MULTIPLAYER_LOBBY,
+        SINGLEPLAYER_GAME,
+        MULTIPLAYER_GAME
+    }
+
+}

@@ -6,9 +6,11 @@ import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
-interface Screen : InputProcessor {
+interface Screen {
 
     val inputMessages: Observable<ClientMessage>
+
+    val inputProcessor: InputProcessor
 
     fun handleServerMessage(msg: ServerMessage)
 

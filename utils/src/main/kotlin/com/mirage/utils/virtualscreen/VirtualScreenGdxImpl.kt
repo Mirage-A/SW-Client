@@ -118,6 +118,12 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
         batch.draw(texture, x - texture.width / 2, y - texture.height / 2)
     }
 
+    override fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float) {
+        val texture = getTexture(textureName)
+        batch.draw(texture, x - width / 2, y - height / 2, width, height)
+    }
+
+
     override fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float) {
         val texture = getTexture(textureName)
         //TODO Возможно, вместо basicWidth следует использовать texture.width

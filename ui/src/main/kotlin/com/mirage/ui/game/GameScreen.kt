@@ -18,7 +18,7 @@ import rx.Observable
 
 class GameScreen(gameMap: GameMap) : Screen {
 
-    private val inputProcessor : GameInputProcessor = when (PLATFORM) {
+    override val inputProcessor : GameInputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopGameInputProcessor()
         else -> DesktopGameInputProcessor()
     }
@@ -80,35 +80,9 @@ class GameScreen(gameMap: GameMap) : Screen {
         }
         inputProcessor.uiState.lock.unlock()
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
-        virtualScreen.begin()
         gameView.renderGameState(virtualScreen, state, state.objects[playerID]?.position ?: Point(0f, 0f))
         uiRenderer.renderUI(virtualScreen, uiStateSnapshot, currentTimeMillis)
-        virtualScreen.end()
     }
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages
-
-    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean =
-            inputProcessor.touchUp(screenX, screenY, pointer, button)
-
-    override fun mouseMoved(screenX: Int, screenY: Int): Boolean =
-            inputProcessor.mouseMoved(screenX, screenY)
-
-    override fun keyTyped(character: Char): Boolean =
-            inputProcessor.keyTyped(character)
-
-    override fun scrolled(amount: Int): Boolean =
-            inputProcessor.scrolled(amount)
-
-    override fun keyUp(keycode: Int): Boolean =
-            inputProcessor.keyUp(keycode)
-
-    override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean =
-            inputProcessor.touchDragged(screenX, screenY, pointer)
-
-    override fun keyDown(keycode: Int): Boolean =
-            inputProcessor.keyDown(keycode)
-
-    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean =
-            inputProcessor.touchDown(screenX, screenY, pointer, button)
 }

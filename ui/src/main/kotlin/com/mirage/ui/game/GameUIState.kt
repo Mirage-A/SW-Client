@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock
  * Состояние интерфейса.
  * Изменяется классами [DesktopGameInputProcessor] (при вводе пользователя) и [GameScreen] (при получении данных от логики).
  * Для рендеринга создаётся копия, которая далее не изменяется.
+ * Этот объект и его состояние должно быть защищено блокировкой this
  */
 class GameUIState(
         var bufferedMoving : Boolean? = null,
