@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/mirage-a/shattered-world.svg?branch=dev)](https://travis-ci.org/mirage-a/shattered-world)
-[![Code Coverage](https://codecov.io/gh/mirage-a/shattered-world/branch/dev/graphs/badge.svg?)](https://codecov.io/gh/mirage-a/shattered-world)
+[![Build Status](https://travis-ci.org/mirage-a/shattered-world.svg?branch=master)](https://travis-ci.org/mirage-a/shattered-world)
+[![Code Coverage](https://codecov.io/gh/mirage-a/shattered-world/branch/master/graphs/badge.svg?)](https://codecov.io/gh/mirage-a/shattered-world)
 
 
 # Shattered World Game (WIP)
@@ -22,7 +22,7 @@
  - RxJava
  - GSON
  - JUnit, Mockito
- - Gradle, Travis CI, Codecov
+ - Gradle, Git, Travis CI, Codecov
  
 Активно изучаются и будут использоваться:
  - Kotlin Coroutines
