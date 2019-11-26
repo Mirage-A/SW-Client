@@ -17,12 +17,12 @@ import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
 object Client : ApplicationListener {
 
     private var currentScreen : Screen? = null
-    private val virtualScreen : Lazy<VirtualScreen> = lazy(LazyThreadSafetyMode.NONE) { VirtualScreenGdxImpl() }
+    private val virtualScreen : VirtualScreen = VirtualScreenGdxImpl()
     private var connection : Connection? = null
 
     @Synchronized
     private fun openMainMenu() {
-        val mainMenuScreen = MainMenuScreen()
+        val mainMenuScreen = MainMenuScreen(virtualScreen)
         mainMenuScreen.inputMessages.subscribe { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {
@@ -45,7 +45,7 @@ object Client : ApplicationListener {
             it.start()
             val map = SceneLoader.loadScene(mapName).first
             val gameScreen = GameScreen(map)
-            virtualScreen.value.setTileSet(map.tileSetName)
+            virtualScreen.setTileSet(map.tileSetName)
             it.serverMessages.subscribe { msg ->
                 gameScreen.handleServerMessage(msg)
             }
@@ -72,7 +72,7 @@ object Client : ApplicationListener {
     override fun dispose() {}
 
     override fun render() {
-        val screen = virtualScreen.value
+        val screen = virtualScreen
         screen.begin()
         gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -81,7 +81,7 @@ object Client : ApplicationListener {
     }
 
     override fun resize(width: Int, height: Int) {
-        virtualScreen.value.resize(width, height)
+        virtualScreen.resize(width, height)
     }
 
 }

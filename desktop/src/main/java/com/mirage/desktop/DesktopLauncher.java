@@ -7,20 +7,28 @@ import com.mirage.client.Client;
 import com.mirage.utils.Assets;
 import com.mirage.utils.ConfigurationKt;
 
+import java.io.File;
+
 class DesktopLauncher {
 
     public static void main(String[] args) {
         System.setProperty("user.name", "CorrectUserName");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Shattered World";
-        //TODO Во время тестирования в IDE активными должны быть три нижние строчки,
-        //TODO во время создания jar-файла активными должны быть три верхние строчки.
-        //ConfigurationKt.setPLATFORM("desktop");
-        //config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
-        //config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
-        ConfigurationKt.setPLATFORM("desktop-test");
-        config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/windows_icon.png", Files.FileType.Internal);
-        config.addIcon(Assets.INSTANCE.getAssetsPath() + "drawable/mac_icon.png", Files.FileType.Internal);
+        if (new File("android/assets/").exists()) {
+            //Во время тестирования в IDE
+            ConfigurationKt.setPLATFORM("desktop-test");
+            System.out.println("Test mode enabled. Assets path: " + new File("android/assets/").getAbsolutePath());
+            config.addIcon("android/assets/drawable/windows_icon.png", Files.FileType.Internal);
+            config.addIcon("android/assets/drawable/mac_icon.png", Files.FileType.Internal);
+        }
+        else {
+            //Во время запуска собранного jar-файла
+            ConfigurationKt.setPLATFORM("desktop");
+            System.out.println("Release mode enabled.");
+            config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
+            config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
+        }
         if (ConfigurationKt.DESKTOP_FULL_SCREEN) {
             config.fullscreen = true;
             config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;

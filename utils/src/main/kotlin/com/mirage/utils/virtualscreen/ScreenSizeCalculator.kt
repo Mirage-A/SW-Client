@@ -2,6 +2,7 @@ package com.mirage.utils.virtualscreen
 
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Rectangle
+import kotlin.math.roundToInt
 
 
 /**
@@ -17,7 +18,7 @@ import com.mirage.utils.datastructures.Rectangle
         val tileSize = calculateTileSize(realWidth, realHeight)
         val width = evenRound(realWidth / tileSize.width * TILE_WIDTH).toFloat()
         val height = evenRound(realHeight / tileSize.height * TILE_HEIGHT).toFloat()
-        Log.i("Размеры виртуального экрана: $width x $height px")
+        Log.i("Virtual screen size: $width x $height px")
         return Rectangle(0f, 0f, width, height)
     }
 
@@ -49,9 +50,9 @@ import com.mirage.utils.datastructures.Rectangle
         val tileH = evenRound(L)
         val res = Rectangle(0f, 0f, (2 * tileH).toFloat(), tileH.toFloat())
 
-        Log.i("Размеры экрана: $realWidth x $realHeight px")
-        Log.i("Размеры тайла: " + res.width + " x " + res.height + " px")
-        Log.i("Кол-во тайлов на экране: " + realWidth / res.width + " x " + realHeight / res.height)
+        Log.i("Real screen size: $realWidth x $realHeight px")
+        Log.i("Real tile size: " + res.width + " x " + res.height + " px")
+        Log.i("Tiles count on screen: " + realWidth / res.width + " x " + realHeight / res.height)
 
         return res
     }
@@ -87,7 +88,7 @@ import com.mirage.utils.datastructures.Rectangle
      * @return Ближайшее четное целое число
      */
     private fun evenRound(a: Float): Int {
-        val res = Math.round(a)
+        val res = a.roundToInt()
         if (res % 2 == 0) {
             return res
         }

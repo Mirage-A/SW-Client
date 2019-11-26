@@ -1,37 +1,43 @@
 package com.mirage.utils.virtualscreen
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.mirage.utils.Assets
-import com.mirage.utils.Log
-import com.mirage.utils.TILE_HEIGHT
-import com.mirage.utils.TILE_WIDTH
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.utils.Align
+import com.mirage.utils.*
+import com.mirage.utils.datastructures.Rectangle
 import kotlin.math.roundToInt
 
 
 class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight: Float = 0f) : VirtualScreen {
 
-    private val batch: SpriteBatch = SpriteBatch()
-    private val camera : OrthographicCamera = OrthographicCamera()
-
-    private val texturesCache: MutableMap<String, Texture> = HashMap()
-    private var tileTexturesList: List<TextureRegion> = ArrayList()
-
     override var width: Float = initialVirtualWidth
     override var height: Float = initialVirtualHeight
 
-    init {
-        camera.setToOrtho(false)
-        camera.position.x = 0f
-        camera.position.y = 0f
-        camera.viewportWidth = width
-        camera.viewportHeight = height
-        camera.update()
-        batch.projectionMatrix = camera.combined
+    private val camera : OrthographicCamera = OrthographicCamera()
+
+    private val batch: Lazy<SpriteBatch> = lazy(LazyThreadSafetyMode.NONE) {
+        SpriteBatch().apply {
+            camera.apply {
+                setToOrtho(false)
+                position.x = 0f
+                position.y = 0f
+                viewportWidth = width
+                viewportHeight = height
+                update()
+            }
+            projectionMatrix = camera.combined
+            updateResizableLabels()
+        }
     }
+
+    private val texturesCache: MutableMap<String, Texture> = HashMap()
+    private var tileTexturesList: List<TextureRegion> = ArrayList()
 
     override fun resize(newRealWidth: Int, newRealHeight: Int) {
         val newSize = calculateViewportSize(newRealWidth.toFloat(), newRealHeight.toFloat())
@@ -40,13 +46,16 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
         camera.viewportWidth = width
         camera.viewportHeight = height
         camera.update()
-        batch.projectionMatrix = camera.combined
+        batch.value.projectionMatrix = camera.combined
+        updateResizableLabels()
     }
 
     private val minFilter = Texture.TextureFilter.Nearest
     private val magFilter = Texture.TextureFilter.Nearest
 
-    private val emptyTexture: Texture = Texture(Pixmap(1, 1, Pixmap.Format.Alpha))
+    private val emptyTexture: Lazy<Texture> = lazy(LazyThreadSafetyMode.NONE) {
+        Texture(Pixmap(1, 1, Pixmap.Format.Alpha))
+    }
 
     /**
      * Загружает текстуру с заданным названием из файла.
@@ -55,14 +64,14 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
     private fun loadTexture(name: String): Texture {
         try {
             val file = Assets.loadFile("drawable/$name.png")
-            file ?: return emptyTexture
+            file ?: return emptyTexture.value
             val loadedTexture = Texture(file, false)
             loadedTexture.setFilter(minFilter, magFilter)
             return loadedTexture
         } catch (ex: Exception) {
             Log.e("Error while loading texture: $name")
             Log.e(ex.message)
-            return emptyTexture
+            return emptyTexture.value
         }
     }
 
@@ -107,27 +116,40 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
 
     override fun drawTile(tileID: Int, x: Float, y: Float) {
         if (tileID in tileTexturesList.indices) {
-            batch.draw(tileTexturesList[tileID], x - TILE_WIDTH / 2, y - TILE_HEIGHT / 2)
+            batch.value.draw(tileTexturesList[tileID], x - TILE_WIDTH / 2, y - TILE_HEIGHT / 2)
         } else {
             Log.e("Error: tileID is out of bounds. tileID=$tileID tileSetSize=${tileTexturesList.size}")
         }
     }
 
+    override fun drawText(text: String, rect: Rectangle) {
+        //TODO
+        val label = Label(text, Label.LabelStyle(BitmapFont(), Color.BLACK))
+        label.isVisible = true
+        label.width = rect.width
+        label.height = rect.height
+        label.setWrap(true)
+        label.setX(rect.x, Align.center)
+        label.setY(rect.y, Align.center)
+        label.setAlignment(Align.center, Align.center)
+        label.draw(batch.value, 255f)
+    }
+
     override fun draw(textureName: String, x: Float, y: Float) {
         val texture = getTexture(textureName)
-        batch.draw(texture, x - texture.width / 2, y - texture.height / 2)
+        batch.value.draw(texture, x - texture.width / 2, y - texture.height / 2)
     }
 
     override fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float) {
         val texture = getTexture(textureName)
-        batch.draw(texture, x - width / 2, y - height / 2, width, height)
+        batch.value.draw(texture, x - width / 2, y - height / 2, width, height)
     }
 
 
     override fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float) {
         val texture = getTexture(textureName)
         //TODO Возможно, вместо basicWidth следует использовать texture.width
-        batch.draw(texture,
+        batch.value.draw(texture,
                 x - texture.width / 2f,
                 y - texture.height / 2f,
                 texture.width / 2f,
@@ -145,10 +167,74 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
 
     override fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean) {
         val texture = getTexture(textureName)
-        batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY)
+        batch.value.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY)
     }
 
-    override fun begin() = batch.begin()
+    override fun begin() = batch.value.begin()
 
-    override fun end() = batch.end()
+    override fun end() = batch.value.end()
+
+    /**
+     * Текстовые поля с заданной функцией изменения размера при изменении размеров виртуального экрана.
+     */
+    private val resizableLabels: MutableSet<VirtualScreen.Label> = HashSet()
+
+    override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect, null)
+
+    override fun createLabel(text: String): VirtualScreen.Label = createLabel(text, Rectangle(0f, 0f, 0f, 0f))
+
+    override fun createAutoResizableLabel(text: String, positionUpdater: (Float, Float) -> Rectangle) : VirtualScreen.Label {
+        val label = GdxLabel(text, positionUpdater(width, height), positionUpdater)
+        resizableLabels += label
+        return label
+    }
+
+    private fun updateResizableLabels() {
+        for (label in resizableLabels) {
+            label.positionUpdater?.invoke(width, height)?.let {
+                println("Label resize: $width $height $it")
+                label.rect = it
+            }
+        }
+    }
+
+    inner class GdxLabel internal constructor(
+            text: String,
+            rect: Rectangle,
+            override val positionUpdater: ((Float, Float) -> Rectangle)?
+    ) : VirtualScreen.Label {
+
+        override var text: String = text
+            set(value) {
+                label.setText(value)
+                field = value
+            }
+
+        override var rect: Rectangle = rect
+            set(value) {
+                label.apply {
+                    setPosition(value.x, value.y, Align.center)
+                    setSize(value.width, value.height)
+                    setAlignment(Align.center, Align.center)
+                }
+                field = value
+            }
+
+        private val label = Label(text, Label.LabelStyle(BitmapFont(), Color.BLACK)).apply {
+            isVisible = true
+            setWrap(true)
+            setPosition(rect.x, rect.y, Align.center)
+            setSize(rect.width, rect.height)
+            setAlignment(Align.center, Align.center)
+        }
+
+        override fun draw() = label.draw(batch.value, 255f)
+
+        override fun dispose() {
+            if (positionUpdater != null) {
+                resizableLabels.remove(this)
+            }
+        }
+
+    }
 }

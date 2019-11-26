@@ -9,10 +9,6 @@ import java.io.Reader
 
 object Assets {
 
-    val assetsPath = if ((PLATFORM == "test" || PLATFORM == "desktop-test") && File("./android/assets/").exists())
-        "./android/assets/" else ""
-
-
     private val assetsResolver : FileHandleResolver = when (PLATFORM) {
         "test" -> FileHandleResolver {
             FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))

@@ -7,7 +7,7 @@ import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
-class MainMenuScreen : Screen {
+class MainMenuScreen(virtualScreen: VirtualScreen) : Screen {
 
     override val inputProcessor: MainMenuInputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopMainMenuInputProcessor()
@@ -15,8 +15,8 @@ class MainMenuScreen : Screen {
     }
 
     private val uiRenderer : MainMenuUIRenderer = when (PLATFORM) {
-        "desktop", "test" -> DesktopMainMenuUIRenderer()
-        else -> DesktopMainMenuUIRenderer()
+        "desktop", "test" -> DesktopMainMenuUIRenderer(virtualScreen)
+        else -> DesktopMainMenuUIRenderer(virtualScreen)
     }
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages

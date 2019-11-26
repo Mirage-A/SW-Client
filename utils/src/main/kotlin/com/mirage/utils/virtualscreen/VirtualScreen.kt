@@ -1,6 +1,7 @@
 package com.mirage.utils.virtualscreen
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mirage.utils.datastructures.Rectangle
 
 /**
  * Интерфейс, представляющий собой виртуальный экран и позволяющий отрисовывать на нём текстуры.
@@ -59,6 +60,35 @@ interface VirtualScreen {
     fun drawTile(tileID: Int, x: Float, y: Float)
 
     /**
+     * Отрисовывает текст [text] внутри прямоугольника [rect]
+     *
+     */
+    fun drawText(text: String, rect: Rectangle)
+
+    /**
+     * Создаёт поле для текста [text].
+     * Перед отрисовкой следует задать расположение текста.
+     * Изменения позиции этого поля НЕ перезаписываются при изменении размеров виртуального экрана.
+     */
+    fun createLabel(text: String) : Label
+
+    /**
+     * Создаёт поле для текста [text] внутри прямоугольника [rect].
+     * Для отрисовки этого поля следует вызвать метод [Label.draw].
+     * Изменения позиции этого поля НЕ перезаписываются при изменении размеров виртуального экрана.
+     */
+    fun createLabel(text: String, rect: Rectangle) : Label
+
+    /**
+     * Создаёт поле для текста [text].
+     * Позиция и размеры поля обновляются при каждом изменении размеров виртуального экрана
+     * с помощью функции [positionUpdater], принимающей размеры виртуального экрана.
+     * Изменения позиции этого поля ПЕРЕЗАПИСЫВАЮТСЯ при изменении размеров виртуального экрана.
+     */
+    fun createAutoResizableLabel(text: String, positionUpdater: (Float, Float) -> Rectangle) : Label
+
+
+    /**
      * Стандартный метод отрисовки текстуры с центром в точке (x, y).
      */
     fun draw(textureName: String, x: Float, y: Float)
@@ -89,4 +119,19 @@ interface VirtualScreen {
      */
     fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean)
 
+    /**
+     * Виртуальное поле для текста.
+     */
+    interface Label {
+
+        var text: String
+
+        var rect: Rectangle
+
+        val positionUpdater: ((Float, Float) -> Rectangle)?
+
+        fun draw()
+
+        fun dispose()
+    }
 }
