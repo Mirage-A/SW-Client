@@ -18,7 +18,8 @@ sealed class ClientMessage {
                 LoginClientMessage::class.java,
                 CityJoinClientMessage::class.java,
                 ReconnectClientMessage::class.java,
-                ChangeSceneClientMessage::class.java
+                ChangeSceneClientMessage::class.java,
+                ExitClientMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -62,3 +63,8 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
     }
 
 }
+/**
+ * Сообщение о выходе из игры.
+ * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
+ */
+data class ExitClientMessage(val exitCode: Int) : ClientMessage()

@@ -9,6 +9,4 @@ interface MainMenuInputProcessor : InputProcessor {
 
     val inputMessages: Subject<ClientMessage, ClientMessage>
 
-    val uiState: MainMenuUIState
-
 }

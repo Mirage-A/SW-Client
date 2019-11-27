@@ -14,6 +14,8 @@ interface Screen {
 
     fun handleServerMessage(msg: ServerMessage)
 
+    fun resize(virtualWidth: Float, virtualHeight: Float)
+
     fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long)
 
 }

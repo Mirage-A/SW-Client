@@ -14,10 +14,16 @@ import com.mirage.utils.datastructures.Rectangle
 import kotlin.math.roundToInt
 
 
-class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight: Float = 0f) : VirtualScreen {
+class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
+                           initialVirtualHeight: Float = 0f,
+                           initialRealWidth: Float = 0f,
+                           initialRealHeight: Float = 0f) : VirtualScreen {
 
     override var width: Float = initialVirtualWidth
     override var height: Float = initialVirtualHeight
+    override var realWidth: Float = initialRealWidth
+    override var realHeight: Float = initialRealHeight
+
 
     private val camera : OrthographicCamera = OrthographicCamera()
 
@@ -32,7 +38,6 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
                 update()
             }
             projectionMatrix = camera.combined
-            updateResizableLabels()
         }
     }
 
@@ -43,11 +48,12 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
         val newSize = calculateViewportSize(newRealWidth.toFloat(), newRealHeight.toFloat())
         width = newSize.width
         height = newSize.height
+        realWidth = newRealWidth.toFloat()
+        realHeight = newRealHeight.toFloat()
         camera.viewportWidth = width
         camera.viewportHeight = height
         camera.update()
         batch.value.projectionMatrix = camera.combined
-        updateResizableLabels()
     }
 
     private val minFilter = Texture.TextureFilter.Nearest
@@ -137,14 +143,16 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
 
     override fun draw(textureName: String, x: Float, y: Float) {
         val texture = getTexture(textureName)
-        batch.value.draw(texture, x - texture.width / 2, y - texture.height / 2)
+        batch.value.draw(texture, x - texture.width / 2f, y - texture.height / 2f)
     }
 
     override fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float) {
         val texture = getTexture(textureName)
-        batch.value.draw(texture, x - width / 2, y - height / 2, width, height)
+        batch.value.draw(texture, x - width / 2f,y - height / 2f, width, height)
     }
 
+    override fun draw(textureName: String, rect: Rectangle) =
+            draw(textureName, rect.x, rect.y, rect.width, rect.height)
 
     override fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float) {
         val texture = getTexture(textureName)
@@ -174,49 +182,16 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
 
     override fun end() = batch.value.end()
 
-    /**
-     * Текстовые поля с заданной функцией изменения размера при изменении размеров виртуального экрана.
-     */
-    private val resizableLabels: MutableSet<VirtualScreen.Label> = HashSet()
-
-    override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect, null)
-
-    override fun createLabel(text: String): VirtualScreen.Label = createLabel(text, Rectangle(0f, 0f, 0f, 0f))
-
-    override fun createAutoResizableLabel(text: String, positionUpdater: (Float, Float) -> Rectangle) : VirtualScreen.Label {
-        val label = GdxLabel(text, positionUpdater(width, height), positionUpdater)
-        resizableLabels += label
-        return label
-    }
-
-    private fun updateResizableLabels() {
-        for (label in resizableLabels) {
-            label.positionUpdater?.invoke(width, height)?.let {
-                println("Label resize: $width $height $it")
-                label.rect = it
-            }
-        }
-    }
+    override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect)
 
     inner class GdxLabel internal constructor(
             text: String,
-            rect: Rectangle,
-            override val positionUpdater: ((Float, Float) -> Rectangle)?
+            rect: Rectangle
     ) : VirtualScreen.Label {
 
         override var text: String = text
             set(value) {
                 label.setText(value)
-                field = value
-            }
-
-        override var rect: Rectangle = rect
-            set(value) {
-                label.apply {
-                    setPosition(value.x, value.y, Align.center)
-                    setSize(value.width, value.height)
-                    setAlignment(Align.center, Align.center)
-                }
                 field = value
             }
 
@@ -228,13 +203,18 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f, initialVirtualHeight
             setAlignment(Align.center, Align.center)
         }
 
-        override fun draw() = label.draw(batch.value, 255f)
-
-        override fun dispose() {
-            if (positionUpdater != null) {
-                resizableLabels.remove(this)
+        override var rect: Rectangle = rect
+            set(value) {
+                label.apply {
+                    setPosition(value.x, value.y, Align.center)
+                    setSize(value.width, value.height)
+                    setAlignment(Align.center, Align.center)
+                }
+                field = value
             }
-        }
+
+
+        override fun draw() = label.draw(batch.value, 255f)
 
     }
 }

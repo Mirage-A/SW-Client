@@ -7,6 +7,4 @@ import rx.subjects.Subject
 interface GameInputProcessor : InputProcessor {
 
     val inputMessages: Subject<ClientMessage, ClientMessage>
-
-    val uiState: GameUIState
 }
