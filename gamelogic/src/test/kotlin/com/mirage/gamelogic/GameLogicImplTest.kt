@@ -7,8 +7,11 @@ import com.mirage.utils.messaging.GameStateUpdateMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
+import kotlin.collections.ArrayList
 
 internal class GameLogicImplTest{
 
@@ -36,14 +39,15 @@ internal class GameLogicImplTest{
         logic.addNewPlayer {
             id.set(it)
         }
-        Thread.sleep(50L)
+        Thread.sleep(150L)
         logic.stopLogic()
         Thread.sleep(100L)
         synchronized(states) {
-            assertEquals(2, states.size)
+            assert(states.size >= 3)
             assertEquals(Long.MIN_VALUE + 2, id.get())
             assertEquals(2, states[0].objects.size)
-            assertEquals(3, states[1].objects.size)
+            assertEquals(2, states[1].objects.size)
+            assertEquals(3, states[2].objects.size)
         }
     }
 
@@ -85,5 +89,21 @@ internal class GameLogicImplTest{
             assertEquals(thirdState, secondDiff.projectOn(secondState))
         }
 
+    }
+
+
+    @Test
+    fun testJavaUtilTimer() {
+        val timer = Timer(false)
+        val counter = AtomicInteger(0)
+        val task: TimerTask = object : TimerTask() {
+            override fun run() {
+                counter.incrementAndGet()
+            }
+        }
+        timer.scheduleAtFixedRate(task, 0L, 10L)
+        Thread.sleep(95L)
+        timer.cancel()
+        assertEquals(10, counter.get())
     }
 }

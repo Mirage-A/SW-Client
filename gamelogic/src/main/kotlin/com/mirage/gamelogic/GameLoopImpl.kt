@@ -2,13 +2,15 @@ package com.mirage.gamelogic
 
 import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
 import com.mirage.utils.Log
-import com.mirage.utils.Timer
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.messaging.*
+import java.lang.Exception
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
 import kotlin.collections.ArrayList
 
 internal class GameLoopImpl(gameMapName: String,
@@ -36,6 +38,7 @@ internal class GameLoopImpl(gameMapName: String,
         while (true) {
             val msg = clientMessages.poll()
             msg ?: break
+            println("Processing client message $msg")
             msgs.add(msg)
         }
 
@@ -77,21 +80,45 @@ internal class GameLoopImpl(gameMapName: String,
     //Не следует использовать это поле для получения последнего актуального состояния.
     private var lastUpdatedState: GameObjects = initialScene.second
 
-    private val loopTimer: Timer = Timer(GAME_LOOP_TICK_INTERVAL) {
-        lastUpdatedState = update(it, lastUpdatedState, gameMap)
+    @Volatile
+    private var lastTickTime: Long = System.currentTimeMillis()
+
+    private val lock : Lock = ReentrantLock(true)
+
+    private val timerTask: TimerTask = object: TimerTask() {
+        override fun run() {
+            lock.lock()
+            val time = System.currentTimeMillis()
+            lastUpdatedState = update(time - lastTickTime, lastUpdatedState, gameMap)
+            lastTickTime = time
+            lock.unlock()
+        }
     }
+
+    private val loopTimer = Timer(false)
 
     override fun start() {
         println("Starting logic thread....")
         stateUpdateListener(initialScene.second, System.currentTimeMillis())
-        loopTimer.start()
+        loopTimer.scheduleAtFixedRate(timerTask, 0L, GAME_LOOP_TICK_INTERVAL)
     }
 
-    override fun pause() = loopTimer.pause()
+    override fun pause() = lock.lock()
 
-    override fun resume() = loopTimer.resume()
+    override fun resume() {
+        lastTickTime = System.currentTimeMillis()
+        lock.unlock()
+    }
 
-    override fun stop() = loopTimer.stop()
+    override fun stop() {
+        try {
+            lock.unlock()
+        }
+        catch(ex: Exception) {}
+        lock.lock()
+        loopTimer.cancel()
+        lock.unlock()
+    }
 
     override fun dispose() {
         stop()

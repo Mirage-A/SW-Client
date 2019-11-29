@@ -1,7 +1,6 @@
 package com.mirage.server
 
 import com.badlogic.gdx.net.Socket
-import com.mirage.utils.Timer
 import com.mirage.utils.messaging.CityJoinClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.LoginClientMessage
@@ -72,15 +71,9 @@ object Server {
 
     private val socketFactory = SocketFactory(::newSocketListener)
 
-    private val outOfRoomPlayersThread = Timer(100) {
-        for (player in playersWithoutRoom) {
-            player.checkNewMessages()
-        }
-    }
 
     init {
         socketFactory.start()
-        outOfRoomPlayersThread.start()
     }
 
 

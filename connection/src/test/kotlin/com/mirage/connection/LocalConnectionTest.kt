@@ -4,6 +4,7 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.*
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
@@ -41,8 +42,6 @@ internal class LocalConnectionTest {
         connection.close()
         Thread.sleep(100L)
         synchronized(messages) {
-            println(messages.size)
-            println(messages)
             assertEquals(4, messages.size)
             val msg1 = messages[0] as InitialGameStateMessage
             val msg2 = messages[1] as GameStateUpdateMessage
@@ -52,10 +51,6 @@ internal class LocalConnectionTest {
             val secondState = msg2.diff.projectOn(firstState)
             val thirdState = msg3.diff.projectOn(secondState)
             val fourthState = msg4.diff.projectOn(thirdState)
-            println(firstState)
-            println(secondState)
-            println(thirdState)
-            println(fourthState)
             assert(Point(0.5f, 0.5f) near firstState[Long.MIN_VALUE]!!.position)
             println(thirdState[Long.MIN_VALUE]!!.position)
             assert(thirdState[Long.MIN_VALUE]!!.position near Point(2.5f, 0.5f))
@@ -69,22 +64,24 @@ internal class LocalConnectionTest {
     @Test
     fun testClientMessageSending() {
         val messages = ArrayList<ServerMessage>()
-        val connection = LocalConnection("moving-micro-test") {
+        val connection: AtomicReference<Connection?> = AtomicReference(null)
+        connection.set(LocalConnection("moving-micro-test") {
             synchronized(messages) {
                 if (it is InitialGameStateMessage || it is GameStateUpdateMessage) {
+                    println("New state! ${messages.size}")
                     messages.add(it)
                 }
+                if (messages.size == 2) {
+                    connection.get()!!.sendMessage(MoveDirectionClientMessage(GameObject.MoveDirection.UP))
+                    connection.get()!!.sendMessage(SetMovingClientMessage(true))
+                }
             }
-        }
-        connection.start()
-        connection.sendMessage(MoveDirectionClientMessage(GameObject.MoveDirection.UP))
-        connection.sendMessage(SetMovingClientMessage(true))
+        })
+        connection.get()!!.start()
         Thread.sleep(350L)
-        connection.close()
+        connection.get()!!.close()
         Thread.sleep(100L)
         synchronized(messages) {
-            println(messages.size)
-            println(messages)
             assert(messages.size >= 4)
             val msg1 = messages[0] as InitialGameStateMessage
             val msg2 = messages[1] as GameStateUpdateMessage
@@ -103,9 +100,9 @@ internal class LocalConnectionTest {
             println(player3)
             println(player4)
             assert(player1.position near Point(0.5f, 0.5f))
-            assert(player2.position near Point(0.5f, 0.9f))
-            assert(player3.position near Point(0.5f, 1.3f))
-            assert(player4.position near Point(0.5f, 1.7f))
+            assert(player2.position near Point(0.5f, 0.5f))
+            assert(player3.position near Point(0.5f, 0.9f))
+            assert(player4.position near Point(0.5f, 1.3f))
             assertEquals(2, fourthState.objects.size)
         }
     }

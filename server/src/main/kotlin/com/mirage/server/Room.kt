@@ -2,7 +2,6 @@ package com.mirage.server
 
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.Timer
 import java.util.*
 
 /**
@@ -16,22 +15,6 @@ class Room {
 
     private val players : MutableList<Player> = Collections.synchronizedList(ArrayList())
 
-
-    //TODO Убрать
-    private val TEST = Timer(5L) {
-        try {
-            for (pl in players) {
-                pl.checkNewMessages()
-            }
-        }
-        catch(ex: Exception) {
-            ex.printStackTrace()
-        }
-    }
-
-    init {
-        TEST.start()
-    }
 
     /**
      * Освобождает все ресурсы, подготавливает комнату к удалению, возвращает список игроков
