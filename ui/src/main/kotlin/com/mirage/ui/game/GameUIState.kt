@@ -6,6 +6,20 @@ import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.virtualscreen.VirtualScreen
 
+private const val playerHealthWidth = 0f
+private const val playerHealthHeight = 64f
+private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
+private const val skillBtnSize = 72f
+
+private const val skillCoolDownFontSize = 20f
+private const val ultimateSkillBtnSize = 168f
+private const val ultimateCoolDownFontSize = 40f
+
+private const val microMenuBtnSize = 64f
+private const val microMenuMargin = 8f
+private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
+private const val settingsMenuBtnFontSize = 20f
+
 /**
  * Состояние интерфейса.
  * Изменяется классами [DesktopGameInputProcessor] (при вводе пользователя) и [GameScreen] (при получении данных от логики).
@@ -18,14 +32,6 @@ class GameUIState(val virtualScreen: VirtualScreen) {
     var lastSentMoving : Boolean? = null
     var lastSentMoveDirection : GameObject.MoveDirection? = null
 
-    private val playerHealthWidth = 0f
-    private val playerHealthHeight = 64f
-    private val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
-
-    private val skillBtnSize = 72f
-    private val skillCoolDownFontSize = 20f
-    private val ultimateSkillBtnSize = 168f
-    private val ultimateCoolDownFontSize = 40f
 
     val skillNames : MutableList<String?> = mutableListOf("flamestrike", "flamestrike", "flamestrike", "flamestrike", "meteor")
     val skillCoolDowns: MutableList<Long> = MutableList(5) {0L}
@@ -37,7 +43,6 @@ class GameUIState(val virtualScreen: VirtualScreen) {
             isVisible = false
         }
     }
-
 
     init {
         skillBtns[0].sizeUpdater = { _, h ->
@@ -93,10 +98,6 @@ class GameUIState(val virtualScreen: VirtualScreen) {
         updateSkillBtns()
     }
 
-    private val microMenuBtnSize = 64f
-    private val microMenuMargin = 8f
-    private val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
-    private val settingsMenuBtnFontSize = 20f
 
     val settingsBtn = Button("ui/game/settings",
             "ui/game/settingshighlighted",

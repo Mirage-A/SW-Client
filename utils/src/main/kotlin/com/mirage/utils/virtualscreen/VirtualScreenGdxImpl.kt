@@ -184,7 +184,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect)
 
-    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) = GdxLabel(text, rect, fontCapHeight)
+    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
     inner class GdxLabel internal constructor(
             text: String,

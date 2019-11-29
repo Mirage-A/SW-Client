@@ -87,7 +87,7 @@ interface VirtualScreen {
     fun createLabel(text: String, rect: Rectangle) : Label
     fun createLabel(text: String) : Label = createLabel(text, Rectangle())
     fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
-    fun createLabel(text: String, fontCapHeight: Float) = createLabel(text, Rectangle(), fontCapHeight)
+    fun createLabel(text: String, fontCapHeight: Float) : Label = createLabel(text, Rectangle(), fontCapHeight)
 
 
     /**

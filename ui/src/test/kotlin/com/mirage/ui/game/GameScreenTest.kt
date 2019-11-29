@@ -4,8 +4,8 @@ import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.TILE_HEIGHT
 import com.mirage.utils.TILE_WIDTH
 import com.mirage.utils.TestSamples
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.InitialGameStateMessage
@@ -51,6 +51,10 @@ internal class GameScreenTest {
         whenever(mock.realWidth) doReturn realWidth
         whenever(mock.realHeight) doReturn realHeight
         whenever(mock.projectRealPointOnVirtualScreen(any())).thenCallRealMethod()
+        whenever(mock.createLabel(any())).thenReturn(mock<VirtualScreen.Label>())
+        whenever(mock.createLabel(any(), any<Float>())).thenReturn(mock<VirtualScreen.Label>())
+        whenever(mock.createLabel(any(), any<Rectangle>())).thenReturn(mock<VirtualScreen.Label>())
+        whenever(mock.createLabel(any(), any(), any())).thenReturn(mock<VirtualScreen.Label>())
         return mock
     }
 }
