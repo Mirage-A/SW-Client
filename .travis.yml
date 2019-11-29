@@ -6,7 +6,7 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 script:
   - ./gradlew clean
-  - ./gradlew build
+  - ./gradlew build --info
   - ./gradlew codeCoverageReport
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f "./build/customJacocoReportDir/codeCoverageReport/codeCoverageReport.xml"
