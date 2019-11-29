@@ -18,10 +18,7 @@ object Assets {
                 FileHandle(File(File("").absolutePath + "/android/assets/$it"))
             }
             else {
-                println("WTF")
-                println("WTF")
-                println("WTF")
-                println("WTF")
+                Log.e("ERROR: Assets directory not found.")
                 null
             }
         }

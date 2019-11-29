@@ -19,6 +19,15 @@ sourceCompatibility = 1.8
 project.ext.mainClassName = "com.mirage.admin.AdminLauncher"
 project.ext.assetsDir = new File("../android/assets")
 
+
+task run(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}
+
 shadowJar {
     baseName = 'SW-Administrator'
     classifier = null

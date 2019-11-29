@@ -10,11 +10,6 @@ fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
     }
 }
 
-operator fun <K, V> Map<K, V>.get(key: K?) : V? {
-    key ?: return null
-    return get(key)
-}
-
 fun <E> NavigableSet<E>.second() : E? = try { higher(first()) } catch(ex: NoSuchElementException) { null }
 
 fun <K, V> Map<K, V>.mutableCopy() : MutableMap<K, V> = HashMap<K, V>().apply {

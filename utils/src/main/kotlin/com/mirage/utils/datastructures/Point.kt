@@ -1,6 +1,8 @@
 package com.mirage.utils.datastructures
 
 import com.mirage.utils.extensions.sqr
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 /**
@@ -13,7 +15,7 @@ data class Point (val x: Float, val y: Float){
      * Создаёт точку, сдвинутую на заданное расстояние в сторону заданного угла
      */
     fun move(angle: Float, range: Float) : Point =
-            Point(x + (Math.cos(angle.toDouble()) * range).toFloat(), y + (Math.sin(angle.toDouble()) * range).toFloat())
+            Point(x + (cos(angle.toDouble()) * range).toFloat(), y + (sin(angle.toDouble()) * range).toFloat())
 
     operator fun plus(p: Point) = Point(x + p.x, y + p.y)
 

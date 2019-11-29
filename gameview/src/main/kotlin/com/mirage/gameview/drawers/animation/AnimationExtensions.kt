@@ -1,6 +1,6 @@
 package com.mirage.gameview.drawers.animation
 
-import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.min
 
@@ -98,6 +98,5 @@ internal fun curValue(startValue: Int, endValue : Int, progress : Float) : Float
 /**
  * Аналогично, но возвращает точку между двумя точками (покоординатное curValue)
  */
-internal fun curValue(startPoint: MutablePoint, endPoint: MutablePoint, progress: Float) : MutablePoint {
-    return MutablePoint(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
-}
+internal fun curValue(startPoint: Point, endPoint: Point, progress: Float) : Point =
+    Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))

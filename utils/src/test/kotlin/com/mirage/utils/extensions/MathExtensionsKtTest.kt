@@ -11,5 +11,6 @@ internal class MathExtensionsKtTest {
         assertEquals(-2, (-1.2f).trunc())
         assertEquals(1, (1.8f).trunc())
         assertEquals(1, (1.2f).trunc())
+        assertEquals(4f, sqr(2f))
     }
 }
