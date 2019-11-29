@@ -1,7 +1,9 @@
 package com.mirage.gamelogic
 
 import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
+import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
+import com.mirage.utils.LoopTimer
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.GameObjects
@@ -80,45 +82,22 @@ internal class GameLoopImpl(gameMapName: String,
     //Не следует использовать это поле для получения последнего актуального состояния.
     private var lastUpdatedState: GameObjects = initialScene.second
 
-    @Volatile
-    private var lastTickTime: Long = System.currentTimeMillis()
 
-    private val lock : Lock = ReentrantLock(true)
-
-    private val timerTask: TimerTask = object: TimerTask() {
-        override fun run() {
-            lock.lock()
-            val time = System.currentTimeMillis()
-            lastUpdatedState = update(time - lastTickTime, lastUpdatedState, gameMap)
-            lastTickTime = time
-            lock.unlock()
-        }
+    private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) {
+        lastUpdatedState = update(it, lastUpdatedState, gameMap)
     }
-
-    private val loopTimer = Timer(false)
 
     override fun start() {
         println("Starting logic thread....")
         stateUpdateListener(initialScene.second, System.currentTimeMillis())
-        loopTimer.scheduleAtFixedRate(timerTask, 0L, GAME_LOOP_TICK_INTERVAL)
+        loopTimer.start()
     }
 
-    override fun pause() = lock.lock()
+    override fun pause() = loopTimer.pause()
 
-    override fun resume() {
-        lastTickTime = System.currentTimeMillis()
-        lock.unlock()
-    }
+    override fun resume() = loopTimer.resume()
 
-    override fun stop() {
-        try {
-            lock.unlock()
-        }
-        catch(ex: Exception) {}
-        lock.lock()
-        loopTimer.cancel()
-        lock.unlock()
-    }
+    override fun stop() = loopTimer.stop()
 
     override fun dispose() {
         stop()

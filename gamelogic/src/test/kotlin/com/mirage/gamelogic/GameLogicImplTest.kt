@@ -35,6 +35,7 @@ internal class GameLogicImplTest{
             }
         })
         logic.startLogic()
+        Thread.sleep(50L)
         val id = AtomicLong()
         logic.addNewPlayer {
             id.set(it)
