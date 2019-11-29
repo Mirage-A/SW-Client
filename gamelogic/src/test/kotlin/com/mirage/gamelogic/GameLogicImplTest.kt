@@ -1,61 +1,110 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.messaging.GameStateUpdateMessage
+import com.mirage.utils.messaging.ServerMessage
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
+import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
+import java.util.concurrent.atomic.AtomicReference
+import kotlin.collections.ArrayList
 
 internal class GameLogicImplTest{
 
     @Test
     fun testStart() {
-        val logic = GameLogicImpl("micro-test")
+        val state: AtomicReference<GameObjects?> = AtomicReference(null)
+        val logic = GameLogicImpl("micro-test", {}, {objs, _ ->
+            state.compareAndSet(null, objs)
+        })
         logic.startLogic()
         logic.stopLogic()
-        val state = logic.latestState.asObservable().toBlocking().first()
-        assertEquals(SceneLoader.loadScene("micro-test").second, state.first)
+        assertEquals(SceneLoader.loadScene("micro-test").second, state.get())
     }
 
     @Test
     fun testNewPlayer() {
-        //TODO
-        /*
-        val logic = GameLogicImpl("micro-test")
+        val states = ArrayList<GameObjects>()
+        val logic = GameLogicImpl("micro-test", {}, {objs, _ ->
+            synchronized(states) {
+                states.add(objs)
+            }
+        })
         logic.startLogic()
-        val id = logic.addNewPlayer()
+        Thread.sleep(50L)
+        val id = AtomicLong()
+        logic.addNewPlayer {
+            id.set(it)
+        }
+        Thread.sleep(150L)
         logic.stopLogic()
-        val state = logic.latestState.asObservable().toBlocking().first()
-        assertEquals(Long.MIN_VALUE + 2, id)
-        assertEquals(3, state.first.objects.size)*/
+        Thread.sleep(100L)
+        synchronized(states) {
+            assert(states.size >= 3)
+            assertEquals(Long.MIN_VALUE + 2, id.get())
+            assertEquals(2, states[0].objects.size)
+            assertEquals(2, states[1].objects.size)
+            assertEquals(3, states[2].objects.size)
+        }
     }
 
     @Test
-    @RepeatedTest(10)
     fun testMinorStateUpdate() {
-        //TODO Этот тест иногда ложится, нужно разобраться с потокобезопасностью
-        /*
-        val logic = GameLogicImpl("moving-micro-test")
-        logic.startLogic()
-        Thread.sleep(5L)
-        val firstState = logic.latestState.asObservable().toBlocking().first()
-        Thread.sleep(25L)
+        val lock = Any()
+        val states = ArrayList<GameObjects>()
         val messages = ArrayList<ServerMessage>()
-        logic.serverMessages.asObservable().subscribe {
-            messages.add(it)
-        }
-        Thread.sleep(25L)
+        val logic = GameLogicImpl("moving-micro-test", {
+            synchronized(lock) {
+                messages.add(it)
+            }
+        }, {objs, _ ->
+            synchronized(lock) {
+                states.add(objs)
+            }
+        })
+        logic.startLogic()
+        Thread.sleep(150L)
         logic.stopLogic()
         Thread.sleep(100L)
-        val secondState = logic.latestState.asObservable().toBlocking().first()
-        assert(Point(0.5f, 0.5f) near firstState.first[Long.MIN_VALUE]!!.position)
-        assert(secondState.first[Long.MIN_VALUE]!!.position.x in 1.4f..1.6f)
-        assert(secondState.first[Long.MIN_VALUE]!!.position.y in 0.4f..0.6f)
+        synchronized(lock) {
+            assertEquals(3, states.size)
+            val firstState = states[0]
+            val secondState = states[1]
+            val thirdState = states[2]
+            println(firstState)
+            println(secondState)
+            println(thirdState)
+            assert(firstState[Long.MIN_VALUE]!!.position near Point(0.5f, 0.5f))
+            assert(secondState[Long.MIN_VALUE]!!.position near Point(0.5f, 0.5f))
+            assert(thirdState[Long.MIN_VALUE]!!.position near Point(1.5f, 0.5f))
 
-        println(messages)
-        assertEquals(2, messages.size)
-        val firstDiff = (messages[0] as GameStateUpdateMessage).diff
-        //TODO assertEquals(StateDifference(hashMapOf(), treeSetOf(), hashMapOf()), firstDiff)
-        val secondDiff = (messages[1] as GameStateUpdateMessage).diff
-        assertEquals(secondState.first, secondDiff.projectOn(firstState.first))*/
+            assertEquals(2, messages.size)
+            println(messages)
+            val firstDiff = (messages[0] as GameStateUpdateMessage).diff
+            val secondDiff = (messages[1] as GameStateUpdateMessage).diff
+            assertEquals(secondState, firstDiff.projectOn(firstState))
+            assertEquals(thirdState, secondDiff.projectOn(secondState))
+        }
+
+    }
+
+
+    @Test
+    fun testJavaUtilTimer() {
+        val timer = Timer(false)
+        val counter = AtomicInteger(0)
+        val task: TimerTask = object : TimerTask() {
+            override fun run() {
+                counter.incrementAndGet()
+            }
+        }
+        timer.scheduleAtFixedRate(task, 0L, 10L)
+        Thread.sleep(95L)
+        timer.cancel()
+        assertEquals(10, counter.get())
     }
 }

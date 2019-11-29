@@ -16,11 +16,13 @@ import com.mirage.utils.messaging.*
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
-class GameScreen(gameMap: GameMap) : Screen {
+class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
+
+    private val uiState : GameUIState = GameUIState(virtualScreen)
 
     override val inputProcessor : GameInputProcessor = when (PLATFORM) {
-        "desktop", "test" -> DesktopGameInputProcessor()
-        else -> DesktopGameInputProcessor()
+        "desktop", "test" -> DesktopGameInputProcessor(uiState)
+        else -> DesktopGameInputProcessor(uiState)
     }
 
     private val uiRenderer : GameUIRenderer = when (PLATFORM) {
@@ -39,10 +41,11 @@ class GameScreen(gameMap: GameMap) : Screen {
     override fun handleServerMessage(msg: ServerMessage) {
         when (msg) {
             is InitialGameStateMessage -> {
+                gameView.loadDrawers(msg.initialObjects)
+                println("Loading drawers for initial state: ${msg.initialObjects}")
                 snapshotManager.addNewSnapshot(GameStateSnapshot(msg.initialObjects, StateDifference(hashMapOf(), treeSetOf(), hashMapOf()), msg.stateCreatedTimeMillis))
                 playerID = msg.playerID
                 lastReceivedState = msg.initialObjects
-                gameView.loadDrawers(msg.initialObjects)
             }
             is GameStateUpdateMessage -> {
                 gameView.updateDrawers(lastReceivedState, msg.diff)
@@ -53,18 +56,16 @@ class GameScreen(gameMap: GameMap) : Screen {
     }
 
     override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
-        inputProcessor.uiState.lock.lock()
-        val uiStateSnapshot = inputProcessor.uiState.copy()
-        uiStateSnapshot.let {
+        uiState.let {
             if (it.bufferedMoving != it.lastSentMoving) {
                 it.bufferedMoving?.let { newMoving ->
-                    inputProcessor.uiState.lastSentMoving = newMoving
+                    uiState.lastSentMoving = newMoving
                     inputProcessor.inputMessages.onNext(SetMovingClientMessage(newMoving))
                 }
             }
             if (it.bufferedMoveDirection != it.lastSentMoveDirection) {
                 it.bufferedMoveDirection?.let { newMoveDirection ->
-                    inputProcessor.uiState.lastSentMoveDirection = newMoveDirection
+                    uiState.lastSentMoveDirection = newMoveDirection
                     inputProcessor.inputMessages.onNext(MoveDirectionClientMessage(when (newMoveDirection) {
                         GameObject.MoveDirection.RIGHT -> GameObject.MoveDirection.UP_RIGHT
                         GameObject.MoveDirection.UP_RIGHT -> GameObject.MoveDirection.UP
@@ -78,11 +79,13 @@ class GameScreen(gameMap: GameMap) : Screen {
                 }
             }
         }
-        inputProcessor.uiState.lock.unlock()
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
         gameView.renderGameState(virtualScreen, state, state.objects[playerID]?.position ?: Point(0f, 0f))
-        uiRenderer.renderUI(virtualScreen, uiStateSnapshot, currentTimeMillis)
+        uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
     }
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages
+
+    override fun resize(virtualWidth: Float, virtualHeight: Float) = uiState.resize(virtualWidth, virtualHeight)
+
 }

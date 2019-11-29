@@ -36,11 +36,11 @@ internal class MapRendererKtTest {
         verify(mock, times(16)).drawTile(any(), any(), any())
         verify(mock, times(4)).drawTile(eq(4), any(), any())
         verify(mock, times(12)).drawTile(eq(1), any(), any())
-        verify(mock, times(4)).drawTile(any(), eq(-TILE_WIDTH / 2f), any())
-        verify(mock, times(3)).drawTile(any(), eq(-TILE_WIDTH), any())
-        verify(mock, times(2)).drawTile(any(), eq(-TILE_WIDTH * 3f / 2f), any())
-        verify(mock, times(1)).drawTile(any(), eq(-TILE_WIDTH * 2f), any())
-        verify(mock, times(4)).drawTile(any(), any(), eq(-TILE_HEIGHT / 2f))
+        verify(mock, times(4)).drawTile(any(), eq(0f), any())
+        verify(mock, times(3)).drawTile(any(), eq(-TILE_WIDTH / 2f), any())
+        verify(mock, times(2)).drawTile(any(), eq(-TILE_WIDTH), any())
+        verify(mock, times(1)).drawTile(any(), eq(-TILE_WIDTH * 1.5f), any())
+        verify(mock, times(4)).drawTile(any(), any(), eq(0f))
         verify(mock, times(1)).width
         verify(mock, times(1)).height
         verifyNoMoreInteractions(mock)

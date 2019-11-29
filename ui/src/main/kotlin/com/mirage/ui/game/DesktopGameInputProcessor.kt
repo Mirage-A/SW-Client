@@ -2,16 +2,14 @@ package com.mirage.ui.game
 
 import com.badlogic.gdx.Input
 import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
 import rx.subjects.Subject
-import kotlin.system.exitProcess
 
-class DesktopGameInputProcessor : GameInputProcessor {
+class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
 
     override val inputMessages: Subject<ClientMessage, ClientMessage> = EventSubjectAdapter()
-
-    override val uiState = GameUIState()
 
     /**
      * Время отпускания клавиши передвижения
@@ -49,7 +47,6 @@ class DesktopGameInputProcessor : GameInputProcessor {
     }
 
     override fun keyUp(keycode: Int): Boolean {
-        uiState.lock.lock()
         when (keycode) {
             Input.Keys.W -> {
                 wReleasedTime = System.currentTimeMillis()
@@ -144,7 +141,6 @@ class DesktopGameInputProcessor : GameInputProcessor {
                 }
             }
         }
-        uiState.lock.unlock()
         return true
     }
 
@@ -155,7 +151,6 @@ class DesktopGameInputProcessor : GameInputProcessor {
 
 
     override fun keyDown(keycode: Int): Boolean {
-        uiState.lock.lock()
         when (keycode) {
             Input.Keys.W -> {
                 if (uiState.bufferedMoving == true) {
@@ -226,11 +221,9 @@ class DesktopGameInputProcessor : GameInputProcessor {
                 }
             }
             Input.Keys.ESCAPE -> {
-                //TODO Выход из игры
-                exitProcess(0)
+                inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MAIN_MENU))
             }
         }
-        uiState.lock.unlock()
         return true
     }
 

@@ -11,13 +11,19 @@ import com.mirage.ui.game.GameScreen
 import com.mirage.ui.mainmenu.MainMenuScreen
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.ChangeSceneClientMessage
+import com.mirage.utils.messaging.ExitClientMessage
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
+import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
 
-    private var currentScreen : Screen? = null
     private val virtualScreen : VirtualScreen = VirtualScreenGdxImpl()
+    private var currentScreen : Screen? = null
+        private set(value) {
+            value?.resize(virtualScreen.width, virtualScreen.height)
+            field = value
+        }
     private var connection : Connection? = null
 
     @Synchronized
@@ -33,6 +39,9 @@ object Client : ApplicationListener {
                         }
                     }
                 }
+                is ExitClientMessage -> {
+                    exitProcess(msg.exitCode)
+                }
             }
         }
         Gdx.input.inputProcessor = mainMenuScreen.inputProcessor
@@ -41,26 +50,31 @@ object Client : ApplicationListener {
 
     @Synchronized
     private fun startSinglePlayerGame(mapName: String) {
-        connection = LocalConnection(mapName).also {
-            it.start()
-            val map = SceneLoader.loadScene(mapName).first
-            val gameScreen = GameScreen(map)
-            virtualScreen.setTileSet(map.tileSetName)
-            it.serverMessages.subscribe { msg ->
-                gameScreen.handleServerMessage(msg)
-            }
-            gameScreen.inputMessages.subscribe { msg ->
-                when (msg) {
-                    is ChangeSceneClientMessage -> {
-
-                    }
-                    else -> it.sendMessage(msg)
-                }
-            }
-            Gdx.input.inputProcessor = gameScreen.inputProcessor
-            currentScreen = gameScreen
+        val map = SceneLoader.loadScene(mapName).first
+        val gameScreen = GameScreen(map, virtualScreen)
+        virtualScreen.setTileSet(map.tileSetName)
+        val connection : Connection = LocalConnection(mapName) {
+            gameScreen.handleServerMessage(it)
         }
+        gameScreen.inputMessages.subscribe { msg ->
+            when (msg) {
+                is ChangeSceneClientMessage -> {
+                    when (msg.newScene) {
+                        ChangeSceneClientMessage.Scene.MAIN_MENU -> {
+                            connection.close()
+                            openMainMenu()
+                        }
+                    }
+                }
+                else -> connection.sendMessage(msg)
+            }
+        }
+        connection.start()
+        this.connection = connection
+        currentScreen = gameScreen
+        Gdx.input.inputProcessor = gameScreen.inputProcessor
     }
+
 
     override fun create() {
         //TODO Загрузка профиля
@@ -72,16 +86,17 @@ object Client : ApplicationListener {
     override fun dispose() {}
 
     override fun render() {
-        val screen = virtualScreen
-        screen.begin()
         gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        val screen = virtualScreen
+        screen.begin()
         currentScreen?.render(screen, System.currentTimeMillis())
         screen.end()
     }
 
     override fun resize(width: Int, height: Int) {
         virtualScreen.resize(width, height)
+        currentScreen?.resize(virtualScreen.width, virtualScreen.height)
     }
 
 }

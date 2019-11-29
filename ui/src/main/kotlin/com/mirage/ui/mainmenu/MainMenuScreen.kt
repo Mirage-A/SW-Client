@@ -9,14 +9,16 @@ import rx.Observable
 
 class MainMenuScreen(virtualScreen: VirtualScreen) : Screen {
 
+    private val uiState: MainMenuUIState = MainMenuUIState(virtualScreen)
+
     override val inputProcessor: MainMenuInputProcessor = when (PLATFORM) {
-        "desktop", "test" -> DesktopMainMenuInputProcessor()
-        else -> DesktopMainMenuInputProcessor()
+        "desktop", "test" -> DesktopMainMenuInputProcessor(uiState)
+        else -> DesktopMainMenuInputProcessor(uiState)
     }
 
     private val uiRenderer : MainMenuUIRenderer = when (PLATFORM) {
-        "desktop", "test" -> DesktopMainMenuUIRenderer(virtualScreen)
-        else -> DesktopMainMenuUIRenderer(virtualScreen)
+        "desktop", "test" -> DesktopMainMenuUIRenderer()
+        else -> DesktopMainMenuUIRenderer()
     }
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages
@@ -26,6 +28,8 @@ class MainMenuScreen(virtualScreen: VirtualScreen) : Screen {
     }
 
     override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
-        uiRenderer.renderUI(virtualScreen, inputProcessor.uiState, currentTimeMillis)
+        uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
     }
+
+    override fun resize(virtualWidth: Float, virtualHeight: Float) = uiState.resize(virtualWidth, virtualHeight)
 }

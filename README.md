@@ -22,7 +22,7 @@
  - RxJava
  - GSON
  - JUnit, Mockito
- - Gradle, Travis CI, Codecov
+ - Gradle, Git, Travis CI, Codecov
  
 Активно изучаются и будут использоваться:
  - Kotlin Coroutines

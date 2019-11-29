@@ -22,8 +22,8 @@ internal fun renderObjects(virtualScreen: VirtualScreen, objs: GameObjects, draw
         val isOpaque = isOpaque(obj, objs)
         val pos = getVirtualScreenPointFromScene(obj.position)
         drawersManager.draw(id, virtualScreen,
-                (pos.x - cameraX).roundToInt().toFloat(),
-                (pos.y - cameraY).roundToInt().toFloat(),
+                (pos.x - cameraX),
+                (pos.y - cameraY),
                 isOpaque, currentTimeMillis, obj.moveDirection)
     }
 }

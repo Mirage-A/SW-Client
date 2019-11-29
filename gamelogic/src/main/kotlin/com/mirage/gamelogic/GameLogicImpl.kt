@@ -8,13 +8,15 @@ import com.mirage.utils.messaging.ServerMessage
 import org.luaj.vm2.LuaTable
 import rx.Observable
 
-class GameLogicImpl(mapName: String) : GameLogic {
+class GameLogicImpl(mapName: String,
+                    serverMessageListener: (ServerMessage) -> Unit,
+                    stateUpdateListener: (GameObjects, Long) -> Unit) : GameLogic {
 
-    private val loop : GameLoop = GameLoopImpl(mapName)
+    private val loop : GameLoop = GameLoopImpl(mapName, serverMessageListener, stateUpdateListener)
 
     override fun startLogic() = loop.start()
 
-    override fun addNewPlayer(): Long = loop.addNewPlayer()
+    override fun addNewPlayer(onComplete: (playerID: Long) -> Unit) : Unit = loop.addNewPlayer(onComplete)
 
     override fun pauseLogic() = loop.pause()
 
@@ -24,15 +26,10 @@ class GameLogicImpl(mapName: String) : GameLogic {
 
     override fun dispose() {
        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loop.dispose()
     }
 
     override fun handleMessage(id: Long, msg: ClientMessage) = loop.handleMessage(id, msg)
-
-    override val latestState: Observable<Pair<GameObjects, Long>>
-        get() = loop.latestState
-
-    override val serverMessages: Observable<ServerMessage>
-        get() = loop.serverMessages
 
     private inner class ScriptActions : LogicScriptActions {
 

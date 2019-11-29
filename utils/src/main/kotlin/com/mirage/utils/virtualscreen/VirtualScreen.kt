@@ -1,6 +1,7 @@
 package com.mirage.utils.virtualscreen
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 
 /**
@@ -21,6 +22,19 @@ interface VirtualScreen {
      */
     val width: Float
     val height: Float
+    /**
+     * Размеры реального экрана
+     */
+    val realWidth: Float
+    val realHeight: Float
+
+    /**
+     * Переводит координаты точки на реальном экране в координаты на виртуальном экране
+     */
+    fun projectRealPointOnVirtualScreen(realPoint: Point): Point = Point(
+            (realPoint.x - realWidth / 2) * (width / realWidth),
+            - (realPoint.y - realHeight / 2) * (height / realHeight)
+    )
 
     /**
      * Начать отрисовку кадра
@@ -66,26 +80,14 @@ interface VirtualScreen {
     fun drawText(text: String, rect: Rectangle)
 
     /**
-     * Создаёт поле для текста [text].
-     * Перед отрисовкой следует задать расположение текста.
-     * Изменения позиции этого поля НЕ перезаписываются при изменении размеров виртуального экрана.
-     */
-    fun createLabel(text: String) : Label
-
-    /**
      * Создаёт поле для текста [text] внутри прямоугольника [rect].
      * Для отрисовки этого поля следует вызвать метод [Label.draw].
      * Изменения позиции этого поля НЕ перезаписываются при изменении размеров виртуального экрана.
      */
     fun createLabel(text: String, rect: Rectangle) : Label
-
-    /**
-     * Создаёт поле для текста [text].
-     * Позиция и размеры поля обновляются при каждом изменении размеров виртуального экрана
-     * с помощью функции [positionUpdater], принимающей размеры виртуального экрана.
-     * Изменения позиции этого поля ПЕРЕЗАПИСЫВАЮТСЯ при изменении размеров виртуального экрана.
-     */
-    fun createAutoResizableLabel(text: String, positionUpdater: (Float, Float) -> Rectangle) : Label
+    fun createLabel(text: String) : Label = createLabel(text, Rectangle())
+    fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
+    fun createLabel(text: String, fontCapHeight: Float) = createLabel(text, Rectangle(), fontCapHeight)
 
 
     /**
@@ -97,6 +99,11 @@ interface VirtualScreen {
      * Стандартный метод отрисовки текстуры с центром в точке (x, y) и размерами width x height.
      */
     fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float)
+
+    /**
+     * Стандартный метод отрисовки текстуры внутри прямоугольника rect.
+     */
+    fun draw(textureName: String, rect: Rectangle)
 
     /**
      * Этот метод нацелен на отрисовку слоёв анимации из редактора.
@@ -128,10 +135,6 @@ interface VirtualScreen {
 
         var rect: Rectangle
 
-        val positionUpdater: ((Float, Float) -> Rectangle)?
-
         fun draw()
-
-        fun dispose()
     }
 }

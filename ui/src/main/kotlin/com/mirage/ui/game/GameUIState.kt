@@ -1,6 +1,7 @@
 package com.mirage.ui.game
 
 import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.virtualscreen.VirtualScreen
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
@@ -10,25 +11,16 @@ import java.util.concurrent.locks.ReentrantLock
  * Для рендеринга создаётся копия, которая далее не изменяется.
  * Этот объект и его состояние должно быть защищено блокировкой this
  */
-class GameUIState(
-        var bufferedMoving : Boolean? = null,
-        var bufferedMoveDirection : GameObject.MoveDirection? = null,
-        var lastSentMoving : Boolean? = null,
-        var lastSentMoveDirection : GameObject.MoveDirection? = null
-) {
+class GameUIState(virtualScreen: VirtualScreen) {
 
-    val lock: Lock = ReentrantLock(true)
+    var bufferedMoving : Boolean? = null
+    var bufferedMoveDirection : GameObject.MoveDirection? = null
+    var lastSentMoving : Boolean? = null
+    var lastSentMoveDirection : GameObject.MoveDirection? = null
 
-    /**
-     * Создаёт копию состояния.
-     * Изменение изначального состояния не должно никак влиять на копию.
-     */
-    fun copy() : GameUIState = GameUIState(
-            bufferedMoving, bufferedMoveDirection, lastSentMoving, lastSentMoveDirection
-    )
 
-    override fun toString(): String {
-        return "$lastSentMoving $bufferedMoving $lastSentMoveDirection $lastSentMoveDirection"
+    fun resize(virtualWidth: Float, virtualHeight: Float) {
+
     }
 
 }

@@ -3,7 +3,7 @@ package com.mirage.utils.datastructures
 /**
  * Прямоугольник с центром в точке (x, y) и размерами width x height
  */
-data class Rectangle(val x: Float, val y: Float, val width: Float, val height: Float) {
+data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f, val height: Float = 0f) {
 
     val leftX : Float
         get() = x - width / 2
@@ -31,5 +31,12 @@ data class Rectangle(val x: Float, val y: Float, val width: Float, val height: F
                     (x + width / 2 > other.x - other.width / 2) &&
                     (y - height / 2 < other.y + other.height / 2) &&
                     (y + height / 2 > other.y - other.height / 2)
+
+    /**
+     * Проверяет, содержится ли точка внутри прямоугольника
+     */
+    fun contains(p: Point) : Boolean =
+            p.x < rightX && p.x > leftX && p.y < topY && p.y > bottomY
+
 
 }

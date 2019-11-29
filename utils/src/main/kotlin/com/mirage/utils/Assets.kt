@@ -11,7 +11,10 @@ object Assets {
 
     private val assetsResolver : FileHandleResolver = when (PLATFORM) {
         "test" -> FileHandleResolver {
-            FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
+            if (File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it").exists()) {
+                FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
+            }
+            else FileHandle(File(File("").absolutePath + "/android/assets/$it"))
         }
         "desktop-test" -> FileHandleResolver {
             FileHandle(File(File("").absolutePath + "/android/assets/$it"))

@@ -2,7 +2,6 @@ package com.mirage.server
 
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.Timer
 import java.util.*
 
 /**
@@ -16,22 +15,6 @@ class Room {
 
     private val players : MutableList<Player> = Collections.synchronizedList(ArrayList())
 
-
-    //TODO Убрать
-    private val TEST = Timer(5L) {
-        try {
-            for (pl in players) {
-                pl.checkNewMessages()
-            }
-        }
-        catch(ex: Exception) {
-            ex.printStackTrace()
-        }
-    }
-
-    init {
-        TEST.start()
-    }
 
     /**
      * Освобождает все ресурсы, подготавливает комнату к удалению, возвращает список игроков
@@ -55,13 +38,13 @@ class Room {
 
     fun start() {
         //TODO выбор карты, подписка на логику
-        logic = GameLogicImpl("test-server")
+        logic = GameLogicImpl("test-server", {}, {_, _ ->})
         logic.startLogic()
     }
 
     fun addPlayer(p: Player) {
         players.add(p)
         p.room = this
-        p.id = logic.addNewPlayer()
+        logic.addNewPlayer { p.id = it }
     }
 }

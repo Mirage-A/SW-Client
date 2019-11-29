@@ -15,6 +15,8 @@ class DesktopLauncher {
         System.setProperty("user.name", "CorrectUserName");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Shattered World";
+        config.vSyncEnabled = false;
+        config.foregroundFPS = 90;
         if (new File("android/assets/").exists()) {
             //Во время тестирования в IDE
             ConfigurationKt.setPLATFORM("desktop-test");
