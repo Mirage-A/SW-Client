@@ -16,6 +16,7 @@ class LoopTimer(private val delayMillis: Long, private val onUpdate: (Long) -> U
     private var lastTickTime = 0L
 
     private val thread = thread(false) {
+        lastTickTime = System.currentTimeMillis()
         while (!isStopped) {
             if (!isPaused) {
                 synchronized(lock) {
@@ -36,7 +37,6 @@ class LoopTimer(private val delayMillis: Long, private val onUpdate: (Long) -> U
     }
 
     fun start() {
-        lastTickTime = System.currentTimeMillis()
         thread.start()
     }
 
