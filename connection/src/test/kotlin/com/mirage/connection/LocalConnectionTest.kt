@@ -42,7 +42,7 @@ internal class LocalConnectionTest {
         connection.close()
         Thread.sleep(100L)
         synchronized(messages) {
-            assertEquals(4, messages.size)
+            assert(messages.size >= 4)
             val msg1 = messages[0] as InitialGameStateMessage
             val msg2 = messages[1] as GameStateUpdateMessage
             val msg3 = messages[2] as GameStateUpdateMessage

@@ -14,7 +14,16 @@ object Assets {
             if (File(File("").absoluteFile.parentFile.absolutePath + "/android/assets").exists()) {
                 FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
             }
-            else FileHandle(File(File("").absolutePath + "/android/assets/$it"))
+            else if (File(File("").absolutePath + "/android/assets").exists()) {
+                FileHandle(File(File("").absolutePath + "/android/assets/$it"))
+            }
+            else {
+                println("WTF")
+                println("WTF")
+                println("WTF")
+                println("WTF")
+                null
+            }
         }
         "desktop-test" -> FileHandleResolver {
             FileHandle(File(File("").absolutePath + "/android/assets/$it"))
