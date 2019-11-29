@@ -17,7 +17,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
 
     init {
         uiState.settingsBtn.onPressed = {
-            uiState.settingsMenuVisible = !uiState.settingsMenuVisible
+            for (btn in uiState.settingsMenuBtnList) {
+                btn.isVisible = !btn.isVisible
+            }
         }
         uiState.leaveGameBtn.onPressed = {
             uiState.confirmExitMessage.isVisible = true
@@ -48,9 +50,8 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
         uiState.microMenuBtnList.forEach {it.touchUp(virtualPoint)}
-        if (uiState.settingsMenuVisible) {
-            uiState.settingsMenuBtnList.forEach {it.touchUp(virtualPoint)}
-        }
+        uiState.settingsMenuBtnList.forEach {it.touchUp(virtualPoint)}
+        uiState.skillBtns.forEach {it.touchUp(virtualPoint)}
         uiState.confirmExitMessage.touchUp(virtualPoint)
         return false
     }
@@ -58,9 +59,8 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
         uiState.microMenuBtnList.forEach {it.touchDown(virtualPoint)}
-        if (uiState.settingsMenuVisible) {
-            uiState.settingsMenuBtnList.forEach {it.touchDown(virtualPoint)}
-        }
+        uiState.settingsMenuBtnList.forEach {it.touchDown(virtualPoint)}
+        uiState.skillBtns.forEach {it.touchDown(virtualPoint)}
         uiState.confirmExitMessage.touchDown(virtualPoint)
         return false
     }
@@ -68,9 +68,8 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
         uiState.microMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
-        if (uiState.settingsMenuVisible) {
-            uiState.settingsMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
-        }
+        uiState.settingsMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
+        uiState.skillBtns.forEach {it.mouseMoved(virtualPoint)}
         uiState.confirmExitMessage.mouseMoved(virtualPoint)
         return false
     }

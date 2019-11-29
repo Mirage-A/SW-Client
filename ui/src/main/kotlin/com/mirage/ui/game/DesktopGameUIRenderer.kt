@@ -6,18 +6,15 @@ class DesktopGameUIRenderer : GameUIRenderer {
 
     override fun renderUI(virtualScreen: VirtualScreen, uiState: GameUIState, currentTimeMillis: Long) {
         for (btn in uiState.microMenuBtnList) {
-            virtualScreen.draw(btn.getCurrentTextureName(), btn.rect)
-            btn.boundedLabel?.draw()
+            btn.draw(virtualScreen)
         }
-        if (uiState.settingsMenuVisible) {
-            for (btn in uiState.settingsMenuBtnList) {
-                virtualScreen.draw(btn.getCurrentTextureName(), btn.rect)
-                btn.boundedLabel?.draw()
-            }
+        for (btn in uiState.settingsMenuBtnList) {
+            btn.draw(virtualScreen)
         }
-        if (uiState.confirmExitMessage.isVisible) {
-            uiState.confirmExitMessage.draw(virtualScreen)
+        for (btn in uiState.skillBtns) {
+            btn.draw(virtualScreen)
         }
+        uiState.confirmExitMessage.draw(virtualScreen)
     }
 
 }

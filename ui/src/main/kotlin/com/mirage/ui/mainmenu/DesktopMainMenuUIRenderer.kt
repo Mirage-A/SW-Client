@@ -12,8 +12,7 @@ class DesktopMainMenuUIRenderer : MainMenuUIRenderer {
         val artScale = max(virtualScreen.width / DEFAULT_SCREEN_WIDTH, virtualScreen.height / DEFAULT_SCREEN_HEIGHT)
         virtualScreen.draw("ui/art", 0f, 0f, artScale * DEFAULT_SCREEN_WIDTH, artScale * DEFAULT_SCREEN_HEIGHT)
         for (btn in uiState.btnList) {
-            virtualScreen.draw(btn.getCurrentTextureName(), btn.rect)
-            btn.boundedLabel?.draw()
+            btn.draw(virtualScreen)
         }
     }
 
