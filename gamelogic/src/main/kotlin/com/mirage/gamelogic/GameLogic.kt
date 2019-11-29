@@ -16,10 +16,10 @@ interface GameLogic {
     fun startLogic()
 
     /**
-     * Добавляет игрока на карту и возвращает его ID на карте
+     * Добавляет игрока на карту и вызывает [onComplete] от его ID.
      * //TODO Передавать информацию о скиллах, экипировке и т.д. игрока
      */
-    fun addNewPlayer() : Long
+    fun addNewPlayer(onComplete: (playerID: Long) -> Unit)
 
     /**
      * Приостанавливает цикл логики
@@ -46,17 +46,5 @@ interface GameLogic {
      * [id] - ID персонажа игрока (не путать с playerID, используемое в модуле server!)
      */
     fun handleMessage(id: Long, msg: ClientMessage)
-
-    /**
-     * Возвращает Observable, на который нужно подписаться, чтобы получать сообщения, которые в дальнейшем
-     * рассылаются ВСЕМ клиентам.
-     */
-    val serverMessages : Observable<ServerMessage>
-
-    /**
-     * Observable, который при подписке выдаёт последнее состояние игры, а также
-     * уведомляет об изменении состояния.
-     */
-    val latestState: Observable<Pair<GameObjects, Long>>
 
 }

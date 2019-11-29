@@ -53,21 +53,15 @@ class DrawersManagerImpl : DrawersManager {
     override fun updateDrawers(stateDifference: StateDifference, oldState: GameObjects, currentTimeMillis: Long) {
         for ((id, obj) in stateDifference.newObjects) {
             loadDrawer(id, obj, currentTimeMillis)
-            setAction(id, obj.action, currentTimeMillis)
-            setMoving(id, obj.isMoving, currentTimeMillis)
         }
         for ((id, newObj) in stateDifference.changedObjects) {
             val oldObj = oldState[id]
             if (oldObj == null || newObj.template != oldObj.template) {
                 loadDrawer(id, newObj, currentTimeMillis)
-                setAction(id, newObj.action, currentTimeMillis)
-                setMoving(id, newObj.isMoving, currentTimeMillis)
                 continue
             }
             if (newObj.state != oldObj.state) {
                 loadDrawer(id, newObj, currentTimeMillis)
-                setAction(id, newObj.action, currentTimeMillis)
-                setMoving(id, newObj.isMoving, currentTimeMillis)
                 continue
             }
             if (newObj.action != oldObj.action) {
@@ -85,13 +79,14 @@ class DrawersManagerImpl : DrawersManager {
     }
 
     private fun loadDrawer(objID: Long, obj: GameObject, currentTimeMillis: Long) {
+        val drawer: Drawer
         if (cachedDrawerTemplates[obj.template] == null) {
             loadTemplateDrawers(obj.template)
         }
         val templateDrawerStates : Map<String, DrawerTemplate>? = cachedDrawerTemplates[obj.template]
         if (templateDrawerStates == null) {
             Log.e("Error while loading drawer from a template. (objID=$objID template=${obj.template})")
-            drawers[objID] = DrawerImpl(EmptyDrawerTemplate())
+            drawer = DrawerImpl(EmptyDrawerTemplate())
         }
         else {
             val template: DrawerTemplate = templateDrawerStates[obj.state] ?:
@@ -101,10 +96,14 @@ class DrawersManagerImpl : DrawersManager {
                 }
 
             val objEquipment = equipment[objID]
-            if (template is HumanoidDrawerTemplate && objEquipment != null && objEquipment != template.equipment) {
-                drawers[objID] = DrawerImpl(HumanoidDrawerTemplate(objEquipment), currentTimeMillis)
-            } else drawers[objID] = DrawerImpl(template, currentTimeMillis)
+            drawer = if (template is HumanoidDrawerTemplate && objEquipment != null && objEquipment != template.equipment) {
+                DrawerImpl(HumanoidDrawerTemplate(objEquipment), currentTimeMillis)
+            }
+            else DrawerImpl(template, currentTimeMillis)
         }
+        drawer.setAction(obj.action, currentTimeMillis)
+        drawer.setMoving(obj.isMoving, currentTimeMillis)
+        drawers[objID] = drawer
     }
 
     private fun setAction(objID: Long, newAction: String, currentTimeMillis: Long) {

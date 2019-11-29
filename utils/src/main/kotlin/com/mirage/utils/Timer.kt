@@ -13,6 +13,7 @@ class Timer(private val delayMillis: Long, private val updateListener: (deltaMil
 
     private var lastTickTime = System.currentTimeMillis()
 
+    @Volatile
     private var isStopped = false
 
     private val thread = Thread(Runnable {

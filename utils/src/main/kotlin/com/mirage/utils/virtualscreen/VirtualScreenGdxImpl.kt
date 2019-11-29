@@ -14,7 +14,7 @@ import com.mirage.utils.datastructures.Rectangle
 import kotlin.math.roundToInt
 
 
-class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
+open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
                            initialVirtualHeight: Float = 0f,
                            initialRealWidth: Float = 0f,
                            initialRealHeight: Float = 0f) : VirtualScreen {
@@ -27,7 +27,7 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     private val camera : OrthographicCamera = OrthographicCamera()
 
-    private val batch: Lazy<SpriteBatch> = lazy(LazyThreadSafetyMode.NONE) {
+    private val batch: SpriteBatch by lazy(LazyThreadSafetyMode.NONE) {
         SpriteBatch().apply {
             camera.apply {
                 setToOrtho(false)
@@ -53,7 +53,7 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         camera.viewportWidth = width
         camera.viewportHeight = height
         camera.update()
-        batch.value.projectionMatrix = camera.combined
+        batch.projectionMatrix = camera.combined
     }
 
     private val minFilter = Texture.TextureFilter.Nearest
@@ -122,7 +122,7 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun drawTile(tileID: Int, x: Float, y: Float) {
         if (tileID in tileTexturesList.indices) {
-            batch.value.draw(tileTexturesList[tileID], x - TILE_WIDTH / 2, y - TILE_HEIGHT / 2)
+            batch.draw(tileTexturesList[tileID], x - TILE_WIDTH / 2, y - TILE_HEIGHT / 2)
         } else {
             Log.e("Error: tileID is out of bounds. tileID=$tileID tileSetSize=${tileTexturesList.size}")
         }
@@ -138,17 +138,17 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         label.setX(rect.x, Align.center)
         label.setY(rect.y, Align.center)
         label.setAlignment(Align.center, Align.center)
-        label.draw(batch.value, 255f)
+        label.draw(batch, 255f)
     }
 
     override fun draw(textureName: String, x: Float, y: Float) {
         val texture = getTexture(textureName)
-        batch.value.draw(texture, x - texture.width / 2f, y - texture.height / 2f)
+        batch.draw(texture, x - texture.width / 2f, y - texture.height / 2f)
     }
 
     override fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float) {
         val texture = getTexture(textureName)
-        batch.value.draw(texture, x - width / 2f,y - height / 2f, width, height)
+        batch.draw(texture, x - width / 2f,y - height / 2f, width, height)
     }
 
     override fun draw(textureName: String, rect: Rectangle) =
@@ -157,7 +157,7 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     override fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float) {
         val texture = getTexture(textureName)
         //TODO Возможно, вместо basicWidth следует использовать texture.width
-        batch.value.draw(texture,
+        batch.draw(texture,
                 x - texture.width / 2f,
                 y - texture.height / 2f,
                 texture.width / 2f,
@@ -175,18 +175,21 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean) {
         val texture = getTexture(textureName)
-        batch.value.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY)
+        batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY)
     }
 
-    override fun begin() = batch.value.begin()
+    override fun begin() = batch.begin()
 
-    override fun end() = batch.value.end()
+    override fun end() = batch.end()
 
     override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect)
 
+    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) = GdxLabel(text, rect, fontCapHeight)
+
     inner class GdxLabel internal constructor(
             text: String,
-            rect: Rectangle
+            rect: Rectangle,
+            fontCapHeight: Float = 15f
     ) : VirtualScreen.Label {
 
         override var text: String = text
@@ -195,12 +198,17 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
                 field = value
             }
 
-        private val label = Label(text, Label.LabelStyle(BitmapFont(), Color.BLACK)).apply {
+        private val font = BitmapFont().apply {
+            data.setScale(fontCapHeight / data.capHeight)
+        }
+
+        private val label = Label(text, Label.LabelStyle(font, Color.BLACK)).apply {
             isVisible = true
             setWrap(true)
             setPosition(rect.x, rect.y, Align.center)
             setSize(rect.width, rect.height)
             setAlignment(Align.center, Align.center)
+
         }
 
         override var rect: Rectangle = rect
@@ -214,7 +222,7 @@ class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
             }
 
 
-        override fun draw() = label.draw(batch.value, 255f)
+        override fun draw() = label.draw(batch, 255f)
 
     }
 }

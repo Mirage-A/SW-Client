@@ -41,10 +41,11 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
     override fun handleServerMessage(msg: ServerMessage) {
         when (msg) {
             is InitialGameStateMessage -> {
+                gameView.loadDrawers(msg.initialObjects)
+                println("Loading drawers for initial state: ${msg.initialObjects}")
                 snapshotManager.addNewSnapshot(GameStateSnapshot(msg.initialObjects, StateDifference(hashMapOf(), treeSetOf(), hashMapOf()), msg.stateCreatedTimeMillis))
                 playerID = msg.playerID
                 lastReceivedState = msg.initialObjects
-                gameView.loadDrawers(msg.initialObjects)
             }
             is GameStateUpdateMessage -> {
                 gameView.updateDrawers(lastReceivedState, msg.diff)

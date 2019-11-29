@@ -9,15 +9,7 @@ internal interface GameLoop {
 
     fun start()
 
-    val latestState: Observable<Pair<GameObjects, Long>>
-
-    val serverMessages : Observable<ServerMessage>
-
-    /**
-     * Выполняет запрос на добавление нового игрока и возвращает его ID при добавлении.
-     * Метод блокирует поток до добавления игрока.
-     */
-    fun addNewPlayer() : Long
+    fun addNewPlayer(onComplete: (playerID: Long) -> Unit)
 
     fun pause()
 

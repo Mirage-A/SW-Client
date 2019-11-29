@@ -1,132 +1,104 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
 import com.mirage.utils.Log
+import com.mirage.utils.Timer
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.EventSubjectAdapter
-import com.mirage.utils.messaging.GameStateUpdateMessage
-import com.mirage.utils.messaging.ServerMessage
-import io.reactivex.subjects.PublishSubject
-import rx.subjects.BehaviorSubject
-import rx.subjects.Subject
+import com.mirage.utils.messaging.*
 import java.util.*
-import java.util.concurrent.locks.ReentrantLock
+import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.collections.ArrayList
-import kotlin.math.min
 
-internal class GameLoopImpl(private val gameMapName: String) : GameLoop {
+internal class GameLoopImpl(gameMapName: String,
+                            private val serverMessageListener: (ServerMessage) -> Unit,
+                            private val stateUpdateListener: (GameObjects, Long) -> Unit) : GameLoop {
 
-    /**
-     * Observable, в который логика скидывает новые состояния игры и время их создания после каждого тика цикла
-     */
-    override val latestState : Subject<Pair<GameObjects, Long>, Pair<GameObjects, Long>> = BehaviorSubject.create()!!
-
-    /**
-     * Observable, в который логика скидывает сообщения, которые должны быть отправлены ВСЕМ клиентам,
-     * подключившимся после отправки сообщения.
-     */
-    override val serverMessages : Subject<ServerMessage, ServerMessage> = EventSubjectAdapter()
 
     /**
      * Observable, в котором хранятся получаемые сообщения от клиентов.
      * Первый аргумент пары - id персонажа игрока (не самого игрока, а его персонажа на сцене).
      */
-    private val clientMessages : Subject<Pair<Long, ClientMessage>, Pair<Long, ClientMessage>> = EventSubjectAdapter()
+    private val clientMessages : Queue<Pair<Long, ClientMessage>> = ConcurrentLinkedQueue()
 
-    @Volatile
-    private var isStopped = false
 
     /**
      * Функция, которая обновляет состояние игры,
      * отправляя сообщение об этом в [latestState] и [serverMessages].
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
      */
-    private tailrec fun update(delta: Long, originState: GameObjects, gameMap: GameMap) {
-        //println("Logic update $delta ms")
+    private fun update(delta: Long, originState: GameObjects, gameMap: GameMap) : GameObjects {
         if (delta > 200L) Log.i("Slow update: $delta ms")
 
-        val startTime = System.currentTimeMillis()
         val msgs = ArrayList<Pair<Long, ClientMessage>>()
-        clientMessages.subscribe( {msgs.add(it)}, {println("ERROR $it")} ).unsubscribe()
+
+        while (true) {
+            val msg = clientMessages.poll()
+            msg ?: break
+            msgs.add(msg)
+        }
+
         val (mutableState, newMessages) = updateState(delta, originState, gameMap, msgs)
 
         //TODO Добавление игроков
 
-        while (newPlayerRequests.isNotEmpty()) {
-            //TODO Заполнение характеристик персонажа игрока, в том числе в зависимости от карты
+        while (true) {
+            val request = newPlayerRequests.poll() ?: break
             val player = createPlayer(gameMap)
             val id = mutableState.add(player)
-            val subj = newPlayerRequests.poll()
-            subj.onNext(id)
-            subj.onComplete()
+            request(id)
         }
 
         val finalChanges = mutableState.findDifferenceWithOrigin()
         val finalState = mutableState.saveChanges()
-        latestState.onNext(Pair(finalState, System.currentTimeMillis()))
-        serverMessages.onNext(GameStateUpdateMessage(finalChanges, System.currentTimeMillis()))
+        val time = System.currentTimeMillis()
+        serverMessageListener(GameStateUpdateMessage(finalChanges, time))
         for (msg in newMessages) {
-            serverMessages.onNext(msg)
+            serverMessageListener(msg)
         }
-
-        updateLock.unlock()
-        updateLock.lock()
-        if (!isStopped) {
-            val timeDiff = System.currentTimeMillis() - startTime
-            if (timeDiff < 95L) {
-                Thread.sleep(100L - timeDiff)
-            }
-            val newDelta = min(System.currentTimeMillis() - startTime, 200L)
-            update(newDelta, finalState, gameMap)
-        }
+        stateUpdateListener(finalState, time)
+        return finalState
     }
-
-    private val updateLock = ReentrantLock(true)
 
     /**
-     * Изменяемая небезопасная очередь, в которой хранятся запросы на создание персонажа игрока.
-     * При каждом запросе создаётся Subject, на который подписывается этот запрос.
-     * После каждого тика логики логика пробегает по этой очереди, добавляет игроков на карту
-     * и для каждого Subject-а вызывает onNext от ID добавленного персонажа на карте.
+     * Очередь, в которой хранятся запросы на создание персонажа игрока.
+     * При создании игрока вызывается слушатель из очереди.
      */
-    private val newPlayerRequests : Queue<io.reactivex.subjects.Subject<Long>> = ArrayDeque()
+    private val newPlayerRequests : Queue<(Long) -> Unit> = ConcurrentLinkedQueue()
 
-    override fun addNewPlayer(): Long {
-        val subj = PublishSubject.create<Long>()
-        updateLock.lock()
-        newPlayerRequests.add(subj)
-        updateLock.unlock()
-        return subj.blockingFirst()
+    override fun addNewPlayer(onComplete: (playerID: Long) -> Unit) {
+        newPlayerRequests.add(onComplete)
     }
 
-    //TODO Возможно, при потере ссылки на поток он может остановиться, но это не точно
+    private val initialScene = SceneLoader.loadScene(gameMapName)
+    private val gameMap : GameMap = initialScene.first
+    //Последнее состояние, полученное вызовом update.
+    //Не следует использовать это поле для получения последнего актуального состояния.
+    private var lastUpdatedState: GameObjects = initialScene.second
+
+    private val loopTimer: Timer = Timer(GAME_LOOP_TICK_INTERVAL) {
+        lastUpdatedState = update(it, lastUpdatedState, gameMap)
+    }
+
     override fun start() {
         println("Starting logic thread....")
-        Thread (Runnable{
-            println("Logic thread started!")
-            val (map, objs) = SceneLoader.loadScene(gameMapName)
-            println("Map loaded in logic!")
-            updateLock.lock()
-            update(0L, objs, map)
-        }).start()
+        stateUpdateListener(initialScene.second, System.currentTimeMillis())
+        loopTimer.start()
     }
 
-    override fun pause() = updateLock.lock()
+    override fun pause() = loopTimer.pause()
 
-    override fun resume() = updateLock.unlock()
+    override fun resume() = loopTimer.resume()
 
-    override fun stop() {
-        updateLock.lock()
-        isStopped = true
-        updateLock.unlock()
-    }
+    override fun stop() = loopTimer.stop()
 
     override fun dispose() {
         stop()
         //TODO
     }
 
-    override fun handleMessage(id: Long, msg: ClientMessage) = clientMessages.onNext(Pair(id, msg))
+    override fun handleMessage(id: Long, msg: ClientMessage) {
+        clientMessages.add(Pair(id, msg))
+    }
 }

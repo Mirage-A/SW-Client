@@ -34,6 +34,9 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
             if (btn.rect.contains(virtualPoint)) {
                 btn.onPressed()
             }
+            else {
+                btn.isHighlighted = false
+            }
             btn.isPressed = false
         }
         return false
@@ -48,28 +51,22 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
     }
 
     override fun keyTyped(character: Char): Boolean {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return false
     }
 
     override fun scrolled(amount: Int): Boolean {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return false
     }
 
     override fun keyUp(keycode: Int): Boolean {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return false
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return false
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        println("keyDown $keycode")
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return false
     }
 
@@ -77,6 +74,7 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
         val virtualPoint = getVirtualPoint(screenX, screenY)
         for (btn in uiState.btnList) {
             btn.isPressed = btn.rect.contains(virtualPoint)
+            btn.isHighlighted = btn.isPressed
         }
         return false
     }

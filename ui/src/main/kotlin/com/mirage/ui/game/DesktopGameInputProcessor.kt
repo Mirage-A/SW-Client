@@ -6,7 +6,6 @@ import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
 import rx.subjects.Subject
-import kotlin.system.exitProcess
 
 class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
 

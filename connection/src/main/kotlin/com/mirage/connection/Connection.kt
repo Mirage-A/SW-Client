@@ -7,13 +7,7 @@ import rx.Observable
 interface Connection {
 
     /**
-     * [Observable], который позволяет следить за получаемыми от логики сообщениями.
-     */
-    val serverMessages: Observable<ServerMessage>
-
-    /**
      * Подключается к логике.
-     * До вызова этого метода рекомендуется подписаться на [serverMessages]
      */
     fun start()
 

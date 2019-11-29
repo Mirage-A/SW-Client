@@ -11,31 +11,31 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
 
 
     val singlePlayerBtn = Button("ui/mainmenubtn",
-            "ui/mainmenubtnpressed",
+            "ui/mainmenubtnhighlighted",
             "ui/mainmenubtnpressed",
             Rectangle(),
-            virtualScreen.createLabel("Campaign"),
+            virtualScreen.createLabel("Campaign", 30f),
             {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 7 / 2, btnWidth, btnHeight)})
 
     val multiPlayerBtn = Button("ui/mainmenubtn",
-            "ui/mainmenubtnpressed",
+            "ui/mainmenubtnhighlighted",
             "ui/mainmenubtnpressed",
             Rectangle(),
-            virtualScreen.createLabel("Multiplayer"),
+            virtualScreen.createLabel("Multiplayer", 30f),
             {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 5 / 2, btnWidth, btnHeight)})
 
     val settingsBtn = Button("ui/mainmenubtn",
-            "ui/mainmenubtnpressed",
+            "ui/mainmenubtnhighlighted",
             "ui/mainmenubtnpressed",
             Rectangle(),
-            virtualScreen.createLabel("Settings"),
+            virtualScreen.createLabel("Settings", 30f),
             {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 3 / 2, btnWidth, btnHeight)})
 
     val exitBtn = Button("ui/mainmenubtn",
-            "ui/mainmenubtnpressed",
+            "ui/mainmenubtnhighlighted",
             "ui/mainmenubtnpressed",
             Rectangle(),
-            virtualScreen.createLabel("Exit"),
+            virtualScreen.createLabel("Exit", 30f),
             {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight / 2, btnWidth, btnHeight)})
 
     val btnList: List<Button> = listOf(singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn)

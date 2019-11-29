@@ -1,16 +1,11 @@
 package com.mirage.connection
 
 import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import rx.Observable
-import rx.subjects.PublishSubject
 
 /**
  * Реализация интерфейса [Connection], отвечающая за подключение к удаленному серверу.
  */
 class RemoteConnection : Connection {
-
-    override val serverMessages: Observable<ServerMessage> = PublishSubject.create()
 
     override fun start() = TODO("not implemented")
 

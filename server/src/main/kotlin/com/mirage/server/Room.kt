@@ -55,13 +55,13 @@ class Room {
 
     fun start() {
         //TODO выбор карты, подписка на логику
-        logic = GameLogicImpl("test-server")
+        logic = GameLogicImpl("test-server", {}, {_, _ ->})
         logic.startLogic()
     }
 
     fun addPlayer(p: Player) {
         players.add(p)
         p.room = this
-        p.id = logic.addNewPlayer()
+        logic.addNewPlayer { p.id = it }
     }
 }

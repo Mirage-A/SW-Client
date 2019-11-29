@@ -24,10 +24,10 @@ data class Point (val x: Float, val y: Float){
     }
 
     /**
-     * Проверяет, что данная точка находится на расстоянии менее 1e-3 от точки [point].
+     * Проверяет, что данная точка находится на расстоянии менее 0.1f от точки [point].
      * Используется для тестов.
      */
-    infix fun near(point: Point) : Boolean = sqrt(sqr(this.x - point.x) + sqr(this.y - point.y)) < 1e-3
+    infix fun near(point: Point) : Boolean = sqrt(sqr(this.x - point.x) + sqr(this.y - point.y)) < 0.1f
 
 
 }

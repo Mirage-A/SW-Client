@@ -50,31 +50,31 @@ object Client : ApplicationListener {
 
     @Synchronized
     private fun startSinglePlayerGame(mapName: String) {
-        connection = LocalConnection(mapName).also {
-            it.start()
-            val map = SceneLoader.loadScene(mapName).first
-            val gameScreen = GameScreen(map, virtualScreen)
-            virtualScreen.setTileSet(map.tileSetName)
-            it.serverMessages.subscribe { msg ->
-                gameScreen.handleServerMessage(msg)
-            }
-            gameScreen.inputMessages.subscribe { msg ->
-                when (msg) {
-                    is ChangeSceneClientMessage -> {
-                        when (msg.newScene) {
-                            ChangeSceneClientMessage.Scene.MAIN_MENU -> {
-                                connection?.close()
-                                openMainMenu()
-                            }
+        val map = SceneLoader.loadScene(mapName).first
+        val gameScreen = GameScreen(map, virtualScreen)
+        virtualScreen.setTileSet(map.tileSetName)
+        val connection : Connection = LocalConnection(mapName) {
+            gameScreen.handleServerMessage(it)
+        }
+        gameScreen.inputMessages.subscribe { msg ->
+            when (msg) {
+                is ChangeSceneClientMessage -> {
+                    when (msg.newScene) {
+                        ChangeSceneClientMessage.Scene.MAIN_MENU -> {
+                            connection.close()
+                            openMainMenu()
                         }
                     }
-                    else -> it.sendMessage(msg)
                 }
+                else -> connection.sendMessage(msg)
             }
-            Gdx.input.inputProcessor = gameScreen.inputProcessor
-            currentScreen = gameScreen
         }
+        connection.start()
+        this.connection = connection
+        currentScreen = gameScreen
+        Gdx.input.inputProcessor = gameScreen.inputProcessor
     }
+
 
     override fun create() {
         //TODO Загрузка профиля

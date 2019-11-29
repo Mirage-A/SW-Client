@@ -36,6 +36,7 @@ class SnapshotManager {
         val firstSnapshot = try { snapshots.first() } catch (ex: NoSuchElementException) { null }
         val secondSnapshot = snapshots.second()
         if (firstSnapshot == null) {
+            Log.d("Initial state is not still received")
             return GameObjects(mapOf(), Long.MIN_VALUE)
         }
         if (secondSnapshot == null) {
@@ -48,9 +49,9 @@ class SnapshotManager {
      * Интерполирует два соседних состояния и возвращает новое.
      */
     private fun interpolateSnapshots(first: GameStateSnapshot, second: GameStateSnapshot, renderTime: Long) : GameObjects {
-        if (first.createdTimeMillis > renderTime || second.createdTimeMillis < renderTime) {
+        /*if (first.createdTimeMillis > renderTime || second.createdTimeMillis < renderTime) {
             Log.e("INTERPOLATION WARNING firstTime=${first.createdTimeMillis} secondTime=${second.createdTimeMillis} renderTime=$renderTime")
-        }
+        }*/
         if (first.createdTimeMillis >= renderTime) return first.finalState
         if (second.createdTimeMillis <= renderTime) return second.finalState
         val progress = (renderTime - first.createdTimeMillis).toFloat() / (second.createdTimeMillis - first.createdTimeMillis).toFloat()

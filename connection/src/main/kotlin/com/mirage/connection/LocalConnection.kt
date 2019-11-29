@@ -4,34 +4,46 @@ import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.Log
 import com.mirage.utils.messaging.*
-import rx.subjects.Subject
 
 /**
  * Реализация интерфейса Connection, работающая с локальным сервером (одиночная игра)
  */
-class LocalConnection(private val mapName: String) : Connection {
+class LocalConnection(private val mapName: String, private val serverMessageListener: (ServerMessage) -> Unit) : Connection {
 
-    private val logic : GameLogic = GameLogicImpl(mapName)
-
-    override val serverMessages: Subject<ServerMessage, ServerMessage> = EventSubjectAdapter()
-
+    @Volatile
     private var playerID : Long? = null
+
+    @Volatile
+    private var stateWithPlayerIDReceived = false
+
+    private val logic : GameLogic = GameLogicImpl(mapName, {
+        if (stateWithPlayerIDReceived) serverMessageListener(it)
+    })
+    { initialObjs, timeMillis ->
+        val id = playerID
+        if (!stateWithPlayerIDReceived && id != null) {
+            println("Initial state! $initialObjs $timeMillis")
+            serverMessageListener(InitialGameStateMessage(mapName, initialObjs, id, timeMillis))
+            stateWithPlayerIDReceived = true
+        }
+    }
+
 
     /**
      * Запускает локальную логику
      * Вызов этого метода блокирует поток, пока не будет получено первое состояние
      */
     override fun start() {
-        logic.startLogic()
-        playerID = logic.addNewPlayer()
-        val initialState = logic.latestState.toBlocking().first()
-        val initialMsg = InitialGameStateMessage(mapName, initialState.first, playerID!!, initialState.second)
-        println("got initial state from logic! $initialMsg")
-        serverMessages.onNext(initialMsg)
-        logic.serverMessages.subscribe {
-            if (it !is GameStateUpdateMessage) println("got msg from logic in connection! $it")
-            serverMessages.onNext(it)
+        println("connection.start() invoked")
+        logic.addNewPlayer {
+            synchronized(this) {
+                playerID = it
+                println("PlayerID received! $playerID")
+            }
         }
+        logic.startLogic()
+        while (!stateWithPlayerIDReceived) {Thread.sleep(10L)}
+        println("connection.start() finished")
     }
 
     override fun sendMessage(msg: ClientMessage) {

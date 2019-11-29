@@ -85,7 +85,9 @@ interface VirtualScreen {
      * Изменения позиции этого поля НЕ перезаписываются при изменении размеров виртуального экрана.
      */
     fun createLabel(text: String, rect: Rectangle) : Label
-    fun createLabel(text: String) : Label = createLabel(text, Rectangle(0f, 0f, 0f, 0f))
+    fun createLabel(text: String) : Label = createLabel(text, Rectangle())
+    fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
+    fun createLabel(text: String, fontCapHeight: Float) = createLabel(text, Rectangle(), fontCapHeight)
 
 
     /**
