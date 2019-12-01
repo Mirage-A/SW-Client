@@ -5,7 +5,7 @@ import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.templates.*
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import java.io.Reader
 
 /**

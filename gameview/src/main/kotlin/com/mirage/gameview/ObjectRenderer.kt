@@ -4,10 +4,9 @@ import com.mirage.gameview.drawers.DrawersManager
 import com.mirage.gameview.utils.compareEntityAndBuilding
 import com.mirage.gameview.utils.depthSort
 import com.mirage.gameview.utils.getVirtualScreenPointFromScene
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.virtualscreen.VirtualScreen
-import kotlin.math.roundToInt
 
 
 /**

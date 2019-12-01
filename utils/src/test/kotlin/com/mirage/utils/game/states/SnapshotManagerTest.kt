@@ -3,8 +3,8 @@ package com.mirage.utils.game.states
 import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.extensions.treeSetOf
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

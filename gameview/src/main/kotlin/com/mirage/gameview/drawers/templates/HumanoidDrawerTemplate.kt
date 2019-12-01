@@ -4,7 +4,7 @@ import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.animation.*
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : DrawerTemplate {

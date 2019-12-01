@@ -1,8 +1,7 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 
 /**
  * Сообщение об изменении состояния карты

@@ -1,6 +1,6 @@
 package com.mirage.gameview.drawers
 
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 class DrawerImpl(private val drawerTemplate: DrawerTemplate, currentTimeMillis: Long = System.currentTimeMillis()) : Drawer {

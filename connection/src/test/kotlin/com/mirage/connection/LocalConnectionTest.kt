@@ -1,10 +1,9 @@
 package com.mirage.connection
 
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import com.mirage.utils.messaging.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference

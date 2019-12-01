@@ -2,7 +2,7 @@ package com.mirage.gameview.drawers.animation
 
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
 import java.io.InputStream

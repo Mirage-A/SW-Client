@@ -3,8 +3,8 @@ package com.mirage.gameview.utils
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import java.util.*
 
 

@@ -3,9 +3,9 @@ package com.mirage.gamelogic
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.objects.MutableGameObject
-import com.mirage.utils.game.objects.MutableGameObjects
+import com.mirage.utils.game.oldobjects.GameObjects
+import com.mirage.utils.game.oldobjects.MutableGameObject
+import com.mirage.utils.game.oldobjects.MutableGameObjects
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.ServerMessage

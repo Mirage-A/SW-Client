@@ -1,18 +1,14 @@
 package com.mirage.gamelogic
 
 import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
-import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
 import com.mirage.utils.LoopTimer
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.messaging.*
-import java.lang.Exception
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
 import kotlin.collections.ArrayList
 
 internal class GameLoopImpl(gameMapName: String,

@@ -1,7 +1,7 @@
 package com.mirage.gameview.drawers.templates
 
 import com.mirage.gameview.drawers.DrawerTemplate
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**

@@ -1,7 +1,7 @@
 package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

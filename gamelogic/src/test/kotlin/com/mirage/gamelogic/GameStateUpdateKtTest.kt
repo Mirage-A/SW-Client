@@ -2,8 +2,8 @@ package com.mirage.gamelogic
 
 import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import org.junit.jupiter.api.Test
 
 internal class GameStateUpdateKtTest {

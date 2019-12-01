@@ -7,11 +7,10 @@ import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.treeSetOf
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.game.states.SnapshotManager
-import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable

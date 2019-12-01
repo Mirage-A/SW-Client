@@ -1,8 +1,7 @@
 package com.mirage.gameview
 
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**

@@ -4,9 +4,8 @@ import com.mirage.gameview.drawers.templates.EmptyDrawerTemplate
 import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.gameview.utils.loadDrawersFromTemplate
 import com.mirage.utils.Log
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 class DrawersManagerImpl : DrawersManager {

@@ -1,6 +1,6 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 
 sealed class ClientMessage {
     companion object {

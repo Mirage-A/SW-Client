@@ -5,7 +5,7 @@ import com.badlogic.gdx.net.NetJavaServerSocketImpl
 import com.badlogic.gdx.net.NetJavaSocketImpl
 import com.badlogic.gdx.net.ServerSocketHints
 import com.badlogic.gdx.net.SocketHints
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.SetMovingClientMessage
 import kotlinx.coroutines.*

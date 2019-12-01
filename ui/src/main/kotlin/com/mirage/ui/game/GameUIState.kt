@@ -3,7 +3,7 @@ package com.mirage.ui.game
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.ConfirmMessage
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 private const val playerHealthWidth = 0f

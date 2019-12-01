@@ -2,7 +2,7 @@ package com.mirage.gamelogic
 
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.messaging.GameStateUpdateMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.junit.jupiter.api.Assertions.assertEquals

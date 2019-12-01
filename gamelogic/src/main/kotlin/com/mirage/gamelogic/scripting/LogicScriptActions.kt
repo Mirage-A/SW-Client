@@ -1,6 +1,6 @@
 package com.mirage.gamelogic.scripting
 
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import org.luaj.vm2.LuaTable
 
 /**

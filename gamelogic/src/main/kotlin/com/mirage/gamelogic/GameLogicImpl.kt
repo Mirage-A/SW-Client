@@ -1,12 +1,11 @@
 package com.mirage.gamelogic
 
 import com.mirage.gamelogic.scripting.LogicScriptActions
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.luaj.vm2.LuaTable
-import rx.Observable
 
 class GameLogicImpl(mapName: String,
                     serverMessageListener: (ServerMessage) -> Unit,

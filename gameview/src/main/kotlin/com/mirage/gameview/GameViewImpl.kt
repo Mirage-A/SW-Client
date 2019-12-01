@@ -6,8 +6,7 @@ import com.mirage.gameview.utils.getVirtualScreenPointFromScene
 import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 class GameViewImpl(private val gameMap: GameMap) : GameView {

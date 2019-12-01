@@ -3,7 +3,7 @@ package com.mirage.utils.messaging
 import com.mirage.utils.INNER_DLMTR
 import com.mirage.utils.OUTER_DLMTR
 import com.mirage.utils.TestSamples
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.oldobjects.GameObject
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

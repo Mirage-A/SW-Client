@@ -1,8 +1,7 @@
 package com.mirage.gameview.drawers
 
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
-import com.mirage.utils.game.states.StateDifference
+import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface DrawersManager {

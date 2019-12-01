@@ -6,7 +6,7 @@ import com.mirage.utils.TILE_WIDTH
 import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.oldobjects.GameObjects
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.InitialGameStateMessage
 import com.mirage.utils.virtualscreen.VirtualScreen
