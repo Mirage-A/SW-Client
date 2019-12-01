@@ -1,7 +1,8 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.oldobjects.GameObject
-import com.mirage.utils.game.oldobjects.GameObjects
+import com.mirage.utils.game.objects.StateDifference
+import com.mirage.utils.game.objects.properties.Equipment
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 
 /**
  * Сообщение об изменении состояния карты
@@ -37,26 +38,6 @@ sealed class ServerMessage {
         }
     }
 }
-/*{
-    companion object {
-
-        /**
-         * Десериализует сообщение из строки.
-         * @throws Exception если строка некорректна и была получена не методом serialize
-         * @see serialize
-         */
-        fun deserialize(str: String) : ServerMessage {
-            //TODO Поддержка новых типов сообщений
-            val args = str.split(INNER_DLMTR)
-            return when (args[0]) {
-                "MC" -> TODO("not implemented")
-                "RC" -> ReturnCodeMessage(args[1].toInt())
-                else -> throw Exception("Incorrect message: $args")
-            }
-        }
-    }
-    abstract fun serialize() : String
-}*/
 
 
 /**
@@ -67,7 +48,7 @@ sealed class ServerMessage {
  */
 data class InitialGameStateMessage(
         val mapName: String,
-        val initialObjects: GameObjects,
+        val initialObjects: Map<Long, SimplifiedObject>,
         val playerID: Long,
         val stateCreatedTimeMillis: Long
 ) : ServerMessage()
@@ -90,5 +71,5 @@ data class ReturnCodeMessage(
  */
 data class HumanoidEquipmentUpdateMessage(
         val objectID: Long,
-        val newEquipment: GameObject.HumanoidEquipment
+        val newEquipment: Equipment
 ) : ServerMessage()

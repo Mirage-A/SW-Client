@@ -1,4 +1,4 @@
-package com.mirage.utils.game.objects.enums
+package com.mirage.utils.game.objects.properties
 
 
 /**

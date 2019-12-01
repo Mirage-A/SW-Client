@@ -1,8 +1,8 @@
 package com.mirage.utils
 
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.SimplifiedBuilding
-import com.mirage.utils.game.objects.SimplifiedObject
+import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 
 /**
  * Объекты, которые удобно использовать для тестов.

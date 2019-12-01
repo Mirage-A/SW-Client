@@ -1,5 +1,6 @@
 package com.mirage.utils.game.objects
 
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import java.util.*
 import kotlin.collections.HashMap
 

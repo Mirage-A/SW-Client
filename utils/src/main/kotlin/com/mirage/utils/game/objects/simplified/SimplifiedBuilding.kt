@@ -1,4 +1,4 @@
-package com.mirage.utils.game.objects
+package com.mirage.utils.game.objects.simplified
 
 import com.mirage.utils.datastructures.Rectangle
 

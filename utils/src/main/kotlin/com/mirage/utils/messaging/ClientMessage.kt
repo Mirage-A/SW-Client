@@ -1,6 +1,7 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
+
 
 sealed class ClientMessage {
     companion object {
@@ -36,7 +37,7 @@ sealed class ClientMessage {
     }
 }
 
-data class MoveDirectionClientMessage(val md: GameObject.MoveDirection) : ClientMessage()
+data class MoveDirectionClientMessage(val md: MoveDirection) : ClientMessage()
 
 data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage()
 

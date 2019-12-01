@@ -1,6 +1,6 @@
 package com.mirage.utils.game.states
 
-import com.mirage.utils.game.objects.SimplifiedObject
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import com.mirage.utils.game.objects.StateDifference
 
 /**

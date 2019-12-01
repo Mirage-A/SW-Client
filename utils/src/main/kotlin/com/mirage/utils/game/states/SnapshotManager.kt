@@ -4,9 +4,9 @@ import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.Log
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.utils.extensions.second
-import com.mirage.utils.game.objects.SimplifiedEntity
-import com.mirage.utils.game.objects.SimplifiedObject
-import com.mirage.utils.game.objects.enums.MoveDirection
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import java.util.*
 import kotlin.math.min
 

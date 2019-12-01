@@ -1,8 +1,8 @@
-package com.mirage.utils.game.objects
+package com.mirage.utils.game.objects.simplified
 
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.effects.Effect
-import com.mirage.utils.game.objects.enums.MoveDirection
+import com.mirage.utils.game.objects.properties.MoveDirection
 
 open class SimplifiedEntity(
         override val template: String = "",
@@ -18,16 +18,15 @@ open class SimplifiedEntity(
         open val action: String = "IDLE",
         open val health: Float = 0f,
         open val maxHealth: Float = 0f,
-        open val factionID: Int = 0,
-        open val effects: Collection<Effect> = ArrayList()
+        open val factionID: Int = 0
 ) : SimplifiedObject {
 
 
     override fun simplifiedCopy(): SimplifiedEntity =
-            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, effects)
+            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
 
     override fun with(template: String, x: Float, y: Float): SimplifiedEntity =
-            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, effects)
+            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
 
     override val rectangle: Rectangle
         get() = Rectangle(x, y, width, height)
@@ -47,8 +46,7 @@ open class SimplifiedEntity(
                 action == other.action &&
                 health == other.health &&
                 maxHealth == other.maxHealth &&
-                factionID == other.factionID &&
-                effects == other.effects
+                factionID == other.factionID
     }
 
     override fun hashCode(): Int {
@@ -57,7 +55,7 @@ open class SimplifiedEntity(
 
     override fun toString(): String =
             "Entity(template=$template x=$x y=$y name=$name width=$width height=$height speed=$speed moveDirection=$moveDirection" +
-                    " isMoving=$isMoving state=$state action=$action health=$health maxHealth=$maxHealth factionID=$factionID effects=$effects)"
+                    " isMoving=$isMoving state=$state action=$action health=$health maxHealth=$maxHealth factionID=$factionID)"
 
 
 }
