@@ -13,14 +13,14 @@ class LoopTimer(private val delayMillis: Long, private val onUpdate: (Long) -> U
     private val lock = Any()
 
     @Volatile
-    private var lastTickTime = 0L
+    private var lastTickTime = Long.MIN_VALUE
 
     private val thread = thread(false) {
         while (!isStopped) {
             if (!isPaused) {
                 synchronized(lock) {
                     val time = System.currentTimeMillis()
-                    val deltaTime = time - lastTickTime
+                    val deltaTime = if (lastTickTime == Long.MIN_VALUE) 0L else time - lastTickTime
                     onUpdate(deltaTime)
                     lastTickTime = time
                     val secondTime = System.currentTimeMillis()
@@ -36,7 +36,6 @@ class LoopTimer(private val delayMillis: Long, private val onUpdate: (Long) -> U
     }
 
     fun start() {
-        lastTickTime = System.currentTimeMillis()
         thread.start()
     }
 

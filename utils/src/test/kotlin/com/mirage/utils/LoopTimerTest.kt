@@ -10,13 +10,13 @@ internal class LoopTimerTest {
     @Test
     fun testLoopTimer() {
         val counter = AtomicInteger(0)
-        val timer = LoopTimer(10L) {
+        val timer = LoopTimer(50L) {
             println(it)
-            assert(it in 0L..1L || it in 9L..11L)
+            assert(it in 0L..1L || it in 48L..52L)
             counter.incrementAndGet()
         }
         timer.start()
-        Thread.sleep(95L)
+        Thread.sleep(475L)
         timer.stop()
         assertEquals(10, counter.get())
     }

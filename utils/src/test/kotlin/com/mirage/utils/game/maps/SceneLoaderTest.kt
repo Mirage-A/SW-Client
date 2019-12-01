@@ -2,7 +2,7 @@ package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
 import com.mirage.utils.game.objects.GameObject
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class SceneLoaderTest {
@@ -287,5 +287,23 @@ internal class SceneLoaderTest {
                 state = "",
                 action = "IDLE"
         ), obj)
+    }
+
+    @Test
+    fun testExceptions() {
+        assertDoesNotThrow {
+            SceneLoader.loadTemplate("{}".reader())
+        }
+        assertDoesNotThrow {
+            SceneLoader.loadScene("".reader())
+            SceneLoader.loadScene("""{
+                "objects": [
+    {
+      "x": 0.6,
+      "y": 1.1
+    }
+  ]
+            }""".trimMargin().reader())
+        }
     }
 }

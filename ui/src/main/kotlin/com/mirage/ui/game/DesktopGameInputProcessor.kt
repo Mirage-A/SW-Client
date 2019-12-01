@@ -1,6 +1,9 @@
 package com.mirage.ui.game
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Graphics
 import com.badlogic.gdx.Input
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
@@ -10,6 +13,25 @@ import rx.subjects.Subject
 class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
 
     override val inputMessages: Subject<ClientMessage, ClientMessage> = EventSubjectAdapter()
+
+
+    init {
+        uiState.settingsBtn.onPressed = {
+            for (btn in uiState.settingsMenuBtnList) {
+                btn.isVisible = !btn.isVisible
+            }
+        }
+        uiState.leaveGameBtn.onPressed = {
+            uiState.confirmExitMessage.isVisible = true
+        }
+        uiState.confirmExitMessage.setOkAction {
+            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MAIN_MENU))
+            uiState.confirmExitMessage.isVisible = false
+        }
+        uiState.confirmExitMessage.setCancelAction {
+            uiState.confirmExitMessage.isVisible = false
+        }
+    }
 
     /**
      * Время отпускания клавиши передвижения
@@ -23,17 +45,33 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
      * Интервал времени, за который должны быть отпущены две соседние клавиши передвижения,
      * чтобы персонаж остался в диагональном направлении движения
      */
-    private val EPS_TIME = 50L
+    private val epsTime = 50L
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        //println("touchUp $screenX $screenY $pointer $button")
+        val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.microMenuBtnList.forEach {it.touchUp(virtualPoint)}
+        uiState.settingsMenuBtnList.forEach {it.touchUp(virtualPoint)}
+        uiState.skillBtns.forEach {it.touchUp(virtualPoint)}
+        uiState.confirmExitMessage.touchUp(virtualPoint)
+        return false
+    }
 
+    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.microMenuBtnList.forEach {it.touchDown(virtualPoint)}
+        uiState.settingsMenuBtnList.forEach {it.touchDown(virtualPoint)}
+        uiState.skillBtns.forEach {it.touchDown(virtualPoint)}
+        uiState.confirmExitMessage.touchDown(virtualPoint)
         return false
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        //println("mouseMoved $screenX $screenY")
-        return true
+        val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.microMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
+        uiState.settingsMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
+        uiState.skillBtns.forEach {it.mouseMoved(virtualPoint)}
+        uiState.confirmExitMessage.mouseMoved(virtualPoint)
+        return false
     }
 
     override fun keyTyped(character: Char): Boolean {
@@ -59,9 +97,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                             startMoving(GameObject.MoveDirection.RIGHT)
                         }
                         GameObject.MoveDirection.UP -> {
-                            if (aReleasedTime >= dReleasedTime && wReleasedTime - aReleasedTime < EPS_TIME) {
+                            if (aReleasedTime >= dReleasedTime && wReleasedTime - aReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.UP_LEFT)
-                            } else if (dReleasedTime >= aReleasedTime && wReleasedTime - dReleasedTime < EPS_TIME) {
+                            } else if (dReleasedTime >= aReleasedTime && wReleasedTime - dReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.UP_RIGHT)
                             }
                             stopMoving()
@@ -82,9 +120,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                             startMoving(GameObject.MoveDirection.DOWN)
                         }
                         GameObject.MoveDirection.LEFT -> {
-                            if (wReleasedTime >= sReleasedTime && aReleasedTime - wReleasedTime < EPS_TIME) {
+                            if (wReleasedTime >= sReleasedTime && aReleasedTime - wReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.UP_LEFT)
-                            } else if (sReleasedTime >= wReleasedTime && aReleasedTime - sReleasedTime < EPS_TIME) {
+                            } else if (sReleasedTime >= wReleasedTime && aReleasedTime - sReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.DOWN_LEFT)
                             }
                             stopMoving()
@@ -105,9 +143,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                             startMoving(GameObject.MoveDirection.RIGHT)
                         }
                         GameObject.MoveDirection.DOWN -> {
-                            if (aReleasedTime >= dReleasedTime && sReleasedTime - aReleasedTime < EPS_TIME) {
+                            if (aReleasedTime >= dReleasedTime && sReleasedTime - aReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.DOWN_LEFT)
-                            } else if (dReleasedTime >= aReleasedTime && sReleasedTime - dReleasedTime < EPS_TIME) {
+                            } else if (dReleasedTime >= aReleasedTime && sReleasedTime - dReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.DOWN_RIGHT)
                             }
                             stopMoving()
@@ -128,9 +166,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                             startMoving(GameObject.MoveDirection.DOWN)
                         }
                         GameObject.MoveDirection.RIGHT -> {
-                            if (wReleasedTime >= sReleasedTime && dReleasedTime - wReleasedTime < EPS_TIME) {
+                            if (wReleasedTime >= sReleasedTime && dReleasedTime - wReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.UP_RIGHT)
-                            } else if (sReleasedTime >= wReleasedTime && dReleasedTime - sReleasedTime < EPS_TIME) {
+                            } else if (sReleasedTime >= wReleasedTime && dReleasedTime - sReleasedTime < epsTime) {
                                 setMoveDirection(GameObject.MoveDirection.DOWN_RIGHT)
                             }
                             stopMoving()
@@ -227,10 +265,6 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
         return true
     }
 
-    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        //println("touchDown $screenX $screenY $pointer $button")
-        return true
-    }
 
     private fun startMoving(md: GameObject.MoveDirection) {
         uiState.bufferedMoveDirection = md
@@ -244,5 +278,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
     private fun setMoveDirection(md: GameObject.MoveDirection) {
         uiState.bufferedMoveDirection = md
     }
+
+
+    private fun getVirtualPoint(screenX: Int, screenY: Int) =
+            uiState.virtualScreen.projectRealPointOnVirtualScreen(Point(screenX.toFloat(), screenY.toFloat()))
 
 }

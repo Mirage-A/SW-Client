@@ -5,7 +5,16 @@ import com.mirage.utils.virtualscreen.VirtualScreen
 class DesktopGameUIRenderer : GameUIRenderer {
 
     override fun renderUI(virtualScreen: VirtualScreen, uiState: GameUIState, currentTimeMillis: Long) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        for (btn in uiState.microMenuBtnList) {
+            btn.draw(virtualScreen)
+        }
+        for (btn in uiState.settingsMenuBtnList) {
+            btn.draw(virtualScreen)
+        }
+        for (btn in uiState.skillBtns) {
+            btn.draw(virtualScreen)
+        }
+        uiState.confirmExitMessage.draw(virtualScreen)
     }
 
 }

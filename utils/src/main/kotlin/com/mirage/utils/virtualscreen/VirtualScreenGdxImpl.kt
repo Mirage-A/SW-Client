@@ -184,7 +184,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect)
 
-    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) = GdxLabel(text, rect, fontCapHeight)
+    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
     inner class GdxLabel internal constructor(
             text: String,
@@ -205,8 +205,8 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         private val label = Label(text, Label.LabelStyle(font, Color.BLACK)).apply {
             isVisible = true
             setWrap(true)
-            setPosition(rect.x, rect.y, Align.center)
             setSize(rect.width, rect.height)
+            setPosition(rect.x, rect.y, Align.center)
             setAlignment(Align.center, Align.center)
 
         }
@@ -214,8 +214,8 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         override var rect: Rectangle = rect
             set(value) {
                 label.apply {
-                    setPosition(value.x, value.y, Align.center)
                     setSize(value.width, value.height)
+                    setPosition(value.x, value.y, Align.center)
                     setAlignment(Align.center, Align.center)
                 }
                 field = value

@@ -1,7 +1,7 @@
 package com.mirage.gameview.drawers.animation
 
 import com.mirage.utils.Log
-import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.GameObject
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
@@ -111,8 +111,8 @@ class Animation() {
         /**
          * Возвращает точку - координаты слоя
          */
-        fun getPosition() : MutablePoint {
-            return MutablePoint(x, y)
+        fun getPosition() : Point {
+            return Point(x, y)
         }
 
     }

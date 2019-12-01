@@ -1,5 +1,6 @@
 package com.mirage.ui.widgets
 
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.virtualscreen.VirtualScreen
 
@@ -23,12 +24,13 @@ class Button(
 ) {
     var isPressed = false
     var isHighlighted = false
+    var isVisible = true
 
     init {
         boundedLabel?.rect = rect
     }
 
-    fun getCurrentTextureName() =
+    private fun getCurrentTextureName() =
             when {
                 isPressed -> pressedTextureName
                 isHighlighted -> highlightedTextureName
@@ -40,5 +42,33 @@ class Button(
             boundedLabel?.rect = it
             rect = it
         }
+    }
+
+    fun touchUp(virtualPoint: Point) {
+        if (!isVisible) return
+        if (rect.contains(virtualPoint)) {
+            onPressed()
+        }
+        else {
+            isHighlighted = false
+        }
+        isPressed = false
+    }
+
+    fun touchDown(virtualPoint: Point) {
+        if (!isVisible) return
+        isPressed = rect.contains(virtualPoint)
+        isHighlighted = isPressed
+    }
+
+    fun mouseMoved(virtualPoint: Point) {
+        if (!isVisible) return
+        isHighlighted = rect.contains(virtualPoint)
+    }
+
+    fun draw(virtualScreen: VirtualScreen) {
+        if (!isVisible) return
+        virtualScreen.draw(getCurrentTextureName(), rect)
+        boundedLabel?.draw()
     }
 }

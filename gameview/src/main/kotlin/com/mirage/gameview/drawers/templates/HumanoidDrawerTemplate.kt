@@ -3,7 +3,7 @@ package com.mirage.gameview.drawers.templates
 import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.animation.*
 import com.mirage.utils.Log
-import com.mirage.utils.datastructures.MutablePoint
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.GameObject
 import com.mirage.utils.virtualscreen.VirtualScreen
 
@@ -108,14 +108,14 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
      * Просматривает слои кадра и возвращает координаты центра слоя bodypoint
      * Если такого слоя нет, возвращает (0f, 0f)
      */
-    private fun getBodyPoint(startFrame: Animation.Frame, endFrame : Animation.Frame, progress: Float) : MutablePoint {
+    private fun getBodyPoint(startFrame: Animation.Frame, endFrame : Animation.Frame, progress: Float) : Point {
         val startLayerIndex = findLayer(startFrame, "bodypoint")
         val endLayerIndex = findLayer(endFrame, "bodypoint")
         if (startLayerIndex != -1 && endLayerIndex != -1) {
             return curValue(startFrame.layers[startLayerIndex].getPosition(),
                     endFrame.layers[endLayerIndex].getPosition(), progress)
         }
-        return MutablePoint(0f, 0f)
+        return Point(0f, 0f)
     }
 
 

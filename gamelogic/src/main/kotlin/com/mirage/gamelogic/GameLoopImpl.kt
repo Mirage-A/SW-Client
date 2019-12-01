@@ -40,7 +40,6 @@ internal class GameLoopImpl(gameMapName: String,
         while (true) {
             val msg = clientMessages.poll()
             msg ?: break
-            println("Processing client message $msg")
             msgs.add(msg)
         }
 
