@@ -14,7 +14,14 @@ class DesktopGameUIRenderer : GameUIRenderer {
         for (btn in uiState.skillBtns) {
             btn.draw(virtualScreen)
         }
-        uiState.playerHealthPane.draw(virtualScreen, ((System.currentTimeMillis() / 10L) % 1000L).toInt(), 1000)
+        val player = uiState.player
+        uiState.playerHealthPane.draw(virtualScreen, player?.health ?: 0, player?.maxHealth ?: 0)
+        val target = uiState.targetEntity
+        if (target != null) {
+            uiState.targetHealthPane.draw(virtualScreen, target.health, target.maxHealth)
+            uiState.targetNameLabel.text = target.name
+            uiState.targetNameArea.draw(virtualScreen)
+        }
         uiState.confirmExitMessage.draw(virtualScreen)
     }
 

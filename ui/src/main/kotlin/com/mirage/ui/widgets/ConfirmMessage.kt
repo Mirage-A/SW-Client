@@ -10,7 +10,7 @@ class ConfirmMessage(
         description: String = "This action needs to be confirmed",
         okTitle: String = "OK",
         cancelTitle: String = "Cancel"
-) {
+) : Widget {
 
     var isVisible = false
 
@@ -57,7 +57,7 @@ class ConfirmMessage(
         cancelButton.draw(virtualScreen)
     }
 
-    fun resize(virtualWidth: Float, virtualHeight: Float) {
+    override fun resize(virtualWidth: Float, virtualHeight: Float) {
         titleLabel.rect = Rectangle(0f, 175f, 530f, 84f)
         descriptionLabel.rect = Rectangle(0f, 0f, 600f, 240f)
         okButton.rect = Rectangle(-176f, -185f, 260f, 86f)
@@ -66,20 +66,20 @@ class ConfirmMessage(
         cancelButton.boundedLabel?.rect = cancelButton.rect
     }
 
-    fun touchUp(virtualPoint: Point) {
+    override fun touchUp(virtualPoint: Point) {
         if (!isVisible) return
         okButton.touchUp(virtualPoint)
         cancelButton.touchUp(virtualPoint)
     }
 
-    fun touchDown(virtualPoint: Point) {
+    override fun touchDown(virtualPoint: Point) {
         if (!isVisible) return
         okButton.touchDown(virtualPoint)
         cancelButton.touchDown(virtualPoint)
 
     }
 
-    fun mouseMoved(virtualPoint: Point) {
+    override fun mouseMoved(virtualPoint: Point) {
         if (!isVisible) return
         okButton.mouseMoved(virtualPoint)
         cancelButton.mouseMoved(virtualPoint)

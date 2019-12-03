@@ -47,29 +47,19 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.microMenuBtnList.forEach {it.touchUp(virtualPoint)}
-        uiState.settingsMenuBtnList.forEach {it.touchUp(virtualPoint)}
-        uiState.skillBtns.forEach {it.touchUp(virtualPoint)}
-        uiState.confirmExitMessage.touchUp(virtualPoint)
+        uiState.widgets.forEach {it.touchUp(virtualPoint)}
         return false
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.microMenuBtnList.forEach {it.touchDown(virtualPoint)}
-        uiState.settingsMenuBtnList.forEach {it.touchDown(virtualPoint)}
-        uiState.skillBtns.forEach {it.touchDown(virtualPoint)}
-        uiState.confirmExitMessage.touchDown(virtualPoint)
+        uiState.widgets.forEach {it.touchDown(virtualPoint)}
         return false
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.microMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
-        uiState.settingsMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
-        uiState.skillBtns.forEach {it.mouseMoved(virtualPoint)}
-        uiState.confirmExitMessage.mouseMoved(virtualPoint)
-        uiState.playerHealthPane.mouseMoved(virtualPoint)
+        uiState.widgets.forEach {it.mouseMoved(virtualPoint)}
         return false
     }
 

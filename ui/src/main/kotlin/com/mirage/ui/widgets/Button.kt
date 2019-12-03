@@ -21,7 +21,7 @@ class Button(
         var boundedLabel: VirtualScreen.Label? = null,
         var sizeUpdater: ((Float, Float) -> Rectangle)? = null,
         var onPressed: () -> Unit = {}
-) {
+) : Widget {
     var isPressed = false
     var isHighlighted = false
     var isVisible = true
@@ -37,14 +37,14 @@ class Button(
                 else -> textureName
             }
 
-    fun resize(virtualWidth: Float, virtualHeight: Float) {
+    override fun resize(virtualWidth: Float, virtualHeight: Float) {
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
             boundedLabel?.rect = it
             rect = it
         }
     }
 
-    fun touchUp(virtualPoint: Point) {
+    override fun touchUp(virtualPoint: Point) {
         if (!isVisible) return
         if (rect.contains(virtualPoint)) {
             onPressed()
@@ -55,13 +55,13 @@ class Button(
         isPressed = false
     }
 
-    fun touchDown(virtualPoint: Point) {
+    override fun touchDown(virtualPoint: Point) {
         if (!isVisible) return
         isPressed = rect.contains(virtualPoint)
         isHighlighted = isPressed
     }
 
-    fun mouseMoved(virtualPoint: Point) {
+    override fun mouseMoved(virtualPoint: Point) {
         if (!isVisible) return
         isHighlighted = rect.contains(virtualPoint)
     }

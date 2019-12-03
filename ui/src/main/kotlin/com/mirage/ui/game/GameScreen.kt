@@ -45,11 +45,15 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
                 snapshotManager.addNewSnapshot(GameStateSnapshot(msg.initialState, StateDifference(), msg.stateCreatedTimeMillis))
                 playerID = msg.playerID
                 lastReceivedState = msg.initialState
+                uiState.player = msg.initialState.entities[msg.playerID]
+                uiState.targetEntity = uiState.player
             }
             is GameStateUpdateMessage -> {
                 gameView.updateDrawers(lastReceivedState, msg.diff)
-                lastReceivedState = msg.diff.projectOn(lastReceivedState)
-                snapshotManager.addNewSnapshot(GameStateSnapshot(lastReceivedState, msg.diff, msg.stateCreatedTimeMillis))
+                val state = msg.diff.projectOn(lastReceivedState)
+                lastReceivedState = state
+                snapshotManager.addNewSnapshot(GameStateSnapshot(state, msg.diff, msg.stateCreatedTimeMillis))
+                uiState.player = state.entities[playerID ?: Long.MAX_VALUE]
             }
         }
     }

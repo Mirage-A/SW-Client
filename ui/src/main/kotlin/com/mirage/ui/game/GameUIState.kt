@@ -1,10 +1,9 @@
 package com.mirage.ui.game
 
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.ConfirmMessage
-import com.mirage.ui.widgets.ResourcePane
+import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
@@ -19,6 +18,10 @@ private const val playerHealthHeight = 64f
 private const val playerHealthBorderMargin = 4f
 private const val playerHealthFontHeight = 24f
 
+private const val targetNameAreaWidth = playerHealthWidth * 0.75f
+private const val targetNameAreaHeight = 48f
+private const val targetNameFontHeight = 16f
+
 private const val microMenuBtnSize = 64f
 private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
@@ -31,15 +34,18 @@ private const val settingsMenuBtnFontSize = 20f
  */
 class GameUIState(val virtualScreen: VirtualScreen) {
 
-    var bufferedMoving : Boolean? = null
-    var bufferedMoveDirection : MoveDirection? = null
-    var lastSentMoving : Boolean? = null
-    var lastSentMoveDirection : MoveDirection? = null
+    var bufferedMoving: Boolean? = null
+    var bufferedMoveDirection: MoveDirection? = null
+    var lastSentMoving: Boolean? = null
+    var lastSentMoveDirection: MoveDirection? = null
+
+    var targetEntity: SimplifiedEntity? = null
+    var player: SimplifiedEntity? = null
 
 
-    val skillNames : MutableList<String?> = mutableListOf("flamestrike", "flamestrike", "flamestrike", "flamestrike", "meteor")
+    val skillNames: MutableList<String?> = mutableListOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
     val skillCoolDowns: MutableList<Long> = MutableList(5) {0L}
-    val skillBtns : List<Button> = List(5) {
+    val skillBtns: List<Button> = List(5) {
         Button(
                 textureName = "null",
                 boundedLabel = virtualScreen.createLabel("", if (it == 4) ultimateCoolDownFontSize else skillCoolDownFontSize)
@@ -144,18 +150,37 @@ class GameUIState(val virtualScreen: VirtualScreen) {
         Rectangle(0f, - h / 2f + skillPaneMargin + playerHealthHeight / 2f, playerHealthWidth, playerHealthHeight)
     }
 
+    val targetHealthPane: ResourcePane = ResourcePane(
+            "ui/game/health-border",
+            "ui/game/health-lost",
+            "ui/game/health",
+            Rectangle(),
+            virtualScreen.createLabel("", playerHealthFontHeight),
+            playerHealthBorderMargin
+    ) {
+        _, h ->
+        Rectangle(0f, h / 2f - skillPaneMargin - playerHealthHeight / 2f, playerHealthWidth, playerHealthHeight)
+    }
+
+    val targetNameLabel = virtualScreen.createLabel("Your target", targetNameFontHeight)
+    val targetNameArea: TargetNameArea = TargetNameArea(
+            "ui/game/health-border",
+            "ui/game/health-lost",
+            Rectangle(),
+            targetNameLabel,
+            playerHealthBorderMargin
+    ) {
+        _, h ->
+        Rectangle(0f, h / 2f - skillPaneMargin - playerHealthHeight - targetNameAreaHeight / 2f + playerHealthBorderMargin,
+                targetNameAreaWidth, targetNameAreaHeight)
+    }
+
+    val widgets: Collection<Widget> =
+            microMenuBtnList + settingsMenuBtnList + skillBtns + confirmExitMessage + playerHealthPane + targetHealthPane + targetNameArea
+
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
-        for (btn in microMenuBtnList) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
-        for (btn in settingsMenuBtnList) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
-        for (btn in skillBtns) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
-        playerHealthPane.resize(virtualWidth, virtualHeight)
+        widgets.forEach { it.resize(virtualWidth, virtualHeight) }
     }
 
     init {
