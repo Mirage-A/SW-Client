@@ -119,8 +119,8 @@ object SceneLoader {
             val isMoving: Boolean?,
             val state: String?,
             val action: String?,
-            val health: Float?,
-            val maxHealth: Float?,
+            val health: Int?,
+            val maxHealth: Int?,
             val factionID: Int?,
             val isRigid: Boolean?
     ) {

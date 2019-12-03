@@ -69,6 +69,7 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
         uiState.settingsMenuBtnList.forEach {it.mouseMoved(virtualPoint)}
         uiState.skillBtns.forEach {it.mouseMoved(virtualPoint)}
         uiState.confirmExitMessage.mouseMoved(virtualPoint)
+        uiState.playerHealthPane.mouseMoved(virtualPoint)
         return false
     }
 

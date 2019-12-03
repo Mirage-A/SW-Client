@@ -14,6 +14,7 @@ class DesktopGameUIRenderer : GameUIRenderer {
         for (btn in uiState.skillBtns) {
             btn.draw(virtualScreen)
         }
+        uiState.playerHealthPane.draw(virtualScreen, ((System.currentTimeMillis() / 10L) % 1000L).toInt(), 1000)
         uiState.confirmExitMessage.draw(virtualScreen)
     }
 

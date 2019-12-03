@@ -16,8 +16,8 @@ class ExtendedEntity(
         override var isMoving: Boolean = false,
         override var state: String = "default",
         override var action: String = "idle",
-        override var health: Float = 0f,
-        override var maxHealth: Float = 0f,
+        override var health: Int = 0,
+        override var maxHealth: Int = 0,
         override var factionID: Int = 0,
         var isRigid: Boolean = false
 
@@ -35,8 +35,8 @@ class ExtendedEntity(
             isMoving: Boolean = this.isMoving,
             state: String = this.state,
             action: String = this.action,
-            health: Float = this.health,
-            maxHealth: Float = this.maxHealth,
+            health: Int = this.health,
+            maxHealth: Int = this.maxHealth,
             factionID: Int = this.factionID,
             isRigid: Boolean = this.isRigid
     ): ExtendedEntity =

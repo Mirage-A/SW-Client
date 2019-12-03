@@ -2,18 +2,22 @@ package com.mirage.ui.game
 
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.ConfirmMessage
+import com.mirage.ui.widgets.ResourcePane
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-private const val playerHealthWidth = 0f
-private const val playerHealthHeight = 64f
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
 private const val skillBtnSize = 72f
 
 private const val skillCoolDownFontSize = 20f
 private const val ultimateSkillBtnSize = 168f
 private const val ultimateCoolDownFontSize = 40f
+
+private const val playerHealthWidth = ultimateSkillBtnSize + skillBtnSize * 4f + skillPaneMargin * 4f
+private const val playerHealthHeight = 64f
+private const val playerHealthBorderMargin = 4f
+private const val playerHealthFontHeight = 24f
 
 private const val microMenuBtnSize = 64f
 private const val microMenuMargin = 8f
@@ -128,6 +132,19 @@ class GameUIState(val virtualScreen: VirtualScreen) {
             "Exit",
             "Cancel")
 
+    val playerHealthPane: ResourcePane = ResourcePane(
+            "ui/game/health-border",
+            "ui/game/health-lost",
+            "ui/game/health",
+            Rectangle(),
+            virtualScreen.createLabel("", playerHealthFontHeight),
+            playerHealthBorderMargin
+    ) {
+        _, h ->
+        Rectangle(0f, - h / 2f + skillPaneMargin + playerHealthHeight / 2f, playerHealthWidth, playerHealthHeight)
+    }
+
+
     fun resize(virtualWidth: Float, virtualHeight: Float) {
         for (btn in microMenuBtnList) {
             btn.resize(virtualWidth, virtualHeight)
@@ -138,6 +155,7 @@ class GameUIState(val virtualScreen: VirtualScreen) {
         for (btn in skillBtns) {
             btn.resize(virtualWidth, virtualHeight)
         }
+        playerHealthPane.resize(virtualWidth, virtualHeight)
     }
 
     init {

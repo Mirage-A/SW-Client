@@ -16,8 +16,8 @@ open class SimplifiedEntity(
         open val isMoving: Boolean = false,
         open val state: String = "default",
         open val action: String = "idle",
-        open val health: Float = 0f,
-        open val maxHealth: Float = 0f,
+        open val health: Int = 0,
+        open val maxHealth: Int = 0,
         open val factionID: Int = 0
 ) : SimplifiedObject {
 
@@ -40,8 +40,8 @@ open class SimplifiedEntity(
             isMoving: Boolean = this.isMoving,
             state: String = this.state,
             action: String = this.action,
-            health: Float = this.health,
-            maxHealth: Float = this.maxHealth,
+            health: Int = this.health,
+            maxHealth: Int = this.maxHealth,
             factionID: Int = this.factionID
     ): SimplifiedEntity =
             SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
