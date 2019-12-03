@@ -79,7 +79,7 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
             }
         }
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
-        gameView.renderGameState(virtualScreen, state, state.entities[uiState.playerID]?.position ?: Point(0f, 0f))
+        gameView.renderGameState(virtualScreen, state, state.entities[uiState.playerID]?.position ?: Point(0f, 0f), uiState.targetID)
         uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
         uiState.lastRenderedState = state
     }

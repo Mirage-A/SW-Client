@@ -1,5 +1,6 @@
 package com.mirage.gameview.drawers
 
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
@@ -9,7 +10,7 @@ import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface DrawersManager {
 
-    fun getEntityDrawer(entityID: Long): Drawer?
+    fun getEntityHitbox(entityID: Long): Rectangle?
 
     fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long)
 

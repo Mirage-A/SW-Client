@@ -32,8 +32,9 @@ interface GameView {
      * @param virtualScreen Холст, на котором будет отрисовываться состояние.
      * @param objs Состояние, которое будет отрисовано.
      * @param playerPositionOnScene Координаты игрока на сцене; используются для определения центра "камеры" (на самом деле камера не двигается)
+     * @param targetID id сущности, взятой в цель
      */
-    fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point)
+    fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?)
 
     /**
      * Проверяет, какая сущность попадёт под клик на виртуальный экран по координатам (hitX, hitY).

@@ -22,7 +22,4 @@ class OpaqueTransparentDrawerTemplate(
         else transparentDrawerTemplate.draw(virtualScreen, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
     }
 
-    override fun containsPoint(relativePoint: Point): Boolean =
-            opaqueDrawerTemplate.containsPoint(relativePoint) || transparentDrawerTemplate.containsPoint(relativePoint)
-
 }

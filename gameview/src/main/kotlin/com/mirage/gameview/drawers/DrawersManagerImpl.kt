@@ -4,6 +4,7 @@ import com.mirage.gameview.drawers.templates.EmptyDrawerTemplate
 import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.gameview.utils.loadDrawersFromTemplate
 import com.mirage.utils.Log
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
@@ -43,7 +44,7 @@ class DrawersManagerImpl : DrawersManager {
         cachedEntityDrawerTemplates[templateName] = loadDrawersFromTemplate("entities/$templateName")
     }
 
-    override fun getEntityDrawer(entityID: Long): Drawer? = entityDrawers[entityID]
+    override fun getEntityHitbox(entityID: Long): Rectangle? = entityDrawers[entityID]?.hitBox
 
     override fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long) {
         val drawer : Drawer = buildingDrawers[buildingID] ?: run {

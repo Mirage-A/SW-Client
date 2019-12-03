@@ -4,6 +4,7 @@ import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.animation.*
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.properties.WeaponType
@@ -146,6 +147,7 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
         drawLayer(virtualScreen, texture, bodyX, bodyY, startLayer, endLayer, progress)
     }
 
-    override fun containsPoint(relativePoint: Point): Boolean = relativePoint.x in -64f..64f && relativePoint.y in 0f..128f
+    override val hitBox: Rectangle
+        get() = Rectangle(0f, 64f, 128f, 128f)
 
 }

@@ -1,6 +1,7 @@
 package com.mirage.gameview.drawers
 
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
@@ -22,6 +23,6 @@ interface Drawer {
 
     fun setMoving(isMoving: Boolean, currentTimeMillis: Long = System.currentTimeMillis())
 
-    fun containsPoint(relativePoint: Point): Boolean
+    val hitBox: Rectangle
 
 }

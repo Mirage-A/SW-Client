@@ -23,18 +23,18 @@ class GameViewImpl(private val gameMap: GameMap) : GameView {
         drawersManager.updateDrawers(diff, oldState)
     }
 
-    override fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point) {
+    override fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?) {
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPositionOnScene)
         val cameraCenterPosition = Point(playerPosOnVirtualScreen.x, playerPosOnVirtualScreen.y + DELTA_CENTER_Y)
         renderGameMap(virtualScreen, gameMap, cameraCenterPosition.x, cameraCenterPosition.y)
-        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y)
+        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y, targetID)
     }
 
     override fun hit(virtualPoint: Point, lastRenderedState: SimplifiedState): Long? {
         var answer: Long? = null
         var answerEntity: SimplifiedEntity? = null
         for ((id, entity) in lastRenderedState.entities) {
-            if (drawersManager.getEntityDrawer(id)?.containsPoint(virtualPoint - entity.position) == true) {
+            if (drawersManager.getEntityHitbox(id)?.contains(virtualPoint - entity.position) == true) {
                 if (answerEntity == null || entity.x - entity.y > answerEntity.x - answerEntity.y) {
                     answer = id
                     answerEntity = entity
