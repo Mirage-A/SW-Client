@@ -25,6 +25,7 @@ class Button(
     var isPressed = false
     var isHighlighted = false
     var isVisible = true
+    var keyPressed = false // Для случаев, когда кнопка может нажиматься как курсором, так и с клавиатуры.
 
     init {
         boundedLabel?.rect = rect
@@ -32,7 +33,7 @@ class Button(
 
     private fun getCurrentTextureName() =
             when {
-                isPressed -> pressedTextureName
+                isPressed || keyPressed -> pressedTextureName
                 isHighlighted -> highlightedTextureName
                 else -> textureName
             }

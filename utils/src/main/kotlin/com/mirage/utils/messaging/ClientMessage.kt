@@ -43,6 +43,12 @@ data class MoveDirectionClientMessage(val md: MoveDirection) : ClientMessage()
 
 data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage()
 
+/** Сообщение о попытке применить навык
+ * @param skillID Порядковый номер навыка на панели игрока
+ * @param targetID ID сущности - цели игрока
+ */
+data class CastSkillClientMessage(val skillID: Int, val targetID: Long?) : ClientMessage()
+
 data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage()
 
 data class LoginClientMessage(val login: String, val password: String) : ClientMessage()

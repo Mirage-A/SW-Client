@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.*
+import com.mirage.utils.skillBindings
 import rx.subjects.Subject
 
 class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
@@ -167,6 +168,11 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 }
             }
         }
+        for (i in 0 until 5) {
+            if (keycode == skillBindings[i]) {
+                uiState.skillBtns[i].keyPressed = false
+            }
+        }
         return true
     }
 
@@ -248,6 +254,12 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
             }
             Input.Keys.ESCAPE -> {
                 inputMessages.onNext(ClearTargetMessage())
+            }
+        }
+        for (i in 0 until 5) {
+            if (keycode == skillBindings[i]) {
+                inputMessages.onNext(CastSkillClientMessage(i, uiState.targetID))
+                uiState.skillBtns[i].keyPressed = true
             }
         }
         return true
