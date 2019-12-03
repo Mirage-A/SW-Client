@@ -1,19 +1,27 @@
 package com.mirage.ui.game
 
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.ConfirmMessage
+import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-private const val playerHealthWidth = 0f
-private const val playerHealthHeight = 64f
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
 private const val skillBtnSize = 72f
 
 private const val skillCoolDownFontSize = 20f
 private const val ultimateSkillBtnSize = 168f
 private const val ultimateCoolDownFontSize = 40f
+
+private const val playerHealthWidth = ultimateSkillBtnSize + skillBtnSize * 4f + skillPaneMargin * 4f
+private const val playerHealthHeight = 64f
+private const val playerHealthBorderMargin = 4f
+private const val playerHealthFontHeight = 24f
+
+private const val targetNameAreaWidth = playerHealthWidth * 0.75f
+private const val targetNameAreaHeight = 48f
+private const val targetNameFontHeight = 16f
 
 private const val microMenuBtnSize = 64f
 private const val microMenuMargin = 8f
@@ -27,15 +35,19 @@ private const val settingsMenuBtnFontSize = 20f
  */
 class GameUIState(val virtualScreen: VirtualScreen) {
 
-    var bufferedMoving : Boolean? = null
-    var bufferedMoveDirection : GameObject.MoveDirection? = null
-    var lastSentMoving : Boolean? = null
-    var lastSentMoveDirection : GameObject.MoveDirection? = null
+    var bufferedMoving: Boolean? = null
+    var bufferedMoveDirection: MoveDirection? = null
+    var lastSentMoving: Boolean? = null
+    var lastSentMoveDirection: MoveDirection? = null
+
+    var lastRenderedState: SimplifiedState = SimplifiedState()
+    var targetID: Long? = null
+    var playerID: Long? = null
 
 
-    val skillNames : MutableList<String?> = mutableListOf("flamestrike", "flamestrike", "flamestrike", "flamestrike", "meteor")
+    val skillNames: MutableList<String?> = mutableListOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
     val skillCoolDowns: MutableList<Long> = MutableList(5) {0L}
-    val skillBtns : List<Button> = List(5) {
+    val skillBtns: List<Button> = List(5) {
         Button(
                 textureName = "null",
                 boundedLabel = virtualScreen.createLabel("", if (it == 4) ultimateCoolDownFontSize else skillCoolDownFontSize)
@@ -100,17 +112,17 @@ class GameUIState(val virtualScreen: VirtualScreen) {
 
 
     val settingsBtn = Button("ui/game/settings",
-            "ui/game/settingshighlighted",
-            "ui/game/settingspressed",
+            "ui/game/settings-highlighted",
+            "ui/game/settings-pressed",
             Rectangle(),
             null,
             {w, h -> Rectangle(w / 2 - microMenuBtnSize / 2 - microMenuMargin,
                     - h / 2 + microMenuBtnSize / 2 + microMenuMargin,
                     microMenuBtnSize, microMenuBtnSize) })
 
-    val leaveGameBtn = Button("ui/mainmenubtn",
-            "ui/mainmenubtnhighlighted",
-            "ui/mainmenubtnpressed",
+    val leaveGameBtn = Button("ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel("Main menu", settingsMenuBtnFontSize),
             {w, h -> Rectangle(w / 2 - settingsMenuBtnWidth / 2f - microMenuMargin,
@@ -128,16 +140,49 @@ class GameUIState(val virtualScreen: VirtualScreen) {
             "Exit",
             "Cancel")
 
+    val playerHealthPane: ResourcePane = ResourcePane(
+            "ui/game/health-border",
+            "ui/game/health-lost",
+            "ui/game/health",
+            Rectangle(),
+            virtualScreen.createLabel("", playerHealthFontHeight),
+            playerHealthBorderMargin
+    ) {
+        _, h ->
+        Rectangle(0f, - h / 2f + skillPaneMargin + playerHealthHeight / 2f, playerHealthWidth, playerHealthHeight)
+    }
+
+    val targetHealthPane: ResourcePane = ResourcePane(
+            "ui/game/health-border",
+            "ui/game/health-lost",
+            "ui/game/health",
+            Rectangle(),
+            virtualScreen.createLabel("", playerHealthFontHeight),
+            playerHealthBorderMargin
+    ) {
+        _, h ->
+        Rectangle(0f, h / 2f - skillPaneMargin - playerHealthHeight / 2f, playerHealthWidth, playerHealthHeight)
+    }
+
+    val targetNameLabel = virtualScreen.createLabel("Your target", targetNameFontHeight)
+    val targetNameArea: TargetNameArea = TargetNameArea(
+            "ui/game/health-border",
+            "ui/game/health-lost",
+            Rectangle(),
+            targetNameLabel,
+            playerHealthBorderMargin
+    ) {
+        _, h ->
+        Rectangle(0f, h / 2f - skillPaneMargin - playerHealthHeight - targetNameAreaHeight / 2f + playerHealthBorderMargin,
+                targetNameAreaWidth, targetNameAreaHeight)
+    }
+
+    val widgets: Collection<Widget> =
+            microMenuBtnList + settingsMenuBtnList + skillBtns + confirmExitMessage + playerHealthPane + targetHealthPane + targetNameArea
+
+
     fun resize(virtualWidth: Float, virtualHeight: Float) {
-        for (btn in microMenuBtnList) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
-        for (btn in settingsMenuBtnList) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
-        for (btn in skillBtns) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
+        widgets.forEach { it.resize(virtualWidth, virtualHeight) }
     }
 
     init {

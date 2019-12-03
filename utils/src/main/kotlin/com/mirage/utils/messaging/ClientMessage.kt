@@ -1,6 +1,8 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.datastructures.Point
+import com.mirage.utils.game.objects.properties.MoveDirection
+
 
 sealed class ClientMessage {
     companion object {
@@ -19,7 +21,8 @@ sealed class ClientMessage {
                 CityJoinClientMessage::class.java,
                 ReconnectClientMessage::class.java,
                 ChangeSceneClientMessage::class.java,
-                ExitClientMessage::class.java
+                ExitClientMessage::class.java,
+                NewTargetMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -36,9 +39,15 @@ sealed class ClientMessage {
     }
 }
 
-data class MoveDirectionClientMessage(val md: GameObject.MoveDirection) : ClientMessage()
+data class MoveDirectionClientMessage(val md: MoveDirection) : ClientMessage()
 
 data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage()
+
+/** Сообщение о попытке применить навык
+ * @param skillID Порядковый номер навыка на панели игрока
+ * @param targetID ID сущности - цели игрока
+ */
+data class CastSkillClientMessage(val skillID: Int, val targetID: Long?) : ClientMessage()
 
 data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage()
 
@@ -68,3 +77,16 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
  * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
  */
 data class ExitClientMessage(val exitCode: Int) : ClientMessage()
+
+/**
+ * Сообщение о попытке выбрать новую цель.
+ * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
+ * @param virtualScreenPoint Точка на виртуальном экране, в которую кликнул игрок.
+ */
+data class NewTargetMessage(val virtualScreenPoint: Point) : ClientMessage()
+
+/**
+ * Сообщение об отмене выбора цели.
+ * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
+ */
+data class ClearTargetMessage(val unit: Unit = Unit) : ClientMessage()

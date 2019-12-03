@@ -1,59 +1,11 @@
 {
+"map": {
   "width": 32,
   "height": 32,
   "spawnX": 10.0,
   "spawnY": 4.0,
   "tileSetName": "city",
   "defaultTileID": 0,
-  "objects": [
-    {
-      "template": "main-gate",
-      "name": "main-gate",
-      "x": 16.0,
-      "y": 16.5
-    },
-    {
-      "template": "wall",
-      "x": 2.0,
-      "y": 16.5
-    },
-    {
-      "template": "wall",
-      "x": 6.0,
-      "y": 16.5
-    },
-    {
-      "template": "wall",
-      "x": 10.0,
-      "y": 16.5
-    },
-    {
-      "template": "wall",
-      "x": 22.0,
-      "y": 16.5
-    },
-    {
-      "template": "wall",
-      "x": 26.0,
-      "y": 16.5
-    },
-    {
-      "template": "wall",
-      "x": 30.0,
-      "y": 16.5
-    },
-    {
-      "template": "main-gate-door",
-      "x": 14.0,
-      "y": 15.0
-    },
-    {
-      "template": "spawn-point",
-      "x": 16.0,
-      "y": 29.875,
-      "moveDirection": "UP_RIGHT"
-    }
-  ],
   "tiles": [
     0,0,2,2,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0,2,2,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,2,2,0,0,3,3,3,3,3,3,3,3,2,0,2,0,2,2,0,2,2,0,0,0,
@@ -122,4 +74,58 @@
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
   ]
+},
+  "objects": {
+    "buildings": [
+{
+"template": "main-gate",
+"name": "main-gate",
+"x": 16.0,
+"y": 16.5
+},
+{
+"template": "wall",
+"x": 2.0,
+"y": 16.5
+},
+{
+"template": "wall",
+"x": 6.0,
+"y": 16.5
+},
+{
+"template": "wall",
+"x": 10.0,
+"y": 16.5
+},
+{
+"template": "wall",
+"x": 22.0,
+"y": 16.5
+},
+{
+"template": "wall",
+"x": 26.0,
+"y": 16.5
+},
+{
+"template": "wall",
+"x": 30.0,
+"y": 16.5
+},
+{
+"template": "main-gate-door",
+"x": 14.0,
+"y": 15.0
+}
+    ],
+    "entities": [
+      {
+        "template": "spawn-point",
+        "x": 16.0,
+        "y": 29.875,
+        "moveDirection": "UP_RIGHT"
+      }
+    ]
+  }
 }

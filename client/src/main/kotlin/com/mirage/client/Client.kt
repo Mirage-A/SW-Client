@@ -11,7 +11,9 @@ import com.mirage.ui.game.GameScreen
 import com.mirage.ui.mainmenu.MainMenuScreen
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.ChangeSceneClientMessage
+import com.mirage.utils.messaging.ClearTargetMessage
 import com.mirage.utils.messaging.ExitClientMessage
+import com.mirage.utils.messaging.NewTargetMessage
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
 import kotlin.system.exitProcess
@@ -50,7 +52,7 @@ object Client : ApplicationListener {
 
     @Synchronized
     private fun startSinglePlayerGame(mapName: String) {
-        val map = SceneLoader.loadScene(mapName).first
+        val map = SceneLoader.loadMap(mapName)
         val gameScreen = GameScreen(map, virtualScreen)
         virtualScreen.setTileSet(map.tileSetName)
         val connection : Connection = LocalConnection(mapName) {
@@ -65,6 +67,12 @@ object Client : ApplicationListener {
                             openMainMenu()
                         }
                     }
+                }
+                is NewTargetMessage -> {
+                    gameScreen.changeTarget(msg.virtualScreenPoint)
+                }
+                is ClearTargetMessage -> {
+                    gameScreen.clearTarget()
                 }
                 else -> connection.sendMessage(msg)
             }

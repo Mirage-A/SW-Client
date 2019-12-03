@@ -1,10 +1,9 @@
 package com.mirage.connection
 
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
@@ -20,11 +19,11 @@ internal class LocalConnectionTest {
         connection.start()
         val msg = msgg.get() as InitialGameStateMessage
         assertEquals("micro-test", msg.mapName)
-        assertEquals(Long.MIN_VALUE + 2, msg.playerID)
-        assertEquals(3, msg.initialObjects.objects.size)
-        assertEquals("wall", msg.initialObjects[Long.MIN_VALUE]!!.name)
-        assertEquals("spawn-point", msg.initialObjects[Long.MIN_VALUE + 1]!!.name)
-        assertEquals("player", msg.initialObjects[Long.MIN_VALUE + 2]!!.name)
+        assertEquals(Long.MIN_VALUE + 1, msg.playerID)
+        assertEquals(3, msg.initialState.entities.size + msg.initialState.buildings.size)
+        assertEquals("wall", msg.initialState.buildings[Long.MIN_VALUE]?.template)
+        assertEquals("spawn-point", msg.initialState.entities[Long.MIN_VALUE]?.name)
+        assertEquals("player", msg.initialState.entities[Long.MIN_VALUE + 1]?.name)
     }
 
     @Test
@@ -47,17 +46,17 @@ internal class LocalConnectionTest {
             val msg2 = messages[1] as GameStateUpdateMessage
             val msg3 = messages[2] as GameStateUpdateMessage
             val msg4 = messages[3] as GameStateUpdateMessage
-            val firstState = msg1.initialObjects
+            val firstState = msg1.initialState
             val secondState = msg2.diff.projectOn(firstState)
             val thirdState = msg3.diff.projectOn(secondState)
             val fourthState = msg4.diff.projectOn(thirdState)
-            assert(firstState[Long.MIN_VALUE]!!.position.x in 0.5f..0.7f)
-            assertEquals(0.5f, firstState[Long.MIN_VALUE]!!.position.y)
-            println(thirdState[Long.MIN_VALUE]!!.position)
-            assert(thirdState[Long.MIN_VALUE]!!.position near Point(2.5f, 0.5f))
-            println(fourthState[Long.MIN_VALUE]!!.position)
-            assert(fourthState[Long.MIN_VALUE]!!.position near Point(3.5f, 0.5f))
-            assertEquals(2, fourthState.objects.size)
+            assert(firstState.entities[Long.MIN_VALUE]!!.position.x in 0.5f..0.7f)
+            assertEquals(0.5f, firstState.entities[Long.MIN_VALUE]!!.position.y)
+            println(thirdState.entities[Long.MIN_VALUE]!!.position)
+            assert(thirdState.entities[Long.MIN_VALUE]!!.position near Point(2.5f, 0.5f))
+            println(fourthState.entities[Long.MIN_VALUE]!!.position)
+            assert(fourthState.entities[Long.MIN_VALUE]!!.position near Point(3.5f, 0.5f))
+            assertEquals(2, fourthState.entities.size + fourthState.buildings.size)
         }
     }
 
@@ -73,7 +72,7 @@ internal class LocalConnectionTest {
                     messages.add(it)
                 }
                 if (messages.size == 2) {
-                    connection.get()!!.sendMessage(MoveDirectionClientMessage(GameObject.MoveDirection.UP))
+                    connection.get()!!.sendMessage(MoveDirectionClientMessage(MoveDirection.UP))
                     connection.get()!!.sendMessage(SetMovingClientMessage(true))
                 }
             }
@@ -88,14 +87,14 @@ internal class LocalConnectionTest {
             val msg2 = messages[1] as GameStateUpdateMessage
             val msg3 = messages[2] as GameStateUpdateMessage
             val msg4 = messages[3] as GameStateUpdateMessage
-            val firstState = msg1.initialObjects
+            val firstState = msg1.initialState
             val secondState = msg2.diff.projectOn(firstState)
             val thirdState = msg3.diff.projectOn(secondState)
             val fourthState = msg4.diff.projectOn(thirdState)
-            val player1 = firstState[Long.MIN_VALUE + 1]!!
-            val player2 = secondState[Long.MIN_VALUE + 1]!!
-            val player3 = thirdState[Long.MIN_VALUE + 1]!!
-            val player4 = fourthState[Long.MIN_VALUE + 1]!!
+            val player1 = firstState.entities[Long.MIN_VALUE + 1]!!
+            val player2 = secondState.entities[Long.MIN_VALUE + 1]!!
+            val player3 = thirdState.entities[Long.MIN_VALUE + 1]!!
+            val player4 = fourthState.entities[Long.MIN_VALUE + 1]!!
             println(player1)
             println(player2)
             println(player3)
@@ -104,7 +103,7 @@ internal class LocalConnectionTest {
             assert(player2.position near Point(0.5f, 0.5f))
             assert(player3.position near Point(0.5f, 0.9f))
             assert(player4.position near Point(0.5f, 1.3f))
-            assertEquals(2, fourthState.objects.size)
+            assertEquals(2, fourthState.entities.size + fourthState.buildings.size)
         }
     }
 }

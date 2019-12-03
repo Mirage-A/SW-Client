@@ -1,7 +1,8 @@
 package com.mirage.gameview.drawers.templates
 
 import com.mirage.gameview.drawers.DrawerTemplate
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.datastructures.Point
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
@@ -23,9 +24,11 @@ class StaticTextureDrawerTemplate(textureName: String) : DrawerTemplate {
                       actionTimePassedMillis: Long,
                       isMoving: Boolean,
                       movingTimePassedMillis: Long,
-                      moveDirection: GameObject.MoveDirection
+                      moveDirection: MoveDirection
     ) {
         if (isOpaque) virtualScreen.draw(texture, x, y)
     }
+
+    override fun toString(): String = "StaticTextureDrawerTemplate(texture=$texture)"
 
 }

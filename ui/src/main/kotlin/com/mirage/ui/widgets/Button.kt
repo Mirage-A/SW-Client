@@ -21,10 +21,11 @@ class Button(
         var boundedLabel: VirtualScreen.Label? = null,
         var sizeUpdater: ((Float, Float) -> Rectangle)? = null,
         var onPressed: () -> Unit = {}
-) {
+) : Widget {
     var isPressed = false
     var isHighlighted = false
     var isVisible = true
+    var keyPressed = false // Для случаев, когда кнопка может нажиматься как курсором, так и с клавиатуры.
 
     init {
         boundedLabel?.rect = rect
@@ -32,36 +33,39 @@ class Button(
 
     private fun getCurrentTextureName() =
             when {
-                isPressed -> pressedTextureName
+                isPressed || keyPressed -> pressedTextureName
                 isHighlighted -> highlightedTextureName
                 else -> textureName
             }
 
-    fun resize(virtualWidth: Float, virtualHeight: Float) {
+    override fun resize(virtualWidth: Float, virtualHeight: Float) {
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
             boundedLabel?.rect = it
             rect = it
         }
     }
 
-    fun touchUp(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun touchUp(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isPressed = false
         if (rect.contains(virtualPoint)) {
             onPressed()
+            return true
         }
         else {
             isHighlighted = false
         }
-        isPressed = false
+        return false
     }
 
-    fun touchDown(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun touchDown(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
         isPressed = rect.contains(virtualPoint)
         isHighlighted = isPressed
+        return isPressed
     }
 
-    fun mouseMoved(virtualPoint: Point) {
+    override fun mouseMoved(virtualPoint: Point) {
         if (!isVisible) return
         isHighlighted = rect.contains(virtualPoint)
     }

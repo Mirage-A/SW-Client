@@ -2,7 +2,7 @@ package com.mirage.gamelogic
 
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.GameStateUpdateMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,18 +17,18 @@ internal class GameLogicImplTest{
 
     @Test
     fun testStart() {
-        val state: AtomicReference<GameObjects?> = AtomicReference(null)
+        val state: AtomicReference<SimplifiedState?> = AtomicReference(null)
         val logic = GameLogicImpl("micro-test", {}, {objs, _ ->
             state.compareAndSet(null, objs)
         })
         logic.startLogic()
         logic.stopLogic()
-        assertEquals(SceneLoader.loadScene("micro-test").second, state.get())
+        assertEquals(SceneLoader.loadInitialState("micro-test"), state.get())
     }
 
     @Test
     fun testNewPlayer() {
-        val states = ArrayList<GameObjects>()
+        val states = ArrayList<SimplifiedState>()
         val logic = GameLogicImpl("micro-test", {}, {objs, _ ->
             synchronized(states) {
                 states.add(objs)
@@ -45,17 +45,17 @@ internal class GameLogicImplTest{
         Thread.sleep(100L)
         synchronized(states) {
             assert(states.size >= 3)
-            assertEquals(Long.MIN_VALUE + 2, id.get())
-            assertEquals(2, states[0].objects.size)
-            assertEquals(2, states[1].objects.size)
-            assertEquals(3, states[2].objects.size)
+            assertEquals(Long.MIN_VALUE + 1, id.get())
+            assertEquals(1, states[0].entities.size)
+            assertEquals(1, states[1].entities.size)
+            assertEquals(2, states[2].entities.size)
         }
     }
 
     @Test
     fun testMinorStateUpdate() {
         val lock = Any()
-        val states = ArrayList<GameObjects>()
+        val states = ArrayList<SimplifiedState>()
         val messages = ArrayList<ServerMessage>()
         val logic = GameLogicImpl("moving-micro-test", {
             synchronized(lock) {
@@ -78,9 +78,9 @@ internal class GameLogicImplTest{
             println(firstState)
             println(secondState)
             println(thirdState)
-            assert(firstState[Long.MIN_VALUE]!!.position near Point(0.5f, 0.5f))
-            assert(secondState[Long.MIN_VALUE]!!.position near Point(0.5f, 0.5f))
-            assert(thirdState[Long.MIN_VALUE]!!.position near Point(1.5f, 0.5f))
+            assert(firstState.entities[Long.MIN_VALUE]!!.position near Point(0.5f, 0.5f))
+            assert(secondState.entities[Long.MIN_VALUE]!!.position near Point(0.5f, 0.5f))
+            assert(thirdState.entities[Long.MIN_VALUE]!!.position near Point(1.5f, 0.5f))
 
             assertEquals(2, messages.size)
             println(messages)

@@ -7,7 +7,7 @@ import com.badlogic.gdx.net.SocketHints
 import com.mirage.server.*
 import com.mirage.utils.SERVER_ADDRESS
 import com.mirage.utils.SERVER_PORT
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.MoveDirectionClientMessage
 import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
 import kotlinx.coroutines.GlobalScope
@@ -89,7 +89,7 @@ internal class Admin : JFrame() {
                         val out = ClientMessageOutputStream(mock.outputStream)
                         for (i in 0 until count) {
                             println(i)
-                            out.write(MoveDirectionClientMessage(GameObject.MoveDirection.RIGHT))
+                            out.write(MoveDirectionClientMessage(MoveDirection.RIGHT))
                         }
                         println("GO!")
                         out.flush()

@@ -1,7 +1,7 @@
 package com.mirage.utils.game.states
 
 import com.mirage.utils.extensions.treeSetOf
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -9,8 +9,8 @@ internal class GameStateSnapshotTest{
 
     @Test
     fun test() {
-        val objs = GameObjects(hashMapOf(), 0L)
-        val diff = StateDifference(hashMapOf(), treeSetOf(), hashMapOf())
+        val objs = SimplifiedState()
+        val diff = StateDifference()
         val list = listOf(
                 GameStateSnapshot(objs, diff, 0L),
                 GameStateSnapshot(objs, diff, 100L),

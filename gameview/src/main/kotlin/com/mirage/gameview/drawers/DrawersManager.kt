@@ -1,18 +1,25 @@
 package com.mirage.gameview.drawers
 
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.game.objects.properties.Equipment
+import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface DrawersManager {
 
-    fun draw(objID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection)
+    fun getEntityHitbox(entityID: Long): Rectangle?
 
-    fun loadDrawers(initialState: GameObjects, currentTimeMillis: Long = System.currentTimeMillis())
+    fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long)
 
-    fun updateDrawers(stateDifference: StateDifference, oldState: GameObjects, currentTimeMillis: Long = System.currentTimeMillis())
+    fun drawEntity(entityID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection)
 
-    fun updateEquipment(objID: Long, obj: GameObject, equipment: GameObject.HumanoidEquipment, currentTimeMillis: Long = System.currentTimeMillis())
+    fun loadDrawers(initialState: SimplifiedState, currentTimeMillis: Long = System.currentTimeMillis())
+
+    fun updateDrawers(stateDifference: StateDifference, oldState: SimplifiedState, currentTimeMillis: Long = System.currentTimeMillis())
+
+    fun updateEquipment(entityID: Long, entity: SimplifiedEntity, equipment: Equipment, currentTimeMillis: Long = System.currentTimeMillis())
 
 }

@@ -1,29 +1,35 @@
 {
-  "width": 2,
-  "height": 2,
-  "spawnX": 1.5,
-  "spawnY": 0.5,
-  "tileSetName": "city",
-  "objects": [
-    {
+  "map": {
+    "width": 2,
+    "height": 2,
+    "spawnX": 1.5,
+    "spawnY": 0.5,
+    "tileSetName": "city",
+    "tiles": [
+      4,4,
+      4,4
+    ],
+    "collisions": [
+      1,1,
+      1,1
+    ],
+    "defaultTileID": 1
+  },
+  "objects": {
+    "buildings": [
+      {
       "template": "wall",
       "x": 0.6,
       "y": 1.1
-    },
-    {
+      }
+    ],
+    "entities": [
+      {
       "template": "spawn-point",
       "x": 1.0,
       "y": 1.6,
       "moveDirection": "UP_RIGHT"
-    }
-  ],
-  "tiles": [
-    4,4,
-    4,4
-  ],
-  "collisions": [
-    1,1,
-    1,1
-  ],
-  "defaultTileID": 1
+      }
+    ]
+  }
 }

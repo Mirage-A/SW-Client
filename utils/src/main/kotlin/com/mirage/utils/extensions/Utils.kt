@@ -23,3 +23,10 @@ fun <T> treeSetOf(vararg args: T) : TreeSet<T> = TreeSet<T>().apply {
         add(arg)
     }
 }
+
+inline fun <K, V> mutableMap(size: Int, keyInit: (Int) -> K, valueInit: (Int) -> V): MutableMap<K, V> =
+        HashMap<K, V>().apply {
+            for (i in 0 until size) {
+                this[keyInit(i)] = valueInit(i)
+            }
+        }

@@ -1,16 +1,15 @@
 package com.mirage.gamelogic
 
 import com.mirage.gamelogic.scripting.LogicScriptActions
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
 import org.luaj.vm2.LuaTable
-import rx.Observable
 
 class GameLogicImpl(mapName: String,
                     serverMessageListener: (ServerMessage) -> Unit,
-                    stateUpdateListener: (GameObjects, Long) -> Unit) : GameLogic {
+                    stateUpdateListener: (SimplifiedState, Long) -> Unit) : GameLogic {
 
     private val loop : GameLoop = GameLoopImpl(mapName, serverMessageListener, stateUpdateListener)
 
@@ -37,7 +36,7 @@ class GameLogicImpl(mapName: String,
 
         override fun runClientScriptForAllInRoom(scriptName: String, args: LuaTable) = TODO()
 
-        override fun findObject(objName: String): GameObject? = TODO()
+        override fun findObject(objName: String): SimplifiedObject? = TODO()
 
         override fun findAllObjects(objName: String): LuaTable = TODO()
 

@@ -4,155 +4,170 @@ import com.google.gson.Gson
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.TestSamples
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.extensions.mutableMap
+import com.mirage.utils.game.objects.extended.ExtendedBuilding
+import com.mirage.utils.game.objects.extended.ExtendedEntity
+import com.mirage.utils.game.objects.extended.ExtendedObject
+import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.states.ExtendedState
 import java.io.Reader
 
 object SceneLoader {
 
-    private val cachedTemplates = HashMap<String, GameObject>()
+    private val cachedEntityTemplates = HashMap<String, ExtendedEntity>()
+    private val cachedBuildingTemplates = HashMap<String, ExtendedBuilding>()
 
     private val gson = Gson()
 
-    /**
-     * Загружает сцену (пару из карты и объектов) по названию карты (папки, в которой хранится карта - например, "test").
-     */
-    fun loadScene(name: String) : Pair<GameMap, GameObjects> =
+    fun loadMap(name: String): GameMap =
             try {
-                loadScene(Assets.loadReader("maps/$name.json")!!)
+                loadMap(Assets.loadReader("maps/$name.json")!!)
             }
             catch(ex: Exception) {
-                Log.e("Error while loading scene: $name")
-                Pair(TestSamples.TEST_SMALL_MAP, TestSamples.TEST_NO_GAME_OBJECTS)
+                Log.e("Error while loading map from scene: $name")
+                TestSamples.TEST_SMALL_MAP
             }
 
-    /**
-     * Загружает сцену (пару из карты и объектов)
-     */
-    fun loadScene(sceneReader: Reader) : Pair<GameMap, GameObjects> {
-        try {
-            val fullText = sceneReader.readText()
-            val mapReader = fullText.reader()
-            val objsReader = fullText.reader()
-            val map = gson.fromJson<GameMap>(mapReader, GameMap::class.java)
-
-            val objsList: List<GameObject> = gson.fromJson<NullableObjectsList>(objsReader, NullableObjectsList::class.java).objects.map {
-                val templateName = it.template
-                if (templateName == null) {
-                    GameObject(
-                            name = it.name ?: "",
-                            template = it.template ?: "",
-                            type = GameObject.Type.fromString(it.type ?: ""),
-                            x = it.x ?: 0f,
-                            y = it.y ?: 0f,
-                            width = it.width ?: 0f,
-                            height = it.height ?: 0f,
-                            isRigid = it.isRigid ?: false,
-                            speed = it.speed ?: 0f,
-                            moveDirection = GameObject.MoveDirection.fromString(it.moveDirection ?: ""),
-                            isMoving = it.isMoving ?: false,
-                            transparencyRange = it.transparencyRange ?: 0f,
-                            state = it.state ?: "",
-                            action = it.action ?: "IDLE")
-                } else {
-                    val template = loadTemplate(templateName)
-                    template.with(
-                            name = it.name ?: template.name ?: "",
-                            template = templateName,
-                            type = GameObject.Type.fromString(it.type ?: template.type.toString()),
-                            x = it.x ?: template.x ?: 0f,
-                            y = it.y ?: template.y ?: 0f,
-                            width = it.width ?: template.width ?: 0f,
-                            height = it.height ?: template.height ?: 0f,
-                            isRigid = it.isRigid ?: template.isRigid ?: false,
-                            speed = it.speed ?: template.speed ?: 0f,
-                            moveDirection = GameObject.MoveDirection.fromString(it.moveDirection
-                                    ?: template.moveDirection.toString()),
-                            isMoving = it.isMoving ?: template.isMoving ?: false,
-                            transparencyRange = it.transparencyRange ?: template.transparencyRange ?: 0f,
-                            state = it.state ?: template.state ?: "",
-                            action = it.action ?: template.action ?: "IDLE"
-                    )
-                }
+    fun loadMap(reader: Reader): GameMap =
+            try {
+                gson.fromJson<MapWrapper>(reader, MapWrapper::class.java).map ?: TestSamples.TEST_SMALL_MAP
             }
-            val objectsMap = HashMap<Long, GameObject>()
-            var counter = Long.MIN_VALUE
-            for (obj in objsList) {
-                objectsMap[counter++] = obj
+            catch (ex: Exception) {
+                Log.e("Error while loading scene.")
+                ex.printStackTrace()
+                TestSamples.TEST_SMALL_MAP
             }
-            return Pair(map, GameObjects(objectsMap, objsList.size + Long.MIN_VALUE))
-        }
-        catch (ex: Exception) {
-            Log.e("Error while loading scene.")
-            ex.printStackTrace()
-            return Pair(TestSamples.TEST_SMALL_MAP, TestSamples.TEST_NO_GAME_OBJECTS)
-        }
-    }
 
-    /**
-     * Загружает шаблон объекта по названию.
-     */
-    fun loadTemplate(name: String) : GameObject = cachedTemplates[name] ?: try {
-        val t = loadTemplate(Assets.loadReader("templates/$name.json")!!)
-        cachedTemplates[name] = t
+    fun loadInitialState(name: String): ExtendedState =
+            try {
+                loadInitialState(Assets.loadReader("maps/$name.json")!!)
+            }
+            catch(ex: Exception) {
+                Log.e("Error while loading initial objects from scene: $name")
+                ExtendedState()
+            }
+
+    fun loadInitialState(reader: Reader): ExtendedState =
+            try {
+
+                val objs: ObjectsWrapper = gson.fromJson<StateWrapper>(reader, StateWrapper::class.java).objects ?: ObjectsWrapper(null, null)
+                val buildingsList = objs.buildings?.map {
+                    it.projectOnTemplate(loadBuildingTemplate(it.template ?: "undefined"))
+                } ?: ArrayList()
+                val entitiesList = objs.entities?.map {
+                    it.projectOnTemplate(loadEntityTemplate(it.template ?: "undefined"))
+                } ?: ArrayList()
+                ExtendedState(buildingsList, entitiesList)
+            }
+            catch (ex: Exception) {
+                Log.e("Error while loading initial objects from scene.")
+                ex.printStackTrace()
+                ExtendedState()
+            }
+
+
+    fun loadEntityTemplate(name: String): ExtendedEntity = cachedEntityTemplates[name] ?: try {
+        val t = gson.fromJson<NullableEntity>(
+                Assets.loadReader("templates/entities/$name.json")!!, NullableEntity::class.java
+        ).projectOnTemplate(defaultEntity)
+        cachedEntityTemplates[name] = t
         t
     }
     catch (ex: Exception) {
-        Log.e("Error while loading template: $name")
+        Log.e("Error while loading entity template: $name")
         Log.e(ex.stackTrace.toString())
-        TestSamples.TEST_GAME_OBJECT
+        ExtendedEntity()
     }
 
-    /**
-     * Загружает шаблон объекта через [reader] без кэширования.
-     */
-    fun loadTemplate(reader: Reader) : GameObject = try {
-        val t = gson.fromJson<NullableGameObject>(reader, NullableGameObject::class.java)
-        GameObject(
-                name = t.name ?: "",
-                template = t.template ?: "",
-                type = GameObject.Type.fromString(t.type ?: "BUILDING"),
-                x = t.x ?: 0f,
-                y = t.y ?: 0f,
-                width = t.width ?: 0f,
-                height = t.height ?: 0f,
-                isRigid = t.isRigid ?: false,
-                speed = t.speed ?: 0f,
-                moveDirection = GameObject.MoveDirection.fromString(t.moveDirection ?: "DOWN"),
-                isMoving = t.isMoving ?: false,
-                transparencyRange = t.transparencyRange ?: 0f,
-                state = t.state ?: "",
-                action = t.action ?: "IDLE"
-        )
-
+    fun loadBuildingTemplate(name: String): ExtendedBuilding = cachedBuildingTemplates[name] ?: try {
+        val t = gson.fromJson<NullableBuilding>(
+                Assets.loadReader("templates/buildings/$name.json")!!, NullableBuilding::class.java
+        ).projectOnTemplate(defaultBuilding)
+        cachedBuildingTemplates[name] = t
+        t
     }
     catch (ex: Exception) {
-        Log.e("Error while loading template.")
+        Log.e("Error while loading building template: $name")
         Log.e(ex.stackTrace.toString())
-        TestSamples.TEST_GAME_OBJECT
+        ExtendedBuilding()
     }
 
+    private class MapWrapper(
+            val map: GameMap?
+    )
 
-    /**
-     * Класс, объект которого создаётся при десериализации объекта из JSON-файла.
-     */
-    internal data class NullableGameObject (
-            val name: String?,
+    private class StateWrapper(
+            val objects: ObjectsWrapper?
+    )
+
+    private class ObjectsWrapper(
+            val buildings: List<NullableBuilding>?,
+            val entities: List<NullableEntity>?
+    )
+
+    private val defaultEntity = ExtendedEntity()
+
+    private class NullableEntity(
             val template: String?,
-            val type: String?,
+            val x: Float?,
+            val y: Float?,
+            val name: String?,
+            val width: Float?,
+            val height: Float?,
+            val speed: Float?,
+            val moveDirection: String?,
+            val isMoving: Boolean?,
+            val state: String?,
+            val action: String?,
+            val health: Int?,
+            val maxHealth: Int?,
+            val factionID: Int?,
+            val isRigid: Boolean?
+    ) {
+        fun projectOnTemplate(t: ExtendedEntity) = ExtendedEntity(
+                template ?: t.template,
+                x ?: t.x,
+                y ?: t.y,
+                name ?: t.name,
+                width ?: t.width,
+                height ?: t.height,
+                speed ?: t.speed,
+                MoveDirection.fromString(moveDirection ?: t.moveDirection.toString()),
+                isMoving ?: t.isMoving,
+                state ?: t.state,
+                action ?: t.action,
+                health ?: t.health,
+                maxHealth ?: t.maxHealth,
+                factionID ?: t.factionID,
+                isRigid ?: t.isRigid
+
+        )
+    }
+
+    private val defaultBuilding = ExtendedBuilding()
+
+    private class NullableBuilding(
+            val template: String?,
             val x: Float?,
             val y: Float?,
             val width: Float?,
             val height: Float?,
-            val isRigid: Boolean?,
-            val speed: Float?,
-            val moveDirection: String?,
-            val isMoving: Boolean?,
             val transparencyRange: Float?,
             val state: String?,
-            val action: String?
-    )
+            val isRigid: Boolean?
+    ) {
+        fun projectOnTemplate(t: ExtendedBuilding) = ExtendedBuilding(
+                template ?: t.template,
+                x ?: t.x,
+                y ?: t.y,
+                width ?: t.width,
+                height ?: t.height,
+                transparencyRange ?: t.transparencyRange,
+                state ?: t.state,
+                isRigid ?: t.isRigid
 
-    internal data class NullableObjectsList(val objects: List<NullableGameObject>)
+        )
+    }
+
 
 }
