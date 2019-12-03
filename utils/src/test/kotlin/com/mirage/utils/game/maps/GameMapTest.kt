@@ -1,7 +1,7 @@
 package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,25 +10,18 @@ internal class GameMapTest {
 
     @Test
     fun testGSONSerialization() {
-        val obj = GameObject(
-                "test_name",
+        val obj = SimplifiedBuilding(
                 "default_template",
-                GameObject.Type.BUILDING,
                 0f,
                 0f,
                 0f,
                 0f,
-                false,
                 0f,
-                GameObject.MoveDirection.DOWN,
-                false,
-                5f,
-                 "test_state",
-                "test_action"
+                 "test-state"
         )
         val gson = Gson()
         val str = gson.toJson(obj)
-        val newObj = gson.fromJson<GameObject>(str, GameObject::class.java)
+        val newObj = gson.fromJson<SimplifiedBuilding>(str, SimplifiedBuilding::class.java)
         assertEquals(obj, newObj)
 
         val mapStr = """{

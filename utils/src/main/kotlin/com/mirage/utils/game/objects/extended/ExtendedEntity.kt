@@ -15,10 +15,38 @@ class ExtendedEntity(
         override var moveDirection: MoveDirection = MoveDirection.DOWN_RIGHT,
         override var isMoving: Boolean = false,
         override var state: String = "default",
-        override var action: String = "IDLE",
+        override var action: String = "idle",
         override var health: Float = 0f,
         override var maxHealth: Float = 0f,
         override var factionID: Int = 0,
         var isRigid: Boolean = false
 
-) : ExtendedObject, SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
+) : ExtendedObject, SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID) {
+
+    fun with(
+            template: String = this.template,
+            x: Float = this.x,
+            y: Float = this.y,
+            name: String = this.name,
+            width: Float = this.width,
+            height: Float = this.height,
+            speed: Float = this.speed,
+            moveDirection: MoveDirection = this.moveDirection,
+            isMoving: Boolean = this.isMoving,
+            state: String = this.state,
+            action: String = this.action,
+            health: Float = this.health,
+            maxHealth: Float = this.maxHealth,
+            factionID: Int = this.factionID,
+            isRigid: Boolean = this.isRigid
+    ): ExtendedEntity =
+            ExtendedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, isRigid)
+
+    override fun with(template: String, x: Float, y: Float): ExtendedEntity = with(
+            template = template,
+            x = x,
+            y = y,
+            isRigid = this.isRigid
+    )
+
+}

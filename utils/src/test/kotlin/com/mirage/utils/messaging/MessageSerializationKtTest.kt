@@ -3,7 +3,7 @@ package com.mirage.utils.messaging
 import com.mirage.utils.INNER_DLMTR
 import com.mirage.utils.OUTER_DLMTR
 import com.mirage.utils.TestSamples
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -20,7 +20,7 @@ internal class MessageSerializationKtTest {
     fun testServerMessagingAgain() {
         val msg = InitialGameStateMessage(
                 "mapName",
-                TestSamples.TEST_TWO_GAME_OBJECTS,
+                TestSamples.TEST_TWO_GAME_OBJECTS.simplifiedDeepCopy(),
                 Long.MIN_VALUE,
                 Long.MAX_VALUE
         )
@@ -48,7 +48,7 @@ internal class MessageSerializationKtTest {
 
     @Test
     fun testClientMessagingAgain() {
-        val msg = MoveDirectionClientMessage(GameObject.MoveDirection.DOWN_LEFT)
+        val msg = MoveDirectionClientMessage(MoveDirection.DOWN_LEFT)
         val serialized = serializeClientMessage(msg)
         val deserialized = deserializeClientMessage(serialized)
         assertEquals(msg, deserialized)

@@ -2,7 +2,8 @@ package com.mirage.gameview.drawers.animation
 
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.objects.properties.WeaponType
 import org.dom4j.Element
 import org.dom4j.io.SAXReader
 import java.io.InputStream
@@ -11,7 +12,7 @@ import java.io.InputStream
 /**
  * Анимация, созданная с помощью Animation Editor-а
  * Объект этого класса содержит всю информацию об анимации,
- * а также конструктор загрузки анимации из XML-файла (.swa)
+ * а также конструктор загрузки анимации из XML-файла (.xml)
  */
 class Animation() {
     /**
@@ -29,15 +30,15 @@ class Animation() {
     /**
      * Словарь из данных анимации: по moveDirection-у и WeaponType-у получаем список кадров
      */
-    var data = HashMap<GameObject.MoveDirection, HashMap<GameObject.WeaponType, ArrayList<Frame>>>()
+    var data = HashMap<MoveDirection, HashMap<WeaponType, ArrayList<Frame>>>()
 
     /**
-     * Конструктор считывания анимации из файла XML (.swa)
+     * Конструктор считывания анимации из файла XML (.xml)
      */
     constructor(inputStream : InputStream?) : this() {
-        for (moveDirection in GameObject.MoveDirection.values()) {
+        for (moveDirection in MoveDirection.values()) {
             data[moveDirection] = HashMap()
-            for (weaponType in GameObject.WeaponType.values()) {
+            for (weaponType in WeaponType.values()) {
                 data[moveDirection]!![weaponType] = ArrayList()
             }
         }
@@ -52,10 +53,10 @@ class Animation() {
             isRepeatable = animation.attributeValue("isRepeatable") == "true"
             for (md in animation.elements()) {
                 md as Element
-                val moveDirection = GameObject.MoveDirection.fromString(md.name)
+                val moveDirection = MoveDirection.fromString(md.name)
                 for (wt in md.elements()) {
                     wt as Element
-                    val weaponType = GameObject.WeaponType.fromString(wt.name)
+                    val weaponType = WeaponType.fromString(wt.name)
                     val framesArr = data[moveDirection]!![weaponType]!!
                     for (fr in wt.elements()) {
                         fr as Element
@@ -80,7 +81,7 @@ class Animation() {
                 }
             }
 
-            frames = data[GameObject.MoveDirection.RIGHT]!![GameObject.WeaponType.UNARMED]!!
+            frames = data[MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
         }
         catch(ex: Exception) {
             Log.e("Unexpected error occurred:\n" + ex.message)

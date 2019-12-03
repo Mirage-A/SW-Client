@@ -1,8 +1,8 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.objects.StateDifference
+import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.game.objects.properties.Equipment
-import com.mirage.utils.game.objects.simplified.SimplifiedObject
+import com.mirage.utils.game.states.SimplifiedState
 
 /**
  * Сообщение об изменении состояния карты
@@ -44,11 +44,11 @@ sealed class ServerMessage {
  * Сообщение с полной информацией о карте и состоянии на момент подключения клиента.
  * Это сообщение является первым, которое получает клиент при подключении к игре,
  * и больше никогда не отправляется.
- * [stateCreatedTimeMillis] - время, в которое было создано состояние [initialObjects]
+ * [stateCreatedTimeMillis] - время, в которое было создано состояние [initialState]
  */
 data class InitialGameStateMessage(
         val mapName: String,
-        val initialObjects: Map<Long, SimplifiedObject>,
+        val initialState: SimplifiedState,
         val playerID: Long,
         val stateCreatedTimeMillis: Long
 ) : ServerMessage()

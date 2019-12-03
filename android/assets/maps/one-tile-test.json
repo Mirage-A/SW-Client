@@ -1,10 +1,10 @@
 {
+"map": {
   "width": 1,
   "height": 1,
   "spawnX": 0.5,
   "spawnY": 0.5,
   "tileSetName": "city",
-  "objects": [],
   "tiles": [
     0
   ],
@@ -12,4 +12,8 @@
     1
   ],
   "defaultTileID": 1
+},
+  "objects": {
+
+  }
 }

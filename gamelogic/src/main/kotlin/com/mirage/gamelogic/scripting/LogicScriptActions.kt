@@ -1,6 +1,6 @@
 package com.mirage.gamelogic.scripting
 
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import org.luaj.vm2.LuaTable
 
 /**
@@ -23,7 +23,7 @@ interface LogicScriptActions {
      * Находит объект по имени на карте.
      * Объект внутри скрипта изменять нельзя.
      */
-    fun findObject(objName: String) : GameObject?
+    fun findObject(objName: String) : SimplifiedObject?
 
     /**
      * Находит все объекты с заданным именем.

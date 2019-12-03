@@ -4,15 +4,17 @@ import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.animation.*
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.properties.Equipment
+import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.objects.properties.WeaponType
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : DrawerTemplate {
+class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
 
-    private val weaponType: GameObject.WeaponType = equipment.weaponType
+    private val weaponType: WeaponType = equipment.weaponType
 
-    private val headTextures: Map<GameObject.MoveDirection, String> = HashMap<GameObject.MoveDirection, String>().apply {
-        GameObject.MoveDirection.values().forEach {
+    private val headTextures: Map<MoveDirection, String> = HashMap<MoveDirection, String>().apply {
+        MoveDirection.values().forEach {
             this[it] = "equipment/head/${equipment.helmet}/${it.fromSceneToView()}"
         }
     }
@@ -23,36 +25,36 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
     private val legBottomTexture = "equipment/legbottom/${equipment.legs}"
     private val legTopTexture = "equipment/legtop/${equipment.legs}"
     private val neckTexture = "equipment/neck/${equipment.chest}"
-    private val rightWeaponFolder : String? = when(equipment.weaponType) {
-        GameObject.WeaponType.UNARMED -> null
-        GameObject.WeaponType.ONE_HANDED -> "onehanded"
-        GameObject.WeaponType.ONE_HANDED_AND_SHIELD -> "onehanded"
-        GameObject.WeaponType.DUAL -> "onehanded"
-        GameObject.WeaponType.TWO_HANDED -> "twohanded"
-        GameObject.WeaponType.BOW -> "bow"
-        GameObject.WeaponType.STAFF -> "staff"
+    private val rightWeaponFolder : String? = when (equipment.weaponType) {
+        WeaponType.UNARMED -> null
+        WeaponType.ONE_HANDED -> "onehanded"
+        WeaponType.ONE_HANDED_AND_SHIELD -> "onehanded"
+        WeaponType.DUAL -> "onehanded"
+        WeaponType.TWO_HANDED -> "twohanded"
+        WeaponType.BOW -> "bow"
+        WeaponType.STAFF -> "staff"
     }
     private val rightWeaponTexture =
             if (rightWeaponFolder != null) "equipment/$rightWeaponFolder/${equipment.rightWeapon}"
             else "null"
     private val leftWeaponFolder : String? = when(equipment.weaponType) {
-        GameObject.WeaponType.UNARMED -> null
-        GameObject.WeaponType.ONE_HANDED -> null
-        GameObject.WeaponType.ONE_HANDED_AND_SHIELD -> "shield"
-        GameObject.WeaponType.DUAL -> "onehanded"
-        GameObject.WeaponType.TWO_HANDED -> null
-        GameObject.WeaponType.BOW -> null
-        GameObject.WeaponType.STAFF -> null
+        WeaponType.UNARMED -> null
+        WeaponType.ONE_HANDED -> null
+        WeaponType.ONE_HANDED_AND_SHIELD -> "shield"
+        WeaponType.DUAL -> "onehanded"
+        WeaponType.TWO_HANDED -> null
+        WeaponType.BOW -> null
+        WeaponType.STAFF -> null
     }
     private val leftWeaponTexture =
             if (leftWeaponFolder != null) "equipment/$leftWeaponFolder/${equipment.leftWeapon}"
             else "null"
 
 
-    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: GameObject.MoveDirection) {
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (!isOpaque) return
         val bodyAnimation = AnimationLoader.getBodyAnimation(action)
-        val legsAnimation = AnimationLoader.getLegsAnimation(if (isMoving) "RUNNING" else "IDLE")
+        val legsAnimation = AnimationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
 
         val bodyFrames : List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType) ?: run {
             Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
@@ -123,7 +125,7 @@ class HumanoidDrawerTemplate(val equipment: GameObject.HumanoidEquipment) : Draw
      * Отрисовывает слой изображения с проверкой имени слоя на некоторые специальные значения
      * (например, bodypoint не будет отрисован)
      */
-    private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, moveDirection: GameObject.MoveDirection) {
+    private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, moveDirection: MoveDirection) {
         val layerName = startLayer.getName()
         if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
             return

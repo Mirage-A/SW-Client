@@ -3,7 +3,7 @@ package com.mirage.ui.game
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.ConfirmMessage
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 private const val playerHealthWidth = 0f
@@ -28,9 +28,9 @@ private const val settingsMenuBtnFontSize = 20f
 class GameUIState(val virtualScreen: VirtualScreen) {
 
     var bufferedMoving : Boolean? = null
-    var bufferedMoveDirection : GameObject.MoveDirection? = null
+    var bufferedMoveDirection : MoveDirection? = null
     var lastSentMoving : Boolean? = null
-    var lastSentMoveDirection : GameObject.MoveDirection? = null
+    var lastSentMoveDirection : MoveDirection? = null
 
 
     val skillNames : MutableList<String?> = mutableListOf("flamestrike", "flamestrike", "flamestrike", "flamestrike", "meteor")
@@ -100,17 +100,17 @@ class GameUIState(val virtualScreen: VirtualScreen) {
 
 
     val settingsBtn = Button("ui/game/settings",
-            "ui/game/settingshighlighted",
-            "ui/game/settingspressed",
+            "ui/game/settings-highlighted",
+            "ui/game/settings-pressed",
             Rectangle(),
             null,
             {w, h -> Rectangle(w / 2 - microMenuBtnSize / 2 - microMenuMargin,
                     - h / 2 + microMenuBtnSize / 2 + microMenuMargin,
                     microMenuBtnSize, microMenuBtnSize) })
 
-    val leaveGameBtn = Button("ui/mainmenubtn",
-            "ui/mainmenubtnhighlighted",
-            "ui/mainmenubtnpressed",
+    val leaveGameBtn = Button("ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel("Main menu", settingsMenuBtnFontSize),
             {w, h -> Rectangle(w / 2 - settingsMenuBtnWidth / 2f - microMenuMargin,

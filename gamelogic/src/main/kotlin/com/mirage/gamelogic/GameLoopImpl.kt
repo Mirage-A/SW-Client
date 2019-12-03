@@ -5,7 +5,9 @@ import com.mirage.utils.Log
 import com.mirage.utils.LoopTimer
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.utils.game.oldobjects.GameObjects
+import com.mirage.utils.game.states.ExtendedState
+import com.mirage.utils.game.states.SimplifiedState
+import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -13,7 +15,7 @@ import kotlin.collections.ArrayList
 
 internal class GameLoopImpl(gameMapName: String,
                             private val serverMessageListener: (ServerMessage) -> Unit,
-                            private val stateUpdateListener: (GameObjects, Long) -> Unit) : GameLoop {
+                            private val stateUpdateListener: (SimplifiedState, Long) -> Unit) : GameLoop {
 
 
     /**
@@ -23,42 +25,46 @@ internal class GameLoopImpl(gameMapName: String,
     private val clientMessages : Queue<Pair<Long, ClientMessage>> = ConcurrentLinkedQueue()
 
 
+    private val gameMap : GameMap = SceneLoader.loadMap(gameMapName)
+    private val state: ExtendedState = SceneLoader.loadInitialState(gameMapName)
+    private var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy()
+
     /**
-     * Функция, которая обновляет состояние игры,
-     * отправляя сообщение об этом в [latestState] и [serverMessages].
+     * Функция, которая обновляет состояние игры, вызывая [serverMessageListener] для сообщений.
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
      */
-    private fun update(delta: Long, originState: GameObjects, gameMap: GameMap) : GameObjects {
+    private fun updateState(delta: Long, gameMap: GameMap) {
         if (delta > 200L) Log.i("Slow update: $delta ms")
 
-        val msgs = ArrayList<Pair<Long, ClientMessage>>()
-
+        val newClientMessages = ArrayList<Pair<Long, ClientMessage>>()
         while (true) {
             val msg = clientMessages.poll()
             msg ?: break
-            msgs.add(msg)
+            newClientMessages.add(msg)
         }
 
-        val (mutableState, newMessages) = updateState(delta, originState, gameMap, msgs)
+        val serverMessages = ArrayDeque<ServerMessage>()
+        updateState(delta, state, gameMap, newClientMessages, serverMessages)
+
 
         //TODO Добавление игроков
 
         while (true) {
             val request = newPlayerRequests.poll() ?: break
             val player = createPlayer(gameMap)
-            val id = mutableState.add(player)
+            val id = state.addEntity(player)
             request(id)
         }
 
-        val finalChanges = mutableState.findDifferenceWithOrigin()
-        val finalState = mutableState.saveChanges()
+        val finalState = state.simplifiedDeepCopy()
+        val finalDifference = StateDifference(latestStateSnapshot, finalState)
+        latestStateSnapshot = finalState
         val time = System.currentTimeMillis()
-        serverMessageListener(GameStateUpdateMessage(finalChanges, time))
-        for (msg in newMessages) {
+        serverMessageListener(GameStateUpdateMessage(finalDifference, time))
+        for (msg in serverMessages) {
             serverMessageListener(msg)
         }
         stateUpdateListener(finalState, time)
-        return finalState
     }
 
     /**
@@ -71,20 +77,15 @@ internal class GameLoopImpl(gameMapName: String,
         newPlayerRequests.add(onComplete)
     }
 
-    private val initialScene = SceneLoader.loadScene(gameMapName)
-    private val gameMap : GameMap = initialScene.first
-    //Последнее состояние, полученное вызовом update.
-    //Не следует использовать это поле для получения последнего актуального состояния.
-    private var lastUpdatedState: GameObjects = initialScene.second
 
 
     private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) {
-        lastUpdatedState = update(it, lastUpdatedState, gameMap)
+        updateState(it, gameMap)
     }
 
     override fun start() {
         println("Starting logic thread....")
-        stateUpdateListener(initialScene.second, System.currentTimeMillis())
+        stateUpdateListener(latestStateSnapshot, System.currentTimeMillis())
         loopTimer.start()
     }
 

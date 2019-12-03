@@ -5,7 +5,8 @@ import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.templates.*
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
-import com.mirage.utils.game.oldobjects.GameObject
+import com.mirage.utils.game.objects.properties.Equipment
+import com.mirage.utils.game.objects.properties.WeaponType
 import java.io.Reader
 
 /**
@@ -46,8 +47,8 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
                 val weaponType = drawerInfo["weaponType"] ?: "UNARMED"
                 val rightWeapon = drawerInfo["rightWeapon"] ?: "default"
                 val leftWeapon = drawerInfo["leftWeapon"] ?: "default"
-                HumanoidDrawerTemplate(GameObject.HumanoidEquipment(
-                        helmet, chest, gloves, cloak, legs, rightWeapon, leftWeapon, GameObject.WeaponType.fromString(weaponType)
+                HumanoidDrawerTemplate(Equipment(
+                        helmet, chest, gloves, cloak, legs, rightWeapon, leftWeapon, WeaponType.fromString(weaponType)
                 ))
             }
             "animation" -> (drawerInfo["animationName"])?.let { AnimationDrawerTemplate(it) } ?: EmptyDrawerTemplate()
@@ -78,7 +79,7 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
     return result
 }
 
-fun loadDrawersFromTemplate(templateName: String) : MutableMap<String, DrawerTemplate> {
+internal fun loadDrawersFromTemplate(templateName: String) : MutableMap<String, DrawerTemplate> {
     val reader = Assets.loadReader("templates/$templateName.json")
     if (reader == null) {
         Log.e("Error: can't find template $templateName")

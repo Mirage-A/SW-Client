@@ -15,7 +15,7 @@ open class SimplifiedEntity(
         open val moveDirection: MoveDirection = MoveDirection.DOWN_RIGHT,
         open val isMoving: Boolean = false,
         open val state: String = "default",
-        open val action: String = "IDLE",
+        open val action: String = "idle",
         open val health: Float = 0f,
         open val maxHealth: Float = 0f,
         open val factionID: Int = 0
@@ -26,6 +26,24 @@ open class SimplifiedEntity(
             SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
 
     override fun with(template: String, x: Float, y: Float): SimplifiedEntity =
+            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
+
+    fun with(
+            template: String = this.template,
+            x: Float = this.x,
+            y: Float = this.y,
+            name: String = this.name,
+            width: Float = this.width,
+            height: Float = this.height,
+            speed: Float = this.speed,
+            moveDirection: MoveDirection = this.moveDirection,
+            isMoving: Boolean = this.isMoving,
+            state: String = this.state,
+            action: String = this.action,
+            health: Float = this.health,
+            maxHealth: Float = this.maxHealth,
+            factionID: Int = this.factionID
+    ): SimplifiedEntity =
             SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
 
     override val rectangle: Rectangle
@@ -50,6 +68,7 @@ open class SimplifiedEntity(
     }
 
     override fun hashCode(): Int {
+        //TODO
         return super.hashCode()
     }
 

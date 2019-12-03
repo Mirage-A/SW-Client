@@ -19,6 +19,16 @@ open class SimplifiedBuilding(
     override fun with(template: String, x: Float, y: Float): SimplifiedBuilding =
             SimplifiedBuilding(template, x, y, width, height, transparencyRange, state)
 
+    fun with(
+            template: String = this.template,
+            x: Float = this.x,
+            y: Float = this.y,
+            width: Float = this.width,
+            height: Float = this.height,
+            transparencyRange: Float = this.transparencyRange,
+            state: String = this.state
+    ): SimplifiedBuilding = SimplifiedBuilding(template, x, y, width, height, transparencyRange, state)
+
     override val rectangle: Rectangle
         get() = Rectangle(x, y, width, height)
 

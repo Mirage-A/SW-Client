@@ -4,10 +4,12 @@ import com.google.gson.Gson
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.TestSamples
+import com.mirage.utils.extensions.mutableMap
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.objects.extended.ExtendedObject
 import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.states.ExtendedState
 import java.io.Reader
 
 object SceneLoader {
@@ -17,7 +19,7 @@ object SceneLoader {
 
     private val gson = Gson()
 
-    fun loadMap(name: String) : GameMap =
+    fun loadMap(name: String): GameMap =
             try {
                 loadMap(Assets.loadReader("maps/$name.json")!!)
             }
@@ -26,9 +28,9 @@ object SceneLoader {
                 TestSamples.TEST_SMALL_MAP
             }
 
-    fun loadMap(reader: Reader) : GameMap =
+    fun loadMap(reader: Reader): GameMap =
             try {
-                gson.fromJson<MapWrapper>(reader, MapWrapper::class.java).map
+                gson.fromJson<MapWrapper>(reader, MapWrapper::class.java).map ?: TestSamples.TEST_SMALL_MAP
             }
             catch (ex: Exception) {
                 Log.e("Error while loading scene.")
@@ -36,35 +38,35 @@ object SceneLoader {
                 TestSamples.TEST_SMALL_MAP
             }
 
-    fun loadInitialObjects(name: String) : List<ExtendedObject> =
+    fun loadInitialState(name: String): ExtendedState =
             try {
-                loadInitialObjects(Assets.loadReader("maps/$name.json")!!)
+                loadInitialState(Assets.loadReader("maps/$name.json")!!)
             }
             catch(ex: Exception) {
                 Log.e("Error while loading initial objects from scene: $name")
-                ArrayList()
+                ExtendedState()
             }
 
-    fun loadInitialObjects(reader: Reader) : List<ExtendedObject> =
+    fun loadInitialState(reader: Reader): ExtendedState =
             try {
 
-                val objs: ObjectsWrapper = gson.fromJson<StateWrapper>(reader, StateWrapper::class.java).objects
-                val buildingsList = objs.buildings.map {
+                val objs: ObjectsWrapper = gson.fromJson<StateWrapper>(reader, StateWrapper::class.java).objects ?: ObjectsWrapper(null, null)
+                val buildingsList = objs.buildings?.map {
                     it.projectOnTemplate(loadBuildingTemplate(it.template ?: "undefined"))
-                }
-                val entitiesList = objs.entities.map {
+                } ?: ArrayList()
+                val entitiesList = objs.entities?.map {
                     it.projectOnTemplate(loadEntityTemplate(it.template ?: "undefined"))
-                }
-                buildingsList + entitiesList
+                } ?: ArrayList()
+                ExtendedState(buildingsList, entitiesList)
             }
             catch (ex: Exception) {
                 Log.e("Error while loading initial objects from scene.")
                 ex.printStackTrace()
-                ArrayList()
+                ExtendedState()
             }
 
 
-    fun loadEntityTemplate(name: String) : ExtendedEntity = cachedEntityTemplates[name] ?: try {
+    fun loadEntityTemplate(name: String): ExtendedEntity = cachedEntityTemplates[name] ?: try {
         val t = gson.fromJson<NullableEntity>(
                 Assets.loadReader("templates/entities/$name.json")!!, NullableEntity::class.java
         ).projectOnTemplate(defaultEntity)
@@ -77,7 +79,7 @@ object SceneLoader {
         ExtendedEntity()
     }
 
-    fun loadBuildingTemplate(name: String) : ExtendedBuilding = cachedBuildingTemplates[name] ?: try {
+    fun loadBuildingTemplate(name: String): ExtendedBuilding = cachedBuildingTemplates[name] ?: try {
         val t = gson.fromJson<NullableBuilding>(
                 Assets.loadReader("templates/buildings/$name.json")!!, NullableBuilding::class.java
         ).projectOnTemplate(defaultBuilding)
@@ -91,16 +93,16 @@ object SceneLoader {
     }
 
     private class MapWrapper(
-            val map: GameMap
+            val map: GameMap?
     )
 
     private class StateWrapper(
-            val objects: ObjectsWrapper
+            val objects: ObjectsWrapper?
     )
 
     private class ObjectsWrapper(
-            val buildings: List<NullableBuilding>,
-            val entities: List<NullableEntity>
+            val buildings: List<NullableBuilding>?,
+            val entities: List<NullableEntity>?
     )
 
     private val defaultEntity = ExtendedEntity()

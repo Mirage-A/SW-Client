@@ -7,7 +7,7 @@
   "moveDirection": "UP_RIGHT",
   "speed": 4.0,
   "isRigid": false,
-  "action": "IDLE",
+  "action": "idle",
   "drawers": {
     "default": {
       "type": "humanoid",
