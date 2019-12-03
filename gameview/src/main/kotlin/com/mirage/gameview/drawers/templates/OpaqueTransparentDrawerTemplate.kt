@@ -1,7 +1,7 @@
 package com.mirage.gameview.drawers.templates
 
 import com.mirage.gameview.drawers.DrawerTemplate
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
@@ -16,7 +16,7 @@ class OpaqueTransparentDrawerTemplate(
         private val transparentDrawerTemplate: DrawerTemplate
 ) : DrawerTemplate {
 
-    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: GameObject.MoveDirection) {
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (isOpaque) opaqueDrawerTemplate.draw(virtualScreen, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
         else transparentDrawerTemplate.draw(virtualScreen, x, y, true, action, actionTimePassedMillis, isMoving, movingTimePassedMillis, moveDirection)
     }

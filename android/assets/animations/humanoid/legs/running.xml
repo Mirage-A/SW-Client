@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<animation type="LEGS" name="RUNNING" duration="800" isRepeatable="true">
+<animation type="LEGS" name="running" duration="800" isRepeatable="true">
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="5">

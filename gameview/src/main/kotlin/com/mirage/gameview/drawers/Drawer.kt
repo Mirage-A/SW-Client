@@ -1,6 +1,6 @@
 package com.mirage.gameview.drawers
 
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
@@ -9,7 +9,13 @@ import com.mirage.utils.virtualscreen.VirtualScreen
  */
 interface Drawer {
 
-    fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: GameObject.MoveDirection)
+    fun draw(virtualScreen: VirtualScreen,
+             x: Float,
+             y: Float,
+             isOpaque: Boolean,
+             currentTimeMillis: Long,
+             moveDirection: MoveDirection = MoveDirection.DOWN_RIGHT
+    )
 
     fun setAction(newAction: String, currentTimeMillis: Long = System.currentTimeMillis())
 

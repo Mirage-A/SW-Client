@@ -12,7 +12,7 @@ internal class LoopTimerTest {
         val counter = AtomicInteger(0)
         val timer = LoopTimer(50L) {
             println(it)
-            assert(it in 0L..1L || it in 48L..52L)
+            assert(it in 0L..2L || it in 46L..54L)
             counter.incrementAndGet()
         }
         timer.start()

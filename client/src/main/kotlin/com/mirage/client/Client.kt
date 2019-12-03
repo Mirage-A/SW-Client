@@ -50,7 +50,7 @@ object Client : ApplicationListener {
 
     @Synchronized
     private fun startSinglePlayerGame(mapName: String) {
-        val map = SceneLoader.loadScene(mapName).first
+        val map = SceneLoader.loadMap(mapName)
         val gameScreen = GameScreen(map, virtualScreen)
         virtualScreen.setTileSet(map.tileSetName)
         val connection : Connection = LocalConnection(mapName) {

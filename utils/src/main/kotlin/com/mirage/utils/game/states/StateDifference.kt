@@ -1,29 +1,45 @@
 package com.mirage.utils.game.states
 
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
+import com.mirage.utils.game.states.Difference
 import java.util.*
 import kotlin.collections.HashMap
 
-/**
- * Неизменяемая разность двух состояний сцены.
- */
 data class StateDifference(
-        val newObjects : Map<Long, GameObject> = HashMap(),
-        val removedObjects : Collection<Long> = TreeSet(),
-        /**
-         * Словарь с новыми версиями измененных объектов
-         */
-        val changedObjects : Map<Long, GameObject> = HashMap()
+        val buildingsDifference: Difference<SimplifiedBuilding> = Difference(),
+        val entitiesDifference: Difference<SimplifiedEntity> = Difference()
 ) {
 
-    /**
-     * Применяет эту разность к состоянию [origin], создавая новое такое состояние
-     * с изменениями, хранящимися в данном объекте.
-     */
-    fun projectOn(origin: GameObjects) : GameObjects = origin.update(newObjects) {
-        id, obj ->
-        if (id in removedObjects) null
-        else changedObjects[id] ?: obj
-    }
+    constructor(originState: SimplifiedState, finalState: SimplifiedState) : this(
+            buildingsDifference = Difference(originState.buildings, finalState.buildings),
+            entitiesDifference = Difference(originState.entities, finalState.entities)
+    )
+
+    fun projectOn(originState: SimplifiedState): SimplifiedState = SimplifiedState(
+            buildings = buildingsDifference.projectOn(originState.buildings),
+            entities = entitiesDifference.projectOn(originState.entities)
+    )
+
+}
+
+data class Difference<T: SimplifiedObject>(
+        val new : Map<Long, T> = HashMap(),
+        val removed : Collection<Long> = TreeSet(),
+        val changed : Map<Long, T> = HashMap()
+) {
+
+    constructor(originState: Map<Long, T>, finalState: Map<Long, T>) : this(
+            new = finalState.filterKeys { !originState.containsKey(it) },
+            removed = originState.keys.filterNot { finalState.containsKey(it) },
+            changed = finalState.filterNot { it.value == originState[it.key] ?: it.value }
+    )
+
+    fun projectOn(originState: Map<Long, T>) : Map<Long, T> =
+            originState
+                    .filterKeys { !removed.contains(it) }
+                    .mapValues { changed[it.key] ?: it.value }
+                    .plus(new)
+
 }

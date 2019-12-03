@@ -7,7 +7,7 @@
   "moveDirection": "UP_RIGHT",
   "speed": 2.8,
   "isRigid": false,
-  "action": "IDLE",
+  "action": "idle",
   "drawers": {
     "default": {
       "type": "empty"

@@ -1,10 +1,8 @@
 package com.mirage.ui.game
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Graphics
 import com.badlogic.gdx.Input
 import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.GameObject
+import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
@@ -90,17 +88,17 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 wReleasedTime = System.currentTimeMillis()
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.UP_LEFT -> {
-                            startMoving(GameObject.MoveDirection.LEFT)
+                        MoveDirection.UP_LEFT -> {
+                            startMoving(MoveDirection.LEFT)
                         }
-                        GameObject.MoveDirection.UP_RIGHT -> {
-                            startMoving(GameObject.MoveDirection.RIGHT)
+                        MoveDirection.UP_RIGHT -> {
+                            startMoving(MoveDirection.RIGHT)
                         }
-                        GameObject.MoveDirection.UP -> {
+                        MoveDirection.UP -> {
                             if (aReleasedTime >= dReleasedTime && wReleasedTime - aReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.UP_LEFT)
+                                setMoveDirection(MoveDirection.UP_LEFT)
                             } else if (dReleasedTime >= aReleasedTime && wReleasedTime - dReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.UP_RIGHT)
+                                setMoveDirection(MoveDirection.UP_RIGHT)
                             }
                             stopMoving()
                         }
@@ -113,17 +111,17 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 aReleasedTime = System.currentTimeMillis()
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.UP_LEFT -> {
-                            startMoving(GameObject.MoveDirection.UP)
+                        MoveDirection.UP_LEFT -> {
+                            startMoving(MoveDirection.UP)
                         }
-                        GameObject.MoveDirection.DOWN_LEFT -> {
-                            startMoving(GameObject.MoveDirection.DOWN)
+                        MoveDirection.DOWN_LEFT -> {
+                            startMoving(MoveDirection.DOWN)
                         }
-                        GameObject.MoveDirection.LEFT -> {
+                        MoveDirection.LEFT -> {
                             if (wReleasedTime >= sReleasedTime && aReleasedTime - wReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.UP_LEFT)
+                                setMoveDirection(MoveDirection.UP_LEFT)
                             } else if (sReleasedTime >= wReleasedTime && aReleasedTime - sReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.DOWN_LEFT)
+                                setMoveDirection(MoveDirection.DOWN_LEFT)
                             }
                             stopMoving()
                         }
@@ -136,17 +134,17 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 sReleasedTime = System.currentTimeMillis()
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.DOWN_LEFT -> {
-                            startMoving(GameObject.MoveDirection.LEFT)
+                        MoveDirection.DOWN_LEFT -> {
+                            startMoving(MoveDirection.LEFT)
                         }
-                        GameObject.MoveDirection.DOWN_RIGHT -> {
-                            startMoving(GameObject.MoveDirection.RIGHT)
+                        MoveDirection.DOWN_RIGHT -> {
+                            startMoving(MoveDirection.RIGHT)
                         }
-                        GameObject.MoveDirection.DOWN -> {
+                        MoveDirection.DOWN -> {
                             if (aReleasedTime >= dReleasedTime && sReleasedTime - aReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.DOWN_LEFT)
+                                setMoveDirection(MoveDirection.DOWN_LEFT)
                             } else if (dReleasedTime >= aReleasedTime && sReleasedTime - dReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.DOWN_RIGHT)
+                                setMoveDirection(MoveDirection.DOWN_RIGHT)
                             }
                             stopMoving()
                         }
@@ -159,17 +157,17 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 dReleasedTime = System.currentTimeMillis()
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.UP_RIGHT -> {
-                            startMoving(GameObject.MoveDirection.UP)
+                        MoveDirection.UP_RIGHT -> {
+                            startMoving(MoveDirection.UP)
                         }
-                        GameObject.MoveDirection.DOWN_RIGHT -> {
-                            startMoving(GameObject.MoveDirection.DOWN)
+                        MoveDirection.DOWN_RIGHT -> {
+                            startMoving(MoveDirection.DOWN)
                         }
-                        GameObject.MoveDirection.RIGHT -> {
+                        MoveDirection.RIGHT -> {
                             if (wReleasedTime >= sReleasedTime && dReleasedTime - wReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.UP_RIGHT)
+                                setMoveDirection(MoveDirection.UP_RIGHT)
                             } else if (sReleasedTime >= wReleasedTime && dReleasedTime - sReleasedTime < epsTime) {
-                                setMoveDirection(GameObject.MoveDirection.DOWN_RIGHT)
+                                setMoveDirection(MoveDirection.DOWN_RIGHT)
                             }
                             stopMoving()
                         }
@@ -193,69 +191,69 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
             Input.Keys.W -> {
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.LEFT -> {
-                            startMoving(GameObject.MoveDirection.UP_LEFT)
+                        MoveDirection.LEFT -> {
+                            startMoving(MoveDirection.UP_LEFT)
                         }
-                        GameObject.MoveDirection.RIGHT -> {
-                            startMoving(GameObject.MoveDirection.UP_RIGHT)
+                        MoveDirection.RIGHT -> {
+                            startMoving(MoveDirection.UP_RIGHT)
                         }
                         else -> {
-                            startMoving(GameObject.MoveDirection.UP)
+                            startMoving(MoveDirection.UP)
                         }
                     }
                 } else {
-                    startMoving(GameObject.MoveDirection.UP)
+                    startMoving(MoveDirection.UP)
                 }
             }
             Input.Keys.A -> {
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.UP -> {
-                            startMoving(GameObject.MoveDirection.UP_LEFT)
+                        MoveDirection.UP -> {
+                            startMoving(MoveDirection.UP_LEFT)
                         }
-                        GameObject.MoveDirection.DOWN -> {
-                            startMoving(GameObject.MoveDirection.DOWN_LEFT)
+                        MoveDirection.DOWN -> {
+                            startMoving(MoveDirection.DOWN_LEFT)
                         }
                         else -> {
-                            startMoving(GameObject.MoveDirection.LEFT)
+                            startMoving(MoveDirection.LEFT)
                         }
                     }
                 } else {
-                    startMoving(GameObject.MoveDirection.LEFT)
+                    startMoving(MoveDirection.LEFT)
                 }
             }
             Input.Keys.S -> {
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.LEFT -> {
-                            startMoving(GameObject.MoveDirection.DOWN_LEFT)
+                        MoveDirection.LEFT -> {
+                            startMoving(MoveDirection.DOWN_LEFT)
                         }
-                        GameObject.MoveDirection.RIGHT -> {
-                            startMoving(GameObject.MoveDirection.DOWN_RIGHT)
+                        MoveDirection.RIGHT -> {
+                            startMoving(MoveDirection.DOWN_RIGHT)
                         }
                         else -> {
-                            startMoving(GameObject.MoveDirection.DOWN)
+                            startMoving(MoveDirection.DOWN)
                         }
                     }
                 } else {
-                    startMoving(GameObject.MoveDirection.DOWN)
+                    startMoving(MoveDirection.DOWN)
                 }
             }
             Input.Keys.D -> {
                 if (uiState.bufferedMoving == true) {
                     when (uiState.bufferedMoveDirection) {
-                        GameObject.MoveDirection.UP -> {
-                            startMoving(GameObject.MoveDirection.UP_RIGHT)
+                        MoveDirection.UP -> {
+                            startMoving(MoveDirection.UP_RIGHT)
                         }
-                        GameObject.MoveDirection.DOWN -> {
-                            startMoving(GameObject.MoveDirection.DOWN_RIGHT)
+                        MoveDirection.DOWN -> {
+                            startMoving(MoveDirection.DOWN_RIGHT)
                         }
                         else -> {
-                            startMoving(GameObject.MoveDirection.RIGHT)
+                            startMoving(MoveDirection.RIGHT)
                         }
                     }
                 } else {
-                    startMoving(GameObject.MoveDirection.RIGHT)
+                    startMoving(MoveDirection.RIGHT)
                 }
             }
             Input.Keys.ESCAPE -> {
@@ -266,7 +264,7 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
     }
 
 
-    private fun startMoving(md: GameObject.MoveDirection) {
+    private fun startMoving(md: MoveDirection) {
         uiState.bufferedMoveDirection = md
         uiState.bufferedMoving = true
     }
@@ -275,7 +273,7 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
         uiState.bufferedMoving = false
     }
 
-    private fun setMoveDirection(md: GameObject.MoveDirection) {
+    private fun setMoveDirection(md: MoveDirection) {
         uiState.bufferedMoveDirection = md
     }
 

@@ -1,10 +1,10 @@
 package com.mirage.gameview.utils
 
-import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import java.util.*
 
 
@@ -13,17 +13,15 @@ import java.util.*
  * Используется алгоритм топологической сортировки ориентированного графа
  * (На множестве объектов задан частичный порядок, а не линейный)
  */
-internal fun depthSort(objs: GameObjects) : List<Map.Entry<Long, GameObject>> {
+internal fun depthSort(objsList: MutableList<Pair<Long, SimplifiedObject>>) {
 
-    val objsList = objs.toMutableList()
-
-    val q = ArrayDeque<Map.Entry<Long, GameObject>>()
+    val q = ArrayDeque<Pair<Long, SimplifiedObject>>()
     val visited = BooleanArray(objsList.size) {false}
     fun dfs(index: Int) {
         if (visited[index]) return
         visited[index] = true
         for (i in 0 until objsList.size) {
-            if (compare(objsList[index].value, objsList[i].value) == 1) {
+            if (compare(objsList[index].second, objsList[i].second) == 1) {
                 dfs(i)
             }
         }
@@ -35,7 +33,6 @@ internal fun depthSort(objs: GameObjects) : List<Map.Entry<Long, GameObject>> {
     for (i in 0 until objsList.size) {
         objsList[i] = q.pop()
     }
-    return objsList
 }
 
 /**
@@ -68,7 +65,7 @@ private fun compare(p : Point, rect: Rectangle) : Int {
  * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
  * (т.е. объекты не сравнимы либо равны)
  */
-private fun compareDisjoint(a: GameObject, b: GameObject) : Int {
+private fun compareDisjoint(a: SimplifiedObject, b: SimplifiedObject) : Int {
     val rectA = a.rectangle
     val rectB = b.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -91,9 +88,7 @@ private fun compareDisjoint(a: GameObject, b: GameObject) : Int {
     }
 }
 
-internal fun compareEntityAndBuilding(entity: GameObject, building: GameObject) : Int {
-    if (entity.type != GameObject.Type.ENTITY) Log.e("Entity should have ENTITY type")
-    if (building.type != GameObject.Type.BUILDING) Log.e("Building should have BUILDING type")
+internal fun compareEntityAndBuilding(entity: SimplifiedEntity, building: SimplifiedBuilding) : Int {
     val rectA = entity.rectangle
     val rectB = building.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -128,7 +123,7 @@ private fun compareRectangles(rectA: Rectangle, rectB: Rectangle) : Int {
     return 0
 }
 
-internal fun compare(a: GameObject, b: GameObject) : Int =
-        if (a.type == GameObject.Type.ENTITY && b.type == GameObject.Type.BUILDING) compareEntityAndBuilding(a, b)
-        else if (a.type == GameObject.Type.BUILDING && b.type == GameObject.Type.ENTITY) -compareEntityAndBuilding(b, a)
+internal fun compare(a: SimplifiedObject, b: SimplifiedObject) : Int =
+        if (a is SimplifiedEntity && b is SimplifiedBuilding) compareEntityAndBuilding(a, b)
+        else if (a is SimplifiedBuilding && b is SimplifiedEntity) -compareEntityAndBuilding(b, a)
         else compareDisjoint(a, b)

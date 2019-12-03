@@ -13,7 +13,7 @@
   "_comment2": "lookAt (originState: String) - скопировать представление состояния originState",
   "_comment3": "staticTexture (name: String) - статичная текстура от .png изображения",
   "_comment4": "humanoid (helmet, chest, gloves, legs, weaponType, rightWeapon, leftWeapon: String) - анимация гуманоида с данной экипировкой",
-  "_comment5": "objectAnimation (name: String) - анимация .swa",
+  "_comment5": "objectAnimation (name: String) - анимация .xml",
   "_comment6": "opaqueTransparentDrawer (opaqueDrawer: Drawer, transparentDrawer: Drawer) - пара представлений - непрозрачная и прозрачная",
   "drawers": {
     "default": {

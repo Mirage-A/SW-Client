@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<animation type="LEGS" name="IDLE" duration="1000" isRepeatable="true">
+<animation type="LEGS" name="idle" duration="1000" isRepeatable="true">
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="5">

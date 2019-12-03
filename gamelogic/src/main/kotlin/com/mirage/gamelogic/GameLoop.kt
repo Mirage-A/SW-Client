@@ -1,9 +1,6 @@
 package com.mirage.gamelogic
 
-import com.mirage.utils.game.objects.GameObjects
 import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import rx.Observable
 
 internal interface GameLoop {
 

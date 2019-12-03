@@ -62,7 +62,7 @@ object Assets {
 
 
     fun loadAnimation(name: String) : InputStream? =
-        loadFile("animations/$name.swa")?.read()
+        loadFile("animations/$name.xml")?.read()
 
 
 }

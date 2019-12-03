@@ -14,23 +14,23 @@ class ConfirmMessage(
 
     var isVisible = false
 
-    private val backgroundTextureName = "ui/messagebackground"
+    private val backgroundTextureName = "ui/message-background"
     private val titleFontCapHeight = 24f
     private val descriptionFontCapHeight = 16f
     private val okCancelFontCapHeight = 20f
 
     private val titleLabel = virtualScreen.createLabel(title, titleFontCapHeight)
     private val descriptionLabel = virtualScreen.createLabel(description, descriptionFontCapHeight)
-    private val okButton = Button("ui/mainmenubtn",
-            "ui/mainmenubtnhighlighted",
-            "ui/mainmenubtnpressed",
+    private val okButton = Button("ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel(okTitle, okCancelFontCapHeight),
             null
     )
-    private val cancelButton = Button("ui/mainmenubtn",
-            "ui/mainmenubtnhighlighted",
-            "ui/mainmenubtnpressed",
+    private val cancelButton = Button("ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel(cancelTitle, okCancelFontCapHeight),
             null

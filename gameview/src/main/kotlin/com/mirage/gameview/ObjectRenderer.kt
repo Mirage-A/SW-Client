@@ -4,27 +4,31 @@ import com.mirage.gameview.drawers.DrawersManager
 import com.mirage.gameview.utils.compareEntityAndBuilding
 import com.mirage.gameview.utils.depthSort
 import com.mirage.gameview.utils.getVirtualScreenPointFromScene
-import com.mirage.utils.game.objects.GameObject
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.objects.simplified.SimplifiedObject
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.virtualscreen.VirtualScreen
-import kotlin.math.roundToInt
 
 
 /**
  * Отрисовывает все объекты карты
  */
-internal fun renderObjects(virtualScreen: VirtualScreen, objs: GameObjects, drawersManager: DrawersManager, cameraX: Float, cameraY: Float) {
+internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, drawersManager: DrawersManager, cameraX: Float, cameraY: Float) {
 
-    val sortedObjs = depthSort(objs)
+    val sortedObjs: MutableList<Pair<Long, SimplifiedObject>> = (state.buildings.toList() + state.entities.toList()).toMutableList()
+    depthSort(sortedObjs)
     val currentTimeMillis = System.currentTimeMillis()
-
     for ((id, obj) in sortedObjs) {
-        val isOpaque = isOpaque(obj, objs)
+        val isOpaque = isOpaque(obj, state)
         val pos = getVirtualScreenPointFromScene(obj.position)
-        drawersManager.draw(id, virtualScreen,
-                (pos.x - cameraX),
-                (pos.y - cameraY),
-                isOpaque, currentTimeMillis, obj.moveDirection)
+        when (obj) {
+            is SimplifiedBuilding ->
+                drawersManager.drawBuilding(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis)
+            is SimplifiedEntity ->
+                drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis, obj.moveDirection)
+        }
+
     }
 }
 
@@ -34,14 +38,14 @@ internal fun renderObjects(virtualScreen: VirtualScreen, objs: GameObjects, draw
  * Строение становится прозрачным, если внутри него или на расстоянии tp-range тайлов за ним находится сущность.
  * Сущность не может быть прозрачной.
  */
-private fun isOpaque(obj : GameObject, objs : GameObjects) : Boolean {
-    if (obj.type == GameObject.Type.BUILDING) {
-        for ((_, other) in objs) {
+private fun isOpaque(obj: SimplifiedObject, state: SimplifiedState) : Boolean {
+    if (obj is SimplifiedBuilding) {
+        for ((_, entity) in state.entities) {
             val rect = obj.rectangle
-            val otherRect = other.rectangle
-            if (other.type == GameObject.Type.ENTITY &&
-                    ((-other.x + other.y + obj.x - obj.y < obj.transparencyRange * 2 &&
-                    compareEntityAndBuilding(other, obj) == -1) || rect.overlaps(otherRect)))
+            val entityRect = entity.rectangle
+            //TODO Придумать нормальный алгоритм проверки, нужно ли скрывать строение
+            if ((-entity.x + entity.y + obj.x - obj.y < obj.transparencyRange * 2 &&
+                    compareEntityAndBuilding(entity, obj) == -1) || rect.overlaps(entityRect))
                 return false
         }
     }

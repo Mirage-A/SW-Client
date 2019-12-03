@@ -6,7 +6,7 @@ import com.mirage.gameview.utils.getVirtualScreenPointFromScene
 import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.GameObjects
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.virtualscreen.VirtualScreen
 
@@ -14,19 +14,19 @@ class GameViewImpl(private val gameMap: GameMap) : GameView {
 
     private val drawersManager: DrawersManager = DrawersManagerImpl()
 
-    override fun loadDrawers(initialState: GameObjects) {
+    override fun loadDrawers(initialState: SimplifiedState) {
         drawersManager.loadDrawers(initialState)
     }
 
-    override fun updateDrawers(oldState: GameObjects, diff: StateDifference) {
+    override fun updateDrawers(oldState: SimplifiedState, diff: StateDifference) {
         drawersManager.updateDrawers(diff, oldState)
     }
 
-    override fun renderGameState(virtualScreen: VirtualScreen, objs: GameObjects, playerPositionOnScene: Point) {
+    override fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point) {
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPositionOnScene)
         val cameraCenterPosition = Point(playerPosOnVirtualScreen.x, playerPosOnVirtualScreen.y + DELTA_CENTER_Y)
         renderGameMap(virtualScreen, gameMap, cameraCenterPosition.x, cameraCenterPosition.y)
-        renderObjects(virtualScreen, objs, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y)
+        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y)
     }
 
 }
