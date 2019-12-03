@@ -146,4 +146,6 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
         drawLayer(virtualScreen, texture, bodyX, bodyY, startLayer, endLayer, progress)
     }
 
+    override fun containsPoint(relativePoint: Point): Boolean = relativePoint.x in -64f..64f && relativePoint.y in 0f..128f
+
 }

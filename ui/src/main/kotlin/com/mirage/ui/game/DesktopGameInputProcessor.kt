@@ -3,9 +3,7 @@ package com.mirage.ui.game
 import com.badlogic.gdx.Input
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.messaging.ChangeSceneClientMessage
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.EventSubjectAdapter
+import com.mirage.utils.messaging.*
 import rx.subjects.Subject
 
 class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
@@ -47,19 +45,20 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.widgets.forEach {it.touchUp(virtualPoint)}
+        uiState.widgets.forEach { if (it.touchUp(virtualPoint)) return true}
         return false
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.widgets.forEach {it.touchDown(virtualPoint)}
+        uiState.widgets.forEach { if (it.touchDown(virtualPoint)) return true }
+        inputMessages.onNext(NewTargetMessage(virtualPoint))
         return false
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.widgets.forEach {it.mouseMoved(virtualPoint)}
+        uiState.widgets.forEach { it.mouseMoved(virtualPoint)}
         return false
     }
 
@@ -248,7 +247,7 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 }
             }
             Input.Keys.ESCAPE -> {
-                inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MAIN_MENU))
+                inputMessages.onNext(ClearTargetMessage())
             }
         }
         return true

@@ -66,17 +66,14 @@ class ConfirmMessage(
         cancelButton.boundedLabel?.rect = cancelButton.rect
     }
 
-    override fun touchUp(virtualPoint: Point) {
-        if (!isVisible) return
-        okButton.touchUp(virtualPoint)
-        cancelButton.touchUp(virtualPoint)
+    override fun touchUp(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        return okButton.touchUp(virtualPoint) || cancelButton.touchUp(virtualPoint) || descriptionLabel.rect.contains(virtualPoint)
     }
 
-    override fun touchDown(virtualPoint: Point) {
-        if (!isVisible) return
-        okButton.touchDown(virtualPoint)
-        cancelButton.touchDown(virtualPoint)
-
+    override fun touchDown(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        return okButton.touchDown(virtualPoint) || cancelButton.touchDown(virtualPoint) || descriptionLabel.rect.contains(virtualPoint)
     }
 
     override fun mouseMoved(virtualPoint: Point) {

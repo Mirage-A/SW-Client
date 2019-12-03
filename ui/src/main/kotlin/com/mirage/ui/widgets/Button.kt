@@ -44,21 +44,24 @@ class Button(
         }
     }
 
-    override fun touchUp(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun touchUp(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isPressed = false
         if (rect.contains(virtualPoint)) {
             onPressed()
+            return true
         }
         else {
             isHighlighted = false
         }
-        isPressed = false
+        return false
     }
 
-    override fun touchDown(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun touchDown(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
         isPressed = rect.contains(virtualPoint)
         isHighlighted = isPressed
+        return isPressed
     }
 
     override fun mouseMoved(virtualPoint: Point) {

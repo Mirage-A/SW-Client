@@ -35,5 +35,11 @@ interface GameView {
      */
     fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point)
 
+    /**
+     * Проверяет, какая сущность попадёт под клик на виртуальный экран по координатам (hitX, hitY).
+     * Возвращает id этой сущности.
+     */
+    fun hit(virtualPoint: Point, lastRenderedState: SimplifiedState): Long?
+
 
 }

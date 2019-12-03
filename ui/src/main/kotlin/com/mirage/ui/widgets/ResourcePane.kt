@@ -51,8 +51,8 @@ class ResourcePane(
         }
     }
 
-    override fun touchDown(virtualPoint: Point) {}
+    override fun touchDown(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
 
-    override fun touchUp(virtualPoint: Point) {}
+    override fun touchUp(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
 
 }

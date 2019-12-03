@@ -1,5 +1,6 @@
 package com.mirage.gameview.drawers
 
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
@@ -28,5 +29,7 @@ class DrawerImpl(private val drawerTemplate: DrawerTemplate, currentTimeMillis: 
     }
 
     override fun toString(): String = "DrawerImpl(drawerTemplate=$drawerTemplate)"
+
+    override fun containsPoint(relativePoint: Point): Boolean = drawerTemplate.containsPoint(relativePoint)
 
 }

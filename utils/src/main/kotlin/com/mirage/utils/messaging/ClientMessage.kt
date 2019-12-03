@@ -1,5 +1,6 @@
 package com.mirage.utils.messaging
 
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 
 
@@ -20,7 +21,8 @@ sealed class ClientMessage {
                 CityJoinClientMessage::class.java,
                 ReconnectClientMessage::class.java,
                 ChangeSceneClientMessage::class.java,
-                ExitClientMessage::class.java
+                ExitClientMessage::class.java,
+                NewTargetMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -69,3 +71,16 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
  * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
  */
 data class ExitClientMessage(val exitCode: Int) : ClientMessage()
+
+/**
+ * Сообщение о попытке выбрать новую цель.
+ * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
+ * @param virtualScreenPoint Точка на виртуальном экране, в которую кликнул игрок.
+ */
+data class NewTargetMessage(val virtualScreenPoint: Point) : ClientMessage()
+
+/**
+ * Сообщение об отмене выбора цели.
+ * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
+ */
+data class ClearTargetMessage(val unit: Unit = Unit) : ClientMessage()

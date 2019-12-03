@@ -9,6 +9,8 @@ import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface DrawersManager {
 
+    fun getEntityDrawer(entityID: Long): Drawer?
+
     fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long)
 
     fun drawEntity(entityID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection)

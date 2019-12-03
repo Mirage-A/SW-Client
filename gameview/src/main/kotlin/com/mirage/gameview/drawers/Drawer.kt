@@ -1,5 +1,6 @@
 package com.mirage.gameview.drawers
 
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
@@ -20,5 +21,7 @@ interface Drawer {
     fun setAction(newAction: String, currentTimeMillis: Long = System.currentTimeMillis())
 
     fun setMoving(isMoving: Boolean, currentTimeMillis: Long = System.currentTimeMillis())
+
+    fun containsPoint(relativePoint: Point): Boolean
 
 }

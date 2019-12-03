@@ -4,6 +4,7 @@ import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
+import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
@@ -39,8 +40,9 @@ class GameUIState(val virtualScreen: VirtualScreen) {
     var lastSentMoving: Boolean? = null
     var lastSentMoveDirection: MoveDirection? = null
 
-    var targetEntity: SimplifiedEntity? = null
-    var player: SimplifiedEntity? = null
+    var lastRenderedState: SimplifiedState = SimplifiedState()
+    var targetID: Long? = null
+    var playerID: Long? = null
 
 
     val skillNames: MutableList<String?> = mutableListOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")

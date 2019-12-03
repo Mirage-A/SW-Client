@@ -1,6 +1,7 @@
 package com.mirage.gameview.drawers.templates
 
 import com.mirage.gameview.drawers.DrawerTemplate
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 

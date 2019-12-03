@@ -43,6 +43,8 @@ class DrawersManagerImpl : DrawersManager {
         cachedEntityDrawerTemplates[templateName] = loadDrawersFromTemplate("entities/$templateName")
     }
 
+    override fun getEntityDrawer(entityID: Long): Drawer? = entityDrawers[entityID]
+
     override fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long) {
         val drawer : Drawer = buildingDrawers[buildingID] ?: run {
             Log.e("Drawer not loaded. buildingID=$buildingID")
