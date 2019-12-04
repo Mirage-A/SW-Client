@@ -1,15 +1,15 @@
 {
-  "name": "Player",
-  "template": "player",
+  "name": "Target dummy",
+  "template": "dummy",
   "width": 0.5,
   "height": 0.5,
-  "moveDirection": "UP",
-  "speed": 4.0,
+  "moveDirection": "UP_RIGHT",
+  "speed": 0.0,
   "isRigid": true,
   "action": "idle",
-  "health": 100,
-  "maxHealth": 100,
-  "factionID": 0,
+  "health": 800,
+  "maxHealth": 1000,
+  "factionID": 2,
   "drawers": {
     "default": {
       "type": "humanoid",

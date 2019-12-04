@@ -83,7 +83,7 @@ internal class SceneLoaderTest {
                 state = "default"
         ), objects.buildings[Long.MIN_VALUE])
         assertEquals(ExtendedEntity(
-                name = "spawn-point",
+                name = "test-entity-1",
                 template = "test-entity",
                 x = 0f,
                 y = 2.5f,
@@ -117,7 +117,7 @@ internal class SceneLoaderTest {
     fun loadEntityByNameTemplateTest() {
         val obj = SceneLoader.loadEntityTemplate("test-entity")
         assertEquals(ExtendedEntity(
-                name = "spawn-point",
+                name = "test-entity-1",
                 template = "test-entity",
                 x = 0f,
                 y = 0f,

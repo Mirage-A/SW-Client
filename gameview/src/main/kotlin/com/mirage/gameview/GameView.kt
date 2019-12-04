@@ -34,7 +34,7 @@ interface GameView {
      * @param playerPositionOnScene Координаты игрока на сцене; используются для определения центра "камеры" (на самом деле камера не двигается)
      * @param targetID id сущности, взятой в цель
      */
-    fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?)
+    fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?, isTargetEnemy: Boolean)
 
     /**
      * Проверяет, какая сущность попадёт под клик на виртуальный экран по координатам (hitX, hitY).

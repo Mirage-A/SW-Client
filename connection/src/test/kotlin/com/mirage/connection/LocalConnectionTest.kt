@@ -22,7 +22,7 @@ internal class LocalConnectionTest {
         assertEquals(Long.MIN_VALUE + 1, msg.playerID)
         assertEquals(3, msg.initialState.entities.size + msg.initialState.buildings.size)
         assertEquals("wall", msg.initialState.buildings[Long.MIN_VALUE]?.template)
-        assertEquals("spawn-point", msg.initialState.entities[Long.MIN_VALUE]?.name)
+        assertEquals("test-entity-1", msg.initialState.entities[Long.MIN_VALUE]?.name)
         assertEquals("player", msg.initialState.entities[Long.MIN_VALUE + 1]?.name)
     }
 

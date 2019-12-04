@@ -30,7 +30,7 @@ internal class GameScreenTest {
                 transparencyRange = 0f
         )
         val twoObject = TestSamples.TEST_ENTITY.with(
-                template = "spawn-point",
+                template = "test-entity-1",
                 x = 0.5f,
                 y = 0.5f
         )
