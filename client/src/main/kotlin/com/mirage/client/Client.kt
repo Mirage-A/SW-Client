@@ -16,6 +16,7 @@ import com.mirage.utils.messaging.ClearTargetMessage
 import com.mirage.utils.messaging.ExitClientMessage
 import com.mirage.utils.messaging.NewTargetMessage
 import com.mirage.utils.preferences.Prefs
+import com.mirage.utils.preferences.Profile
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
 import kotlin.system.exitProcess
@@ -48,6 +49,13 @@ object Client : ApplicationListener {
                             val fullScreen = Prefs.settings.desktopFullScreen.get()
                             if (fullScreen) setDesktopWindowedMode()
                             else setDesktopFullScreen()
+                        }
+                        ChangeSceneClientMessage.Scene.NEW_PROFILE_MENU -> {
+                            //TODO Открыть экран создания нового персонажа
+                            val profileName = Math.random().toString()
+                            Prefs.account.profiles.add(profileName)
+                            Prefs.switchProfile(profileName)
+                            openMainMenu()
                         }
                     }
                 }

@@ -10,7 +10,7 @@ private const val btnHeight = 80f
 private const val profileWindowWidth = 480f
 private const val profileWindowX = - btnWidth / 2f - profileWindowWidth / 2f
 private const val profileBodyHeight = 440f
-private const val profileBtnCount = 4
+internal const val profileBtnCount = 4
 private const val profileBtnMargin = 20f
 private const val profileArrowSize = 40f
 private const val profileArrowMargin = (btnHeight - profileArrowSize) / 2f
@@ -99,13 +99,14 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
         _, h -> Rectangle(profileWindowX, h / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
     }
 
-
     val profileWindow = CompositeWidget(
             *profileWindowButtons, profileWindowLeftArrow, profileWindowRightArrow, profileWindowPageLabel, profileWindowHead, profileWindowBody
     ).apply { isVisible = false }
 
 
     val widgets: List<Widget> = listOf(singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
+
+    var currentProfilePage = 0
 
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
