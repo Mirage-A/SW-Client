@@ -5,17 +5,12 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-/**
- * Представление объекта как одной статичной текстуры.
- */
+/** Visual representation of an object as a static texture */
 class StaticTextureDrawerTemplate(textureName: String) : DrawerTemplate {
 
     private val texture = "objects/$textureName"
 
-    /**
-     * Отрисовка текстуры.
-     * Центр текстуры совпадает с точкой (x, y).
-     */
+    /** Draws [texture] with center at point ([x], [y]) */
     override fun draw(virtualScreen: VirtualScreen,
                       x: Float,
                       y: Float,

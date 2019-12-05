@@ -10,9 +10,6 @@ import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import com.mirage.utils.game.states.ExtendedState
 import com.mirage.utils.game.states.SimplifiedState
 
-/**
- * Объекты, которые удобно использовать для тестов.
- **/
 object TestSamples {
     val TEST_GAME_OBJECT = SimplifiedBuilding(
             template = "test",

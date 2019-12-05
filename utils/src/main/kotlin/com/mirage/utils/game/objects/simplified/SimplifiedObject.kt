@@ -11,14 +11,10 @@ interface SimplifiedObject {
 
     val y: Float
 
-    /**
-     * Создаёт упрощённую копию объекта.
-     */
+    /** Creates a simplified copy of an object */
     fun simplifiedCopy() : SimplifiedObject
 
-    /**
-     * Создаёт копию этого объекта с измененными параметрами.
-     */
+    /** Creates a copy of this object with changed parameters */
     fun with(
             template: String = this.template,
             x: Float = this.x,

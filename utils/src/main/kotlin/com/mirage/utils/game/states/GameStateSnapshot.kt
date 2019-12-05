@@ -2,9 +2,9 @@ package com.mirage.utils.game.states
 
 
 /**
- * Создаётся логикой после каждого тика цикла логики.
- * Содержит полную информацию о состоянии на момент конца тика и об
- * изменении состояния за время тика.
+ * Snapshot of a game state, which is created on each tick of game logic.
+ * Contains information about full game state after update, difference between final state
+ * and previous state and time of final state creation.
  */
 data class GameStateSnapshot(val finalState: SimplifiedState,
                              val stateDifference: StateDifference,

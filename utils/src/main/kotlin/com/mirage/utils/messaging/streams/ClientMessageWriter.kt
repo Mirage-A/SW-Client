@@ -3,20 +3,14 @@ package com.mirage.utils.messaging.streams
 import com.mirage.utils.messaging.ClientMessage
 
 /**
- * Интерфейс, позволяющий отправлять сообщения от клиента.
- * Используется на стороне клиента.
+ * [ClientMessage] writer.
+ * Used at client side.
  */
 interface ClientMessageWriter {
 
-    /**
-     * Подготовить сообщение к отправке
-     * @see [flush]
-     */
+    /** Writes a message. Use [flush] to send all written messages */
     fun write(msg: ClientMessage)
 
-    /**
-     * Отправить все сообщения
-     * @see [write]
-     */
+    /** Send all messages written by [write] */
     fun flush()
 }

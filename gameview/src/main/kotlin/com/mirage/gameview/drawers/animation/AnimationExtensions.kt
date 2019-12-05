@@ -19,9 +19,7 @@ internal fun getAnimationProgress(frames: List<Animation.Frame>, duration: Int, 
     return currentTime % interval / interval
 }
 
-/**
- * Отрисовывает слой изображения (среднее состояние слоя между startLayer и endLayer)
- */
+/** Draws animation layer at interpolated position */
 internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Float, y: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float) {
     val angle1 = (startLayer.angle % (2 * Math.PI)).toFloat()
     var angle2 = (endLayer.angle % (2 * Math.PI)).toFloat()
@@ -64,10 +62,7 @@ internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Flo
 
 
 
-/**
- * Находит слой в кадре по названию и возвращает его номер
- * @return Индекс слоя с данным названием (если он присутствует в кадре) или -1 иначе
- */
+/** Finds a layer with name [layerName] in [frame] or returns -1 if it is absent */
 internal fun findLayer(frame : Animation.Frame, layerName: String) : Int {
     for (layerIndex in frame.layers.indices) {
         if (frame.layers[layerIndex].getName() == layerName) {
@@ -77,26 +72,16 @@ internal fun findLayer(frame : Animation.Frame, layerName: String) : Int {
     return -1
 }
 
-/**
- * Возвращает "среднее" значение между startValue и endValue,
- * где "прогресс перехода" равен progress
- * Например, если progress = 0, то возвращается startValue
- * Если progress = 1, то возвращается endValue
- * Если progress = 0.5, то возвращается их среднее арифметическое и т.д.
- */
+/** Returns value, interpolated between [startValue] and [endValue] with interpolation progress [progress] */
 internal fun curValue(startValue: Float, endValue : Float, progress : Float) : Float {
     return startValue + (endValue - startValue) * progress
 }
 
-/**
- * Аналогично, но границы типа Int
- */
+/** @see curValue */
 internal fun curValue(startValue: Int, endValue : Int, progress : Float) : Float {
     return startValue + (endValue - startValue) * progress
 }
 
-/**
- * Аналогично, но возвращает точку между двумя точками (покоординатное curValue)
- */
+/** @see curValue */
 internal fun curValue(startPoint: Point, endPoint: Point, progress: Float) : Point =
     Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))

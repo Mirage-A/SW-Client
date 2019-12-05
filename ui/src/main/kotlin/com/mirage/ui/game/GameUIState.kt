@@ -28,11 +28,6 @@ private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
 private const val settingsMenuBtnFontSize = 20f
 
-/**
- * Состояние интерфейса.
- * Изменяется классами [DesktopGameInputProcessor] (при вводе пользователя) и [GameScreen] (при получении данных от логики).
- * Этот объект и его состояние должно быть защищено блокировкой this
- */
 class GameUIState(val virtualScreen: VirtualScreen) {
 
     var bufferedMoving: Boolean? = null
@@ -84,10 +79,7 @@ class GameUIState(val virtualScreen: VirtualScreen) {
         }
     }
 
-    /**
-     * Обновляет изображения навыков и текст времени перезарядки.
-     * Должен вызываться при любом изменении [skillNames] и [skillCoolDowns]
-     */
+    /** Updates skill buttons images and cooldown text */
     fun updateSkillBtns() {
         for (i in 0 until 5) {
             val skill = skillNames[i]

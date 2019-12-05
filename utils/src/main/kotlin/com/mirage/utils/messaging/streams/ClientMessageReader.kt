@@ -3,14 +3,14 @@ package com.mirage.utils.messaging.streams
 import com.mirage.utils.messaging.ClientMessage
 
 /**
- * Интерфейс, позволяющий считывать сообщения от клиента.
- * Используется на стороне логики (сервера).
+ * [ClientMessage] reader.
+ * Is used at server side.
  */
 interface ClientMessageReader {
 
     /**
-     * Дождаться нового сообщения и прочесть его
-     * @return null если сообщение некорректно (например, при десериализации)
+     * Wait for a new message and read it
+     * @return null if a message is incorrect
      */
     fun read() : ClientMessage?
 

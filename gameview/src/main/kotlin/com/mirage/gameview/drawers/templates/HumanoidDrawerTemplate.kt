@@ -107,10 +107,7 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
     }
 
 
-    /**
-     * Просматривает слои кадра и возвращает координаты центра слоя bodypoint
-     * Если такого слоя нет, возвращает (0f, 0f)
-     */
+    /** Finds a bodypoint layer on frame and returns its position, or (0f, 0f) if it is absent */
     private fun getBodyPoint(startFrame: Animation.Frame, endFrame : Animation.Frame, progress: Float) : Point {
         val startLayerIndex = findLayer(startFrame, "bodypoint")
         val endLayerIndex = findLayer(endFrame, "bodypoint")
@@ -122,10 +119,7 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
     }
 
 
-    /**
-     * Отрисовывает слой изображения с проверкой имени слоя на некоторые специальные значения
-     * (например, bodypoint не будет отрисован)
-     */
+    /** Draws a layer, processing special layers like bodypoint */
     private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, moveDirection: MoveDirection) {
         val layerName = startLayer.getName()
         if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {

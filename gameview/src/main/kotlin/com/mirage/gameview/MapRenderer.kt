@@ -8,9 +8,7 @@ import com.mirage.utils.extensions.trunc
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-/**
- * Отрисовывает тайлы карты
- */
+/** Renders game map tiles */
 fun renderGameMap(virtualScreen: VirtualScreen, gameMap: GameMap, cameraX: Float, cameraY: Float) {
     //Находим крайние координаты тайлов, которые помещаются на экран. Другие тайлы рисовать смысла нет.
     val w = virtualScreen.width / 2f
