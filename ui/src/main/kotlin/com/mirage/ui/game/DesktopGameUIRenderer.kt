@@ -15,12 +15,16 @@ class DesktopGameUIRenderer : GameUIRenderer {
             btn.draw(virtualScreen)
         }
         val player = uiState.lastRenderedState.entities[uiState.playerID]
-        uiState.playerHealthPane.draw(virtualScreen, player?.health ?: 0, player?.maxHealth ?: 0)
+        uiState.playerHealthPane.currentResource = player?.health ?: 0
+        uiState.playerHealthPane.maxResource = player?.maxHealth ?: 0
+        uiState.playerHealthPane.draw(virtualScreen)
         val target = uiState.lastRenderedState.entities[uiState.targetID]
         uiState.targetHealthPane.isVisible = target != null
         uiState.targetNameArea.isVisible = target != null
         if (target != null) {
-            uiState.targetHealthPane.draw(virtualScreen, target.health, target.maxHealth)
+            uiState.targetHealthPane.currentResource = target.health
+            uiState.targetHealthPane.maxResource = target.maxHealth
+            uiState.targetHealthPane.draw(virtualScreen)
             uiState.targetNameLabel.text = target.name
             uiState.targetNameArea.draw(virtualScreen)
         }

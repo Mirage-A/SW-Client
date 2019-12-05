@@ -1,13 +1,11 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.ui.game.GameUIState
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
 import com.mirage.utils.messaging.ExitClientMessage
 import rx.subjects.Subject
-import kotlin.system.exitProcess
 
 class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : MainMenuInputProcessor {
 
@@ -26,27 +24,20 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
         uiState.exitBtn.onPressed = {
             inputMessages.onNext(ExitClientMessage(0))
         }
+        uiState.changeProfileBtn.onPressed = {
+            uiState.profileWindow.isVisible = !uiState.profileWindow.isVisible
+        }
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        for (btn in uiState.btnList) {
-            if (btn.rect.contains(virtualPoint)) {
-                btn.onPressed()
-            }
-            else {
-                btn.isHighlighted = false
-            }
-            btn.isPressed = false
-        }
+        uiState.widgets.forEach { it.touchUp(virtualPoint) }
         return false
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        for (btn in uiState.btnList) {
-            btn.isHighlighted = btn.rect.contains(virtualPoint)
-        }
+        uiState.widgets.forEach { it.mouseMoved(virtualPoint) }
         return false
     }
 
@@ -72,10 +63,7 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        for (btn in uiState.btnList) {
-            btn.isPressed = btn.rect.contains(virtualPoint)
-            btn.isHighlighted = btn.isPressed
-        }
+        uiState.widgets.forEach { it.touchDown(virtualPoint) }
         return false
     }
 

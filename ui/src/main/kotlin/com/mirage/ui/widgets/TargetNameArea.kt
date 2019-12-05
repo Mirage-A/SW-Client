@@ -31,7 +31,7 @@ class TargetNameArea(
 
     override fun mouseMoved(virtualPoint: Point) {}
 
-    fun draw(virtualScreen: VirtualScreen) {
+    override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         virtualScreen.draw(borderTextureName, rect)
         virtualScreen.draw(textAreaTextureName, resourceRect)

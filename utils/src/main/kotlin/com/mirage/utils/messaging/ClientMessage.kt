@@ -66,6 +66,7 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
 
     enum class Scene {
         MAIN_MENU,
+        NEW_PROFILE_MENU,
         SETTINGS_MENU,
         MULTIPLAYER_LOBBY,
         SINGLEPLAYER_GAME,

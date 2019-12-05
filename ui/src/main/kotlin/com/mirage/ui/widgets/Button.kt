@@ -70,7 +70,7 @@ class Button(
         isHighlighted = rect.contains(virtualPoint)
     }
 
-    fun draw(virtualScreen: VirtualScreen) {
+    override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         virtualScreen.draw(getCurrentTextureName(), rect)
         boundedLabel?.draw()
