@@ -29,6 +29,9 @@ internal class GameLoopImpl(gameMapName: String,
     private val state: ExtendedState = SceneLoader.loadInitialState(gameMapName)
     private var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy()
 
+    /** Словарь, в котором по id персонажа игрока получаем список названий его навыков */
+    private val playerSkills: MutableMap<Long, List<String>> = HashMap()
+
     /**
      * Функция, которая обновляет состояние игры, вызывая [serverMessageListener] для сообщений.
      * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
@@ -44,7 +47,7 @@ internal class GameLoopImpl(gameMapName: String,
         }
 
         val serverMessages = ArrayDeque<ServerMessage>()
-        updateState(delta, state, gameMap, newClientMessages, serverMessages)
+        updateState(delta, state, gameMap, newClientMessages, serverMessages, playerSkills)
 
 
         //TODO Добавление игроков
@@ -53,6 +56,9 @@ internal class GameLoopImpl(gameMapName: String,
             val request = newPlayerRequests.poll() ?: break
             val player = createPlayer(gameMap)
             val id = state.addEntity(player)
+            //TODO Загрузка информации о навыках игрока через сообщения при входе в игру и через хранение профиля в БД
+            val skills = listOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
+            playerSkills[id] = skills
             request(id)
         }
 

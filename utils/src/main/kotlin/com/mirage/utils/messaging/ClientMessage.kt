@@ -16,6 +16,7 @@ sealed class ClientMessage {
         private val clientMessageClasses = listOf<Class<*>>(
                 MoveDirectionClientMessage::class.java,
                 SetMovingClientMessage::class.java,
+                CastSkillClientMessage::class.java,
                 RegisterClientMessage::class.java,
                 LoginClientMessage::class.java,
                 CityJoinClientMessage::class.java,

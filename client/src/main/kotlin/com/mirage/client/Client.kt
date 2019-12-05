@@ -9,13 +9,16 @@ import com.mirage.connection.LocalConnection
 import com.mirage.ui.Screen
 import com.mirage.ui.game.GameScreen
 import com.mirage.ui.mainmenu.MainMenuScreen
+import com.mirage.utils.PLATFORM
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClearTargetMessage
 import com.mirage.utils.messaging.ExitClientMessage
 import com.mirage.utils.messaging.NewTargetMessage
+import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
+import javafx.print.PageLayout
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
@@ -39,9 +42,18 @@ object Client : ApplicationListener {
                             //TODO
                             startSinglePlayerGame("test")
                         }
+                        ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY -> {
+
+                        }
+                        ChangeSceneClientMessage.Scene.SETTINGS_MENU -> {
+                            val fullScreen = Prefs.settings.desktopFullScreen.get()
+                            if (fullScreen) setDesktopWindowedMode()
+                            else setDesktopFullScreen()
+                        }
                     }
                 }
                 is ExitClientMessage -> {
+                    Prefs.saveProfileInfo()
                     exitProcess(msg.exitCode)
                 }
             }
@@ -86,6 +98,12 @@ object Client : ApplicationListener {
 
     override fun create() {
         //TODO Загрузка профиля
+        Prefs.loadProfileInfo()
+        if (PLATFORM == "desktop" || PLATFORM == "desktop-test") {
+            val fullScreen = Prefs.settings.desktopFullScreen.get()
+            if (fullScreen) setDesktopFullScreen()
+            else setDesktopWindowedMode()
+        }
         openMainMenu()
     }
 
@@ -105,6 +123,16 @@ object Client : ApplicationListener {
     override fun resize(width: Int, height: Int) {
         virtualScreen.resize(width, height)
         currentScreen?.resize(virtualScreen.width, virtualScreen.height)
+    }
+
+    private fun setDesktopFullScreen() {
+        Prefs.settings.desktopFullScreen.set(true)
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.displayMode)
+    }
+
+    private fun setDesktopWindowedMode() {
+        Prefs.settings.desktopFullScreen.set(false)
+        Gdx.graphics.setWindowedMode(800, 600)
     }
 
 }

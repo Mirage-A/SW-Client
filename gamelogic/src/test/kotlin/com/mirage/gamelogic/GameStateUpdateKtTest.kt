@@ -16,7 +16,7 @@ internal class GameStateUpdateKtTest {
         val state = TestSamples.TEST_TWO_GAME_OBJECTS
         val map = TestSamples.TEST_SMALL_MAP
         val messages = ArrayDeque<ServerMessage>()
-        updateState(100L, state, map, ArrayList(), messages)
+        updateState(100L, state, map, ArrayList(), messages, HashMap())
         assert(messages.isEmpty())
     }
 
@@ -35,11 +35,11 @@ internal class GameStateUpdateKtTest {
         val state = ExtendedState(listOf(), listOf(obj))
         val map = TestSamples.TEST_SMALL_MAP
         val messages = ArrayDeque<ServerMessage>()
-        updateState(250L, state, map, ArrayList(), messages)
+        updateState(250L, state, map, ArrayList(), messages, HashMap())
         assert(Point(0.5f, 1.5f) near state.entities[Long.MIN_VALUE]!!.position)
-        updateState(1000L, state, map, ArrayList(), messages)
+        updateState(1000L, state, map, ArrayList(), messages, HashMap())
         assert(Point(0.5f, 4f - EPS) near state.entities[Long.MIN_VALUE]!!.position)
-        updateState(1500L, state, map, ArrayList(), messages)
+        updateState(1500L, state, map, ArrayList(), messages, HashMap())
         assert(Point(0.5f, 4f - EPS) near state.entities[Long.MIN_VALUE]!!.position)
         assert(messages.isEmpty())
     }

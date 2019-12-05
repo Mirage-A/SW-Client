@@ -22,8 +22,7 @@ const val SNAPSHOTS_BUFFER_CAPACITY = 100 //Размер очереди в Snaps
 
 const val SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL = 50L //Интервал между проверками сервера на наличие новых сообщений
 
-const val DESKTOP_FULL_SCREEN = false //Полноэкранный режим для десктопа
-
+@Volatile
 var PLATFORM = "test" //Платформа, на которой запущен клиент
 
 /**
