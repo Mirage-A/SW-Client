@@ -10,9 +10,8 @@ internal class PrefsTest {
 
     @Test
     fun testProfileInfo() {
-        assertDoesNotThrow { Prefs.settings.playerName }
-        assertDoesNotThrow { Prefs.loadProfileInfo() }
-        assertDoesNotThrow { Prefs.saveProfileInfo() }
+        assertDoesNotThrow { Prefs }
+        assertDoesNotThrow { Prefs.savePreferences() }
     }
 
     @Test
@@ -30,9 +29,8 @@ internal class PrefsTest {
         val platform = PLATFORM
         PLATFORM = "desktop"
 
-        assertDoesNotThrow { Prefs.settings.playerName }
-        assertDoesNotThrow { Prefs.loadProfileInfo() }
-        assertDoesNotThrow { Prefs.saveProfileInfo() }
+        assertDoesNotThrow { Prefs }
+        assertDoesNotThrow { Prefs.savePreferences() }
 
         PLATFORM = platform
 

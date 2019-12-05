@@ -18,7 +18,6 @@ import com.mirage.utils.messaging.NewTargetMessage
 import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
-import javafx.print.PageLayout
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
@@ -53,7 +52,7 @@ object Client : ApplicationListener {
                     }
                 }
                 is ExitClientMessage -> {
-                    Prefs.saveProfileInfo()
+                    Prefs.savePreferences()
                     exitProcess(msg.exitCode)
                 }
             }
@@ -98,7 +97,6 @@ object Client : ApplicationListener {
 
     override fun create() {
         //TODO Загрузка профиля
-        Prefs.loadProfileInfo()
         if (PLATFORM == "desktop" || PLATFORM == "desktop-test") {
             val fullScreen = Prefs.settings.desktopFullScreen.get()
             if (fullScreen) setDesktopFullScreen()
