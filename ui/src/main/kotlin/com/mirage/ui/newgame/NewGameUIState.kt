@@ -98,6 +98,8 @@ class NewGameUIState(val virtualScreen: VirtualScreen) {
         w, h -> Rectangle(getDescriptionX(w, h), 0f, w - getClassArtWidth(w, h), h)
     }
 
+    val textField = virtualScreen.createTextField("TEXTY", Rectangle(0f, 0f, 200f, 100f), 20f)
+
 
     val widgets: List<Widget> = listOf(descriptionLabel, confirmBtn, classNameLabel, warriorBtn, rogueBtn, mageBtn, descriptionBackground, classArt)
 

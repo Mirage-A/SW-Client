@@ -67,6 +67,8 @@ interface VirtualScreen {
     fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
     fun createLabel(text: String, fontCapHeight: Float) : Label = createLabel(text, Rectangle(), fontCapHeight)
 
+    fun createTextField(text: String, rect: Rectangle, fontCapHeight: Float) : TextField
+
 
     /** Draws a texture [textureName] with center at point ([x]. [y])*/
     fun draw(textureName: String, x: Float, y: Float)
@@ -100,6 +102,15 @@ interface VirtualScreen {
 
     /** Text label */
     interface Label {
+
+        var text: String
+
+        var rect: Rectangle
+
+        fun draw()
+    }
+
+    interface TextField {
 
         var text: String
 

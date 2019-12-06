@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Rectangle
@@ -186,6 +187,9 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
+    override fun createTextField(text: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField =
+            GdxTextField(text, rect, fontCapHeight)
+
     inner class GdxLabel internal constructor(
             text: String,
             rect: Rectangle,
@@ -223,6 +227,46 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
 
         override fun draw() = label.draw(batch, 255f)
+
+    }
+
+    inner class GdxTextField internal constructor(
+            text: String,
+            rect: Rectangle,
+            fontCapHeight: Float = 15f
+    ) : VirtualScreen.TextField {
+
+        override var text: String = text
+            set(value) {
+                textField.text = value
+                field = value
+            }
+
+        private val font = BitmapFont().apply {
+            data.setScale(fontCapHeight / data.capHeight)
+        }
+
+        //TODO Drawables в конструктор
+        val textField = TextField(text, TextField.TextFieldStyle(font, Color.BLACK, null, null, null)).apply {
+            isVisible = true
+            setSize(rect.width, rect.height)
+            setPosition(rect.x, rect.y, Align.center)
+            alignment = Align.center
+
+        }
+
+        override var rect: Rectangle = rect
+            set(value) {
+                textField.apply {
+                    setSize(value.width, value.height)
+                    setPosition(value.x, value.y, Align.center)
+                    alignment = Align.center
+                }
+                field = value
+            }
+
+
+        override fun draw() = textField.draw(batch, 255f)
 
     }
 }
