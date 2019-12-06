@@ -4,115 +4,105 @@ import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
+import kotlin.math.max
+import kotlin.math.min
 
-private const val btnWidth = 400f
-private const val btnHeight = 80f
-private const val profileWindowWidth = 480f
-private const val profileWindowX = - btnWidth / 2f - profileWindowWidth / 2f
-private const val profileBodyHeight = 440f
-internal const val profileBtnCount = 4
-private const val profileBtnMargin = 20f
-private const val profileArrowSize = 40f
-private const val profileArrowMargin = (btnHeight - profileArrowSize) / 2f
-private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMargin - profileArrowSize / 2f
+private const val classBtnSize = 136f
+private const val classBtnBorderSize = 4f
+private const val minDescriptionWidth = 400f
+private const val classBtnMargin = 48f
+private const val classNameLabelHeight = 80f
+private const val classNameLabelFontSize = 32f
+private const val confirmBtnHeight = 80f
+private const val confirmBtnWidth = 400f
 
 
 class NewGameUIState(val virtualScreen: VirtualScreen) {
 
-    val singlePlayerBtn = Button("ui/main-menu-btn",
-            "ui/main-menu-btn-highlighted",
-            "ui/main-menu-btn-pressed",
-            Rectangle(),
-            virtualScreen.createLabel("Campaign", 30f),
-            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 7 / 2, btnWidth, btnHeight)})
+    private fun getClassArtWidth(virtualWidth: Float, virtualHeight: Float): Float =
+            min(virtualHeight, virtualWidth - minDescriptionWidth)
 
-    val multiPlayerBtn = Button("ui/main-menu-btn",
-            "ui/main-menu-btn-highlighted",
-            "ui/main-menu-btn-pressed",
-            Rectangle(),
-            virtualScreen.createLabel("Multiplayer", 30f),
-            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 5 / 2, btnWidth, btnHeight)})
+    private fun getWarriorIconX(virtualWidth: Float, virtualHeight: Float): Float =
+            min(
+                    - virtualWidth / 2f + getClassArtWidth(virtualWidth, virtualHeight) / 2f - classBtnSize - classBtnMargin,
+                    classBtnMargin + classBtnSize / 2f
+            )
 
-    val settingsBtn = Button("ui/main-menu-btn",
-            "ui/main-menu-btn-highlighted",
-            "ui/main-menu-btn-pressed",
-            Rectangle(),
-            virtualScreen.createLabel("Settings", 30f),
-            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 3 / 2, btnWidth, btnHeight)})
+    private fun getDescriptionX(virtualWidth: Float, virtualHeight: Float): Float =
+            getClassArtWidth(virtualWidth, virtualHeight) / 2f
 
-    val exitBtn = Button("ui/main-menu-btn",
-            "ui/main-menu-btn-highlighted",
-            "ui/main-menu-btn-pressed",
-            Rectangle(),
-            virtualScreen.createLabel("Exit", 30f),
-            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight / 2, btnWidth, btnHeight)})
+    var selectedClass = "none"
 
-    val profileNameArea = Button("ui/main-menu-profile-area",
-            "ui/main-menu-profile-area",
-            "ui/main-menu-profile-area",
-            Rectangle(),
-            virtualScreen.createLabel(Prefs.account.currentProfile.get() ?: "", 30f),
-            {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight / 2, btnWidth, btnHeight)})
+    val classArt = ImageWidget("") {
+        w, h -> Rectangle(- w / 2f + getClassArtWidth(w, h) / 2f, 0f, h, h)
+    }.apply { isVisible = false }
 
-    val changeProfileBtn = Button("ui/main-menu-btn",
-            "ui/main-menu-btn-highlighted",
-            "ui/main-menu-btn-pressed",
-            Rectangle(),
-            virtualScreen.createLabel("Change profile", 30f),
-            {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight * 3 / 2, btnWidth, btnHeight)})
-
-    val profileWindowHead = ImageWidget("ui/main-menu/profile-head") {
-        _, h ->
-        Rectangle(profileWindowX, h / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
+    val descriptionBackground = ImageWidget("ui/new-game/description-background") {
+        w, h -> Rectangle(w / 2f - max(minDescriptionWidth, w - h) / 2f, 0f, max(minDescriptionWidth, w - h), h)
     }
 
-    val profileWindowBody = ImageWidget("ui/main-menu/profile-body") {
-        _, h ->
-        Rectangle(profileWindowX, h / 2f - btnHeight - profileBodyHeight / 2f, profileWindowWidth, profileBodyHeight)
-    }
+    val warriorBtn = Button(
+            "ui/new-game/warrior-icon",
+            "ui/new-game/warrior-icon-highlighted",
+            "ui/new-game/warrior-icon-highlighted",
+            sizeUpdater = { w, h ->
+                Rectangle(getWarriorIconX(w, h),
+                        - h / 2f + classBtnMargin + classBtnSize / 2f,
+                        classBtnSize, classBtnSize)
+            },
+            borderTextureName = "ui/new-game/description-background",
+            borderSize = classBtnBorderSize
+    )
 
-    val profileWindowButtons = Array(profileBtnCount) {
-        Button("ui/main-menu-btn",
-                "ui/main-menu-btn-highlighted",
-                "ui/main-menu-btn-pressed",
-                Rectangle(),
-                virtualScreen.createLabel("", 30f),
-                {_, h -> Rectangle(profileWindowX, h / 2f - btnHeight * (it + 1.5f) - profileBtnMargin * (it + 1), btnWidth, btnHeight)})
-    }
+    val rogueBtn = Button(
+            "ui/new-game/rogue-icon",
+            "ui/new-game/rogue-icon-highlighted",
+            "ui/new-game/rogue-icon-highlighted",
+            sizeUpdater = { w, h ->
+                Rectangle(getWarriorIconX(w, h) + classBtnSize + classBtnMargin,
+                        - h / 2f + classBtnMargin + classBtnSize / 2f,
+                        classBtnSize, classBtnSize)
+            },
+            borderTextureName = "ui/new-game/description-background",
+            borderSize = classBtnBorderSize
+    )
 
-    val profileWindowLeftArrow = Button("ui/main-menu/profile-left-arrow",
-            "ui/main-menu/profile-left-arrow",
-            "ui/main-menu/profile-left-arrow",
+    val mageBtn = Button(
+            "ui/new-game/mage-icon",
+            "ui/new-game/mage-icon-highlighted",
+            "ui/new-game/mage-icon-highlighted",
+            sizeUpdater = { w, h ->
+                Rectangle(getWarriorIconX(w, h) + classBtnSize * 2f + classBtnMargin * 2f,
+                        - h / 2f + classBtnMargin + classBtnSize / 2f,
+                        classBtnSize, classBtnSize)
+            },
+            borderTextureName = "ui/new-game/description-background",
+            borderSize = classBtnBorderSize
+    )
+
+    val classNameLabel = LabelWidget(virtualScreen.createLabel("ASSASSINATION", classNameLabelFontSize)) {
+        w, h ->
+        Rectangle(getDescriptionX(w, h), h / 2f - classNameLabelHeight / 2f, w - getClassArtWidth(w, h), classNameLabelHeight)
+    }.apply { isVisible = false }
+
+    val confirmBtn = Button(
+            "ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
             Rectangle(),
-            null,
-            {_, h -> Rectangle(profileWindowX - profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)})
-
-
-    val profileWindowRightArrow = Button("ui/main-menu/profile-right-arrow",
-            "ui/main-menu/profile-right-arrow",
-            "ui/main-menu/profile-right-arrow",
-            Rectangle(),
-            null,
-            {_, h -> Rectangle(profileWindowX + profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)})
-
-    val profileWindowPageLabel = LabelWidget(virtualScreen.createLabel("", 30f)) {
-        _, h -> Rectangle(profileWindowX, h / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
-    }
-
-    val profileWindow = CompositeWidget(
-            *profileWindowButtons, profileWindowLeftArrow, profileWindowRightArrow, profileWindowPageLabel, profileWindowHead, profileWindowBody
+            virtualScreen.createLabel("Confirm", 30f),
+            {w, h -> Rectangle(getDescriptionX(w, h), - h / 2f + confirmBtnHeight / 2f, w - getClassArtWidth(w, h), confirmBtnHeight)}
     ).apply { isVisible = false }
 
+    val descriptionLabel = LabelWidget(virtualScreen.createLabel("Choose starting specialization", 24f)) {
+        w, h -> Rectangle(getDescriptionX(w, h), 0f, w - getClassArtWidth(w, h), h)
+    }
 
-    val widgets: List<Widget> = listOf(singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
 
-    var currentProfilePage = 0
-
+    val widgets: List<Widget> = listOf(descriptionLabel, confirmBtn, classNameLabel, warriorBtn, rogueBtn, mageBtn, descriptionBackground, classArt)
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
-        for (btn in widgets) {
-            btn.resize(virtualWidth, virtualHeight)
-        }
+        widgets.forEach { it.resize(virtualWidth, virtualHeight) }
     }
 
     init {

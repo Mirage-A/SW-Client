@@ -23,9 +23,7 @@ class NewGameScreen(virtualScreen: VirtualScreen) : Screen {
 
     override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages
 
-    override fun handleServerMessage(msg: ServerMessage) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun handleServerMessage(msg: ServerMessage) {}
 
     override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
         uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)

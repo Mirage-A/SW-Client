@@ -1,5 +1,6 @@
 package com.mirage.ui.newgame
 
+import com.badlogic.gdx.Input
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
@@ -13,65 +14,80 @@ class DesktopNewGameInputProcessor(private val uiState: NewGameUIState) : NewGam
 
     override val inputMessages: Subject<ClientMessage, ClientMessage> = EventSubjectAdapter()
 
+    private fun chooseNone() {
+        uiState.selectedClass = "none"
+        uiState.classNameLabel.isVisible = false
+        uiState.confirmBtn.isVisible = false
+        uiState.classArt.isVisible = false
+        uiState.descriptionLabel.label.text = "Choose starting specialization"
+        uiState.warriorBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.warriorBtn.textureName = "ui/new-game/warrior-icon"
+        uiState.rogueBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.rogueBtn.textureName = "ui/new-game/rogue-icon"
+        uiState.mageBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.mageBtn.textureName = "ui/new-game/mage-icon"
+    }
+
+    private fun chooseWarrior() {
+        uiState.selectedClass = "warrior"
+        uiState.classNameLabel.isVisible = true
+        uiState.classNameLabel.label.text = "WARFARE"
+        uiState.confirmBtn.isVisible = true
+        uiState.classArt.isVisible = true
+        uiState.classArt.textureName = "ui/new-game/warrior-art"
+        uiState.descriptionLabel.label.text = "Warfare description"
+        uiState.warriorBtn.borderTextureName = "ui/new-game/description-background-selected"
+        uiState.warriorBtn.textureName = "ui/new-game/warrior-icon-highlighted"
+        uiState.rogueBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.rogueBtn.textureName = "ui/new-game/rogue-icon"
+        uiState.mageBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.mageBtn.textureName = "ui/new-game/mage-icon"
+    }
+
+    private fun chooseRogue() {
+        uiState.selectedClass = "rogue"
+        uiState.classNameLabel.isVisible = true
+        uiState.classNameLabel.label.text = "ASSASSINATION"
+        uiState.confirmBtn.isVisible = true
+        uiState.classArt.isVisible = true
+        uiState.classArt.textureName = "ui/new-game/rogue-art"
+        uiState.descriptionLabel.label.text = "Assassination description"
+        uiState.warriorBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.warriorBtn.textureName = "ui/new-game/warrior-icon"
+        uiState.rogueBtn.borderTextureName = "ui/new-game/description-background-selected"
+        uiState.rogueBtn.textureName = "ui/new-game/rogue-icon-highlighted"
+        uiState.mageBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.mageBtn.textureName = "ui/new-game/mage-icon"
+    }
+
+    private fun chooseMage() {
+        uiState.selectedClass = "mage"
+        uiState.classNameLabel.isVisible = true
+        uiState.classNameLabel.label.text = "SORCERY"
+        uiState.confirmBtn.isVisible = true
+        uiState.classArt.isVisible = true
+        uiState.classArt.textureName = "ui/new-game/mage-art"
+        uiState.descriptionLabel.label.text = "Sorcery description"
+        uiState.warriorBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.warriorBtn.textureName = "ui/new-game/warrior-icon"
+        uiState.rogueBtn.borderTextureName = "ui/new-game/description-background"
+        uiState.rogueBtn.textureName = "ui/new-game/rogue-icon"
+        uiState.mageBtn.borderTextureName = "ui/new-game/description-background-selected"
+        uiState.mageBtn.textureName = "ui/new-game/mage-icon-highlighted"
+    }
+
     init {
-        uiState.singlePlayerBtn.onPressed = {
-            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
-        }
-        uiState.multiPlayerBtn.onPressed = {
-            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY))
-        }
-        uiState.settingsBtn.onPressed = {
-            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SETTINGS_MENU))
-        }
-        uiState.exitBtn.onPressed = {
-            inputMessages.onNext(ExitClientMessage(0))
-        }
-        uiState.changeProfileBtn.onPressed = {
-            uiState.profileWindow.isVisible = !uiState.profileWindow.isVisible
-        }
-        uiState.profileWindowLeftArrow.onPressed = {
-            if (uiState.currentProfilePage > 0)
-                loadProfilePage(uiState.currentProfilePage - 1)
-        }
-        uiState.profileWindowRightArrow.onPressed = {
-            if (uiState.currentProfilePage < Prefs.account.profiles.size / profileBtnCount)
-                loadProfilePage(uiState.currentProfilePage + 1)
-        }
-        loadProfilePage(0)
-    }
-
-    private fun loadProfilePage(page: Int) {
-        uiState.currentProfilePage = page
-        uiState.profileWindowPageLabel.label.text = "Page ${page + 1}/${Prefs.account.profiles.size / profileBtnCount + 1}"
-        val startIndex = profileBtnCount * page
-        val btnCount = min(profileBtnCount, Prefs.account.profiles.size - startIndex)
-
-        if (btnCount < 0) return
-        for (i in 0 until btnCount) {
-            with (uiState.profileWindowButtons[i]) {
-                isVisible = true
-                boundedLabel?.text = Prefs.account.profiles[startIndex + i]
-                onPressed = {
-                    val profileName = Prefs.account.profiles[startIndex + i]
-                    uiState.profileWindow.isVisible = false
-                    uiState.profileNameArea.boundedLabel?.text = profileName
-                    Prefs.switchProfile(profileName)
-                }
+        chooseNone()
+        uiState.warriorBtn.onPressed = {if (uiState.selectedClass == "warrior") chooseNone() else chooseWarrior()}
+        uiState.rogueBtn.onPressed = {if (uiState.selectedClass == "rogue") chooseNone() else chooseRogue()}
+        uiState.mageBtn.onPressed = {if (uiState.selectedClass == "mage") chooseNone() else chooseMage()}
+        uiState.confirmBtn.onPressed = {
+            if (uiState.selectedClass != "none") {
+                println(uiState.selectedClass)
             }
         }
-        if (btnCount < profileBtnCount) {
-            with (uiState.profileWindowButtons[btnCount]) {
-                isVisible = true
-                boundedLabel?.text = "+ New profile +"
-                onPressed = {
-                    inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.NEW_PROFILE_MENU))
-                }
-            }
-        }
-        for (i in btnCount + 1 until profileBtnCount) {
-            uiState.profileWindowButtons[i].isVisible = false
-        }
     }
+
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
@@ -102,6 +118,8 @@ class DesktopNewGameInputProcessor(private val uiState: NewGameUIState) : NewGam
     }
 
     override fun keyDown(keycode: Int): Boolean {
+        if (keycode == Input.Keys.ESCAPE)
+            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MAIN_MENU))
         return false
     }
 

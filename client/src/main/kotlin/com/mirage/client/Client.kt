@@ -9,6 +9,7 @@ import com.mirage.connection.LocalConnection
 import com.mirage.ui.Screen
 import com.mirage.ui.game.GameScreen
 import com.mirage.ui.mainmenu.MainMenuScreen
+import com.mirage.ui.newgame.NewGameScreen
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.ChangeSceneClientMessage
@@ -51,11 +52,7 @@ object Client : ApplicationListener {
                             else setDesktopFullScreen()
                         }
                         ChangeSceneClientMessage.Scene.NEW_PROFILE_MENU -> {
-                            //TODO Открыть экран создания нового персонажа
-                            val profileName = Math.random().toString()
-                            Prefs.account.profiles.add(profileName)
-                            Prefs.switchProfile(profileName)
-                            openMainMenu()
+                            startNewGame()
                         }
                     }
                 }
@@ -67,6 +64,23 @@ object Client : ApplicationListener {
         }
         Gdx.input.inputProcessor = mainMenuScreen.inputProcessor
         currentScreen = mainMenuScreen
+    }
+
+    @Synchronized
+    private fun startNewGame() {
+        val newGameScreen = NewGameScreen(virtualScreen)
+        newGameScreen.inputMessages.subscribe { msg ->
+            when (msg) {
+                is ChangeSceneClientMessage -> {
+                    when (msg.newScene) {
+                        ChangeSceneClientMessage.Scene.MAIN_MENU -> openMainMenu()
+                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap.get())
+                    }
+                }
+            }
+        }
+        Gdx.input.inputProcessor = newGameScreen.inputProcessor
+        currentScreen = newGameScreen
     }
 
     @Synchronized
@@ -124,7 +138,7 @@ object Client : ApplicationListener {
     }
 
     override fun render() {
-        gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)
+        gl.glClearColor(0f, 0f, 0f, 1f)
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         val screen = virtualScreen
         screen.begin()
