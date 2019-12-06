@@ -40,7 +40,7 @@ object Client : ApplicationListener {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
                             //TODO
-                            startSinglePlayerGame("test")
+                            startSinglePlayerGame(Prefs.profile.currentMap.get())
                         }
                         ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY -> {
 
@@ -113,9 +113,15 @@ object Client : ApplicationListener {
         openMainMenu()
     }
 
-    override fun pause() {}
+    override fun pause() {
+        Prefs.savePreferences()
+    }
+
     override fun resume() {}
-    override fun dispose() {}
+
+    override fun dispose() {
+        Prefs.savePreferences()
+    }
 
     override fun render() {
         gl.glClearColor(0.25f, 0.25f, 0.25f, 1f)

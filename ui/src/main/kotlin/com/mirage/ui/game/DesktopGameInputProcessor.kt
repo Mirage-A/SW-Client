@@ -170,11 +170,11 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
         }
         for (i in 0 until 4) {
             if (keycode == Prefs.settings.activeSkillBindings[i]) {
-                uiState.skillBtns[i].keyPressed = false
+                uiState.activeSkills[i].keyPressed = false
             }
         }
         if (keycode == Prefs.settings.ultimateSkillBinding.get()) {
-            uiState.skillBtns[4].keyPressed = false
+            uiState.ultimateSkillBtn.keyPressed = false
         }
         return true
     }
@@ -262,12 +262,12 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
         for (i in 0 until 4) {
             if (keycode == Prefs.settings.activeSkillBindings[i]) {
                 inputMessages.onNext(CastSkillClientMessage(i, uiState.targetID))
-                uiState.skillBtns[i].keyPressed = true
+                uiState.activeSkills[i].keyPressed = true
             }
         }
         if (keycode == Prefs.settings.ultimateSkillBinding.get()) {
             inputMessages.onNext(CastSkillClientMessage(4, uiState.targetID))
-            uiState.skillBtns[4].keyPressed = true
+            uiState.ultimateSkillBtn.keyPressed = true
         }
         return true
     }

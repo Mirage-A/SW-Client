@@ -11,9 +11,10 @@ class DesktopGameUIRenderer : GameUIRenderer {
         for (btn in uiState.settingsMenuBtnList) {
             btn.draw(virtualScreen)
         }
-        for (btn in uiState.skillBtns) {
+        for (btn in uiState.activeSkills) {
             btn.draw(virtualScreen)
         }
+        uiState.ultimateSkillBtn.draw(virtualScreen)
         val player = uiState.lastRenderedState.entities[uiState.playerID]
         uiState.playerHealthPane.currentResource = player?.health ?: 0
         uiState.playerHealthPane.maxResource = player?.maxHealth ?: 0

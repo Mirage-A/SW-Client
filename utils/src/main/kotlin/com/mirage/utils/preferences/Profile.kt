@@ -13,6 +13,8 @@ class Profile {
     val ultimateSkill = AtomicReference<String?>("meteor")
     val passiveSkills = AtomicReferenceArray(arrayOf<String?>(null, null, null, null))
 
+    val currentMap = AtomicReference("test")
+
     val currentEquipment = AtomicReference(Equipment(
             "default",
             "default",

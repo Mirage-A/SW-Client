@@ -1,17 +1,20 @@
 package com.mirage.ui.game
 
 import com.mirage.ui.widgets.*
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
-private const val skillBtnSize = 72f
+private const val skillIconSize = 64f
+private const val skillBorderSize = 4f
+private const val skillBtnSize = skillIconSize + skillBorderSize * 2f
 
 private const val skillCoolDownFontSize = 20f
-private const val ultimateSkillBtnSize = 168f
+private const val ultimateSkillBtnSize = 134f
+private const val ultimateIconSize = 128f
 private const val ultimateCoolDownFontSize = 40f
 
 private const val playerHealthWidth = ultimateSkillBtnSize + skillBtnSize * 4f + skillPaneMargin * 4f
@@ -42,48 +45,55 @@ class GameUIState(val virtualScreen: VirtualScreen) {
 
     val skillNames: MutableList<String?> = mutableListOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
     val skillCoolDowns: MutableList<Long> = MutableList(5) {0L}
-    val skillBtns: List<Button> = List(5) {
+    val activeSkills: List<Button> = List(4) {
         Button(
                 textureName = "null",
-                boundedLabel = virtualScreen.createLabel("", if (it == 4) ultimateCoolDownFontSize else skillCoolDownFontSize)
+                boundedLabel = virtualScreen.createLabel("", skillCoolDownFontSize),
+                borderSize = skillBorderSize,
+                borderTextureName = "ui/game/skill-border"
         ).apply {
             isVisible = false
         }
     }
 
+    val ultimateSkillBtn = CircleButton(
+            textureName = "null",
+            boundedLabel = virtualScreen.createLabel("", ultimateCoolDownFontSize),
+            borderSize = skillBorderSize,
+            borderTextureName = "ui/game/ultimate-border"
+    ).apply { isVisible = false }
+
     init {
-        skillBtns[0].sizeUpdater = { _, h ->
+        activeSkills[0].sizeUpdater = { _, h ->
             Rectangle( - (ultimateSkillBtnSize / 2f + skillPaneMargin * 2f + skillBtnSize * 1.5f),
                     - h / 2f + skillPaneMargin * 2f + playerHealthHeight + skillBtnSize / 2f,
                     skillBtnSize, skillBtnSize)
         }
-        skillBtns[1].sizeUpdater = { _, h ->
+        activeSkills[1].sizeUpdater = { _, h ->
             Rectangle( - (ultimateSkillBtnSize / 2f + skillPaneMargin + skillBtnSize * 0.5f),
                     - h / 2f + skillPaneMargin * 2f + playerHealthHeight + skillBtnSize / 2f,
                     skillBtnSize, skillBtnSize)
         }
-        skillBtns[2].sizeUpdater = { _, h ->
+        activeSkills[2].sizeUpdater = { _, h ->
             Rectangle( ultimateSkillBtnSize / 2f + skillPaneMargin + skillBtnSize * 0.5f,
                     - h / 2f + skillPaneMargin * 2f + playerHealthHeight + skillBtnSize / 2f,
                     skillBtnSize, skillBtnSize)
         }
-        skillBtns[3].sizeUpdater = { _, h ->
+        activeSkills[3].sizeUpdater = { _, h ->
             Rectangle(ultimateSkillBtnSize / 2f + skillPaneMargin * 2f + skillBtnSize * 1.5f,
                     - h / 2f + skillPaneMargin * 2f + playerHealthHeight + skillBtnSize / 2f,
                     skillBtnSize, skillBtnSize)
         }
-        skillBtns[4].sizeUpdater = { _, h ->
-            Rectangle(0f,
-                    - h / 2f + skillPaneMargin * 2f + playerHealthHeight + ultimateSkillBtnSize / 2f,
-                    ultimateSkillBtnSize, ultimateSkillBtnSize)
+        ultimateSkillBtn.sizeUpdater = { _, h ->
+            Pair(Point(0f, - h / 2f + skillPaneMargin * 2f + playerHealthHeight + ultimateSkillBtnSize / 2f), ultimateSkillBtnSize / 2f)
         }
     }
 
     /** Updates skill buttons images and cooldown text */
     fun updateSkillBtns() {
-        for (i in 0 until 5) {
+        for (i in 0 until 4) {
             val skill = skillNames[i]
-            val btn = skillBtns[i]
+            val btn = activeSkills[i]
             val cd = skillCoolDowns[i]
             if (skill == null) {
                 btn.isVisible = false
@@ -95,6 +105,18 @@ class GameUIState(val virtualScreen: VirtualScreen) {
                 btn.pressedTextureName = "skills/uncolored/$skill"
                 btn.boundedLabel?.text = if (cd == 0L) "" else cd.toString()
             }
+        }
+        val skill = skillNames[4]
+        val cd = skillCoolDowns[4]
+        if (skill == null) {
+            ultimateSkillBtn.isVisible = false
+        }
+        else {
+            ultimateSkillBtn.isVisible = true
+            ultimateSkillBtn.textureName = if (cd == 0L) "skills/colored/$skill" else "skills/uncolored/$skill"
+            ultimateSkillBtn.highlightedTextureName = ultimateSkillBtn.textureName
+            ultimateSkillBtn.pressedTextureName = "skills/uncolored/$skill"
+            ultimateSkillBtn.boundedLabel?.text = if (cd == 0L) "" else cd.toString()
         }
     }
 
@@ -170,7 +192,7 @@ class GameUIState(val virtualScreen: VirtualScreen) {
     }
 
     val widgets: Collection<Widget> =
-            microMenuBtnList + settingsMenuBtnList + skillBtns + confirmExitMessage + playerHealthPane + targetHealthPane + targetNameArea
+            microMenuBtnList + settingsMenuBtnList + activeSkills + ultimateSkillBtn + confirmExitMessage + playerHealthPane + targetHealthPane + targetNameArea
 
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
