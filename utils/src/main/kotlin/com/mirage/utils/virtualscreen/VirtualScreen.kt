@@ -1,6 +1,7 @@
 package com.mirage.utils.virtualscreen
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 
@@ -21,6 +22,8 @@ interface VirtualScreen {
     /** Real screen size */
     val realWidth: Float
     val realHeight: Float
+
+    val stage: Stage
 
     /** Translates coordinates of a point on real screen to virtual screen */
     fun projectRealPointOnVirtualScreen(realPoint: Point): Point = Point(

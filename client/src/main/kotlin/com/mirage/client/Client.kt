@@ -3,6 +3,8 @@ package com.mirage.client
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
+import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.GL20
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
@@ -32,8 +34,61 @@ object Client : ApplicationListener {
         }
     private var connection : Connection? = null
 
+    private fun setInputProcessor(screen: Screen) {
+        Gdx.input.inputProcessor = object : InputProcessor {
+            override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+                virtualScreen.stage.touchUp(screenX, screenY, pointer, button)
+                screen.inputProcessor.touchUp(screenX, screenY, pointer, button)
+                return true
+            }
+
+            override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
+                virtualScreen.stage.mouseMoved(screenX, screenY)
+                screen.inputProcessor.mouseMoved(screenX, screenY)
+                return true
+            }
+
+            override fun keyTyped(character: Char): Boolean {
+                virtualScreen.stage.keyTyped(character)
+                screen.inputProcessor.keyTyped(character)
+                return true
+            }
+
+            override fun scrolled(amount: Int): Boolean {
+                virtualScreen.stage.scrolled(amount)
+                screen.inputProcessor.scrolled(amount)
+                return true
+            }
+
+            override fun keyUp(keycode: Int): Boolean {
+                virtualScreen.stage.keyUp(keycode)
+                screen.inputProcessor.keyUp(keycode)
+                return true
+            }
+
+            override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
+                virtualScreen.stage.touchDragged(screenX, screenY, pointer)
+                screen.inputProcessor.touchDragged(screenX, screenY, pointer)
+                return true
+            }
+
+            override fun keyDown(keycode: Int): Boolean {
+                virtualScreen.stage.keyDown(keycode)
+                screen.inputProcessor.keyDown(keycode)
+                return true
+            }
+
+            override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+                virtualScreen.stage.touchDown(screenX, screenY, pointer, button)
+                screen.inputProcessor.touchDown(screenX, screenY, pointer, button)
+                return true
+            }
+        }
+    }
+
     @Synchronized
     private fun openMainMenu() {
+        virtualScreen.stage.clear()
         val mainMenuScreen = MainMenuScreen(virtualScreen)
         mainMenuScreen.inputMessages.subscribe { msg ->
             when (msg) {
@@ -62,12 +117,13 @@ object Client : ApplicationListener {
                 }
             }
         }
-        Gdx.input.inputProcessor = mainMenuScreen.inputProcessor
+        setInputProcessor(mainMenuScreen)
         currentScreen = mainMenuScreen
     }
 
     @Synchronized
     private fun startNewGame() {
+        virtualScreen.stage.clear()
         val newGameScreen = NewGameScreen(virtualScreen)
         newGameScreen.inputMessages.subscribe { msg ->
             when (msg) {
@@ -79,12 +135,13 @@ object Client : ApplicationListener {
                 }
             }
         }
-        Gdx.input.inputProcessor = newGameScreen.inputProcessor
+        setInputProcessor(newGameScreen)
         currentScreen = newGameScreen
     }
 
     @Synchronized
     private fun startSinglePlayerGame(mapName: String) {
+        virtualScreen.stage.clear()
         val map = SceneLoader.loadMap(mapName)
         val gameScreen = GameScreen(map, virtualScreen)
         virtualScreen.setTileSet(map.tileSetName)
@@ -113,7 +170,7 @@ object Client : ApplicationListener {
         connection.start()
         this.connection = connection
         currentScreen = gameScreen
-        Gdx.input.inputProcessor = gameScreen.inputProcessor
+        setInputProcessor(gameScreen)
     }
 
 

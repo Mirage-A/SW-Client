@@ -1,5 +1,6 @@
 package com.mirage.ui.mainmenu
 
+import com.badlogic.gdx.InputMultiplexer
 import com.mirage.ui.Screen
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.messaging.ClientMessage
@@ -11,7 +12,7 @@ class MainMenuScreen(virtualScreen: VirtualScreen) : Screen {
 
     private val uiState: MainMenuUIState = MainMenuUIState(virtualScreen)
 
-    override val inputProcessor: MainMenuInputProcessor = when (PLATFORM) {
+    override val inputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopMainMenuInputProcessor(uiState)
         else -> DesktopMainMenuInputProcessor(uiState)
     }

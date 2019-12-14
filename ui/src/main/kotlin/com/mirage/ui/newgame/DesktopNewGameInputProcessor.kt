@@ -1,16 +1,14 @@
 package com.mirage.ui.newgame
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.mirage.ui.SwingInput
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
-import com.mirage.utils.messaging.ExitClientMessage
+import com.mirage.utils.preferences.Account
 import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.utils.preferences.Profile
+import com.mirage.utils.preferences.createNewProfile
 import rx.subjects.Subject
 import kotlin.math.min
 
@@ -87,18 +85,10 @@ class DesktopNewGameInputProcessor(private val uiState: NewGameUIState) : NewGam
         uiState.mageBtn.onPressed = {if (uiState.selectedClass == "mage") chooseNone() else chooseMage()}
         uiState.confirmBtn.onPressed = {
             if (uiState.selectedClass != "none") {
-                SwingInput.getTextInput(object : Input.TextInputListener {
-                    override fun input(text: String?) {
-                        text ?: return
-                        val filtered = text.filter { it.isLetterOrDigit() }
-                        if (filtered.isEmpty()) return
-                        val profileName = filtered.substring(0, min(filtered.length, 16))
-                        println("Creating profile {$profileName} and class ${uiState.selectedClass}")
-                    }
-
-                    override fun canceled() {}
-
-                }, "Input your name", "", "Invoker228")
+                //TODO For Android, use Gdx.input.getTextInput
+                if (createNewProfile(uiState.textField?.text ?: "", uiState.selectedClass)) {
+                    inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
+                }
             }
         }
     }

@@ -1,5 +1,9 @@
 package com.mirage.ui.mainmenu
 
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.scenes.scene2d.ui.TextField
+import com.badlogic.gdx.utils.Align
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.preferences.Prefs
@@ -18,6 +22,21 @@ private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMarg
 
 
 class MainMenuUIState(val virtualScreen: VirtualScreen) {
+
+/*
+    private val field = TextField("text", TextField.TextFieldStyle(BitmapFont(), Color.BLACK, null, null, null)
+    ).apply {
+        isVisible = true
+        setSize(100f, 50f)
+        setPosition(0f, 0f, Align.center)
+        alignment = Align.center
+    }
+
+    init {
+        virtualScreen.stage.addActor(field)
+    }
+*/
+
 
     val singlePlayerBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",

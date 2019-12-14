@@ -1,6 +1,7 @@
 package com.mirage.ui.newgame
 
 import com.mirage.ui.widgets.*
+import com.mirage.utils.PLATFORM
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
@@ -98,13 +99,30 @@ class NewGameUIState(val virtualScreen: VirtualScreen) {
         w, h -> Rectangle(getDescriptionX(w, h), 0f, w - getClassArtWidth(w, h), h)
     }
 
-    val textField = virtualScreen.createTextField("TEXTY", Rectangle(0f, 0f, 200f, 100f), 20f)
+    private fun nameAreaRect(virtualWidth: Float, virtualHeight: Float) = Rectangle(
+            getDescriptionX(virtualWidth, virtualHeight),
+            - virtualHeight / 2f + confirmBtnHeight * 3f / 2f + 8f,
+            virtualWidth - getClassArtWidth(virtualWidth, virtualHeight),
+            confirmBtnHeight
+    )
 
+    val nameAreaBackground = ImageWidget("ui/new-game/text-field-background", ::nameAreaRect).apply {
+        isVisible = PLATFORM == "desktop" || PLATFORM == "desktop-test"
+    }
 
-    val widgets: List<Widget> = listOf(descriptionLabel, confirmBtn, classNameLabel, warriorBtn, rogueBtn, mageBtn, descriptionBackground, classArt)
+    val textField: VirtualScreen.TextField? =
+            if (PLATFORM == "desktop" || PLATFORM == "desktop-test")
+                virtualScreen.createTextField("Enter your name", Rectangle(), 20f)
+            else
+                null
+
+    val widgets: List<Widget> = listOf(
+            nameAreaBackground, descriptionLabel, confirmBtn, classNameLabel, warriorBtn, rogueBtn, mageBtn, descriptionBackground, classArt
+    )
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
         widgets.forEach { it.resize(virtualWidth, virtualHeight) }
+        textField?.rect = nameAreaRect(virtualWidth, virtualHeight)
     }
 
     init {

@@ -73,7 +73,7 @@ object Prefs {
         Profile()
     }
 
-    private fun saveCurrentProfile() {
+    fun saveCurrentProfile() {
         try {
             val profileName = account.currentProfile.get() ?: return
             with (Gdx.app.getPreferences("SW-Profile-$profileName")) {
