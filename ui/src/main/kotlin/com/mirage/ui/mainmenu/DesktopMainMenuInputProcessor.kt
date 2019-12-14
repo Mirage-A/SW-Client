@@ -15,9 +15,12 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     init {
         uiState.singlePlayerBtn.onPressed = {
-            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
+            inputMessages.onNext(ChangeSceneClientMessage(
+                    if (uiState.newGame) ChangeSceneClientMessage.Scene.NEW_PROFILE_MENU
+                    else ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME
+            ))
         }
-        uiState.multiPlayerBtn.onPressed = {
+        if (!uiState.newGame) uiState.multiPlayerBtn.onPressed = {
             inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY))
         }
         uiState.settingsBtn.onPressed = {
@@ -26,18 +29,20 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
         uiState.exitBtn.onPressed = {
             inputMessages.onNext(ExitClientMessage(0))
         }
-        uiState.changeProfileBtn.onPressed = {
-            uiState.profileWindow.isVisible = !uiState.profileWindow.isVisible
+        if (!uiState.newGame) {
+            uiState.changeProfileBtn.onPressed = {
+                uiState.profileWindow.isVisible = !uiState.profileWindow.isVisible
+            }
+            uiState.profileWindowLeftArrow.onPressed = {
+                if (uiState.currentProfilePage > 0)
+                    loadProfilePage(uiState.currentProfilePage - 1)
+            }
+            uiState.profileWindowRightArrow.onPressed = {
+                if (uiState.currentProfilePage < Prefs.account.profiles.size / profileBtnCount)
+                    loadProfilePage(uiState.currentProfilePage + 1)
+            }
+            loadProfilePage(0)
         }
-        uiState.profileWindowLeftArrow.onPressed = {
-            if (uiState.currentProfilePage > 0)
-                loadProfilePage(uiState.currentProfilePage - 1)
-        }
-        uiState.profileWindowRightArrow.onPressed = {
-            if (uiState.currentProfilePage < Prefs.account.profiles.size / profileBtnCount)
-                loadProfilePage(uiState.currentProfilePage + 1)
-        }
-        loadProfilePage(0)
     }
 
     private fun loadProfilePage(page: Int) {

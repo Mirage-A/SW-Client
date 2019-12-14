@@ -5,12 +5,13 @@ import com.mirage.ui.Screen
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
+import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
 class MainMenuScreen(virtualScreen: VirtualScreen) : Screen {
 
-    private val uiState: MainMenuUIState = MainMenuUIState(virtualScreen)
+    private val uiState: MainMenuUIState = MainMenuUIState(virtualScreen, Prefs.account.currentProfile.get() == null)
 
     override val inputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopMainMenuInputProcessor(uiState)

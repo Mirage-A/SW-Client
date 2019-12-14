@@ -21,7 +21,7 @@ private const val profileArrowMargin = (btnHeight - profileArrowSize) / 2f
 private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMargin - profileArrowSize / 2f
 
 
-class MainMenuUIState(val virtualScreen: VirtualScreen) {
+class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
 
 /*
     private val field = TextField("text", TextField.TextFieldStyle(BitmapFont(), Color.BLACK, null, null, null)
@@ -43,14 +43,16 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
             "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel("Campaign", 30f),
-            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 7 / 2, btnWidth, btnHeight)})
+            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * (if (newGame) 5 else 7) / 2, btnWidth, btnHeight)})
 
     val multiPlayerBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",
             "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel("Multiplayer", 30f),
-            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 5 / 2, btnWidth, btnHeight)})
+            {_, virtualHeight -> Rectangle(0f, - virtualHeight / 2 + btnHeight * 5 / 2, btnWidth, btnHeight)}).apply {
+        isVisible = !newGame
+    }
 
     val settingsBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",
@@ -71,23 +73,31 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
             "ui/main-menu-profile-area",
             Rectangle(),
             virtualScreen.createLabel(Prefs.account.currentProfile.get() ?: "", 30f),
-            {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight / 2, btnWidth, btnHeight)})
+            {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight / 2, btnWidth, btnHeight)}).apply {
+        isVisible = !newGame
+    }
 
     val changeProfileBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",
             "ui/main-menu-btn-pressed",
             Rectangle(),
             virtualScreen.createLabel("Change profile", 30f),
-            {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight * 3 / 2, btnWidth, btnHeight)})
+            {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight * 3 / 2, btnWidth, btnHeight)}).apply {
+        isVisible = !newGame
+    }
 
     val profileWindowHead = ImageWidget("ui/main-menu/profile-head") {
         _, h ->
         Rectangle(profileWindowX, h / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
+    }.apply {
+        isVisible = !newGame
     }
 
     val profileWindowBody = ImageWidget("ui/main-menu/profile-body") {
         _, h ->
         Rectangle(profileWindowX, h / 2f - btnHeight - profileBodyHeight / 2f, profileWindowWidth, profileBodyHeight)
+    }.apply {
+        isVisible = !newGame
     }
 
     val profileWindowButtons = Array(profileBtnCount) {
@@ -96,7 +106,10 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
                 "ui/main-menu-btn-pressed",
                 Rectangle(),
                 virtualScreen.createLabel("", 30f),
-                {_, h -> Rectangle(profileWindowX, h / 2f - btnHeight * (it + 1.5f) - profileBtnMargin * (it + 1), btnWidth, btnHeight)})
+                {_, h -> Rectangle(profileWindowX, h / 2f - btnHeight * (it + 1.5f) - profileBtnMargin * (it + 1), btnWidth, btnHeight)}
+        ).apply {
+            isVisible = !newGame
+        }
     }
 
     val profileWindowLeftArrow = Button("ui/main-menu/profile-left-arrow",
@@ -104,7 +117,10 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
             "ui/main-menu/profile-left-arrow",
             Rectangle(),
             null,
-            {_, h -> Rectangle(profileWindowX - profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)})
+            {_, h -> Rectangle(profileWindowX - profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)}
+    ).apply {
+        isVisible = !newGame
+    }
 
 
     val profileWindowRightArrow = Button("ui/main-menu/profile-right-arrow",
@@ -112,10 +128,15 @@ class MainMenuUIState(val virtualScreen: VirtualScreen) {
             "ui/main-menu/profile-right-arrow",
             Rectangle(),
             null,
-            {_, h -> Rectangle(profileWindowX + profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)})
+            {_, h -> Rectangle(profileWindowX + profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)}
+    ).apply {
+        isVisible = !newGame
+    }
 
     val profileWindowPageLabel = LabelWidget(virtualScreen.createLabel("", 30f)) {
         _, h -> Rectangle(profileWindowX, h / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
+    }.apply {
+        isVisible = !newGame
     }
 
     val profileWindow = CompositeWidget(
