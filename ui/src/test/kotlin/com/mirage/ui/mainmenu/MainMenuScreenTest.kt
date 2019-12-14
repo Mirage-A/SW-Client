@@ -22,12 +22,12 @@ internal class MainMenuScreenTest {
             ++msgCount
         }
         menuScreen.render(mock, 0L)
-        verify(mock, times(5)).draw(eq("ui/main-menu-btn"), any())
+        verify(mock, times(3)).draw(eq("ui/main-menu-btn"), any())
         verify(mock, times(1)).draw(eq("ui/art"), eq(0f), eq(0f), any(), any())
         clearInvocations(mock)
         menuScreen.inputProcessor.touchDown(800, 850, 0, 0)
         menuScreen.render(mock, 0L)
-        verify(mock, times(4)).draw(eq("ui/main-menu-btn"), any())
+        verify(mock, times(2)).draw(eq("ui/main-menu-btn"), any())
         verify(mock, times(1)).draw(eq("ui/main-menu-btn-pressed"), any())
         verify(mock, times(1)).draw(eq("ui/art"), eq(0f), eq(0f), any(), any())
         clearInvocations(mock)
@@ -36,7 +36,7 @@ internal class MainMenuScreenTest {
         menuScreen.inputProcessor.touchUp(800, 850, 0, 0)
         menuScreen.inputProcessor.mouseMoved(800, 850)
         menuScreen.render(mock, 0L)
-        verify(mock, times(4)).draw(eq("ui/main-menu-btn"), any())
+        verify(mock, times(2)).draw(eq("ui/main-menu-btn"), any())
         verify(mock, times(1)).draw(eq("ui/main-menu-btn-highlighted"), any())
         verify(mock, times(1)).draw(eq("ui/art"), eq(0f), eq(0f), any(), any())
         clearInvocations(mock)
