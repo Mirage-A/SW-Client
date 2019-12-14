@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Scaling
@@ -245,6 +246,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     }
 
+
     inner class GdxTextField internal constructor(
             text: String,
             rect: Rectangle,
@@ -262,7 +264,18 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
             data.setScale(fontCapHeight / data.capHeight)
         }
 
-        val textField = TextField("", TextField.TextFieldStyle(font, Color.BLACK, null, null, null)).apply {
+        private val skin = Skin().apply {
+            add("background", getTexture("ui/new-game/text-field-background"))
+            add("cursor", getTexture("ui/new-game/text-field-cursor"))
+        }
+
+        val textField = TextField("", TextField.TextFieldStyle(
+                font,
+                Color.BLACK,
+                skin.newDrawable("cursor", Color.GREEN),
+                skin.newDrawable("background", 0.5f, 0.5f, 0.5f, 0.5f),
+                skin.getDrawable("background")
+        )).apply {
             isVisible = true
             setSize(rect.width, rect.height)
             setPosition(rect.x, rect.y, Align.center)
