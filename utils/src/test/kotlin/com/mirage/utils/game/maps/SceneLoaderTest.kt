@@ -2,6 +2,7 @@ package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
 import com.mirage.utils.TestSamples
+import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.objects.properties.MoveDirection
@@ -15,7 +16,7 @@ internal class SceneLoaderTest {
     fun testJSON() {
 
         val testState = TestSamples.TEST_TWO_GAME_OBJECTS.simplifiedDeepCopy()
-        val equalState = Gson().fromJson<SimplifiedState>(Gson().toJson(testState), SimplifiedState::class.java)
+        val equalState = Gson().fromJson<SimplifiedState>(Gson().toJson(testState))!!
         assertEquals(testState, equalState)
 
     }

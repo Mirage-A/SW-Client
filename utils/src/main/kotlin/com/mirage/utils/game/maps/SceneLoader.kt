@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.TestSamples
+import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.extensions.mutableMap
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
@@ -30,7 +31,7 @@ object SceneLoader {
 
     fun loadMap(reader: Reader): GameMap =
             try {
-                gson.fromJson<MapWrapper>(reader, MapWrapper::class.java).map ?: TestSamples.TEST_SMALL_MAP
+                gson.fromJson<MapWrapper>(reader)?.map ?: TestSamples.TEST_SMALL_MAP
             }
             catch (ex: Exception) {
                 Log.e("Error while loading scene.")
@@ -50,7 +51,7 @@ object SceneLoader {
     fun loadInitialState(reader: Reader): ExtendedState =
             try {
 
-                val objs: ObjectsWrapper = gson.fromJson<StateWrapper>(reader, StateWrapper::class.java).objects ?: ObjectsWrapper(null, null)
+                val objs: ObjectsWrapper = gson.fromJson<StateWrapper>(reader)?.objects ?: ObjectsWrapper(null, null)
                 val buildingsList = objs.buildings?.map {
                     it.projectOnTemplate(loadBuildingTemplate(it.template ?: "undefined"))
                 } ?: ArrayList()
@@ -68,8 +69,8 @@ object SceneLoader {
 
     fun loadEntityTemplate(name: String): ExtendedEntity = cachedEntityTemplates[name] ?: try {
         val t = gson.fromJson<NullableEntity>(
-                Assets.loadReader("templates/entities/$name.json")!!, NullableEntity::class.java
-        ).projectOnTemplate(defaultEntity)
+                Assets.loadReader("templates/entities/$name.json")!!
+        )?.projectOnTemplate(defaultEntity) ?: defaultEntity
         cachedEntityTemplates[name] = t
         t
     }
@@ -81,8 +82,8 @@ object SceneLoader {
 
     fun loadBuildingTemplate(name: String): ExtendedBuilding = cachedBuildingTemplates[name] ?: try {
         val t = gson.fromJson<NullableBuilding>(
-                Assets.loadReader("templates/buildings/$name.json")!!, NullableBuilding::class.java
-        ).projectOnTemplate(defaultBuilding)
+                Assets.loadReader("templates/buildings/$name.json")!!
+        )?.projectOnTemplate(defaultBuilding) ?: defaultBuilding
         cachedBuildingTemplates[name] = t
         t
     }

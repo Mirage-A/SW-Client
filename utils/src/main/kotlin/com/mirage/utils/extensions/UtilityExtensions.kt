@@ -1,7 +1,10 @@
 package com.mirage.utils.extensions
 
+import com.google.gson.Gson
+import com.google.gson.JsonElement
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
+import java.io.Reader
 import java.util.*
 
 fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
@@ -30,3 +33,7 @@ inline fun <K, V> mutableMap(size: Int, keyInit: (Int) -> K, valueInit: (Int) ->
                 this[keyInit(i)] = valueInit(i)
             }
         }
+
+inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T? = this.fromJson(json, T::class.java)
+inline fun <reified T: Any> Gson.fromJson(reader: Reader): T? = this.fromJson(reader, T::class.java)
+inline fun <reified T: Any> Gson.fromJson(str: String): T? = this.fromJson(str, T::class.java)

@@ -1,6 +1,7 @@
 package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
+import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,7 +22,7 @@ internal class GameMapTest {
         )
         val gson = Gson()
         val str = gson.toJson(obj)
-        val newObj = gson.fromJson<SimplifiedBuilding>(str, SimplifiedBuilding::class.java)
+        val newObj = gson.fromJson<SimplifiedBuilding>(str)
         assertEquals(obj, newObj)
 
         val mapStr = """{
@@ -34,7 +35,7 @@ internal class GameMapTest {
   "collisions": [
     1,2,3,2,1,1]
 }"""
-        val map = gson.fromJson<GameMap>(mapStr, GameMap::class.java)
+        val map = gson.fromJson<GameMap>(mapStr)!!
         assertEquals(3, map.width)
         assertEquals(2, map.height)
         assertEquals("city", map.tileSetName)

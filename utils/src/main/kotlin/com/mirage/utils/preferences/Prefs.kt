@@ -3,6 +3,7 @@ package com.mirage.utils.preferences
 import com.badlogic.gdx.Gdx
 import com.google.gson.Gson
 import com.mirage.utils.Log
+import com.mirage.utils.extensions.fromJson
 import java.lang.Exception
 
 object Prefs {
@@ -20,7 +21,7 @@ object Prefs {
     init {
         settings = try {
             val settingsPrefs = Gdx.app.getPreferences("SW-Settings")
-            gson.fromJson<Settings>(settingsPrefs.getString("settings"), Settings::class.java)
+            gson.fromJson(settingsPrefs.getString("settings"))!!
         }
         catch(ex: Exception) {
             Log.e("Settings info not found")
@@ -29,7 +30,7 @@ object Prefs {
 
         account = try {
             val accountPrefs = Gdx.app.getPreferences("SW-Account")
-            gson.fromJson<Account>(accountPrefs.getString("account"), Account::class.java)
+            gson.fromJson(accountPrefs.getString("account"))!!
         }
         catch(ex: Exception) {
             Log.e("Account info not found")
@@ -65,7 +66,7 @@ object Prefs {
 
     private fun loadProfile(profileName: String): Profile = try {
         val profilePrefs = Gdx.app.getPreferences("SW-Profile-$profileName")
-        gson.fromJson<Profile>(profilePrefs.getString("profile"), Profile::class.java)
+        gson.fromJson(profilePrefs.getString("profile"))!!
     }
     catch(ex: Exception) {
         Log.e("Profile $profileName info not found")
