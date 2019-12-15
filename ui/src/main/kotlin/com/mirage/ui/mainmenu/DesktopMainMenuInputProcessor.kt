@@ -30,24 +30,18 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
             inputMessages.onNext(ExitClientMessage(0))
         }
         if (!uiState.newGame) {
+            uiState.profilePageNavigator.pageCount = Prefs.account.profiles.size / profileBtnCount + 1
             uiState.changeProfileBtn.onPressed = {
                 uiState.profileWindow.isVisible = !uiState.profileWindow.isVisible
             }
-            uiState.profileWindowLeftArrow.onPressed = {
-                if (uiState.currentProfilePage > 0)
-                    loadProfilePage(uiState.currentProfilePage - 1)
-            }
-            uiState.profileWindowRightArrow.onPressed = {
-                if (uiState.currentProfilePage < Prefs.account.profiles.size / profileBtnCount)
-                    loadProfilePage(uiState.currentProfilePage + 1)
+            uiState.profilePageNavigator.onPageSwitch = {
+                loadProfilePage(it)
             }
             loadProfilePage(0)
         }
     }
 
     private fun loadProfilePage(page: Int) {
-        uiState.currentProfilePage = page
-        uiState.profileWindowPageLabel.label.text = "Page ${page + 1}/${Prefs.account.profiles.size / profileBtnCount + 1}"
         val startIndex = profileBtnCount * page
         val btnCount = min(profileBtnCount, Prefs.account.profiles.size - startIndex)
 

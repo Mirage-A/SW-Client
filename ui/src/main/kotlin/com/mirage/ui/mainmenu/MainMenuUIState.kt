@@ -23,20 +23,6 @@ private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMarg
 
 class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
 
-/*
-    private val field = TextField("text", TextField.TextFieldStyle(BitmapFont(), Color.BLACK, null, null, null)
-    ).apply {
-        isVisible = true
-        setSize(100f, 50f)
-        setPosition(0f, 0f, Align.center)
-        alignment = Align.center
-    }
-
-    init {
-        virtualScreen.stage.addActor(field)
-    }
-*/
-
 
     val singlePlayerBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",
@@ -118,9 +104,7 @@ class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
             Rectangle(),
             null,
             {_, h -> Rectangle(profileWindowX - profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)}
-    ).apply {
-        isVisible = !newGame
-    }
+    )
 
 
     val profileWindowRightArrow = Button("ui/main-menu/profile-right-arrow",
@@ -129,24 +113,22 @@ class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
             Rectangle(),
             null,
             {_, h -> Rectangle(profileWindowX + profileArrowShift, h / 2f - btnHeight / 2f, profileArrowSize, profileArrowSize)}
-    ).apply {
-        isVisible = !newGame
-    }
+    )
 
     val profileWindowPageLabel = LabelWidget(virtualScreen.createLabel("", 30f)) {
         _, h -> Rectangle(profileWindowX, h / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
-    }.apply {
-        isVisible = !newGame
+    }
+
+    val profilePageNavigator = PageNavigator(0, 1, profileWindowLeftArrow, profileWindowRightArrow, profileWindowPageLabel).apply {
+        compositeWidget.isVisible = !newGame
     }
 
     val profileWindow = CompositeWidget(
-            *profileWindowButtons, profileWindowLeftArrow, profileWindowRightArrow, profileWindowPageLabel, profileWindowHead, profileWindowBody
+            *profileWindowButtons, profilePageNavigator, profileWindowHead, profileWindowBody
     ).apply { isVisible = false }
 
 
     val widgets: List<Widget> = listOf(singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
-
-    var currentProfilePage = 0
 
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {

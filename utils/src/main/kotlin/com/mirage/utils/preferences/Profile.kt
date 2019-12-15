@@ -2,6 +2,7 @@ package com.mirage.utils.preferences
 
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.WeaponType
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.atomic.AtomicReferenceArray
 
@@ -25,5 +26,9 @@ class Profile {
             "default",
             WeaponType.UNARMED
     ))
+
+    val globalQuestProgress = ConcurrentHashMap<String, Int>()
+
+    //TODO Available equipment
 
 }

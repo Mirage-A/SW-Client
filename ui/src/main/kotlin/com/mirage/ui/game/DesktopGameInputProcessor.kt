@@ -18,6 +18,9 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 btn.isVisible = !btn.isVisible
             }
         }
+        uiState.questsBtn.onPressed = {
+            uiState.questWindow.widget.isVisible = !uiState.questWindow.widget.isVisible
+        }
         uiState.leaveGameBtn.onPressed = {
             uiState.confirmExitMessage.isVisible = true
         }

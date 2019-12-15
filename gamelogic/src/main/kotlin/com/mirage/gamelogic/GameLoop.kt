@@ -17,8 +17,8 @@ internal interface GameLoop {
     fun dispose()
 
     /**
-     * Добавляет сообщение [msg] в очередь сообщений.
-     * [id] - ID персонажа игрока (не путать с playerID, используемое в модуле server!)
+     * Adds message [msg] in the message queue.
+     * [id] - ID of the player's entity (it's id of ENTITY, not a PLAYER server-wise)
      */
     fun handleMessage(id: Long, msg: ClientMessage)
 

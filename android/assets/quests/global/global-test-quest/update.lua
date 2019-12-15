@@ -1,0 +1,1 @@
+print("Global quest phase has been updated!")

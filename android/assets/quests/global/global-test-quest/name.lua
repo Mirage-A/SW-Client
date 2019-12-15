@@ -1,0 +1,1 @@
+return "Global test quest"

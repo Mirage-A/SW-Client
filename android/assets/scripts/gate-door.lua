@@ -23,4 +23,4 @@ if objProps:get("type") == "entity" then
             local props = {["state"] = "closed"}
             u:runScriptAfterDelay("gate-state-update", props, 1000)
         end
-    end
+end
