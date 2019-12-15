@@ -35,12 +35,14 @@ class PageNavigator(
     init {
         leftButton.onPressed = {
             if (pageIndex > 0) {
-                onPageSwitch?.invoke(--pageIndex)
+                --pageIndex
+                onPageSwitch?.invoke(pageIndex)
             }
         }
         rightButton.onPressed = {
             if (pageIndex < pageCount - 1) {
-                onPageSwitch?.invoke(++pageIndex)
+                ++pageIndex
+                onPageSwitch?.invoke(pageIndex)
             }
         }
         update()
