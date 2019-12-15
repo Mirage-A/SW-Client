@@ -8,11 +8,6 @@ import java.io.BufferedWriter
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 
-/**
- * Обёртка над потоком [OutputStream].
- * Сериализует сообщения и отправляет их в поток [outputStream].
- * @see [ServerMessageInputStream]
- */
 class ServerMessageOutputStream(outputStream: OutputStream) : ServerMessageWriter {
 
     private val out = BufferedWriter(OutputStreamWriter(outputStream))

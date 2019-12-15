@@ -1,13 +1,13 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.ui.game.GameUIState
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
 import com.mirage.utils.messaging.ExitClientMessage
+import com.mirage.utils.preferences.Prefs
 import rx.subjects.Subject
-import kotlin.system.exitProcess
+import kotlin.math.min
 
 class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : MainMenuInputProcessor {
 
@@ -15,9 +15,12 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     init {
         uiState.singlePlayerBtn.onPressed = {
-            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
+            inputMessages.onNext(ChangeSceneClientMessage(
+                    if (uiState.newGame) ChangeSceneClientMessage.Scene.NEW_PROFILE_MENU
+                    else ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME
+            ))
         }
-        uiState.multiPlayerBtn.onPressed = {
+        if (!uiState.newGame) uiState.multiPlayerBtn.onPressed = {
             inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY))
         }
         uiState.settingsBtn.onPressed = {
@@ -26,27 +29,64 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
         uiState.exitBtn.onPressed = {
             inputMessages.onNext(ExitClientMessage(0))
         }
+        if (!uiState.newGame) {
+            uiState.changeProfileBtn.onPressed = {
+                uiState.profileWindow.isVisible = !uiState.profileWindow.isVisible
+            }
+            uiState.profileWindowLeftArrow.onPressed = {
+                if (uiState.currentProfilePage > 0)
+                    loadProfilePage(uiState.currentProfilePage - 1)
+            }
+            uiState.profileWindowRightArrow.onPressed = {
+                if (uiState.currentProfilePage < Prefs.account.profiles.size / profileBtnCount)
+                    loadProfilePage(uiState.currentProfilePage + 1)
+            }
+            loadProfilePage(0)
+        }
+    }
+
+    private fun loadProfilePage(page: Int) {
+        uiState.currentProfilePage = page
+        uiState.profileWindowPageLabel.label.text = "Page ${page + 1}/${Prefs.account.profiles.size / profileBtnCount + 1}"
+        val startIndex = profileBtnCount * page
+        val btnCount = min(profileBtnCount, Prefs.account.profiles.size - startIndex)
+
+        if (btnCount < 0) return
+        for (i in 0 until btnCount) {
+            with (uiState.profileWindowButtons[i]) {
+                isVisible = true
+                boundedLabel?.text = Prefs.account.profiles[startIndex + i]
+                onPressed = {
+                    val profileName = Prefs.account.profiles[startIndex + i]
+                    uiState.profileWindow.isVisible = false
+                    uiState.profileNameArea.boundedLabel?.text = profileName
+                    Prefs.switchProfile(profileName)
+                }
+            }
+        }
+        if (btnCount < profileBtnCount) {
+            with (uiState.profileWindowButtons[btnCount]) {
+                isVisible = true
+                boundedLabel?.text = "+ New profile +"
+                onPressed = {
+                    inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.NEW_PROFILE_MENU))
+                }
+            }
+        }
+        for (i in btnCount + 1 until profileBtnCount) {
+            uiState.profileWindowButtons[i].isVisible = false
+        }
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        for (btn in uiState.btnList) {
-            if (btn.rect.contains(virtualPoint)) {
-                btn.onPressed()
-            }
-            else {
-                btn.isHighlighted = false
-            }
-            btn.isPressed = false
-        }
+        uiState.widgets.forEach { it.touchUp(virtualPoint) }
         return false
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        for (btn in uiState.btnList) {
-            btn.isHighlighted = btn.rect.contains(virtualPoint)
-        }
+        uiState.widgets.forEach { it.mouseMoved(virtualPoint) }
         return false
     }
 
@@ -72,10 +112,7 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        for (btn in uiState.btnList) {
-            btn.isPressed = btn.rect.contains(virtualPoint)
-            btn.isHighlighted = btn.isPressed
-        }
+        uiState.widgets.forEach { it.touchDown(virtualPoint) }
         return false
     }
 

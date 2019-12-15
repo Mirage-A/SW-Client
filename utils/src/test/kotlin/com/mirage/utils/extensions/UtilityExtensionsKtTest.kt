@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 
-internal class UtilsKtTest {
+internal class UtilityExtensionsKtTest {
 
     @Test
     fun testLuaTable() {

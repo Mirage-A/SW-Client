@@ -5,41 +5,26 @@ import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-/**
- * Визуальное представление состояния игры.
- * Данный интерфейс отвечает за отрисовку игровой карты, объектов, анимаций.
- * Данный интерфейс НЕ отвечает за отрисовку UI и работу с пользовательским вводом.
- */
+/** Visual representation of the state of the game */
 interface GameView {
 
     /**
-     * Загружает необходимые ресурсы для изображения состояния [initialState].
-     * Этот метод должен вызываться при получении начального состояния от логики.
+     * Loads all resources needed to render state [initialState].
+     * This method is recommended to be invoked on receiving initial state from logic.
      */
     fun loadDrawers(initialState: SimplifiedState)
 
     /**
-     * Обновляет ресурсы и загружает новые при изменении состояния.
-     * Этот метод должен вызываться при переходе на новый [com.mirage.utils.game.states.GameStateSnapshot],
-     * либо при получении клиентом [com.mirage.utils.messaging.GameStateUpdateMessage].
-     * Этот метод НЕ должен вызываться при каждой перерисовке, т.е. при переходе на интерполированное состояние.
+     * Updates drawers to render next state.
+     * This method should be called on moving to next [com.mirage.utils.game.states.GameStateSnapshot],
+     * or on receiving new [com.mirage.utils.messaging.GameStateUpdateMessage].
      */
     fun updateDrawers(oldState: SimplifiedState, diff: StateDifference)
 
-    /**
-     * Отрисовывает карту и состояние игры на [virtualScreen].
-     * Центр камеры всегда должен находиться в точке (0, 0).
-     * @param virtualScreen Холст, на котором будет отрисовываться состояние.
-     * @param objs Состояние, которое будет отрисовано.
-     * @param playerPositionOnScene Координаты игрока на сцене; используются для определения центра "камеры" (на самом деле камера не двигается)
-     * @param targetID id сущности, взятой в цель
-     */
-    fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?)
+    /** Renders game state [state] on [virtualScreen] */
+    fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?, isTargetEnemy: Boolean)
 
-    /**
-     * Проверяет, какая сущность попадёт под клик на виртуальный экран по координатам (hitX, hitY).
-     * Возвращает id этой сущности.
-     */
+    /** Finds an entity which is under a click on a virtual screen on coordinates [virtualPoint] */
     fun hit(virtualPoint: Point, lastRenderedState: SimplifiedState): Long?
 
 

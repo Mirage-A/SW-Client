@@ -6,16 +6,11 @@ import com.mirage.utils.game.objects.properties.MoveDirection
 
 sealed class ClientMessage {
     companion object {
-        /**
-         *
-         * Список всех классов - наследников ClientMessage.
-         * При добавлении нового класса-наследника он обязательно должен добавляться в этот список.
-         * //TODO Можно сделать аннотацию ClientMessage, которой нужно будет помечать наследников.
-         * //TODO Тогда этот список будет сгенерирован автоматически.
-         */
+        /** List of all classes inherited from [ClientMessage] */
         private val clientMessageClasses = listOf<Class<*>>(
                 MoveDirectionClientMessage::class.java,
                 SetMovingClientMessage::class.java,
+                CastSkillClientMessage::class.java,
                 RegisterClientMessage::class.java,
                 LoginClientMessage::class.java,
                 CityJoinClientMessage::class.java,
@@ -43,9 +38,9 @@ data class MoveDirectionClientMessage(val md: MoveDirection) : ClientMessage()
 
 data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage()
 
-/** Сообщение о попытке применить навык
- * @param skillID Порядковый номер навыка на панели игрока
- * @param targetID ID сущности - цели игрока
+/** Message of trying to cast a spell
+ * @param skillID An index of a spell on player's skill pane
+ * @param targetID ID of a target entity
  */
 data class CastSkillClientMessage(val skillID: Int, val targetID: Long?) : ClientMessage()
 
@@ -57,14 +52,12 @@ data class CityJoinClientMessage(val cityID: Long) : ClientMessage()
 
 data class ReconnectClientMessage(val roomID: Long) : ClientMessage()
 
-/**
- * Сообщение о смене экрана.
- * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
- */
+/** This message is handled by client and does not reach game logic */
 data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
 
     enum class Scene {
         MAIN_MENU,
+        NEW_PROFILE_MENU,
         SETTINGS_MENU,
         MULTIPLAYER_LOBBY,
         SINGLEPLAYER_GAME,
@@ -72,21 +65,11 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
     }
 
 }
-/**
- * Сообщение о выходе из игры.
- * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
- */
+/** This message is handled by client and does not reach game logic */
 data class ExitClientMessage(val exitCode: Int) : ClientMessage()
 
-/**
- * Сообщение о попытке выбрать новую цель.
- * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
- * @param virtualScreenPoint Точка на виртуальном экране, в которую кликнул игрок.
- */
+/** This message is handled by client and does not reach game logic */
 data class NewTargetMessage(val virtualScreenPoint: Point) : ClientMessage()
 
-/**
- * Сообщение об отмене выбора цели.
- * Это сообщение создаётся в модуле UI, обрабатывается клиентом и не передаётся серверу.
- */
+/** This message is handled by client and does not reach game logic */
 data class ClearTargetMessage(val unit: Unit = Unit) : ClientMessage()

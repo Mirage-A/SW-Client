@@ -6,8 +6,8 @@ import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 /**
- * Представление конкретного объекта в одном из его состояний.
- * В отличие от [DrawerTemplate] хранит параметры, привязанные к конкретному объекту - например, время последней смены состояния.
+ * Visual representation of a game object in one of its states.
+ * Unlike [DrawerTemplate] it bounds to a concrete object - for example, it stores time of latest update of an object's state.
  */
 interface Drawer {
 

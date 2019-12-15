@@ -1,11 +1,15 @@
 package com.mirage.desktop;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mirage.client.Client;
 import com.mirage.utils.Assets;
 import com.mirage.utils.ConfigurationKt;
+import com.mirage.utils.preferences.Prefs;
 
 import java.io.File;
 
@@ -31,16 +35,12 @@ class DesktopLauncher {
             config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
             config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);
         }
-        if (ConfigurationKt.DESKTOP_FULL_SCREEN) {
-            config.fullscreen = true;
-            config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
-            config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
-        }
-        else {
-            config.fullscreen = false;
-            config.width = 800;
-            config.height = 600;
-        }
+        config.fullscreen = true;
+        config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+        config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+
+
         new LwjglApplication(Client.INSTANCE, config);
+
     }
 }

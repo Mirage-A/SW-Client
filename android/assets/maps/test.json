@@ -121,10 +121,10 @@
     ],
     "entities": [
       {
-        "template": "spawn-point",
+        "template": "dummy",
         "x": 16.0,
-        "y": 29.875,
-        "moveDirection": "UP_RIGHT"
+        "y": 4.0,
+        "moveDirection": "DOWN"
       }
     ]
   }

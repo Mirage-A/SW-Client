@@ -41,7 +41,8 @@ internal fun updateState(
         state: ExtendedState,
         gameMap: GameMap,
         clientMessages: Iterable<Pair<Long, ClientMessage>>,
-        serverMessages: Queue<ServerMessage>
+        serverMessages: Queue<ServerMessage>,
+        playerSkills: Map<Long, List<String>>
 ) {
     //TODO Обработка сообщений от клиентов
     for ((id, msg) in clientMessages) {

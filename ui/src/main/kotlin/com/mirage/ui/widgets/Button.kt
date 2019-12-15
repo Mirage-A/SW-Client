@@ -20,15 +20,20 @@ class Button(
         var rect: Rectangle = Rectangle(),
         var boundedLabel: VirtualScreen.Label? = null,
         var sizeUpdater: ((Float, Float) -> Rectangle)? = null,
-        var onPressed: () -> Unit = {}
+        var onPressed: () -> Unit = {},
+        var borderSize: Float = 0f,
+        var borderTextureName: String = "ui/btn-border"
 ) : Widget {
     var isPressed = false
     var isHighlighted = false
     var isVisible = true
     var keyPressed = false // Для случаев, когда кнопка может нажиматься как курсором, так и с клавиатуры.
 
+    private val innerRect: Rectangle
+        get() = Rectangle(rect.x, rect.y, rect.width - borderSize * 2f, rect.height - borderSize * 2f)
+
     init {
-        boundedLabel?.rect = rect
+        boundedLabel?.rect = innerRect
     }
 
     private fun getCurrentTextureName() =
@@ -40,8 +45,8 @@ class Button(
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            boundedLabel?.rect = it
             rect = it
+            boundedLabel?.rect = innerRect
         }
     }
 
@@ -70,9 +75,10 @@ class Button(
         isHighlighted = rect.contains(virtualPoint)
     }
 
-    fun draw(virtualScreen: VirtualScreen) {
+    override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
-        virtualScreen.draw(getCurrentTextureName(), rect)
+        if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
+        virtualScreen.draw(getCurrentTextureName(), innerRect)
         boundedLabel?.draw()
     }
 }

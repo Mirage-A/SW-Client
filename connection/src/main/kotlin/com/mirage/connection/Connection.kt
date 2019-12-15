@@ -6,19 +6,13 @@ import rx.Observable
 
 interface Connection {
 
-    /**
-     * Подключается к логике.
-     */
+    /** Open connection to game logic */
     fun start()
 
-    /**
-     * Отправляет сообщение [msg] логике.
-     */
+    /** Send message [msg] to game logic */
     fun sendMessage(msg: ClientMessage)
 
-    /**
-     * Полностью останавливает взаимодействие с логикой и освобождает все ресурсы
-     */
+    /** Closes connection to logic. This connection must not be used anymore */
     fun close()
 
 

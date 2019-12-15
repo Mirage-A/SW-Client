@@ -2,10 +2,7 @@ package com.mirage.utils.game.objects.properties
 
 import com.mirage.utils.Log
 
-/**
- * Направление движения этого объекта НА ВИРТУАЛЬНОЙ СЦЕНЕ.
- * (На реальном экране направление движения будет другим)
- */
+/** Move direction of an entity on scene (not on virtual screen) */
 enum class MoveDirection {
     RIGHT,
     UP_RIGHT,
@@ -40,9 +37,7 @@ enum class MoveDirection {
 
 
     companion object {
-        /**
-         * Вычисляет направление движения на основе угла движения
-         */
+
         @JvmStatic
         fun fromMoveAngle(angle: Float): MoveDirection {
             val partOfPi = (angle % (Math.PI * 2) / Math.PI).toFloat()
@@ -57,10 +52,6 @@ enum class MoveDirection {
         }
 
 
-        /**
-         * Преобразует строку в направление движения (операция, обратная toString())
-         * Если строка не соответствует никакому направлению движения, возвращает MoveDirection.DOWN
-         */
         fun fromString(str: String) : MoveDirection {
             return when (str) {
                 "RIGHT" -> RIGHT

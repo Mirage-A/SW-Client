@@ -5,6 +5,7 @@ import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.templates.*
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
+import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.WeaponType
 import java.io.Reader
@@ -14,7 +15,7 @@ import java.io.Reader
  * @return Словарь, в котором по ключу - состоянию объекта получаем шаблонное представление.
  */
 internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String) : MutableMap<String, DrawerTemplate> {
-    val info = Gson().fromJson<TemplateDrawersInfo>(reader, TemplateDrawersInfo::class.java)
+    val info = Gson().fromJson<TemplateDrawersInfo>(reader)
     val states = info?.drawers?.keys ?: run {
         Log.e("Error while loading drawers from template $templateName")
         return HashMap()

@@ -23,24 +23,26 @@ class GameViewImpl(private val gameMap: GameMap) : GameView {
         drawersManager.updateDrawers(diff, oldState)
     }
 
-    override fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?) {
+    override fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?, isTargetEnemy: Boolean) {
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPositionOnScene)
         val cameraCenterPosition = Point(playerPosOnVirtualScreen.x, playerPosOnVirtualScreen.y + DELTA_CENTER_Y)
         renderGameMap(virtualScreen, gameMap, cameraCenterPosition.x, cameraCenterPosition.y)
-        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y, targetID)
+        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y, targetID, isTargetEnemy)
     }
 
     override fun hit(virtualPoint: Point, lastRenderedState: SimplifiedState): Long? {
+        println(virtualPoint)
         var answer: Long? = null
         var answerEntity: SimplifiedEntity? = null
         for ((id, entity) in lastRenderedState.entities) {
-            if (drawersManager.getEntityHitbox(id)?.contains(virtualPoint - entity.position) == true) {
+            if (drawersManager.getEntityHitbox(id)?.contains(virtualPoint - getVirtualScreenPointFromScene(entity.position)) == true) {
                 if (answerEntity == null || entity.x - entity.y > answerEntity.x - answerEntity.y) {
                     answer = id
                     answerEntity = entity
                 }
             }
         }
+        println("ans=$answer")
         return answer
     }
 

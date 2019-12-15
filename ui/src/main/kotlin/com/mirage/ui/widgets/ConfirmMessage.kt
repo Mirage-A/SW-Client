@@ -48,7 +48,7 @@ class ConfirmMessage(
         cancelButton.onPressed = block
     }
 
-    fun draw(virtualScreen: VirtualScreen) {
+    override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         virtualScreen.draw(backgroundTextureName, 0f, 0f)
         titleLabel.draw()

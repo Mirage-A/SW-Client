@@ -5,9 +5,7 @@ import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.Log
 import com.mirage.utils.messaging.*
 
-/**
- * Реализация интерфейса Connection, работающая с локальным сервером (одиночная игра)
- */
+/** [Connection] implementation which works with local game logic (singleplayer game) */
 class LocalConnection(private val mapName: String, private val serverMessageListener: (ServerMessage) -> Unit) : Connection {
 
     @Volatile

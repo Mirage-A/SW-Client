@@ -1,5 +1,6 @@
 package com.mirage.utils.virtualscreen
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Pixmap
@@ -7,8 +8,13 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.utils.Scaling
+import com.badlogic.gdx.utils.viewport.ScalingViewport
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Rectangle
 import kotlin.math.roundToInt
@@ -18,6 +24,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
                            initialVirtualHeight: Float = 0f,
                            initialRealWidth: Float = 0f,
                            initialRealHeight: Float = 0f) : VirtualScreen {
+
 
     override var width: Float = initialVirtualWidth
     override var height: Float = initialVirtualHeight
@@ -41,6 +48,11 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         }
     }
 
+    override val stage: Stage by lazy(LazyThreadSafetyMode.NONE) {
+        Stage(ScalingViewport(Scaling.stretch, width, height, camera), batch)
+    }
+
+
     private val texturesCache: MutableMap<String, Texture> = HashMap()
     private var tileTexturesList: List<TextureRegion> = ArrayList()
 
@@ -54,6 +66,10 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         camera.viewportHeight = height
         camera.update()
         batch.projectionMatrix = camera.combined
+        //TODO stage viewport resize
+        stage.viewport.camera = camera
+        stage.viewport.setScreenSize(newRealWidth, newRealHeight)
+        stage.viewport.setWorldSize(newSize.width, newSize.height)
     }
 
     private val minFilter = Texture.TextureFilter.Nearest
@@ -186,6 +202,10 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
+    override fun createTextField(text: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField =
+            GdxTextField(text, rect, fontCapHeight).also { stage.addActor(it.textField) }
+
+
     inner class GdxLabel internal constructor(
             text: String,
             rect: Rectangle,
@@ -223,6 +243,58 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
 
         override fun draw() = label.draw(batch, 255f)
+
+    }
+
+
+    inner class GdxTextField internal constructor(
+            text: String,
+            rect: Rectangle,
+            fontCapHeight: Float = 15f
+    ) : VirtualScreen.TextField {
+
+        override var text: String = text
+            get() = textField.text
+            set(value) {
+                textField.text = value
+                field = value
+            }
+
+        private val font = BitmapFont().apply {
+            data.setScale(fontCapHeight / data.capHeight)
+        }
+
+        private val skin = Skin().apply {
+            add("background", getTexture("ui/new-game/text-field-background"))
+            add("cursor", getTexture("ui/new-game/text-field-cursor"))
+        }
+
+        val textField = TextField("", TextField.TextFieldStyle(
+                font,
+                Color.BLACK,
+                skin.newDrawable("cursor", Color.GREEN),
+                skin.newDrawable("background", 0.5f, 0.5f, 0.5f, 0.5f),
+                skin.getDrawable("background")
+        )).apply {
+            isVisible = true
+            setSize(rect.width, rect.height)
+            setPosition(rect.x, rect.y, Align.center)
+            alignment = Align.center
+            messageText = text
+        }
+
+        override var rect: Rectangle = rect
+            set(value) {
+                textField.apply {
+                    setSize(value.width, value.height)
+                    setPosition(value.x, value.y, Align.center)
+                    alignment = Align.center
+                }
+                field = value
+            }
+
+
+        override fun draw() = textField.draw(batch, 255f)
 
     }
 }

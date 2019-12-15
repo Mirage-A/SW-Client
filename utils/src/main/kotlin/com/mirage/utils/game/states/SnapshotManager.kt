@@ -9,27 +9,17 @@ import com.mirage.utils.game.objects.properties.MoveDirection
 import java.util.*
 import kotlin.math.min
 
-/**
- * Данный класс хранит в себе все состояния карты за последнее время и позволяет реализовать интерполяцию состояний.
- */
+/** Contains latest game states and performs interpolation and extrapolation of game states for following rendering */
 class SnapshotManager {
 
-    /**
-     * Коллекция хранимых состояний
-     */
+    /** Navigable set of latest snapshots */
     private val snapshots : NavigableSet<GameStateSnapshot> = TreeSet()
 
-
-    /**
-     * Добавить новое состояние.
-     */
     fun addNewSnapshot(snapshot: GameStateSnapshot) = snapshots.add(snapshot)
 
     /**
-     * Создаёт состояние, интерполированное между двумя соседними состояниями
-     * @param currentTimeMillis Текущее время в мс.
-     * @return Состояние на момент [currentTimeMillis] - [INTERPOLATION_DELAY_MILLIS],
-     * что позволяет компенсировать задержку в обмене данными с сервером.
+     * Creates a state interpolated between two nearest states at a moment [currentTimeMillis] - [INTERPOLATION_DELAY_MILLIS],
+     * which helps to deal with remote connection delay.
      */
     fun getInterpolatedSnapshot(currentTimeMillis: Long) : SimplifiedState {
         val renderTime = currentTimeMillis - INTERPOLATION_DELAY_MILLIS
@@ -46,9 +36,7 @@ class SnapshotManager {
         return interpolateSnapshots(firstSnapshot, secondSnapshot, renderTime)
     }
 
-    /**
-     * Интерполирует два соседних состояния и возвращает новое.
-     */
+    /** Interpolates two states */
     @Suppress("DuplicatedCode")
     private fun interpolateSnapshots(first: GameStateSnapshot, second: GameStateSnapshot, renderTime: Long) : SimplifiedState {
         if (first.createdTimeMillis >= renderTime) return first.finalState
@@ -106,9 +94,7 @@ class SnapshotManager {
 
     //TODO Экстраполяция движения снарядов
 
-    /**
-     * Экстраполирует состояние [state] на min([deltaTimeMillis], [MAX_EXTRAPOLATION_INTERVAL]) мс вперёд.
-     */
+    /** Extrapolates [state] for min([deltaTimeMillis], [MAX_EXTRAPOLATION_INTERVAL]) ms ahead */
     private fun extrapolateSnapshot(state: SimplifiedState, deltaTimeMillis: Long) : SimplifiedState {
         if (deltaTimeMillis < 0) return state
         val delta = min(deltaTimeMillis, MAX_EXTRAPOLATION_INTERVAL)
@@ -118,9 +104,7 @@ class SnapshotManager {
         )
     }
 
-    /**
-     * Удаляет состояния, которые уже никогда не будут использоваться.
-     */
+    /** Removes old states which will never be used anymore */
     private fun removeOldSnapshots(renderTime: Long) {
         while (snapshots.second()?.createdTimeMillis ?: Long.MAX_VALUE < renderTime) {
             snapshots.pollFirst()

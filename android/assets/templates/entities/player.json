@@ -1,13 +1,15 @@
 {
-  "name": "player",
+  "name": "Player",
   "template": "player",
-  "type": "ENTITY",
-  "width": 0.25,
-  "height": 0.25,
-  "moveDirection": "UP_RIGHT",
+  "width": 0.5,
+  "height": 0.5,
+  "moveDirection": "UP",
   "speed": 4.0,
-  "isRigid": false,
+  "isRigid": true,
   "action": "idle",
+  "health": 100,
+  "maxHealth": 100,
+  "factionID": 0,
   "drawers": {
     "default": {
       "type": "humanoid",

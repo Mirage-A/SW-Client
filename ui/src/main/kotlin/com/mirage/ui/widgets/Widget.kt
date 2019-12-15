@@ -1,6 +1,7 @@
 package com.mirage.ui.widgets
 
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface Widget {
 
@@ -11,5 +12,7 @@ interface Widget {
     fun touchDown(virtualPoint: Point): Boolean
 
     fun mouseMoved(virtualPoint: Point)
+
+    fun draw(virtualScreen: VirtualScreen)
 
 }

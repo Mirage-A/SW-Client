@@ -1,6 +1,6 @@
 {
-  "name": "spawn-point",
-  "template": "spawn-point",
+  "name": "test-entity-1",
+  "template": "test-entity-1",
   "type": "ENTITY",
   "width": 0.25,
   "height": 0.25,

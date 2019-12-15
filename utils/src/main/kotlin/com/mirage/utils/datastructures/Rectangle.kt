@@ -1,8 +1,6 @@
 package com.mirage.utils.datastructures
 
-/**
- * Прямоугольник с центром в точке (x, y) и размерами width x height
- */
+/** Rectangle with center at ([x], [y]) and size [width] x [height] */
 data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f, val height: Float = 0f) {
 
     val leftX : Float
@@ -22,19 +20,14 @@ data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f
         )
 
 
-    /**
-     * Проверяет два прямоугольника на строгое пересечение
-     * (Пересечение по границе не считается)
-     */
+    /** Checks if intersection of two rectangles has positive square */
     fun overlaps(other: Rectangle) : Boolean =
             (x - width / 2 < other.x + other.width / 2) &&
                     (x + width / 2 > other.x - other.width / 2) &&
                     (y - height / 2 < other.y + other.height / 2) &&
                     (y + height / 2 > other.y - other.height / 2)
 
-    /**
-     * Проверяет, содержится ли точка внутри прямоугольника
-     */
+    /** Checks if rectangle contains a point */
     fun contains(p: Point) : Boolean =
             p.x < rightX && p.x > leftX && p.y < topY && p.y > bottomY
 

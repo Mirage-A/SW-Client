@@ -1,6 +1,6 @@
 {
   "_comment": "This template is used for tests. Don't change this file.",
-  "name": "spawn-point",
+  "name": "test-entity-1",
   "template": "test-entity",
   "type": "ENTITY",
   "width": 0.25,

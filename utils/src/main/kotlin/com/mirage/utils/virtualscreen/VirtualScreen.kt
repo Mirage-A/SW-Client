@@ -1,135 +1,119 @@
 package com.mirage.utils.virtualscreen
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 
 /**
- * Интерфейс, представляющий собой виртуальный экран и позволяющий отрисовывать на нём текстуры.
- * Должен использоваться только внутри потока отрисовки экрана.
- * Текстуры хранятся внутри реализации этого интерфейса - код, работающий с этим интерфейсом, хранит только названия текстур,
- * и не имеет прямого доступа к самим текстурам.
- * Название текстуры является путём к ней относительно папки drawable и не содержит разрешения .png,
- * т.е. путь текстура с названием NAME будет загружена из файла assets/drawable/NAME.png.
- * Центр виртуального экрана всегда находится в точке (0, 0).
- * Ось x направлена вправо, ось y направлена вверх.
- * При изменении размеров реального экрана следует вызвать resize(), чтобы обновить размеры виртуального экрана.
+ * Cross-platform virtual screen with ability to draw textures on it.
+ * Must be used at GDX rendering thread.
+ * All textures are stored inside implementation of this interface, client code only uses names of textures.
+ * Texture with name NAME will be loaded from file assets/drawable/NAME.png.
+ * Center of a virtual screen is always at a point (0, 0).
+ * X axis is directed to the right, Y axis is directed upwards.
+ * It is guaranteed that all textures will keep their width/height ration when drawn on real screen.
  */
 interface VirtualScreen {
 
-    /**
-     * Размеры виртуального экрана
-     */
+    /** Virtual screen size */
     val width: Float
     val height: Float
-    /**
-     * Размеры реального экрана
-     */
+    /** Real screen size */
     val realWidth: Float
     val realHeight: Float
 
-    /**
-     * Переводит координаты точки на реальном экране в координаты на виртуальном экране
-     */
+    val stage: Stage
+
+    /** Translates coordinates of a point on real screen to virtual screen */
     fun projectRealPointOnVirtualScreen(realPoint: Point): Point = Point(
             (realPoint.x - realWidth / 2) * (width / realWidth),
             - (realPoint.y - realHeight / 2) * (height / realHeight)
     )
 
-    /**
-     * Начать отрисовку кадра
-     */
+    /** Start rendering a new frame. This method must be called before any draw */
     fun begin()
 
-    /**
-     * Завершить отрисовку кадра
-     */
+    /** Finish rendering a frame */
     fun end()
 
     /**
-     * Обновляет размеры виртуального экрана при изменении размеров реального экрана.
-     * Размеры виртуального экрана отличаются от размеров реального, но сохраняют отношение ширины к высоте.
+     * Updates virtual screen size on change of real screen size.
+     * Virtual screen size differs from real screen size, but keeps its width/height ratio.
      */
     fun resize(newRealWidth: Int, newRealHeight: Int)
 
-    /**
-     * Загружает все текстуры с именами [textureNames] и кэширует их.
-     */
+    /** Caches all textures with names [textureNames] */
     fun loadAllTextures(textureNames: Iterable<String>)
 
-    /**
-     * Освобождает все ресурсы, занятые кэшированными текстурами, и очищает кэш.
-     */
+    /** Disposes all cached textures */
     fun clearCache()
 
-    /**
-     * Загружает пакет тайлов [tileSetName] для дальнейшего использования.
-     */
+    /** Loads a tile set [tileSetName] for further usage */
     fun setTileSet(tileSetName: String)
 
     /**
-     * Отрисовывает тайл [tileID] из текущего пакета тайлов.
-     * Центр текстуры тайла находится в точке (x, y) виртуального экрана.
+     * Draws a tile with id [tileID] from current tile set load by [setTileSet].
+     * Center of a tile texture has coordinates ([x], [y]) on virtual screen.
      */
     fun drawTile(tileID: Int, x: Float, y: Float)
 
-    /**
-     * Отрисовывает текст [text] внутри прямоугольника [rect]
-     *
-     */
+    /** Draws text [text] inside rectangle [rect] */
     fun drawText(text: String, rect: Rectangle)
 
     /**
-     * Создаёт поле для текста [text] внутри прямоугольника [rect].
-     * Для отрисовки этого поля следует вызвать метод [Label.draw].
-     * Изменения позиции этого поля НЕ перезаписываются при изменении размеров виртуального экрана.
+     * Creates a label to draw text [text] inside rectangle [rect].
+     * Use [Label.draw] to render this text on virtual screen.
      */
     fun createLabel(text: String, rect: Rectangle) : Label
     fun createLabel(text: String) : Label = createLabel(text, Rectangle())
     fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
     fun createLabel(text: String, fontCapHeight: Float) : Label = createLabel(text, Rectangle(), fontCapHeight)
 
+    fun createTextField(text: String, rect: Rectangle, fontCapHeight: Float) : TextField
 
-    /**
-     * Стандартный метод отрисовки текстуры с центром в точке (x, y).
-     */
+
+    /** Draws a texture [textureName] with center at point ([x]. [y])*/
     fun draw(textureName: String, x: Float, y: Float)
 
-    /**
-     * Стандартный метод отрисовки текстуры с центром в точке (x, y) и размерами width x height.
-     */
+    /** Draws a texture [textureName] with center ([x], [y]) and size [width] x [height] */
     fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float)
 
-    /**
-     * Стандартный метод отрисовки текстуры внутри прямоугольника rect.
-     */
+    /** Draws a texture [textureName] inside rectangle [rect] */
     fun draw(textureName: String, rect: Rectangle)
 
     /**
-     * Этот метод нацелен на отрисовку слоёв анимации из редактора.
-     * @param textureName Название текстуры
-     * @param x Координата центра текстуры на виртуальном экране.
-     * @param y Координата центра текстуры на виртуальном экране.
-     * @param basicWidth Обычный размер текстуры
-     * @param basicHeight Обычный размер текстуры
-     * @param scale Коэффициент увеличения всей текстуры
-     * @param scaleX Коэффициент увеличения ширины текстуры
-     * @param scaleY Коэффициент увеличения высоты текстуры
-     * @param angle Угол поворота текстуры
+     * Draws a texture (this method is useful for rendering animation layers)
+     * @param textureName Texture name
+     * @param x X-coordinate of texture center on virtual screen
+     * @param y Y-coordinate of texture center on virtual screen
+     * @param basicWidth Width of source image
+     * @param basicHeight Height of source image
+     * @param scale Scale coefficient of all texture
+     * @param scaleX Scale coefficient on X-axis
+     * @param scaleY Scale coefficient on Y-axis
+     * @param angle Rotation angle of texture
      */
     fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float)
 
     /**
-     * Этот метод является обёрткой аналогичного метода класса [SpriteBatch].
-     * Этот метод не рекомендуется использовать.
-     * Здесь x, y уже не совпадают с центром текстуры.
+     * This method delegates to a [SpriteBatch.draw] method.
+     * This method is not recommended to be used.
+     * ([x], [y]) is not a center of texture here.
      */
     fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean)
 
-    /**
-     * Виртуальное поле для текста.
-     */
+    /** Text label */
     interface Label {
+
+        var text: String
+
+        var rect: Rectangle
+
+        fun draw()
+    }
+
+    interface TextField {
 
         var text: String
 

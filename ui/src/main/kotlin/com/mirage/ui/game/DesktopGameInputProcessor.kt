@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.*
-import com.mirage.utils.skillBindings
+import com.mirage.utils.preferences.Prefs
 import rx.subjects.Subject
 
 class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
@@ -168,10 +168,13 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 }
             }
         }
-        for (i in 0 until 5) {
-            if (keycode == skillBindings[i]) {
-                uiState.skillBtns[i].keyPressed = false
+        for (i in 0 until 4) {
+            if (keycode == Prefs.settings.activeSkillBindings[i]) {
+                uiState.activeSkills[i].keyPressed = false
             }
+        }
+        if (keycode == Prefs.settings.ultimateSkillBinding.get()) {
+            uiState.ultimateSkillBtn.keyPressed = false
         }
         return true
     }
@@ -256,11 +259,15 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
                 inputMessages.onNext(ClearTargetMessage())
             }
         }
-        for (i in 0 until 5) {
-            if (keycode == skillBindings[i]) {
+        for (i in 0 until 4) {
+            if (keycode == Prefs.settings.activeSkillBindings[i]) {
                 inputMessages.onNext(CastSkillClientMessage(i, uiState.targetID))
-                uiState.skillBtns[i].keyPressed = true
+                uiState.activeSkills[i].keyPressed = true
             }
+        }
+        if (keycode == Prefs.settings.ultimateSkillBinding.get()) {
+            inputMessages.onNext(CastSkillClientMessage(4, uiState.targetID))
+            uiState.ultimateSkillBtn.keyPressed = true
         }
         return true
     }

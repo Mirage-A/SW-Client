@@ -16,7 +16,7 @@ import kotlin.math.abs
 /**
  * Отрисовывает все объекты карты
  */
-internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, drawersManager: DrawersManager, cameraX: Float, cameraY: Float, targetID: Long?) {
+internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, drawersManager: DrawersManager, cameraX: Float, cameraY: Float, targetID: Long?, isTargetEnemy: Boolean) {
 
     val sortedObjs: MutableList<Pair<Long, SimplifiedObject>> = (state.buildings.toList() + state.entities.toList()).toMutableList()
     depthSort(sortedObjs)
@@ -29,15 +29,16 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
                 drawersManager.drawBuilding(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis)
             is SimplifiedEntity -> {
                 if (id == targetID) {
+                    val targetRelation = if (isTargetEnemy) "enemy" else "ally"
                     val hitBox = drawersManager.getEntityHitbox(id) ?: Rectangle()
-                    virtualScreen.draw("ui/target-circle-back", pos.x - cameraX, pos.y - cameraY,
+                    virtualScreen.draw("ui/scene/target-$targetRelation-circle-back", pos.x - cameraX, pos.y - cameraY,
                             hitBox.width, 64f)
                     drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis, obj.moveDirection)
 
-                    virtualScreen.draw("ui/target-circle-front", pos.x - cameraX, pos.y - cameraY,
+                    virtualScreen.draw("ui/scene/target-$targetRelation-circle-front", pos.x - cameraX, pos.y - cameraY,
                             hitBox.width, 64f)
                     val arrowDelta = abs(20f - (currentTimeMillis / 10L % 100L).toFloat() / 2.5f)
-                    virtualScreen.draw("ui/target-arrow",
+                    virtualScreen.draw("ui/scene/target-$targetRelation-arrow",
                             pos.x - cameraX, pos.y - cameraY + hitBox.height + 32f + 12f + arrowDelta)
                 }
                 else {

@@ -7,10 +7,6 @@ import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-/**
- * Обёртка над потоком [InputStream].
- * Используется для десериализации сообщений, отправленных с помощью [ClientMessageOutputStream].
- */
 class ClientMessageInputStream(inputStream: InputStream) : ClientMessageReader {
 
     private val reader = BufferedReader(InputStreamReader(inputStream))

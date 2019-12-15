@@ -1,6 +1,7 @@
 package com.mirage.ui.game
 
 import com.mirage.gameview.GameViewImpl
+import com.mirage.gameview.utils.getVirtualScreenPointFromScene
 import com.mirage.ui.Screen
 import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.PLATFORM
@@ -79,15 +80,21 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
             }
         }
         val state = snapshotManager.getInterpolatedSnapshot(currentTimeMillis)
-        gameView.renderGameState(virtualScreen, state, state.entities[uiState.playerID]?.position ?: Point(0f, 0f), uiState.targetID)
+        gameView.renderGameState(virtualScreen,
+                state,
+                state.entities[uiState.playerID]?.position ?: Point(0f, 0f),
+                uiState.targetID,
+                state.entities[uiState.playerID]?.factionID != state.entities[uiState.targetID]?.factionID
+        )
         uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
         uiState.lastRenderedState = state
     }
 
     fun changeTarget(virtualHitPoint: Point) {
-        val player = lastReceivedState.entities[uiState.playerID] ?: return
-        val virtualPoint = Point(virtualHitPoint.x + player.x, virtualHitPoint.y + player.y + DELTA_CENTER_Y)
-        val targetID = gameView.hit(virtualPoint, lastReceivedState)
+        val player = uiState.lastRenderedState.entities[uiState.playerID] ?: return
+        val playerOnVirtualScreen = getVirtualScreenPointFromScene(player.position)
+        val virtualPoint = Point(virtualHitPoint.x + playerOnVirtualScreen.x, virtualHitPoint.y + playerOnVirtualScreen.y + DELTA_CENTER_Y)
+        val targetID = gameView.hit(virtualPoint, uiState.lastRenderedState)
         if (targetID != null) uiState.targetID = targetID
     }
 

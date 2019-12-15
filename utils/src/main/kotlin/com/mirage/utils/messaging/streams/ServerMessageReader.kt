@@ -3,13 +3,13 @@ package com.mirage.utils.messaging.streams
 import com.mirage.utils.messaging.ServerMessage
 
 /**
- * Интерфейс, позволяющий считывать сообщения от логики.
- * Используется на стороне клиента.
+ * [ServerMessage] reader.
+ * Used at client side.
  */
 interface ServerMessageReader {
 
-    /**
-     * Дождаться следующего сообщения и прочитать его
+    /** Wait for a new message and read it.
+     * @return null if a message is incorrect.
      */
     fun read() : ServerMessage?
 

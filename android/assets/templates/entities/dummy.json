@@ -1,0 +1,26 @@
+{
+  "name": "Target dummy",
+  "template": "dummy",
+  "width": 0.5,
+  "height": 0.5,
+  "moveDirection": "UP_RIGHT",
+  "speed": 0.0,
+  "isRigid": true,
+  "action": "idle",
+  "health": 800,
+  "maxHealth": 1000,
+  "factionID": 2,
+  "drawers": {
+    "default": {
+      "type": "humanoid",
+      "helmet": "default",
+      "chest": "default",
+      "cloak": "default",
+      "gloves": "default",
+      "legs": "default",
+      "weaponType": "UNARMED",
+      "rightWeapon": "default",
+      "leftWeapon": "default"
+    }
+  }
+}

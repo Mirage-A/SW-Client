@@ -19,6 +19,9 @@ class ResourcePane(
     var isHighlighted = false
     var isVisible = true
 
+    var currentResource: Int = 0
+    var maxResource: Int = 0
+
     private val resourceRect: Rectangle
         get() = Rectangle(rect.x, rect.y, rect.width - innerMargin * 2f, rect.height - innerMargin * 2f)
 
@@ -38,7 +41,7 @@ class ResourcePane(
         isHighlighted = rect.contains(virtualPoint)
     }
 
-    fun draw(virtualScreen: VirtualScreen, currentResource: Int, maxResource: Int) {
+    override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         val currentWidth = resourceRect.width * min(currentResource, maxResource).toFloat() / max(maxResource, 1).toFloat()
         val currentResourceRect = Rectangle(resourceRect.leftX + currentWidth / 2f, resourceRect.y, currentWidth, resourceRect.height)
