@@ -1,6 +1,8 @@
 package com.mirage.ui.game
 
 import com.badlogic.gdx.Input
+import com.mirage.ui.widgets.Button
+import com.mirage.ui.widgets.CompositeWidget
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.*
@@ -49,6 +51,7 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.widgets.forEach { it.unpress() }
         uiState.widgets.forEach { if (it.touchUp(virtualPoint)) return true}
         return false
     }

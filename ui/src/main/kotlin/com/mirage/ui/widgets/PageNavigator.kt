@@ -58,5 +58,8 @@ class PageNavigator(
 
     override fun draw(virtualScreen: VirtualScreen) { compositeWidget.draw(virtualScreen) }
 
+    override fun unpress() {
+        compositeWidget.unpress()
+    }
 
 }

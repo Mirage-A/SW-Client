@@ -6,12 +6,25 @@ import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import java.io.Reader
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+
+typealias QuestProgress = HashMap<String, Int>
+typealias ConcurrentQuestProgress = ConcurrentHashMap<String, Int>
+typealias PlayerCreationListener = (playerID: Long) -> Unit
+typealias SkillNames = List<String>
+typealias EntityID = Long
+typealias BuildingID = Long
+typealias IntervalMillis = Long
+typealias TimeMillis = Long
 
 fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
     for ((key, value) in args) {
         set(key, CoerceJavaToLua.coerce(value))
     }
 }
+
+fun LuaTable.toStr(): String =
+        "LuaTable(${this.keys().map { "$it: ${this[it]}" }.joinToString()})"
 
 fun <E> NavigableSet<E>.second() : E? = try { higher(first()) } catch(ex: NoSuchElementException) { null }
 

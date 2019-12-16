@@ -1,11 +1,10 @@
 package com.mirage.gamelogic
 
-import com.mirage.gamelogic.scripting.LogicScriptActions
-import com.mirage.utils.game.objects.simplified.SimplifiedObject
+import com.mirage.utils.extensions.PlayerCreationListener
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
-import org.luaj.vm2.LuaTable
 
 class GameLogicImpl(mapName: String,
                     serverMessageListener: (ServerMessage) -> Unit,
@@ -15,7 +14,8 @@ class GameLogicImpl(mapName: String,
 
     override fun startLogic() = loop.start()
 
-    override fun addNewPlayer(onComplete: (playerID: Long) -> Unit) : Unit = loop.addNewPlayer(onComplete)
+    override fun addNewPlayer(globalQuestProgress: QuestProgress?, onComplete: PlayerCreationListener) : Unit =
+            loop.addNewPlayer(globalQuestProgress, onComplete)
 
     override fun pauseLogic() = loop.pause()
 
@@ -29,21 +29,5 @@ class GameLogicImpl(mapName: String,
     }
 
     override fun handleMessage(id: Long, msg: ClientMessage) = loop.handleMessage(id, msg)
-
-    private inner class ScriptActions : LogicScriptActions {
-
-        override fun runLogicScript(scriptName: String, args: LuaTable) = TODO()
-
-        override fun runClientScriptForAllInRoom(scriptName: String, args: LuaTable) = TODO()
-
-        override fun findObject(objName: String): SimplifiedObject? = TODO()
-
-        override fun findAllObjects(objName: String): LuaTable = TODO()
-
-        override fun findAllPlayers(): LuaTable = TODO()
-
-        override fun print(msg: Any?) = println(msg.toString())
-
-    }
 
 }

@@ -80,4 +80,8 @@ class CircleButton(
         boundedLabel?.draw()
     }
 
+    override fun unpress() {
+        isPressed = false
+    }
+
 }

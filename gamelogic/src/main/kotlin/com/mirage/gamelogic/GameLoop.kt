@@ -1,12 +1,14 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.extensions.PlayerCreationListener
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.messaging.ClientMessage
 
 internal interface GameLoop {
 
     fun start()
 
-    fun addNewPlayer(onComplete: (playerID: Long) -> Unit)
+    fun addNewPlayer(globalQuestProgress: QuestProgress?, onComplete: PlayerCreationListener)
 
     fun pause()
 

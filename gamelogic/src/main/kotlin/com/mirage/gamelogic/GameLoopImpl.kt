@@ -1,67 +1,92 @@
 package com.mirage.gamelogic
 
+import com.mirage.gamelogic.scripting.LogicScriptActions
+import com.mirage.utils.Assets
 import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
 import com.mirage.utils.Log
 import com.mirage.utils.LoopTimer
+import com.mirage.utils.extensions.*
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.states.ExtendedState
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
+import org.luaj.vm2.LuaTable
+import org.luaj.vm2.lib.jse.CoerceJavaToLua
+import org.luaj.vm2.lib.jse.JsePlatform
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.collections.ArrayList
 
-internal class GameLoopImpl(gameMapName: String,
+internal class GameLoopImpl(private val gameMapName: String,
                             private val serverMessageListener: (ServerMessage) -> Unit,
-                            private val stateUpdateListener: (SimplifiedState, Long) -> Unit) : GameLoop {
+                            private val stateUpdateListener: (SimplifiedState, TimeMillis) -> Unit) : GameLoop {
 
 
-    /**
-     * Observable, в котором хранятся получаемые сообщения от клиентов.
-     * Первый аргумент пары - id персонажа игрока (не самого игрока, а его персонажа на сцене).
-     */
-    private val clientMessages : Queue<Pair<Long, ClientMessage>> = ConcurrentLinkedQueue()
-
+    /** Queue which stores new messages from clients */
+    private val clientMessages : Queue<Pair<EntityID, ClientMessage>> = ConcurrentLinkedQueue()
 
     private val gameMap : GameMap = SceneLoader.loadMap(gameMapName)
     private val state: ExtendedState = SceneLoader.loadInitialState(gameMapName)
     private var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy()
 
-    /** Словарь, в котором по id персонажа игрока получаем список названий его навыков */
-    private val playerSkills: MutableMap<Long, List<String>> = HashMap()
+    /** Maps id of player entity to list of his skills */
+    private val playerSkills: MutableMap<EntityID, SkillNames> = HashMap()
+
+    /** These maps must be mutated only through ScriptActions class */
+    private val playerGlobalQuestProgress: MutableMap<EntityID, QuestProgress> = HashMap()
+    private val playerLocalQuestProgress: MutableMap<EntityID, QuestProgress> = HashMap()
+
+    /** Set of IDs of all players */
+    private val playerIDs: MutableSet<EntityID> = HashSet()
 
     /**
-     * Функция, которая обновляет состояние игры, вызывая [serverMessageListener] для сообщений.
-     * @param delta Время в миллисекундах, прошедшее с момента последнего вызова этой функции.
+     * Updates game state, invoking [serverMessageListener] for new server messages.
+     * @param delta Milliseconds passed from last invocation of this function.
      */
-    private fun updateState(delta: Long, gameMap: GameMap) {
+    private fun updateState(delta: IntervalMillis, gameMap: GameMap) {
         if (delta > 200L) Log.i("Slow update: $delta ms")
+        val newClientMessages = getNewClientMessages()
+        val serverMessages = ArrayDeque<ServerMessage>()
+        updateState(delta, state, gameMap, newClientMessages, serverMessages, playerSkills)
+        invokeDelayedScripts()
+        handleNewPlayerRequests()
+        finishStateUpdate(serverMessages)
+    }
 
-        val newClientMessages = ArrayList<Pair<Long, ClientMessage>>()
+    private fun getNewClientMessages() = ArrayList<Pair<EntityID, ClientMessage>>().apply {
         while (true) {
             val msg = clientMessages.poll()
             msg ?: break
-            newClientMessages.add(msg)
+            add(msg)
         }
+    }
 
-        val serverMessages = ArrayDeque<ServerMessage>()
-        updateState(delta, state, gameMap, newClientMessages, serverMessages, playerSkills)
+    private fun invokeDelayedScripts() {
+        val currentTime = System.currentTimeMillis()
+        while (delayedScripts.isNotEmpty() && delayedScripts.peek().first < currentTime) {
+            val (name, args) = delayedScripts.poll().second
+            runAssetScript("scripts/$name", args)
+        }
+    }
 
-
-        //TODO Добавление игроков
-
+    private fun handleNewPlayerRequests() {
         while (true) {
             val request = newPlayerRequests.poll() ?: break
             val player = createPlayer(gameMap)
             val id = state.addEntity(player)
+            playerIDs.add(id)
             //TODO Загрузка информации о навыках игрока через сообщения при входе в игру и через хранение профиля в БД
             val skills = listOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
             playerSkills[id] = skills
-            request(id)
+            playerGlobalQuestProgress[id] = request.first ?: QuestProgress()
+            playerLocalQuestProgress[id] = QuestProgress()
+            request.second(id)
         }
+    }
 
+    private fun finishStateUpdate(serverMessages: ArrayDeque<ServerMessage>) {
         val finalState = state.simplifiedDeepCopy()
         val finalDifference = StateDifference(latestStateSnapshot, finalState)
         latestStateSnapshot = finalState
@@ -70,20 +95,22 @@ internal class GameLoopImpl(gameMapName: String,
         for (msg in serverMessages) {
             serverMessageListener(msg)
         }
+        for (msg in messagesFromScripts) {
+            serverMessageListener(msg)
+        }
+        messagesFromScripts.clear()
         stateUpdateListener(finalState, time)
     }
 
     /**
-     * Очередь, в которой хранятся запросы на создание персонажа игрока.
-     * При создании игрока вызывается слушатель из очереди.
+     * Queue which stores new requests for new player creation.
+     * After a player entity was created by logic loop, PlayerCreationListener is invoked.
      */
-    private val newPlayerRequests : Queue<(Long) -> Unit> = ConcurrentLinkedQueue()
+    private val newPlayerRequests : Queue<Pair<QuestProgress?, PlayerCreationListener>> = ConcurrentLinkedQueue()
 
-    override fun addNewPlayer(onComplete: (playerID: Long) -> Unit) {
-        newPlayerRequests.add(onComplete)
+    override fun addNewPlayer(globalQuestProgress: QuestProgress?, onComplete: PlayerCreationListener) {
+        newPlayerRequests.add(globalQuestProgress to onComplete)
     }
-
-
 
     private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) {
         updateState(it, gameMap)
@@ -103,10 +130,101 @@ internal class GameLoopImpl(gameMapName: String,
 
     override fun dispose() {
         stop()
-        //TODO
+        //TODO Safe exit for players
     }
 
-    override fun handleMessage(id: Long, msg: ClientMessage) {
+    override fun handleMessage(id: EntityID, msg: ClientMessage) {
         clientMessages.add(Pair(id, msg))
     }
+
+    private val delayedScripts = PriorityQueue<Pair<TimeMillis, Pair<String, LuaTable>>>(compareBy {it.first} )
+    private val messagesFromScripts = ArrayDeque<ServerMessage>()
+
+    private val scriptActions = ScriptActions()
+    private val coercedScriptActions = CoerceJavaToLua.coerce(scriptActions)
+
+    /** Runs a script from file "assets/ASSET_NAME.lua" */
+    fun runAssetScript(assetName: String, args: LuaTable) {
+        val globals = JsePlatform.standardGlobals()
+        val chunk = globals.load(Assets.loadReader("$assetName.lua")?.readText() ?: "")
+        args.set("actions", coercedScriptActions)
+        chunk.call(args)
+    }
+
+    private inner class ScriptActions : LogicScriptActions {
+
+        override fun runLogicScript(scriptName: String, args: LuaTable) {
+            runAssetScript("scripts/$scriptName", args)
+        }
+
+        override fun runLogicScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long) {
+            delayedScripts.add((System.currentTimeMillis() + timeout) to (scriptName to args))
+        }
+
+        override fun getState(): ExtendedState = state
+
+        override fun getGameMap(): GameMap = gameMap
+
+        override fun getGameMapName(): String = gameMapName
+
+        override fun findEntity(name: String): EntityID? = state.entities.entries.find { it.value.name == name }?.key
+
+        override fun findBuilding(name: String): BuildingID? = state.buildings.entries.find { it.value.name == name }?.key
+
+        override fun findAllEntities(name: String): List<EntityID> =
+                state.entities.filter { it.value.name == name }.map { it.key }
+
+        override fun findAllBuildings(name: String): List<BuildingID> =
+                state.buildings.filter { it.value.name == name }.map { it.key }
+
+        override fun findAllPlayers(): List<EntityID> = playerIDs.toList()
+
+        override fun print(msg: Any?) = Log.i(msg)
+
+        override fun setSkillCooldown(playerID: EntityID, skillID: Int, cooldown: Float) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun getSkillCooldown(playerID: EntityID, skillID: Int): Float {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun startDialog(playerID: EntityID, dialogName: String) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun sendTextMessage(playerID: EntityID, message: String) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun sendTextMessageToAll(message: String) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun getGlobalQuestProgress(playerID: EntityID): QuestProgress {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun getLocalQuestProgress(playerID: EntityID): QuestProgress {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun setGlobalQuestPhase(playerID: EntityID, questName: String, newPhase: Int) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun setLocalQuestPhase(playerID: EntityID, questName: String, newPhase: Int) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun sendPlayerToAnotherMap(playerID: EntityID, mapName: String, code: Int) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun kickPlayerFromMap(playerID: EntityID, code: Int) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
+
 }

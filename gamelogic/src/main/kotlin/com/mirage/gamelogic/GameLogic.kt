@@ -1,5 +1,7 @@
 package com.mirage.gamelogic
 
+import com.mirage.utils.extensions.PlayerCreationListener
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.messaging.ClientMessage
 
 /** Game logic facade */
@@ -14,7 +16,7 @@ interface GameLogic {
      * [onComplete] is invoked at game loop thread.
      * //TODO Передавать информацию о скиллах, экипировке и т.д. игрока
      */
-    fun addNewPlayer(onComplete: (playerID: Long) -> Unit)
+    fun addNewPlayer(globalQuestProgress: QuestProgress? = null, onComplete: PlayerCreationListener)
 
     /** Pauses game loop. It can be resumed by [resumeLogic] */
     fun pauseLogic()

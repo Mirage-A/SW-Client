@@ -81,4 +81,8 @@ class Button(
         virtualScreen.draw(getCurrentTextureName(), innerRect)
         boundedLabel?.draw()
     }
+
+    override fun unpress() {
+        isPressed = false
+    }
 }

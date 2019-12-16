@@ -3,7 +3,10 @@ package com.mirage.connection
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.Log
+import com.mirage.utils.extensions.QuestProgress
+import com.mirage.utils.extensions.mutableCopy
 import com.mirage.utils.messaging.*
+import com.mirage.utils.preferences.Prefs
 
 /** [Connection] implementation which works with local game logic (singleplayer game) */
 class LocalConnection(private val mapName: String, private val serverMessageListener: (ServerMessage) -> Unit) : Connection {
@@ -33,7 +36,7 @@ class LocalConnection(private val mapName: String, private val serverMessageList
      */
     override fun start() {
         println("connection.start() invoked")
-        logic.addNewPlayer {
+        logic.addNewPlayer(QuestProgress(Prefs.profile.globalQuestProgress)) {
             synchronized(this) {
                 playerID = it
                 println("PlayerID received! $playerID")
