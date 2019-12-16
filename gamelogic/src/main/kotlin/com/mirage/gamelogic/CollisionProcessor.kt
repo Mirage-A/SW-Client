@@ -5,13 +5,9 @@ import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.states.ExtendedState
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.MoveDirectionClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.SetMovingClientMessage
-import java.util.*
 import kotlin.math.max
 import kotlin.math.min
+
 
 /**
  * Перемещение персонажа, которое считается достаточно малым, чтобы при таком перемещении можно было рассматривать только соседние тайлы
@@ -25,52 +21,10 @@ private const val SMALL_MOVE_RANGE = 0.1f
 internal const val EPS = 0.000001f
 
 /**
- * Функция со всей игровой логикой.
- * Обрабатывает изменения состояния игры за заданное время.
- * Заполняет очередь сообщений [ServerMessage], которые должны быть отправлены ВСЕМ клиентам.
- * Эта коллекция НЕ содержит сообщения об изменении состояния игры.
- * @param delta Интервал в мс, изменение состояния за который обрабатывается.
- * @param state Состояние, изменяемое в течение работы функции
- * @param gameMap Карта игры.
- * @param clientMessages Коллекция пар "id персонажа игрока - сообщение, полученное от этого игрока за время тика",
- *                          итерируемая в порядке получения сообщений.
- * @param serverMessages Очередь, в которую функция будет помещать сообщения для клиентов.
- */
-internal fun updateState(
-        delta: Long,
-        state: ExtendedState,
-        gameMap: GameMap,
-        clientMessages: Iterable<Pair<Long, ClientMessage>>,
-        serverMessages: Queue<ServerMessage>,
-        playerSkills: Map<Long, List<String>>
-) {
-    //TODO Обработка сообщений от клиентов
-    for ((id, msg) in clientMessages) {
-        if (msg !is MoveDirectionClientMessage && msg !is SetMovingClientMessage) println("Got client message $id $msg")
-        when (msg) {
-            is MoveDirectionClientMessage -> {
-                state.entities[id]?.moveDirection = msg.md
-            }
-            is SetMovingClientMessage -> {
-                state.entities[id]?.isMoving = msg.isMoving
-            }
-        }
-    }
-    for ((_, entity) in state.entities) {
-        //TODO Нормальная обработка действий
-        entity.action = if (entity.isMoving) "running" else "idle"
-        if (entity.isMoving) {
-            moveObject(entity, delta, gameMap, state)
-        }
-    }
-    //TODO Обработка логики
-}
-
-/**
  * Обрабатывает передвижение сущности за тик.
  * Функция не является чистой, в процессе ее выполнения изменяются координаты [entity]
  */
-private fun moveObject(entity: ExtendedEntity, deltaMillis: Long, gameMap: GameMap, state: ExtendedState) {
+internal fun moveObject(entity: ExtendedEntity, deltaMillis: Long, gameMap: GameMap, state: ExtendedState) {
     val range = entity.speed * deltaMillis.toFloat() / 1000f
     val smallMovesCount = (range / SMALL_MOVE_RANGE).toInt()
     for (i in 0 until smallMovesCount) {

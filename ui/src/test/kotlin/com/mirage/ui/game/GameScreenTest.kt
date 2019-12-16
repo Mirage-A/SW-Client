@@ -42,7 +42,7 @@ internal class GameScreenTest {
             lastMsg = it
             ++msgCount
         }
-        gameScreen.handleServerMessage(InitialGameStateMessage("one-tile-test", oneObjectState, Long.MIN_VALUE, 0L))
+        gameScreen.handleServerMessage(InitialGameStateMessage("one-tile-test", oneObjectState, 0L, 0L))
         gameScreen.render(mock, 0L)
         verify(mock, times(1)).drawTile(eq(1), eq(0f), eq(-DELTA_CENTER_Y))
         verify(mock, times(8)).drawTile(eq(0), any(), any())

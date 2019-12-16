@@ -12,6 +12,11 @@ interface Connection {
     /** Send message [msg] to game logic */
     fun sendMessage(msg: ClientMessage)
 
+    /** Invokes [block] for new messages.
+     *  Every message will be processed only 1 time during all [forNewMessages] invocations.
+     *  [block] is invoked in the same thread as this function. */
+    fun forNewMessages(block: (ServerMessage) -> Unit)
+
     /** Closes connection to logic. This connection must not be used anymore */
     fun close()
 

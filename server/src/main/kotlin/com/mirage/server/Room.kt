@@ -38,7 +38,7 @@ class Room {
 
     fun start() {
         //TODO выбор карты, подписка на логику
-        logic = GameLogicImpl("test-server", {}, {_, _ ->})
+        logic = GameLogicImpl("test-server")
         logic.startLogic()
     }
 

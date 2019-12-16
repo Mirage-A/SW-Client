@@ -77,12 +77,13 @@ internal class SceneLoaderTest {
                 template = "test-building",
                 x = 0.4f,
                 y = 0.7f,
+                name = "main-gate",
                 width = 6f,
                 height = 0f,
                 isRigid = false,
                 transparencyRange = 0f,
                 state = "default"
-        ), objects.buildings[Long.MIN_VALUE])
+        ), objects.buildings[0L])
         assertEquals(ExtendedEntity(
                 name = "test-entity-1",
                 template = "test-entity",
@@ -96,7 +97,7 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 state = "default",
                 action = "idle"
-        ), objects.entities[Long.MIN_VALUE])
+        ), objects.entities[0L])
     }
 
     @Test
@@ -106,6 +107,7 @@ internal class SceneLoaderTest {
                 template = "test-building",
                 x = 0f,
                 y = 0f,
+                name = "main-gate",
                 width = 6.0f,
                 height = 0.0f,
                 isRigid = false,

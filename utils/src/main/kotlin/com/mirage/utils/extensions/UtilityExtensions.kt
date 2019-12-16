@@ -16,6 +16,8 @@ typealias EntityID = Long
 typealias BuildingID = Long
 typealias IntervalMillis = Long
 typealias TimeMillis = Long
+typealias GameMapName = String
+typealias ReturnCode = Int
 
 fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
     for ((key, value) in args) {

@@ -40,16 +40,16 @@ internal class SnapshotManagerTest {
         val secondDiff = StateDifference(firstState, secondState)
         val secondSnapshot = GameStateSnapshot(secondState, secondDiff, 1000L)
 
-        mutableState.entities[Long.MIN_VALUE]!!.x = 10f
-        mutableState.entities[Long.MIN_VALUE + 1L]!!.y = 0f
+        mutableState.entities[0L]!!.x = 10f
+        mutableState.entities[1L]!!.y = 0f
 
         // 2000 мс, оба объекта переместились на точку (10, 0)
         val thirdState = mutableState.simplifiedDeepCopy()
         val thirdDiff = StateDifference(secondState, thirdState)
         val thirdSnapshot = GameStateSnapshot(thirdState, thirdDiff, 2000L)
 
-        mutableState.removeEntity(Long.MIN_VALUE)
-        mutableState.entities[Long.MIN_VALUE + 1L]!!.x = 0f
+        mutableState.removeEntity(0L)
+        mutableState.entities[1L]!!.x = 0f
 
         // 3000 мс, первый объект исчез, второй объект переместился на точку (0, 0)
         val fourthState = mutableState.simplifiedDeepCopy()
@@ -78,8 +78,8 @@ internal class SnapshotManagerTest {
 
         // На момент 1500 мс объекты находятся на координатах (5, 0) и (10, 5) соответственно
         assertEquals(SimplifiedState(hashMapOf(), hashMapOf(
-                Long.MIN_VALUE to obj.with(x = 5f, y = 0f),
-                Long.MIN_VALUE + 1L to obj.with(x = 10f, y = 5f)
+                0L to obj.with(x = 5f, y = 0f),
+                1L to obj.with(x = 10f, y = 5f)
         )), snapshotManager.getInterpolatedSnapshot(1500L + INTERPOLATION_DELAY_MILLIS))
 
         // На момент 2000 мс состояние совпадает с thirdState
@@ -87,7 +87,7 @@ internal class SnapshotManagerTest {
 
         // На момент 2500 мс первый объект уже исчез, второй объект находится на координатах (5, 0)
         assertEquals(SimplifiedState(hashMapOf(), hashMapOf(
-                Long.MIN_VALUE + 1L to obj.with(x = 5f, y = 0f)
+                1L to obj.with(x = 5f, y = 0f)
         )), snapshotManager.getInterpolatedSnapshot(2500L + INTERPOLATION_DELAY_MILLIS))
 
         // На момент 3000 мс состояние совпадает с fourthState
@@ -96,13 +96,13 @@ internal class SnapshotManagerTest {
         // На момент 3100 мс данных нет, поэтому происходит экстраполяция последнего известного состояния.
         // Объект двигался наверх со скоростью 10 тайлов в секунду, значит, сейчас он находится на координатах (0, 1)
         assertEquals(SimplifiedState(hashMapOf(), hashMapOf(
-                Long.MIN_VALUE + 1L to obj.with(x = 0f, y = 1f)
+                1L to obj.with(x = 0f, y = 1f)
         )), snapshotManager.getInterpolatedSnapshot(3100L + INTERPOLATION_DELAY_MILLIS))
 
         // На момент (3000 + 100 + MAX_EXTRAPOLATION_INTERVAL) задержка данных уже превысила предел экстраполяции,
         // поэтому будет получено экстраполированное состояние на момент (3000 + MAX_EXTRAPOLATION_INTERVAL)
         assertEquals(SimplifiedState(hashMapOf(), hashMapOf(
-                Long.MIN_VALUE + 1L to obj.with(x = 0f, y = MAX_EXTRAPOLATION_INTERVAL * 10f / 1000f)
+                1L to obj.with(x = 0f, y = MAX_EXTRAPOLATION_INTERVAL * 10f / 1000f)
         )), snapshotManager.getInterpolatedSnapshot(3100L + MAX_EXTRAPOLATION_INTERVAL + INTERPOLATION_DELAY_MILLIS))
     }
 }

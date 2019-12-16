@@ -1,4 +1,4 @@
-package com.mirage.gamelogic.scripting
+package com.mirage.gamelogic
 
 import com.mirage.utils.extensions.EntityID
 import com.mirage.utils.extensions.QuestProgress
@@ -13,10 +13,8 @@ import org.luaj.vm2.LuaDouble
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
 
-/**
- * Интерфейс, который определяет методы, которыми может пользоваться вызываемый скрипт.
- */
-interface LogicScriptActions {
+/** Methods which can be used by any script */
+internal interface LogicScriptActions {
 
     /** Runs another script from scripts folder immediately */
     fun runLogicScript(scriptName: String, args: LuaTable)
@@ -62,9 +60,9 @@ interface LogicScriptActions {
     fun sendTextMessageToAll(message: String)
 
     /** Returns a map with player's global quest progress. This map should not be changed in script. */
-    fun getGlobalQuestProgress(playerID: EntityID): QuestProgress
+    fun getGlobalQuestProgress(playerID: EntityID): QuestProgress?
     /** Returns a map with player's local quest progress. This map should not be changed in script. */
-    fun getLocalQuestProgress(playerID: EntityID): QuestProgress
+    fun getLocalQuestProgress(playerID: EntityID): QuestProgress?
 
     /** Sets the current phase of global quest [questName] for player [playerID] to [newPhase] and sends message about it to this player. */
     fun setGlobalQuestPhase(playerID: EntityID, questName: String, newPhase: Int)

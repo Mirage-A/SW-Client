@@ -11,13 +11,13 @@ class ExtendedState(
         private var nextEntityID: Long
 ) : SimplifiedState(extendedBuildings, extendedEntities) {
 
-    constructor() : this(HashMap(), HashMap(), Long.MIN_VALUE, Long.MIN_VALUE)
+    constructor() : this(HashMap(), HashMap(), 0L, 0L)
 
     constructor(buildingsList: List<ExtendedBuilding>, entitiesList: List<ExtendedEntity>) : this(
-            mutableMap(buildingsList.size, {it + Long.MIN_VALUE}, {buildingsList[it]}),
-            mutableMap(entitiesList.size, {it + Long.MIN_VALUE}, {entitiesList[it]}),
-            buildingsList.size + Long.MIN_VALUE,
-            entitiesList.size + Long.MIN_VALUE
+            mutableMap(buildingsList.size, {it.toLong()}, {buildingsList[it]}),
+            mutableMap(entitiesList.size, {it.toLong()}, {entitiesList[it]}),
+            buildingsList.size.toLong(),
+            entitiesList.size.toLong()
     )
 
     override val buildings: Map<Long, ExtendedBuilding> = extendedBuildings
