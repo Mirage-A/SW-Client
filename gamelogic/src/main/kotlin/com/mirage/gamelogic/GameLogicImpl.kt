@@ -14,7 +14,7 @@ class GameLogicImpl(mapName: String,
 
     override fun startLogic() = loop.start()
 
-    override fun addNewPlayer(globalQuestProgress: QuestProgress?, onComplete: PlayerCreationListener) : Unit =
+    override fun addNewPlayer(globalQuestProgress: QuestProgress?, onComplete: PlayerCreationListener) =
             loop.addNewPlayer(globalQuestProgress, onComplete)
 
     override fun pauseLogic() = loop.pause()
@@ -23,10 +23,7 @@ class GameLogicImpl(mapName: String,
 
     override fun stopLogic() = loop.stop()
 
-    override fun dispose() {
-       //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        loop.dispose()
-    }
+    override fun dispose() = loop.dispose()
 
     override fun handleMessage(id: Long, msg: ClientMessage) = loop.handleMessage(id, msg)
 

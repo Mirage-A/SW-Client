@@ -17,13 +17,5 @@ internal class AssetsTest {
         assertNotNull(Assets.loadFile("drawable/objects/null.png"))
     }
 
-    @Test
-    fun testScriptLoader() {
-        assertDoesNotThrow {
-            Assets.loadScript("wtfisthis/idontexist!.ppnngg")
-        }
-        assertEquals("println(\"Hello world!\")", Assets.loadScript("test")!!.readText())
-    }
-
 
 }
