@@ -1,1 +1,3 @@
-return "Global test quest description"
+args = ...
+
+args["answer"]:set("Description from script!")

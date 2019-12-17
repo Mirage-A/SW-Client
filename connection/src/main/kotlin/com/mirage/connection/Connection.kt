@@ -18,7 +18,7 @@ interface Connection {
      *  [block] is invoked in the same thread as this function.
      *  Function stops processing new messages after [maximumProcessingTime] even if some messages are left
      *  */
-    fun forNewMessages(maximumProcessingTime: IntervalMillis, block: (ServerMessage) -> Unit)
+    fun forNewMessages(maximumProcessingTime: IntervalMillis = Long.MAX_VALUE, block: (ServerMessage) -> Unit)
 
     /** Closes connection to logic. This connection must not be used anymore */
     fun close()

@@ -75,7 +75,7 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
             firstStateWithPlayerMessage = null
         }
         val startTime = System.currentTimeMillis()
-        while (System.currentTimeMillis() - startTime < maximumProcessingTime) {
+        while (System.currentTimeMillis() - startTime <= maximumProcessingTime) {
             val (id, msg) = logic.serverMessages.poll() ?: break
             if (id == -1L || id == playerID) block(msg)
         }

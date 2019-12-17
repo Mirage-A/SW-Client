@@ -25,7 +25,7 @@ class Profile {
             WeaponType.UNARMED
     )
 
-    val globalQuestProgress: QuestProgress = linkedMapOf("test-quest" to 1, "completed-quest" to 1000000, "failed-quest" to -1)
+    val globalQuestProgress: QuestProgress = linkedMapOf("global-test-quest" to 1, "completed-quest" to 1000000, "failed-quest" to -1)
 
     //TODO Available equipment
 

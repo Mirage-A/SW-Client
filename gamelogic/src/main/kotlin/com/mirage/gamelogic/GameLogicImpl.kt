@@ -163,10 +163,9 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
     /** Runs a script from file "assets/ASSET_NAME.lua" */
     private fun runAssetScript(assetName: String, args: LuaTable) {
-        val globals = JsePlatform.standardGlobals()
-        val chunk = globals.load(Assets.loadReader("$assetName.lua")?.readText() ?: "")
         args.set("actions", coercedScriptActions)
-        chunk.call(args)
+        val reader = Assets.loadReader("$assetName.lua") ?: return
+        runScript(reader, args)
     }
 
     private inner class ScriptActions : LogicScriptActions {

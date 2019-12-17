@@ -35,7 +35,7 @@ internal class GameScreenTest {
                 y = 0.5f
         )
         val oneObjectState = SimplifiedState(listOf(oneObject), listOf(twoObject))
-        val gameScreen = GameScreen(oneTileMap, mock)
+        val gameScreen = GameScreen("testy", oneTileMap, mock)
         var lastMsg: ClientMessage? = null
         var msgCount = 0
         gameScreen.inputMessages.subscribe {

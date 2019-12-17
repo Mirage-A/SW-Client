@@ -7,6 +7,7 @@ import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.GameStateSnapshot
@@ -18,9 +19,9 @@ import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
-class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
+class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
 
-    private val uiState : GameUIState = GameUIState(virtualScreen)
+    private val uiState : GameUIState = GameUIState(virtualScreen, gameMapName)
 
     override val inputProcessor : GameInputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopGameInputProcessor(uiState)

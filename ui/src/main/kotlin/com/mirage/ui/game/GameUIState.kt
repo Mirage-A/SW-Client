@@ -4,6 +4,7 @@ import com.mirage.ui.game.quests.QuestWindow
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.SimplifiedState
@@ -33,7 +34,7 @@ private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
 private const val settingsMenuBtnFontSize = 20f
 
-internal class GameUIState(val virtualScreen: VirtualScreen) {
+internal class GameUIState(val virtualScreen: VirtualScreen, val gameMapName: GameMapName) {
 
     val localQuestProgress: QuestProgress = QuestProgress()
 
@@ -127,7 +128,6 @@ internal class GameUIState(val virtualScreen: VirtualScreen) {
     init {
         updateSkillBtns()
     }
-
 
     val settingsBtn = Button("ui/game/settings",
             "ui/game/settings-highlighted",

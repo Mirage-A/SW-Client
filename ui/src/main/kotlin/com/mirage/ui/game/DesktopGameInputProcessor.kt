@@ -62,8 +62,8 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
                 }
                 else {
                     isQuestSelected = true
-                    selectedQuestGuiName = QuestLoader.getGuiQuestName(questName, questPhase, QuestLoader.QuestType.GLOBAL)
-                    selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(questName, questPhase, QuestLoader.QuestType.GLOBAL)
+                    selectedQuestGuiName = QuestLoader.getGuiQuestName(questName, questPhase, uiState.gameMapName, QuestLoader.QuestType.GLOBAL)
+                    selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(questName, questPhase, uiState.gameMapName, QuestLoader.QuestType.GLOBAL)
                 }
             }
             else -> {
@@ -75,8 +75,8 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
                 }
                 else {
                     isQuestSelected = true
-                    selectedQuestGuiName = QuestLoader.getGuiQuestName(localQ, questPhase, QuestLoader.QuestType.LOCAL)
-                    selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(localQ, questPhase, QuestLoader.QuestType.LOCAL)
+                    selectedQuestGuiName = QuestLoader.getGuiQuestName(localQ, questPhase, uiState.gameMapName, QuestLoader.QuestType.LOCAL)
+                    selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(localQ, questPhase, uiState.gameMapName, QuestLoader.QuestType.LOCAL)
                 }
             }
         }
@@ -112,7 +112,7 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
                         else {
                             isVisible = true
                             val (questName, questPhase) = quests[startBtnIndex + i]
-                            boundedLabel?.text = QuestLoader.getGuiQuestName(questName, questPhase, questType)
+                            boundedLabel?.text = QuestLoader.getGuiQuestName(questName, questPhase, uiState.gameMapName, questType)
                             val state = when {
                                 questPhase >= COMPLETED_QUEST_PHASE -> "completed"
                                 questPhase < 0 -> "failed"
