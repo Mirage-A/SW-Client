@@ -56,7 +56,7 @@ internal class GameLogicImplTest{
         assert(states.size >= 3)
         assertEquals(1, id.get())
         assertEquals(1, states[0].entities.size)
-        assertEquals(1, states[1].entities.size)
+        assert(states[1].entities.size in 1..2)
         println(states[1].entities[0L])
         assertEquals(2, states[2].entities.size)
 
