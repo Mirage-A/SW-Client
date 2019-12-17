@@ -7,6 +7,7 @@ import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.PageNavigator
 import com.mirage.utils.COMPLETED_QUEST_PHASE
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.rangeBetween
 import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.*
@@ -387,6 +388,15 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
             }
             Input.Keys.ESCAPE -> {
                 inputMessages.onNext(ClearTargetMessage())
+            }
+            Input.Keys.E -> {
+                val targetID = uiState.targetID
+                val player = uiState.lastRenderedState.entities[uiState.playerID]
+                val target = uiState.lastRenderedState.entities[targetID]
+                if (targetID != null && player != null && target != null &&
+                        rangeBetween(player.position, target.position) < target.interactionRange) {
+                    inputMessages.onNext(InteractionClientMessage(targetID))
+                }
             }
         }
         for (i in 0 until 4) {

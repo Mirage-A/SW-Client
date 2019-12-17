@@ -1,7 +1,6 @@
 package com.mirage.utils.game.objects.simplified
 
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.effects.Effect
 import com.mirage.utils.game.objects.properties.MoveDirection
 
 open class SimplifiedEntity(

@@ -1,6 +1,5 @@
 package com.mirage.utils.game.objects.extended
 
-import com.mirage.utils.game.effects.Effect
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 

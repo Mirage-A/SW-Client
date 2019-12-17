@@ -29,7 +29,7 @@ class GameViewImpl(gameMapName: GameMapName, private val gameMap: GameMap) : Gam
         val playerPosOnVirtualScreen = getVirtualScreenPointFromScene(playerPositionOnScene)
         val cameraCenterPosition = Point(playerPosOnVirtualScreen.x, playerPosOnVirtualScreen.y + DELTA_CENTER_Y)
         renderGameMap(virtualScreen, gameMap, cameraCenterPosition.x, cameraCenterPosition.y)
-        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y, targetID, isTargetEnemy)
+        renderGameState(virtualScreen, state, drawersManager, cameraCenterPosition.x, cameraCenterPosition.y, playerPositionOnScene, targetID, isTargetEnemy)
     }
 
     override fun hit(virtualPoint: Point, lastRenderedState: SimplifiedState): Long? {

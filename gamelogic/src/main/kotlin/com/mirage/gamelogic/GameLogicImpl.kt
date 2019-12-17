@@ -4,6 +4,7 @@ import com.mirage.utils.Assets
 import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
 import com.mirage.utils.Log
 import com.mirage.utils.LoopTimer
+import com.mirage.utils.datastructures.rangeBetween
 import com.mirage.utils.extensions.*
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
@@ -90,6 +91,19 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
                 }
                 is SetMovingClientMessage -> {
                     state.entities[id]?.isMoving = msg.isMoving
+                }
+                is CastSkillClientMessage -> {
+                    //TODO Skill casting
+                }
+                is InteractionClientMessage -> {
+                    val player = state.entities[id]
+                    val entity = state.entities[msg.entityID]
+                    if (player != null && entity != null && rangeBetween(player.position, entity.position) < entity.interactionRange) {
+                        runAssetScript(
+                                "scenes/$gameMapName/templates/entities/${entity.template}/interaction",
+                                tableOf("playerID" to id, "entityID" to msg.entityID)
+                        )
+                    }
                 }
             }
         }
@@ -225,6 +239,28 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
                 state.buildings.filter { it.value.name == name }.map { it.key }
 
         override fun findAllPlayers(): List<EntityID> = playerIDs.toList()
+
+        override fun dealDamageToEntity(sourceID: EntityID, entityID: EntityID, damage: Int) {
+            state.entities[entityID]?.let {
+                it.health -= damage
+                if (it.health <= 0) {
+                    it.health = 0
+                    runAssetScript(
+                            "scenes/$gameMapName/templates/entities/${it.template}/death",
+                            tableOf("sourceID" to sourceID, "entityID" to entityID)
+                    )
+                }
+            }
+        }
+
+        override fun destroyEntity(entityID: EntityID) {
+            val entity = state.entities[entityID] ?: return
+            runAssetScript(
+                    "scenes/$gameMapName/templates/entities/${entity.template}/destroy",
+                    tableOf("entityID" to entityID)
+            )
+            state.removeEntity(entityID)
+        }
 
         override fun print(msg: Any?) = Log.i(msg)
 

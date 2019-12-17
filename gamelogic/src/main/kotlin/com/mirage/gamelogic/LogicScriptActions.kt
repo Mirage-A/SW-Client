@@ -43,6 +43,12 @@ internal interface LogicScriptActions {
     /** Returns table with all player IDs */
     fun findAllPlayers() : List<Long>
 
+    /** Deals damage from [sourceID] entity (use -1 for no source) to [entityID] entity, maybe triggering death script of [targetID] */
+    fun dealDamageToEntity(sourceID: EntityID, entityID: EntityID, damage: Int)
+
+    /** Removes entity [entityID] from scene, triggering its destroy script */
+    fun destroyEntity(entityID: EntityID)
+
     /** Logs an object [msg] using standard logger */
     fun print(msg: Any?)
 

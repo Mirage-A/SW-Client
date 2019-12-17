@@ -3,6 +3,7 @@ package com.mirage.utils.extensions
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.mirage.utils.Assets
+import com.mirage.utils.Log
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import org.luaj.vm2.lib.jse.JsePlatform
@@ -20,10 +21,17 @@ typealias TimeMillis = Long
 typealias GameMapName = String
 typealias ReturnCode = Int
 
+private val luaGlobals = JsePlatform.standardGlobals()
+
 fun runScript(reader: Reader, args: LuaTable) {
-    val globals = JsePlatform.standardGlobals()
-    val chunk = globals.load(reader,"main")
-    chunk.call(args)
+    try {
+        val chunk = luaGlobals.load(reader, "main")
+        chunk.call(args)
+    }
+    catch(ex: Exception) {
+        Log.e("Error while evaluating script with args ${args.toStr()}")
+        ex.printStackTrace()
+    }
 }
 
 fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {

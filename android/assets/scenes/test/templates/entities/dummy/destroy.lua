@@ -1,1 +1,1 @@
-print("This entity was cruelly killed")
+print("This entity was removed from scene")
