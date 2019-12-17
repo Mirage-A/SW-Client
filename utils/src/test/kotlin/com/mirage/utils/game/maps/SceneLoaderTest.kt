@@ -24,8 +24,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadSceneTest() {
-        val str = """
-            {"map":{
+        val mapStr = """{
                 "width": 2,
                 "height": 2,
                 "tileSetName": "city",
@@ -35,9 +34,8 @@ internal class SceneLoaderTest {
                 "collisions": [
                   1,2,3,1
                 ]
-            },
-"objects": {
-"buildings": [
+            }""".trimIndent()
+        val buildingsStr = """[
               {
                   "template": "test-building",
                    "name": "main-gate",
@@ -45,18 +43,16 @@ internal class SceneLoaderTest {
                      "y": 0.7
                 }
              
-                ],
-"entities": [{
+                ]""".trimIndent()
+        val entitiesStr = """[{
                 "template": "test-entity",
                   "x": 0.0,
                   "y": 2.5,
                 "transparencyRange": 6.0,
                 "moveDirection": "UP_RIGHT"
-              }]
-}}
-        """.trimIndent()
-        val map = SceneLoader.loadMap(str.reader())
-        val objects = SceneLoader.loadInitialState(str.reader())
+              }]""".trimIndent()
+        val map = SceneLoader("").loadMap(mapStr.reader())
+        val objects = SceneLoader("micro-test").loadInitialState(buildingsStr.reader(), entitiesStr.reader())
         assertEquals(map.width, 2)
         assertEquals(map.height, 2)
         assertEquals(map.tileSetName, "city")
@@ -77,12 +73,13 @@ internal class SceneLoaderTest {
                 template = "test-building",
                 x = 0.4f,
                 y = 0.7f,
+                name = "main-gate",
                 width = 6f,
                 height = 0f,
                 isRigid = false,
                 transparencyRange = 0f,
                 state = "default"
-        ), objects.buildings[Long.MIN_VALUE])
+        ), objects.buildings[0L])
         assertEquals(ExtendedEntity(
                 name = "test-entity-1",
                 template = "test-entity",
@@ -96,16 +93,17 @@ internal class SceneLoaderTest {
                 isMoving = false,
                 state = "default",
                 action = "idle"
-        ), objects.entities[Long.MIN_VALUE])
+        ), objects.entities[0L])
     }
 
     @Test
     fun loadBuildingByNameTemplateTest() {
-        val obj = SceneLoader.loadBuildingTemplate("test-building")
+        val obj = SceneLoader("micro-test").loadBuildingTemplate("test-building")
         assertEquals(ExtendedBuilding(
                 template = "test-building",
                 x = 0f,
                 y = 0f,
+                name = "main-gate",
                 width = 6.0f,
                 height = 0.0f,
                 isRigid = false,
@@ -116,7 +114,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadEntityByNameTemplateTest() {
-        val obj = SceneLoader.loadEntityTemplate("test-entity")
+        val obj = SceneLoader("moving-micro-test").loadEntityTemplate("test-entity")
         assertEquals(ExtendedEntity(
                 name = "test-entity-1",
                 template = "test-entity",
@@ -137,8 +135,8 @@ internal class SceneLoaderTest {
     @Test
     fun testExceptions() {
         assertDoesNotThrow {
-            SceneLoader.loadMap("".reader())
-            SceneLoader.loadMap("""{
+            SceneLoader("").loadMap("".reader())
+            SceneLoader("").loadMap("""{
                 "objects": [
     {
       "x": 0.6,
@@ -148,15 +146,21 @@ internal class SceneLoaderTest {
             }""".trimMargin().reader())
         }
         assertDoesNotThrow {
-            SceneLoader.loadInitialState("".reader())
-            SceneLoader.loadInitialState("""{
+            SceneLoader("").loadInitialState("".reader(), "".reader())
+            SceneLoader("").loadInitialState("""{
                 "objects": [
     {
       "x": 0.6,
       "y": 1.1
     }
   ]
-            }""".trimMargin().reader())
+            }""".trimMargin().reader(),
+                    """[
+    {
+      "x": 0.6,
+      "y": 1.1
+    }
+  ]""".trimMargin().reader())
         }
     }
 }

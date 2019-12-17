@@ -1,6 +1,8 @@
 package com.mirage.connection
 
+import com.mirage.utils.extensions.IntervalMillis
 import com.mirage.utils.messaging.ClientMessage
+import com.mirage.utils.messaging.ServerMessage
 
 /** [Connection] implementation which works with remote server (multiplayer game) */
 class RemoteConnection : Connection {
@@ -13,5 +15,6 @@ class RemoteConnection : Connection {
 
     private fun sendAndFlush(msg: ClientMessage) : Unit = TODO("not implemented")
 
+    override fun forNewMessages(maxTime: IntervalMillis, block: (ServerMessage) -> Unit) = TODO("not implemented")
 
 }

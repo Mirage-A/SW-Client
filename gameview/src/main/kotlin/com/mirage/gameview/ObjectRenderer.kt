@@ -4,7 +4,9 @@ import com.mirage.gameview.drawers.DrawersManager
 import com.mirage.gameview.utils.compareEntityAndBuilding
 import com.mirage.gameview.utils.depthSort
 import com.mirage.gameview.utils.getVirtualScreenPointFromScene
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.datastructures.rangeBetween
 import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.objects.simplified.SimplifiedObject
@@ -16,11 +18,12 @@ import kotlin.math.abs
 /**
  * Отрисовывает все объекты карты
  */
-internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, drawersManager: DrawersManager, cameraX: Float, cameraY: Float, targetID: Long?, isTargetEnemy: Boolean) {
+internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, drawersManager: DrawersManager, cameraX: Float, cameraY: Float, playerPositionOnScene: Point, targetID: Long?, isTargetEnemy: Boolean) {
 
     val sortedObjs: MutableList<Pair<Long, SimplifiedObject>> = (state.buildings.toList() + state.entities.toList()).toMutableList()
     depthSort(sortedObjs)
     val currentTimeMillis = System.currentTimeMillis()
+
     for ((id, obj) in sortedObjs) {
         val isOpaque = isOpaque(obj, state)
         val pos = getVirtualScreenPointFromScene(obj.position)
@@ -39,14 +42,29 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
                             hitBox.width, 64f)
                     val arrowDelta = abs(20f - (currentTimeMillis / 10L % 100L).toFloat() / 2.5f)
                     virtualScreen.draw("ui/scene/target-$targetRelation-arrow",
-                            pos.x - cameraX, pos.y - cameraY + hitBox.height + 32f + 12f + arrowDelta)
+                            pos.x - cameraX, pos.y - cameraY + hitBox.height + 32f + 32f + arrowDelta)
                 }
                 else {
                     drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis, obj.moveDirection)
                 }
+                if (obj.interactionRange > 0f) {
+                    val hitBox = drawersManager.getEntityHitbox(id) ?: Rectangle()
+                    val interactionBoxY = pos.y - cameraY + hitBox.height + 9f + 8f
+                    val range = rangeBetween(playerPositionOnScene, obj.position)
+                    val modifier = if (id == targetID) {
+                        if (range < obj.interactionRange) "opaque" else "transparent"
+                    }
+                    else {
+                        if (range < obj.interactionRange) "transparent" else "super-transparent"
+                    }
+                    val textureName = "ui/scene/interact-$modifier"
+                    virtualScreen.draw(textureName, pos.x - cameraX, interactionBoxY)
+                    if (id == targetID) {
+                        virtualScreen.draw("ui/scene/interact-btn-$modifier", pos.x - cameraX - 46f - 18f, interactionBoxY)
+                    }
+                }
             }
         }
-
     }
 }
 

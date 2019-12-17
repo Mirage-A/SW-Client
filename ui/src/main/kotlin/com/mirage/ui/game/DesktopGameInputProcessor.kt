@@ -1,22 +1,32 @@
 package com.mirage.ui.game
 
 import com.badlogic.gdx.Input
+import com.mirage.ui.game.quests.QuestLoader
+import com.mirage.ui.game.quests.questBtnCount
+import com.mirage.ui.widgets.Button
+import com.mirage.ui.widgets.PageNavigator
+import com.mirage.utils.COMPLETED_QUEST_PHASE
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.datastructures.rangeBetween
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.messaging.*
 import com.mirage.utils.preferences.Prefs
 import rx.subjects.Subject
+import kotlin.math.max
 
-class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
+internal class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputProcessor {
 
     override val inputMessages: Subject<ClientMessage, ClientMessage> = EventSubjectAdapter()
-
 
     init {
         uiState.settingsBtn.onPressed = {
             for (btn in uiState.settingsMenuBtnList) {
                 btn.isVisible = !btn.isVisible
             }
+        }
+        uiState.questsBtn.onPressed = {
+            uiState.questWindow.widget.isVisible = !uiState.questWindow.widget.isVisible
         }
         uiState.leaveGameBtn.onPressed = {
             uiState.confirmExitMessage.isVisible = true
@@ -28,6 +38,126 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
         uiState.confirmExitMessage.setCancelAction {
             uiState.confirmExitMessage.isVisible = false
         }
+        updateQuestWindow()
+    }
+
+    private fun updateSelectedQuest() {
+        val isQuestSelected: Boolean
+        val selectedQuestGuiName: String
+        val selectedQuestGuiDescription: String
+        val localQ = uiState.questWindow.selectedLocalQuest
+        val globalQ = uiState.questWindow.selectedGlobalQuest
+        when {
+            localQ == null && globalQ == null -> {
+                isQuestSelected = false
+                selectedQuestGuiName = ""
+                selectedQuestGuiDescription = ""
+            }
+            localQ == null -> {
+                val questName = globalQ ?: "null"
+                val questPhase = Prefs.profile.globalQuestProgress[questName]
+                if (questPhase == null) {
+                    isQuestSelected = false
+                    selectedQuestGuiName = ""
+                    selectedQuestGuiDescription = ""
+                }
+                else {
+                    isQuestSelected = true
+                    selectedQuestGuiName = QuestLoader.getGuiQuestName(questName, questPhase, uiState.gameMapName, QuestLoader.QuestType.GLOBAL)
+                    selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(questName, questPhase, uiState.gameMapName, QuestLoader.QuestType.GLOBAL)
+                }
+            }
+            else -> {
+                val questPhase = uiState.localQuestProgress[localQ]
+                if (questPhase == null) {
+                    isQuestSelected = false
+                    selectedQuestGuiName = ""
+                    selectedQuestGuiDescription = ""
+                }
+                else {
+                    isQuestSelected = true
+                    selectedQuestGuiName = QuestLoader.getGuiQuestName(localQ, questPhase, uiState.gameMapName, QuestLoader.QuestType.LOCAL)
+                    selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(localQ, questPhase, uiState.gameMapName, QuestLoader.QuestType.LOCAL)
+                }
+            }
+        }
+        uiState.questWindow.questNameLabel.label.text = selectedQuestGuiName
+        uiState.questWindow.questNameLabel.isVisible = isQuestSelected
+        uiState.questWindow.questDescriptionLabel.label.text = selectedQuestGuiDescription
+        uiState.questWindow.questDescriptionLabel.isVisible = isQuestSelected
+    }
+
+    override fun updateQuestWindow() {
+        fun sortQuests(quests: QuestProgress) =
+                // Active quests
+                quests.filter { it.value in 1 until COMPLETED_QUEST_PHASE }.toList() +
+                        // Not received quests
+                        quests.filter { it.value == 0 }.toList() +
+                        // Completed quests
+                        quests.filter { it.value >= COMPLETED_QUEST_PHASE }.toList() +
+                        // Failed quests
+                        quests.filter { it.value < 0 }.toList()
+
+        fun updateQuestColumn(progress: QuestProgress, navigator: PageNavigator, btns: Array<Button>, questType: QuestLoader.QuestType) {
+            val quests = sortQuests(progress)
+            val pages = max(1, (quests.size - 1) / questBtnCount + 1)
+            if (navigator.pageIndex >= pages) navigator.pageIndex = pages - 1
+            navigator.pageCount = pages
+            val pageUpdater: (Int) -> Unit = { page ->
+                val startBtnIndex = questBtnCount * page
+                for (i in 0 until questBtnCount) {
+                    btns[i].apply {
+                        if (startBtnIndex + i >= quests.size) {
+                            isVisible = false
+                        }
+                        else {
+                            isVisible = true
+                            val (questName, questPhase) = quests[startBtnIndex + i]
+                            boundedLabel?.text = QuestLoader.getGuiQuestName(questName, questPhase, uiState.gameMapName, questType)
+                            val state = when {
+                                questPhase >= COMPLETED_QUEST_PHASE -> "completed"
+                                questPhase < 0 -> "failed"
+                                else -> "active"
+                            }
+                            textureName = "ui/game/quests/quest-btn-$state"
+                            highlightedTextureName = "ui/game/quests/quest-btn-$state-highlighted"
+                            pressedTextureName = "ui/game/quests/quest-btn-$state-pressed"
+                            onPressed = if (questType == QuestLoader.QuestType.LOCAL) {
+                                {
+                                    uiState.questWindow.selectedGlobalQuest = null
+                                    uiState.questWindow.selectedLocalQuest =
+                                            if (uiState.questWindow.selectedLocalQuest == questName) null else questName
+                                    updateSelectedQuest()
+                                }
+                            }
+                            else {
+                                {
+                                    uiState.questWindow.selectedLocalQuest = null
+                                    uiState.questWindow.selectedGlobalQuest =
+                                            if (uiState.questWindow.selectedGlobalQuest == questName) null else questName
+                                    updateSelectedQuest()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            navigator.onPageSwitch = pageUpdater
+            pageUpdater(navigator.pageIndex)
+        }
+        updateQuestColumn(
+                Prefs.profile.globalQuestProgress,
+                uiState.questWindow.globalQuestsPageNavigator,
+                uiState.questWindow.globalQuestBtns,
+                QuestLoader.QuestType.GLOBAL
+        )
+        updateQuestColumn(
+                uiState.localQuestProgress,
+                uiState.questWindow.localQuestsPageNavigator,
+                uiState.questWindow.localQuestBtns,
+                QuestLoader.QuestType.LOCAL
+        )
+        updateSelectedQuest()
     }
 
     /**
@@ -46,6 +176,7 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.widgets.forEach { it.unpress() }
         uiState.widgets.forEach { if (it.touchUp(virtualPoint)) return true}
         return false
     }
@@ -257,6 +388,15 @@ class DesktopGameInputProcessor(private val uiState: GameUIState) : GameInputPro
             }
             Input.Keys.ESCAPE -> {
                 inputMessages.onNext(ClearTargetMessage())
+            }
+            Input.Keys.E -> {
+                val targetID = uiState.targetID
+                val player = uiState.lastRenderedState.entities[uiState.playerID]
+                val target = uiState.lastRenderedState.entities[targetID]
+                if (targetID != null && player != null && target != null &&
+                        rangeBetween(player.position, target.position) < target.interactionRange) {
+                    inputMessages.onNext(InteractionClientMessage(targetID))
+                }
             }
         }
         for (i in 0 until 4) {

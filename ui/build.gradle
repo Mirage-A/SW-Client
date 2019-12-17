@@ -5,6 +5,7 @@ dependencies {
     implementation project(":gameview")
     
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation 'org.luaj:luaj-jse:3.0.1'
 }
 test {
     useJUnitPlatform()

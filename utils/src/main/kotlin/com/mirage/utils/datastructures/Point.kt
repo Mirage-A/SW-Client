@@ -25,6 +25,8 @@ data class Point (val x: Float, val y: Float){
         return "[$x, $y]"
     }
 
+    operator fun rangeTo(p: Point): Float = sqrt(sqr(p.x - this.x) + sqr(p.y - this.y))
+
     /**
      * Проверяет, что данная точка находится на расстоянии менее 0.1f от точки [point].
      * Используется для тестов.
@@ -34,4 +36,4 @@ data class Point (val x: Float, val y: Float){
 
 }
 
-fun rangeBetween(p: Point, other: Point): Float = sqrt(sqr(p.x - other.x) + sqr(p.y - other.y))
+fun rangeBetween(p: Point, other: Point): Float = p..other

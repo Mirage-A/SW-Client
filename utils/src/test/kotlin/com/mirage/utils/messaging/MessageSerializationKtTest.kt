@@ -21,8 +21,8 @@ internal class MessageSerializationKtTest {
         val msg = InitialGameStateMessage(
                 "mapName",
                 TestSamples.TEST_TWO_GAME_OBJECTS.simplifiedDeepCopy(),
-                Long.MIN_VALUE,
-                Long.MAX_VALUE
+                0L,
+                0L
         )
         val serialized = serializeServerMessage(msg)
         val deserialized = deserializeServerMessage(serialized)

@@ -1,0 +1,26 @@
+{
+  "name": "Player",
+  "template": "player",
+  "width": 0.5,
+  "height": 0.5,
+  "moveDirection": "UP",
+  "speed": 4.0,
+  "isRigid": true,
+  "action": "idle",
+  "health": 100,
+  "maxHealth": 100,
+  "factionID": 0,
+  "drawers": {
+    "default": {
+      "type": "humanoid",
+      "helmet": "default",
+      "chest": "default",
+      "cloak": "default",
+      "gloves": "default",
+      "legs": "default",
+      "weaponType": "UNARMED",
+      "rightWeapon": "default",
+      "leftWeapon": "default"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 package com.mirage.utils
 
+const val COMPLETED_QUEST_PHASE = 1000000
+
 const val LOG_ALL_MESSAGES = true
 
 const val OUTER_DLMTR = '\n' //Символ, который должен вставляться в конец каждого сериализованного сообщения

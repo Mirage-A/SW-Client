@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ScalingViewport
 import com.mirage.utils.*
 import com.mirage.utils.datastructures.Rectangle
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -209,7 +211,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     inner class GdxLabel internal constructor(
             text: String,
             rect: Rectangle,
-            fontCapHeight: Float = 15f
+            private val fontCapHeight: Float = 15f
     ) : VirtualScreen.Label {
 
         override var text: String = text
@@ -218,11 +220,13 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
                 field = value
             }
 
-        private val font = BitmapFont().apply {
-            data.setScale(fontCapHeight / data.capHeight)
-        }
-
-        private val label = Label(text, Label.LabelStyle(font, Color.BLACK)).apply {
+        private val label = Label(
+                text,
+                Label.LabelStyle(
+                        BitmapFont().apply { data.setScale(fontCapHeight / data.capHeight) },
+                        Color.BLACK
+                )
+        ).apply {
             isVisible = true
             setWrap(true)
             setSize(rect.width, rect.height)
@@ -244,6 +248,17 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
         override fun draw() = label.draw(batch, 255f)
 
+        override fun resizeFont(virtualWidth: Float, virtualHeight: Float) {
+            val font = BitmapFont()
+            val scale = max(0.1f, min(virtualWidth / DEFAULT_SCREEN_WIDTH, virtualHeight / DEFAULT_SCREEN_HEIGHT))
+            val fontScale = fontCapHeight / font.data.capHeight * scale
+            font.data.setScale(fontScale)
+            label.style = Label.LabelStyle(
+                    font,
+                    Color.BLACK
+            )
+        }
+
     }
 
 
@@ -263,6 +278,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         private val font = BitmapFont().apply {
             data.setScale(fontCapHeight / data.capHeight)
         }
+
 
         private val skin = Skin().apply {
             add("background", getTexture("ui/new-game/text-field-background"))
@@ -293,8 +309,8 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
                 field = value
             }
 
-
         override fun draw() = textField.draw(batch, 255f)
+
 
     }
 }

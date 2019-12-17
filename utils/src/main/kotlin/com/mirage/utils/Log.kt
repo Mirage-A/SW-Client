@@ -12,6 +12,6 @@ object Log {
     }
 
     fun e(msg: Any?) {
-        println(msg.toString())
+        System.err.println(msg.toString())
     }
 }

@@ -1,8 +1,10 @@
 package com.mirage.utils
 
+import com.mirage.utils.extensions.IntervalMillis
+import com.mirage.utils.extensions.TimeMillis
 import kotlin.concurrent.thread
 
-class LoopTimer(private val delayMillis: Long, private val onUpdate: (Long) -> Unit) {
+class LoopTimer(private val delayMillis: Long, private val onUpdate: (TimeMillis, IntervalMillis) -> Unit) {
 
     @Volatile
     private var isStopped = false
@@ -21,7 +23,7 @@ class LoopTimer(private val delayMillis: Long, private val onUpdate: (Long) -> U
                 synchronized(lock) {
                     val time = System.currentTimeMillis()
                     val deltaTime = if (lastTickTime == Long.MIN_VALUE) 0L else time - lastTickTime
-                    onUpdate(deltaTime)
+                    onUpdate(time, deltaTime)
                     lastTickTime = time
                     val secondTime = System.currentTimeMillis()
                     val updateTime = secondTime - time

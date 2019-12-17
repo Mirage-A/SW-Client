@@ -11,7 +11,7 @@ import rx.Observable
 
 class MainMenuScreen(virtualScreen: VirtualScreen) : Screen {
 
-    private val uiState: MainMenuUIState = MainMenuUIState(virtualScreen, Prefs.account.currentProfile.get() == null)
+    private val uiState: MainMenuUIState = MainMenuUIState(virtualScreen, Prefs.account.currentProfile == null)
 
     override val inputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopMainMenuInputProcessor(uiState)

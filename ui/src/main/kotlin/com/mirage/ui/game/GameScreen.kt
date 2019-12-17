@@ -7,6 +7,7 @@ import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.TestSamples
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.GameStateSnapshot
@@ -14,12 +15,13 @@ import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.SnapshotManager
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
+import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
-class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
+class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
 
-    private val uiState : GameUIState = GameUIState(virtualScreen)
+    private val uiState : GameUIState = GameUIState(virtualScreen, gameMapName)
 
     override val inputProcessor : GameInputProcessor = when (PLATFORM) {
         "desktop", "test" -> DesktopGameInputProcessor(uiState)
@@ -31,7 +33,7 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
         else -> DesktopGameUIRenderer()
     }
 
-    private val gameView = GameViewImpl(gameMap)
+    private val gameView = GameViewImpl(gameMapName, gameMap)
 
     private val snapshotManager = SnapshotManager()
 
@@ -51,6 +53,16 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
                 val state = msg.diff.projectOn(lastReceivedState)
                 lastReceivedState = state
                 snapshotManager.addNewSnapshot(GameStateSnapshot(state, msg.diff, msg.stateCreatedTimeMillis))
+            }
+            is LocalQuestUpdateMessage -> {
+                //TODO Show notification about quest progress
+                uiState.localQuestProgress[msg.localQuestName] = msg.newPhaseID
+                inputProcessor.updateQuestWindow()
+            }
+            is GlobalQuestUpdateMessage -> {
+                //TODO Show notification about quest progress
+                Prefs.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
+                inputProcessor.updateQuestWindow()
             }
         }
     }
