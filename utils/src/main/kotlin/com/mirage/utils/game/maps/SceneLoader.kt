@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.TestSamples
+import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
@@ -40,6 +41,37 @@ class SceneLoader(private val gameMapName: GameMapName) {
                 ex.printStackTrace()
                 TestSamples.TEST_SMALL_MAP
             }
+
+    fun loadAreas(): Iterable<ScriptArea> =
+            try {
+                loadAreas(Assets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
+            }
+            catch(ex: Exception) {
+                Log.e("Error while loading areas from scene: $gameMapName")
+                ArrayList()
+            }
+
+    fun loadAreas(reader: Reader): Iterable<ScriptArea> =
+            try {
+                val type: Type = object : TypeToken<List<NullableArea?>?>() {}.type
+                val nullableAreas: List<NullableArea> = gson.fromJson(reader, type) ?: ArrayList()
+                nullableAreas.map {
+                    ScriptArea(
+                            Rectangle(it.x ?: 0f, it.y ?: 0f, it.width ?: 0f, it.height ?: 0f),
+                            it.playersOnly ?: true,
+                            it.onEnter,
+                            it.onLeave
+                    )
+                }
+            }
+            catch (ex: Exception) {
+                Log.e("Error while loading areas.")
+                ex.printStackTrace()
+                ArrayList()
+            }
+
+    fun loadAreaScript(scriptName: String): Reader? =
+            Assets.loadReader("scenes/$gameMapName/areas/$scriptName.lua")
 
     fun loadInitialState(): ExtendedState =
             try {
@@ -171,5 +203,14 @@ class SceneLoader(private val gameMapName: GameMapName) {
         )
     }
 
+    private class NullableArea(
+            val x: Float?,
+            val y: Float?,
+            val width: Float?,
+            val height: Float?,
+            val playersOnly: Boolean?,
+            val onEnter: String?,
+            val onLeave: String?
+    )
 
 }

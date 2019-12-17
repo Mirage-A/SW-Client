@@ -4,10 +4,12 @@ import com.mirage.utils.Assets
 import com.mirage.utils.GAME_LOOP_TICK_INTERVAL
 import com.mirage.utils.Log
 import com.mirage.utils.LoopTimer
+import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.rangeBetween
 import com.mirage.utils.extensions.*
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.game.maps.ScriptArea
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.states.ExtendedState
 import com.mirage.utils.game.states.SimplifiedState
@@ -33,6 +35,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
     private val gameMap : GameMap = sceneLoader.loadMap()
     private val state: ExtendedState = sceneLoader.loadInitialState()
+    private val scriptAreas: Iterable<ScriptArea> = sceneLoader.loadAreas()
     private var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy()
 
     /** Maps id of player entity to list of his skills */
@@ -70,6 +73,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
         handleRemovePlayerRequests()
         handleClientMessages()
         processMoving(delta)
+        processScriptAreas()
         invokeDelayedScripts(time)
         finishStateUpdate()
     }
@@ -118,6 +122,31 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
             if (entity.isMoving) {
                 moveObject(entity, delta, gameMap, state)
             }
+        }
+    }
+
+    /** Latest entity positions processed by [processScriptAreas] */
+    private var lastProcessedPositions: MutableMap<EntityID, Point> = HashMap()
+
+    /** Process entering and leaving script areas */
+    private fun processScriptAreas() {
+        for ((id, entity) in state.entities) {
+            val isPlayer = id in playerIDs
+            val lastPosition = lastProcessedPositions[id] ?: Point(Float.MAX_VALUE, Float.MAX_VALUE)
+            for (area in scriptAreas) {
+                if (isPlayer || !area.playersOnly) {
+                    val wasInArea = lastPosition in area.area
+                    val isInArea = entity.position in area.area
+                    if (wasInArea != isInArea) {
+                        val scriptName = if (isInArea) area.onEnter else area.onLeave
+                        scriptName ?: continue
+                        val reader = sceneLoader.loadAreaScript(scriptName)
+                        reader ?: continue
+                        runScript(reader, tableOf("entityID" to id))
+                    }
+                }
+            }
+            lastProcessedPositions[id] = entity.position
         }
     }
 
