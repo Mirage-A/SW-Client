@@ -37,6 +37,7 @@
   },
   {
     "template": "main-gate-door",
+    "name": "main-gate-door",
     "x": 14.0,
     "y": 15.0
   }

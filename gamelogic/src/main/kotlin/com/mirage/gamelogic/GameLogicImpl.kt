@@ -10,6 +10,7 @@ import com.mirage.utils.extensions.*
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.maps.ScriptArea
+import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.states.ExtendedState
 import com.mirage.utils.game.states.SimplifiedState
@@ -88,7 +89,6 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
     private fun handleClientMessages() {
         for ((id, msg) in getNewClientMessages()) {
-            if (msg !is MoveDirectionClientMessage && msg !is SetMovingClientMessage) println("Got client message $id $msg")
             when (msg) {
                 is MoveDirectionClientMessage -> {
                     state.entities[id]?.moveDirection = msg.md
@@ -140,9 +140,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
                     if (wasInArea != isInArea) {
                         val scriptName = if (isInArea) area.onEnter else area.onLeave
                         scriptName ?: continue
-                        val reader = sceneLoader.loadAreaScript(scriptName)
-                        reader ?: continue
-                        runScript(reader, tableOf("entityID" to id))
+                        runAssetScript("scenes/$gameMapName/areas/$scriptName", tableOf("entityID" to id))
                     }
                 }
             }
@@ -156,7 +154,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
     private fun invokeDelayedScripts(currentTime: TimeMillis) {
         while (delayedScripts.isNotEmpty() && delayedScripts.peek().first < currentTime) {
             val (name, args) = delayedScripts.poll().second
-            runAssetScript("scripts/$name", args)
+            runAssetScript("scenes/$gameMapName/scripts/$name", args)
         }
     }
 
@@ -243,11 +241,11 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
     private inner class ScriptActions : LogicScriptActions {
 
-        override fun runLogicScript(scriptName: String, args: LuaTable) {
-            runAssetScript("scripts/$scriptName", args)
+        override fun runSceneScript(scriptName: String, args: LuaTable) {
+            runAssetScript("scenes/$gameMapName/scripts/$scriptName", args)
         }
 
-        override fun runLogicScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long) {
+        override fun runSceneScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long) {
             delayedScripts.add((System.currentTimeMillis() + timeout) to (scriptName to args))
         }
 
@@ -257,17 +255,21 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
         override fun getGameMapName(): String = gameMapName
 
-        override fun findEntity(name: String): EntityID? = state.entities.entries.find { it.value.name == name }?.key
+        override fun findEntityID(name: String): EntityID? = state.entities.entries.find { it.value.name == name }?.key
 
-        override fun findBuilding(name: String): BuildingID? = state.buildings.entries.find { it.value.name == name }?.key
+        override fun findBuildingID(name: String): BuildingID? = state.buildings.entries.find { it.value.name == name }?.key
 
-        override fun findAllEntities(name: String): List<EntityID> =
+        override fun findEntity(name: String): ExtendedEntity? = state.entities.entries.find { it.value.name == name }?.value
+
+        override fun findBuilding(name: String): ExtendedBuilding? = state.buildings.entries.find { it.value.name == name }?.value
+
+        override fun findAllEntityIDs(name: String): List<EntityID> =
                 state.entities.filter { it.value.name == name }.map { it.key }
 
-        override fun findAllBuildings(name: String): List<BuildingID> =
+        override fun findAllBuildingIDs(name: String): List<BuildingID> =
                 state.buildings.filter { it.value.name == name }.map { it.key }
 
-        override fun findAllPlayers(): List<EntityID> = playerIDs.toList()
+        override fun findAllPlayerIDs(): List<EntityID> = playerIDs.toList()
 
         override fun dealDamageToEntity(sourceID: EntityID, entityID: EntityID, damage: Int) {
             state.entities[entityID]?.let {

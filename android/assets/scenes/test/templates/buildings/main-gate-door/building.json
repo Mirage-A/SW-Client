@@ -8,9 +8,21 @@
   "isRigid": false,
   "transparencyRange": 5.0,
   "drawers": {
-    "default": {
+    "closed": {
       "type": "staticTexture",
       "textureName": "main-gate-door"
+    },
+    "opened": {
+      "type": "staticTexture",
+      "textureName": "main-gate-door-opened"
+    },
+    "closing": {
+      "type": "animation",
+      "animationName": "main-gate-close"
+    },
+    "opening": {
+      "type": "animation",
+      "animationName": "main-gate-open"
     }
   }
 }

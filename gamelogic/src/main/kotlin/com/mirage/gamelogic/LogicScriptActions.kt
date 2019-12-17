@@ -16,11 +16,11 @@ import org.luaj.vm2.LuaValue
 /** Methods which can be used by any script */
 internal interface LogicScriptActions {
 
-    /** Runs another script from scripts folder immediately */
-    fun runLogicScript(scriptName: String, args: LuaTable)
+    /** Runs another script from scripts folder of this scene immediately */
+    fun runSceneScript(scriptName: String, args: LuaTable)
 
-    /** Runs another script from scripts folder after timeout. This script will still be invoked in logic thread */
-    fun runLogicScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long)
+    /** Runs another script from scripts folder of this scene after timeout. This script will still be invoked in logic thread */
+    fun runSceneScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long)
 
     /** Returns whole state of the game */
     fun getState(): ExtendedState
@@ -31,17 +31,20 @@ internal interface LogicScriptActions {
     fun getGameMapName(): String
 
     /** Finds any entity with the name [name] */
-    fun findEntity(name: String): Long?
+    fun findEntityID(name: String): Long?
     /** Finds any building with the name [name] */
-    fun findBuilding(name: String): Long?
+    fun findBuildingID(name: String): Long?
+
+    fun findEntity(name: String): ExtendedEntity?
+    fun findBuilding(name: String): ExtendedBuilding?
 
     /** Finds all entities with the name [name] */
-    fun findAllEntities(name: String) : List<Long>
+    fun findAllEntityIDs(name: String) : List<Long>
     /** Finds all buildings with the name [name] */
-    fun findAllBuildings(name: String) : List<Long>
+    fun findAllBuildingIDs(name: String) : List<Long>
 
     /** Returns table with all player IDs */
-    fun findAllPlayers() : List<Long>
+    fun findAllPlayerIDs() : List<Long>
 
     /** Deals damage from [sourceID] entity (use -1 for no source) to [entityID] entity, maybe triggering death script of [targetID] */
     fun dealDamageToEntity(sourceID: EntityID, entityID: EntityID, damage: Int)
