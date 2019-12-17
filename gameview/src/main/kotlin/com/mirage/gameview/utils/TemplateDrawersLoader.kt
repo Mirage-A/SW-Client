@@ -6,6 +6,7 @@ import com.mirage.gameview.drawers.templates.*
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.extensions.fromJson
+import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.WeaponType
 import java.io.Reader
@@ -80,10 +81,19 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
     return result
 }
 
-internal fun loadDrawersFromTemplate(templateName: String) : MutableMap<String, DrawerTemplate> {
-    val reader = Assets.loadReader("templates/$templateName.json")
+internal fun loadEntityDrawersFromTemplate(sceneLoader: SceneLoader, templateName: String) : MutableMap<String, DrawerTemplate> {
+    val reader = sceneLoader.getEntityTemplateReader(templateName)
     if (reader == null) {
-        Log.e("Error: can't find template $templateName")
+        Log.e("Error: can't find entity template $templateName")
+        return HashMap()
+    }
+    return loadDrawersFromTemplateReader(reader, templateName)
+}
+
+internal fun loadBuildingDrawersFromTemplate(sceneLoader: SceneLoader, templateName: String) : MutableMap<String, DrawerTemplate> {
+    val reader = sceneLoader.getBuildingTemplateReader(templateName)
+    if (reader == null) {
+        Log.e("Error: can't find building template $templateName")
         return HashMap()
     }
     return loadDrawersFromTemplateReader(reader, templateName)

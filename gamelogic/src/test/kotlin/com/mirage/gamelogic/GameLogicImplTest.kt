@@ -26,7 +26,7 @@ internal class GameLogicImplTest{
         logic.stopLogic()
         Thread.sleep(250L)
         assertEquals(
-                SceneLoader.loadInitialState("micro-test"),
+                SceneLoader("micro-test").loadInitialState(),
                 (logic.serverMessages.peek().second as InitialGameStateMessage).initialState
         )
     }

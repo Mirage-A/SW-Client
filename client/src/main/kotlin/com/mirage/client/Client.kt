@@ -140,7 +140,7 @@ object Client : ApplicationListener {
 
     private fun startSinglePlayerGame(mapName: String) {
         virtualScreen.stage.clear()
-        val map = SceneLoader.loadMap(mapName)
+        val map = SceneLoader(mapName).loadMap()
         val gameScreen = GameScreen(mapName, map, virtualScreen)
         virtualScreen.setTileSet(map.tileSetName)
         val connection : Connection = LocalConnection(mapName)

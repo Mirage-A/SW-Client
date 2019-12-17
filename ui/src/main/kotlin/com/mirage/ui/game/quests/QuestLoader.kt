@@ -13,16 +13,16 @@ object QuestLoader {
     /** Returns name of a quest which can be displayed in GUI */
     fun getGuiQuestName(questName: String, questPhase: Int, mapName: GameMapName, questType: QuestType): String {
         val scriptPath =
-                if (questType == QuestType.GLOBAL) "quests/global/$questName/name.lua"
-                else "quests/local/$mapName/$questName/name.lua"
+                if (questType == QuestType.GLOBAL) "global-quests/$questName/name.lua"
+                else "scenes/$mapName/quests/$questName/name.lua"
         return evalScript(scriptPath, questName, questPhase)
     }
 
     /** Returns description of a quest which can be displayed in GUI */
     fun getGuiQuestDescription(questName: String, questPhase: Int, mapName: GameMapName, questType: QuestType): String {
         val scriptPath =
-                if (questType == QuestType.GLOBAL) "quests/global/$questName/description.lua"
-                else "quests/local/$mapName/$questName/description.lua"
+                if (questType == QuestType.GLOBAL) "global-quests/$questName/description.lua"
+                else "scenes/$mapName/quests/$questName/description.lua"
         return evalScript(scriptPath, questName, questPhase)
     }
 

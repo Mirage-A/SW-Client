@@ -5,15 +5,17 @@ import com.mirage.gameview.drawers.DrawersManagerImpl
 import com.mirage.gameview.utils.getVirtualScreenPointFromScene
 import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.game.maps.GameMap
+import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-class GameViewImpl(private val gameMap: GameMap) : GameView {
+class GameViewImpl(gameMapName: GameMapName, private val gameMap: GameMap) : GameView {
 
-    private val drawersManager: DrawersManager = DrawersManagerImpl()
+    private val drawersManager: DrawersManager = DrawersManagerImpl(SceneLoader(gameMapName))
 
     override fun loadDrawers(initialState: SimplifiedState) {
         drawersManager.loadDrawers(initialState)

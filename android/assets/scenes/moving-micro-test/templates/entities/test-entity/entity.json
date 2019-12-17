@@ -1,0 +1,12 @@
+{
+  "_comment": "This template is used for tests. Don't change this file.",
+  "name": "test-entity-1",
+  "template": "test-entity",
+  "type": "ENTITY",
+  "width": 0.25,
+  "height": 0.25,
+  "moveDirection": "UP_RIGHT",
+  "speed": 2.8,
+  "isRigid": false,
+  "layer": 0
+}

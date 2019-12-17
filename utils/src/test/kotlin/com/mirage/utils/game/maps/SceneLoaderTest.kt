@@ -51,8 +51,8 @@ internal class SceneLoaderTest {
                 "transparencyRange": 6.0,
                 "moveDirection": "UP_RIGHT"
               }]""".trimIndent()
-        val map = SceneLoader.loadMap(mapStr.reader())
-        val objects = SceneLoader.loadInitialState(buildingsStr.reader(), entitiesStr.reader())
+        val map = SceneLoader("").loadMap(mapStr.reader())
+        val objects = SceneLoader("micro-test").loadInitialState(buildingsStr.reader(), entitiesStr.reader())
         assertEquals(map.width, 2)
         assertEquals(map.height, 2)
         assertEquals(map.tileSetName, "city")
@@ -98,7 +98,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadBuildingByNameTemplateTest() {
-        val obj = SceneLoader.loadBuildingTemplate("test-building")
+        val obj = SceneLoader("micro-test").loadBuildingTemplate("test-building")
         assertEquals(ExtendedBuilding(
                 template = "test-building",
                 x = 0f,
@@ -114,7 +114,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadEntityByNameTemplateTest() {
-        val obj = SceneLoader.loadEntityTemplate("test-entity")
+        val obj = SceneLoader("moving-micro-test").loadEntityTemplate("test-entity")
         assertEquals(ExtendedEntity(
                 name = "test-entity-1",
                 template = "test-entity",
@@ -135,8 +135,8 @@ internal class SceneLoaderTest {
     @Test
     fun testExceptions() {
         assertDoesNotThrow {
-            SceneLoader.loadMap("".reader())
-            SceneLoader.loadMap("""{
+            SceneLoader("").loadMap("".reader())
+            SceneLoader("").loadMap("""{
                 "objects": [
     {
       "x": 0.6,
@@ -146,8 +146,8 @@ internal class SceneLoaderTest {
             }""".trimMargin().reader())
         }
         assertDoesNotThrow {
-            SceneLoader.loadInitialState("".reader(), "".reader())
-            SceneLoader.loadInitialState("""{
+            SceneLoader("").loadInitialState("".reader(), "".reader())
+            SceneLoader("").loadInitialState("""{
                 "objects": [
     {
       "x": 0.6,

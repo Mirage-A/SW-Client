@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.TestSamples
+import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
@@ -14,19 +15,19 @@ import java.io.Reader
 import java.lang.reflect.Type
 
 
-object SceneLoader {
+class SceneLoader(private val gameMapName: GameMapName) {
 
     private val cachedEntityTemplates = HashMap<String, ExtendedEntity>()
     private val cachedBuildingTemplates = HashMap<String, ExtendedBuilding>()
 
     private val gson = Gson()
 
-    fun loadMap(name: String): GameMap =
+    fun loadMap(): GameMap =
             try {
-                loadMap(Assets.loadReader("maps/$name/map.json")!!)
+                loadMap(Assets.loadReader("scenes/$gameMapName/map.json")!!)
             }
             catch(ex: Exception) {
-                Log.e("Error while loading map from scene: $name")
+                Log.e("Error while loading map from scene: $gameMapName")
                 TestSamples.TEST_SMALL_MAP
             }
 
@@ -40,12 +41,15 @@ object SceneLoader {
                 TestSamples.TEST_SMALL_MAP
             }
 
-    fun loadInitialState(name: String): ExtendedState =
+    fun loadInitialState(): ExtendedState =
             try {
-                loadInitialState(Assets.loadReader("maps/$name/buildings.json")!!, Assets.loadReader("maps/$name/entities.json")!!)
+                loadInitialState(Assets.loadReader(
+                        "scenes/$gameMapName/buildings.json")!!,
+                        Assets.loadReader("scenes/$gameMapName/entities.json")!!
+                )
             }
             catch(ex: Exception) {
-                Log.e("Error while loading initial objects from scene: $name")
+                Log.e("Error while loading initial objects from scene: $gameMapName")
                 ExtendedState()
             }
 
@@ -69,10 +73,13 @@ object SceneLoader {
                 ExtendedState()
             }
 
+    fun getEntityTemplateReader(name: String): Reader? = Assets.loadReader("scenes/$gameMapName/templates/entities/$name/entity.json")
+
+    fun getBuildingTemplateReader(name: String): Reader? = Assets.loadReader("scenes/$gameMapName/templates/buildings/$name/building.json")
 
     fun loadEntityTemplate(name: String): ExtendedEntity = cachedEntityTemplates[name] ?: try {
         val t = gson.fromJson<NullableEntity>(
-                Assets.loadReader("templates/entities/$name.json")!!
+               getEntityTemplateReader(name)!!
         )?.projectOnTemplate(defaultEntity) ?: defaultEntity
         cachedEntityTemplates[name] = t
         t
@@ -85,7 +92,7 @@ object SceneLoader {
 
     fun loadBuildingTemplate(name: String): ExtendedBuilding = cachedBuildingTemplates[name] ?: try {
         val t = gson.fromJson<NullableBuilding>(
-                Assets.loadReader("templates/buildings/$name.json")!!
+                getBuildingTemplateReader(name)!!
         )?.projectOnTemplate(defaultBuilding) ?: defaultBuilding
         cachedBuildingTemplates[name] = t
         t

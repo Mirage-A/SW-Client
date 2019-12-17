@@ -33,7 +33,7 @@ class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: Virt
         else -> DesktopGameUIRenderer()
     }
 
-    private val gameView = GameViewImpl(gameMap)
+    private val gameView = GameViewImpl(gameMapName, gameMap)
 
     private val snapshotManager = SnapshotManager()
 

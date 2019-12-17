@@ -20,7 +20,7 @@ internal class MapRendererKtTest {
 
     @Test
     fun testSmallMapRendering() {
-        val gameMap = SceneLoader.loadMap("micro-test")
+        val gameMap = SceneLoader("micro-test").loadMap()
         val list = Array(5) {"null"}.toList()
         assertEquals(list[0], list[0])
         val mock: VirtualScreen = mock {

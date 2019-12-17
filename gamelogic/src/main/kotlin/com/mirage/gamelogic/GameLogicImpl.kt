@@ -7,6 +7,7 @@ import com.mirage.utils.LoopTimer
 import com.mirage.utils.extensions.*
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.states.ExtendedState
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
@@ -27,8 +28,10 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
     /** Queue which stores new messages from clients */
     private val clientMessages : Queue<Pair<EntityID, ClientMessage>> = ConcurrentLinkedQueue()
 
-    private val gameMap : GameMap = SceneLoader.loadMap(gameMapName)
-    private val state: ExtendedState = SceneLoader.loadInitialState(gameMapName)
+    private val sceneLoader = SceneLoader(gameMapName)
+
+    private val gameMap : GameMap = sceneLoader.loadMap()
+    private val state: ExtendedState = sceneLoader.loadInitialState()
     private var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy()
 
     /** Maps id of player entity to list of his skills */
@@ -59,7 +62,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
     private fun updateState(time: TimeMillis, delta: IntervalMillis) {
         if (delta > 200L) Log.i("Slow update: $delta ms")
         if (!initScriptInvoked) {
-            runAssetScript("maps/$gameMapName/init", tableOf())
+            runAssetScript("scenes/$gameMapName/init", tableOf())
             initScriptInvoked = true
         }
         handleNewPlayerRequests(time, delta)
@@ -114,9 +117,14 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
         }
     }
 
+    private fun createPlayer(): ExtendedEntity = sceneLoader.loadEntityTemplate("player").with(
+            x = gameMap.spawnX,
+            y = gameMap.spawnY
+    )
+
     private fun handleNewPlayerRequests(currentTime: TimeMillis, deltaTime: IntervalMillis) {
         newPlayerRequests.processNewItems {
-            val player = createPlayer(gameMap)
+            val player = createPlayer()
             val id = state.addEntity(player)
             playerIDs.add(id)
             //TODO Загрузка информации о навыках игрока через сообщения при входе в игру и через хранение профиля в БД
@@ -127,14 +135,14 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
             serverMessages.add(Pair(id, InitialGameStateMessage(
                     gameMapName, state.simplifiedDeepCopy(), id, currentTime - deltaTime
             )))
-            runAssetScript("maps/$gameMapName/new-player", tableOf("playerID" to id))
+            runAssetScript("scenes/$gameMapName/new-player", tableOf("playerID" to id))
             it.second(id)
         }
     }
 
     private fun handleRemovePlayerRequests() {
             removePlayerRequests.processNewItems {
-                runAssetScript("maps/$gameMapName/player-exit", tableOf("playerID" to it))
+                runAssetScript("scenes/$gameMapName/player-exit", tableOf("playerID" to it))
                 state.removeEntity(it)
             }
     }
@@ -251,7 +259,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
                 it[questName] = newPhase
                 serverMessages.add(Pair(playerID, GlobalQuestUpdateMessage(questName, newPhase)))
                 val args = tableOf("playerID" to playerID, "phase" to newPhase)
-                runAssetScript("quests/global/$questName/update", args)
+                runAssetScript("global-quests/$questName/update", args)
             }
         }
 
@@ -260,7 +268,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
                 it[questName] = newPhase
                 serverMessages.add(Pair(playerID, LocalQuestUpdateMessage(questName, newPhase)))
                 val args = tableOf("playerID" to playerID, "phase" to newPhase)
-                runAssetScript("quests/local/$gameMapName/$questName/update", args)
+                runAssetScript("scenes/$gameMapName/quests/$questName/update", args)
             }
         }
 
