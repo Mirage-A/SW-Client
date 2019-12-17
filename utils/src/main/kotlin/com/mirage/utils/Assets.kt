@@ -58,9 +58,6 @@ object Assets {
     fun loadReader(path: String) : Reader? =
             loadFile(path)?.reader()
 
-    fun loadScript(name: String) : Reader? =
-            loadReader("scripts/$name.lua")
-
 
     fun loadAnimation(name: String) : InputStream? =
         loadFile("animations/$name.xml")?.read()

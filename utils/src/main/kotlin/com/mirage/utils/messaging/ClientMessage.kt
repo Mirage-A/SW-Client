@@ -1,6 +1,7 @@
 package com.mirage.utils.messaging
 
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.EntityID
 import com.mirage.utils.game.objects.properties.MoveDirection
 
 
@@ -11,13 +12,15 @@ sealed class ClientMessage {
                 MoveDirectionClientMessage::class.java,
                 SetMovingClientMessage::class.java,
                 CastSkillClientMessage::class.java,
+                InteractionClientMessage::class.java,
                 RegisterClientMessage::class.java,
                 LoginClientMessage::class.java,
                 CityJoinClientMessage::class.java,
                 ReconnectClientMessage::class.java,
                 ChangeSceneClientMessage::class.java,
                 ExitClientMessage::class.java,
-                NewTargetMessage::class.java
+                NewTargetMessage::class.java,
+                ClearTargetMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -43,6 +46,9 @@ data class SetMovingClientMessage(val isMoving: Boolean) : ClientMessage()
  * @param targetID ID of a target entity
  */
 data class CastSkillClientMessage(val skillID: Int, val targetID: Long?) : ClientMessage()
+
+/** Message of trying to interact with entity [entityID] through interaction button */
+data class InteractionClientMessage(val entityID: EntityID) : ClientMessage()
 
 data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage()
 

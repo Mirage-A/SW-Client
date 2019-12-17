@@ -42,4 +42,8 @@ class CompositeWidget(vararg widget: Widget) : Widget {
             }
         }
     }
+
+    override fun unpress() {
+        widgets.forEach { it.unpress() }
+    }
 }

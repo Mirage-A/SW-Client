@@ -1,0 +1,28 @@
+{
+  "name": "main-gate-door",
+  "template": "main-gate-door",
+  "type": "BUILDING",
+  "width": 6.0,
+  "height": 0.0,
+  "state": "closed",
+  "isRigid": false,
+  "transparencyRange": 5.0,
+  "drawers": {
+    "closed": {
+      "type": "staticTexture",
+      "textureName": "main-gate-door"
+    },
+    "opened": {
+      "type": "staticTexture",
+      "textureName": "main-gate-door-opened"
+    },
+    "closing": {
+      "type": "animation",
+      "animationName": "main-gate-close"
+    },
+    "opening": {
+      "type": "animation",
+      "animationName": "main-gate-open"
+    }
+  }
+}

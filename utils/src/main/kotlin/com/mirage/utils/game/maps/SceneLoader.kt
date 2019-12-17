@@ -1,37 +1,40 @@
 package com.mirage.utils.game.maps
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.TestSamples
+import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.extensions.fromJson
-import com.mirage.utils.extensions.mutableMap
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
-import com.mirage.utils.game.objects.extended.ExtendedObject
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.ExtendedState
 import java.io.Reader
+import java.lang.reflect.Type
 
-object SceneLoader {
+
+class SceneLoader(private val gameMapName: GameMapName) {
 
     private val cachedEntityTemplates = HashMap<String, ExtendedEntity>()
     private val cachedBuildingTemplates = HashMap<String, ExtendedBuilding>()
 
     private val gson = Gson()
 
-    fun loadMap(name: String): GameMap =
+    fun loadMap(): GameMap =
             try {
-                loadMap(Assets.loadReader("maps/$name.json")!!)
+                loadMap(Assets.loadReader("scenes/$gameMapName/map.json")!!)
             }
             catch(ex: Exception) {
-                Log.e("Error while loading map from scene: $name")
+                Log.e("Error while loading map from scene: $gameMapName")
                 TestSamples.TEST_SMALL_MAP
             }
 
     fun loadMap(reader: Reader): GameMap =
             try {
-                gson.fromJson<MapWrapper>(reader)?.map ?: TestSamples.TEST_SMALL_MAP
+                gson.fromJson(reader) ?: TestSamples.TEST_SMALL_MAP
             }
             catch (ex: Exception) {
                 Log.e("Error while loading scene.")
@@ -39,23 +42,59 @@ object SceneLoader {
                 TestSamples.TEST_SMALL_MAP
             }
 
-    fun loadInitialState(name: String): ExtendedState =
+    fun loadAreas(): Iterable<ScriptArea> =
             try {
-                loadInitialState(Assets.loadReader("maps/$name.json")!!)
+                loadAreas(Assets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
             }
             catch(ex: Exception) {
-                Log.e("Error while loading initial objects from scene: $name")
+                Log.e("Error while loading areas from scene: $gameMapName")
+                ArrayList()
+            }
+
+    fun loadAreas(reader: Reader): Iterable<ScriptArea> =
+            try {
+                val type: Type = object : TypeToken<List<NullableArea?>?>() {}.type
+                val nullableAreas: List<NullableArea> = gson.fromJson(reader, type) ?: ArrayList()
+                nullableAreas.map {
+                    ScriptArea(
+                            Rectangle(it.x ?: 0f, it.y ?: 0f, it.width ?: 0f, it.height ?: 0f),
+                            it.playersOnly ?: true,
+                            it.onEnter,
+                            it.onLeave
+                    )
+                }
+            }
+            catch (ex: Exception) {
+                Log.e("Error while loading areas.")
+                ex.printStackTrace()
+                ArrayList()
+            }
+
+    fun loadAreaScript(scriptName: String): Reader? =
+            Assets.loadReader("scenes/$gameMapName/areas/$scriptName.lua")
+
+    fun loadInitialState(): ExtendedState =
+            try {
+                loadInitialState(Assets.loadReader(
+                        "scenes/$gameMapName/buildings.json")!!,
+                        Assets.loadReader("scenes/$gameMapName/entities.json")!!
+                )
+            }
+            catch(ex: Exception) {
+                Log.e("Error while loading initial objects from scene: $gameMapName")
                 ExtendedState()
             }
 
-    fun loadInitialState(reader: Reader): ExtendedState =
+    fun loadInitialState(buildingsReader: Reader, entitiesReader: Reader): ExtendedState =
             try {
-
-                val objs: ObjectsWrapper = gson.fromJson<StateWrapper>(reader)?.objects ?: ObjectsWrapper(null, null)
-                val buildingsList = objs.buildings?.map {
+                val buildingsType: Type = object : TypeToken<List<NullableBuilding?>?>() {}.type
+                val nullableBuildings = gson.fromJson<List<NullableBuilding>?>(buildingsReader, buildingsType)
+                val buildingsList = nullableBuildings?.map {
                     it.projectOnTemplate(loadBuildingTemplate(it.template ?: "undefined"))
                 } ?: ArrayList()
-                val entitiesList = objs.entities?.map {
+                val entitiesType: Type = object : TypeToken<List<NullableEntity?>?>() {}.type
+                val nullableEntities = gson.fromJson<List<NullableEntity>?>(entitiesReader, entitiesType)
+                val entitiesList = nullableEntities?.map {
                     it.projectOnTemplate(loadEntityTemplate(it.template ?: "undefined"))
                 } ?: ArrayList()
                 ExtendedState(buildingsList, entitiesList)
@@ -66,10 +105,13 @@ object SceneLoader {
                 ExtendedState()
             }
 
+    fun getEntityTemplateReader(name: String): Reader? = Assets.loadReader("scenes/$gameMapName/templates/entities/$name/entity.json")
+
+    fun getBuildingTemplateReader(name: String): Reader? = Assets.loadReader("scenes/$gameMapName/templates/buildings/$name/building.json")
 
     fun loadEntityTemplate(name: String): ExtendedEntity = cachedEntityTemplates[name] ?: try {
         val t = gson.fromJson<NullableEntity>(
-                Assets.loadReader("templates/entities/$name.json")!!
+               getEntityTemplateReader(name)!!
         )?.projectOnTemplate(defaultEntity) ?: defaultEntity
         cachedEntityTemplates[name] = t
         t
@@ -82,7 +124,7 @@ object SceneLoader {
 
     fun loadBuildingTemplate(name: String): ExtendedBuilding = cachedBuildingTemplates[name] ?: try {
         val t = gson.fromJson<NullableBuilding>(
-                Assets.loadReader("templates/buildings/$name.json")!!
+                getBuildingTemplateReader(name)!!
         )?.projectOnTemplate(defaultBuilding) ?: defaultBuilding
         cachedBuildingTemplates[name] = t
         t
@@ -92,19 +134,6 @@ object SceneLoader {
         Log.e(ex.stackTrace.toString())
         ExtendedBuilding()
     }
-
-    private class MapWrapper(
-            val map: GameMap?
-    )
-
-    private class StateWrapper(
-            val objects: ObjectsWrapper?
-    )
-
-    private class ObjectsWrapper(
-            val buildings: List<NullableBuilding>?,
-            val entities: List<NullableEntity>?
-    )
 
     private val defaultEntity = ExtendedEntity()
 
@@ -123,6 +152,7 @@ object SceneLoader {
             val health: Int?,
             val maxHealth: Int?,
             val factionID: Int?,
+            val interactionRange: Float?,
             val isRigid: Boolean?
     ) {
         fun projectOnTemplate(t: ExtendedEntity) = ExtendedEntity(
@@ -140,6 +170,7 @@ object SceneLoader {
                 health ?: t.health,
                 maxHealth ?: t.maxHealth,
                 factionID ?: t.factionID,
+                interactionRange ?: t.interactionRange,
                 isRigid ?: t.isRigid
 
         )
@@ -151,6 +182,7 @@ object SceneLoader {
             val template: String?,
             val x: Float?,
             val y: Float?,
+            val name: String?,
             val width: Float?,
             val height: Float?,
             val transparencyRange: Float?,
@@ -161,6 +193,7 @@ object SceneLoader {
                 template ?: t.template,
                 x ?: t.x,
                 y ?: t.y,
+                name ?: t.name,
                 width ?: t.width,
                 height ?: t.height,
                 transparencyRange ?: t.transparencyRange,
@@ -170,5 +203,14 @@ object SceneLoader {
         )
     }
 
+    private class NullableArea(
+            val x: Float?,
+            val y: Float?,
+            val width: Float?,
+            val height: Float?,
+            val playersOnly: Boolean?,
+            val onEnter: String?,
+            val onLeave: String?
+    )
 
 }

@@ -80,6 +80,10 @@ class ConfirmMessage(
         if (!isVisible) return
         okButton.mouseMoved(virtualPoint)
         cancelButton.mouseMoved(virtualPoint)
+    }
 
+    override fun unpress() {
+        okButton.unpress()
+        cancelButton.unpress()
     }
 }

@@ -15,4 +15,6 @@ interface Widget {
 
     fun draw(virtualScreen: VirtualScreen)
 
+    fun unpress() {}
+
 }

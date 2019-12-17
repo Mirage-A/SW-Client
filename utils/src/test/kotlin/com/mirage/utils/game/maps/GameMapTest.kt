@@ -15,6 +15,7 @@ internal class GameMapTest {
                 "default_template",
                 0f,
                 0f,
+                "",
                 0f,
                 0f,
                 0f,

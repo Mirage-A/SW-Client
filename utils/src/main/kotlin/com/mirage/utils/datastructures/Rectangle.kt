@@ -28,7 +28,7 @@ data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f
                     (y + height / 2 > other.y - other.height / 2)
 
     /** Checks if rectangle contains a point */
-    fun contains(p: Point) : Boolean =
+    operator fun contains(p: Point) : Boolean =
             p.x < rightX && p.x > leftX && p.y < topY && p.y > bottomY
 
 

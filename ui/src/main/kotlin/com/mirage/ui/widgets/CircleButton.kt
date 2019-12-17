@@ -45,6 +45,7 @@ class CircleButton(
             center = it.first
             radius = it.second
             boundedLabel?.rect = innerRect
+            boundedLabel?.resizeFont(virtualWidth, virtualHeight)
         }
     }
 
@@ -78,6 +79,10 @@ class CircleButton(
         if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
         virtualScreen.draw(getCurrentTextureName(), innerRect)
         boundedLabel?.draw()
+    }
+
+    override fun unpress() {
+        isPressed = false
     }
 
 }

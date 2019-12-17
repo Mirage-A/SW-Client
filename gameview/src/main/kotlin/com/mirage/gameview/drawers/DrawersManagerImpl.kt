@@ -2,9 +2,11 @@ package com.mirage.gameview.drawers
 
 import com.mirage.gameview.drawers.templates.EmptyDrawerTemplate
 import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
-import com.mirage.gameview.utils.loadDrawersFromTemplate
+import com.mirage.gameview.utils.loadBuildingDrawersFromTemplate
+import com.mirage.gameview.utils.loadEntityDrawersFromTemplate
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
@@ -13,7 +15,7 @@ import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-class DrawersManagerImpl : DrawersManager {
+class DrawersManagerImpl(private val sceneLoader: SceneLoader) : DrawersManager {
 
     /**
      * Словарь, в котором кэшируются шаблонные представления.
@@ -37,11 +39,11 @@ class DrawersManagerImpl : DrawersManager {
 
     /** Загружает шаблонные представления для всех состояний шаблона [templateName] и кэширует их */
     private fun loadBuildingTemplateDrawers(templateName: String) {
-        cachedBuildingDrawerTemplates[templateName] = loadDrawersFromTemplate("buildings/$templateName")
+        cachedBuildingDrawerTemplates[templateName] = loadBuildingDrawersFromTemplate(sceneLoader, templateName)
     }
 
     private fun loadEntityTemplateDrawers(templateName: String) {
-        cachedEntityDrawerTemplates[templateName] = loadDrawersFromTemplate("entities/$templateName")
+        cachedEntityDrawerTemplates[templateName] = loadEntityDrawersFromTemplate(sceneLoader, templateName)
     }
 
     override fun getEntityHitbox(entityID: Long): Rectangle? = entityDrawers[entityID]?.hitBox

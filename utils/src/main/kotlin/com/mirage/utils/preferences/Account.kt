@@ -1,25 +1,22 @@
 package com.mirage.utils.preferences
 
-import java.util.concurrent.CopyOnWriteArrayList
-import java.util.concurrent.CopyOnWriteArraySet
-import java.util.concurrent.atomic.AtomicReference
-
 class Account {
 
-    val profiles = CopyOnWriteArrayList<String>()
+    val profiles = ArrayList<String>()
 
     /** To change current profile, use [Prefs.switchProfile] **/
-    val currentProfile = AtomicReference<String?>(null)
+    var currentProfile: String? = null
+        internal set
 
-    val availableSkills = CopyOnWriteArraySet<String>()
+    val availableSkills: MutableSet<String> = HashSet()
 
-    val availableHelmets = CopyOnWriteArraySet<String>()
-    val availableChests = CopyOnWriteArraySet<String>()
-    val availableCloaks = CopyOnWriteArraySet<String>()
-    val availableGloves = CopyOnWriteArraySet<String>()
-    val availableLegs = CopyOnWriteArraySet<String>()
-    val availableOneHanded = CopyOnWriteArraySet<String>()
-    val availableTwoHanded = CopyOnWriteArraySet<String>()
-    val availableBows = CopyOnWriteArraySet<String>()
-    val availableStaffs = CopyOnWriteArraySet<String>()
+    val availableHelmets: MutableSet<String> = HashSet()
+    val availableChests: MutableSet<String> = HashSet()
+    val availableCloaks: MutableSet<String> = HashSet()
+    val availableGloves: MutableSet<String> = HashSet()
+    val availableLegs: MutableSet<String> = HashSet()
+    val availableOneHanded: MutableSet<String> = HashSet()
+    val availableTwoHanded: MutableSet<String> = HashSet()
+    val availableBows: MutableSet<String> = HashSet()
+    val availableStaffs: MutableSet<String> = HashSet()
 }

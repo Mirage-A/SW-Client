@@ -12,6 +12,7 @@ import com.mirage.ui.Screen
 import com.mirage.ui.game.GameScreen
 import com.mirage.ui.mainmenu.MainMenuScreen
 import com.mirage.ui.newgame.NewGameScreen
+import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.game.maps.SceneLoader
 import com.mirage.utils.messaging.ChangeSceneClientMessage
@@ -86,7 +87,6 @@ object Client : ApplicationListener {
         }
     }
 
-    @Synchronized
     private fun openMainMenu() {
         virtualScreen.stage.clear()
         val mainMenuScreen = MainMenuScreen(virtualScreen)
@@ -96,7 +96,7 @@ object Client : ApplicationListener {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
                             //TODO
-                            startSinglePlayerGame(Prefs.profile.currentMap.get())
+                            startSinglePlayerGame(Prefs.profile.currentMap)
                         }
                         ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY -> {
 
@@ -121,7 +121,6 @@ object Client : ApplicationListener {
         currentScreen = mainMenuScreen
     }
 
-    @Synchronized
     private fun startNewGame() {
         virtualScreen.stage.clear()
         val newGameScreen = NewGameScreen(virtualScreen)
@@ -130,7 +129,7 @@ object Client : ApplicationListener {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.MAIN_MENU -> openMainMenu()
-                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap.get())
+                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap)
                     }
                 }
             }
@@ -139,15 +138,12 @@ object Client : ApplicationListener {
         currentScreen = newGameScreen
     }
 
-    @Synchronized
     private fun startSinglePlayerGame(mapName: String) {
         virtualScreen.stage.clear()
-        val map = SceneLoader.loadMap(mapName)
-        val gameScreen = GameScreen(map, virtualScreen)
+        val map = SceneLoader(mapName).loadMap()
+        val gameScreen = GameScreen(mapName, map, virtualScreen)
         virtualScreen.setTileSet(map.tileSetName)
-        val connection : Connection = LocalConnection(mapName) {
-            gameScreen.handleServerMessage(it)
-        }
+        val connection : Connection = LocalConnection(mapName)
         gameScreen.inputMessages.subscribe { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {
@@ -171,6 +167,7 @@ object Client : ApplicationListener {
         this.connection = connection
         currentScreen = gameScreen
         setInputProcessor(gameScreen)
+        Thread.sleep(INTERPOLATION_DELAY_MILLIS)
     }
 
 
@@ -195,6 +192,9 @@ object Client : ApplicationListener {
     }
 
     override fun render() {
+        connection?.forNewMessages(maximumProcessingTime = 15L) {
+            (currentScreen as? GameScreen)?.handleServerMessage(it)
+        }
         gl.glClearColor(0f, 0f, 0f, 1f)
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         val screen = virtualScreen

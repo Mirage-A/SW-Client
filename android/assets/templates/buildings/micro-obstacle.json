@@ -1,8 +1,0 @@
-{
-  "name": "micro-obstacle",
-  "template": "micro-obstacle",
-  "type": "BUILDING",
-  "width": 0.25,
-  "height": 0.25,
-  "isRigid": true
-}

@@ -10,6 +10,7 @@ class LabelWidget(val label: VirtualScreen.Label, var sizeUpdater: (Float, Float
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         label.rect = sizeUpdater(virtualWidth, virtualHeight)
+        label.resizeFont(virtualWidth, virtualHeight)
     }
 
     override fun touchUp(virtualPoint: Point): Boolean = false

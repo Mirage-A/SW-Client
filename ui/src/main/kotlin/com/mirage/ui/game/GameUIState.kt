@@ -1,8 +1,11 @@
 package com.mirage.ui.game
 
+import com.mirage.ui.game.quests.QuestWindow
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.extensions.GameMapName
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.virtualscreen.VirtualScreen
@@ -31,7 +34,9 @@ private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
 private const val settingsMenuBtnFontSize = 20f
 
-class GameUIState(val virtualScreen: VirtualScreen) {
+internal class GameUIState(val virtualScreen: VirtualScreen, val gameMapName: GameMapName) {
+
+    val localQuestProgress: QuestProgress = QuestProgress()
 
     var bufferedMoving: Boolean? = null
     var bufferedMoveDirection: MoveDirection? = null
@@ -124,13 +129,21 @@ class GameUIState(val virtualScreen: VirtualScreen) {
         updateSkillBtns()
     }
 
-
     val settingsBtn = Button("ui/game/settings",
             "ui/game/settings-highlighted",
             "ui/game/settings-pressed",
             Rectangle(),
             null,
             {w, h -> Rectangle(w / 2 - microMenuBtnSize / 2 - microMenuMargin,
+                    - h / 2 + microMenuBtnSize / 2 + microMenuMargin,
+                    microMenuBtnSize, microMenuBtnSize) })
+
+    val questsBtn = Button("ui/game/quests",
+            "ui/game/quests-highlighted",
+            "ui/game/quests-pressed",
+            Rectangle(),
+            null,
+            {w, h -> Rectangle(w / 2 - microMenuBtnSize * 3 / 2 - microMenuMargin * 2,
                     - h / 2 + microMenuBtnSize / 2 + microMenuMargin,
                     microMenuBtnSize, microMenuBtnSize) })
 
@@ -144,7 +157,7 @@ class GameUIState(val virtualScreen: VirtualScreen) {
                     settingsMenuBtnWidth, microMenuBtnSize) }).apply { isVisible = false }
 
 
-    val microMenuBtnList: List<Button> = listOf(settingsBtn)
+    val microMenuBtnList: List<Button> = listOf(settingsBtn, questsBtn)
     val settingsMenuBtnList: List<Button> = listOf(leaveGameBtn)
 
     val confirmExitMessage : ConfirmMessage = ConfirmMessage(
@@ -191,9 +204,12 @@ class GameUIState(val virtualScreen: VirtualScreen) {
                 targetNameAreaWidth, targetNameAreaHeight)
     }
 
-    val widgets: Collection<Widget> =
-            microMenuBtnList + settingsMenuBtnList + activeSkills + ultimateSkillBtn + confirmExitMessage + playerHealthPane + targetHealthPane + targetNameArea
+    val questWindow = QuestWindow(virtualScreen)
 
+    val widgets: List<Widget> =
+            settingsMenuBtnList + confirmExitMessage + microMenuBtnList + questWindow.widget +
+                    activeSkills + ultimateSkillBtn +
+                    playerHealthPane + targetHealthPane + targetNameArea
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
         widgets.forEach { it.resize(virtualWidth, virtualHeight) }

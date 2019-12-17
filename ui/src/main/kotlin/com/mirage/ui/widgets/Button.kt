@@ -47,6 +47,7 @@ class Button(
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
             rect = it
             boundedLabel?.rect = innerRect
+            boundedLabel?.resizeFont(virtualWidth, virtualHeight)
         }
     }
 
@@ -80,5 +81,9 @@ class Button(
         if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
         virtualScreen.draw(getCurrentTextureName(), innerRect)
         boundedLabel?.draw()
+    }
+
+    override fun unpress() {
+        isPressed = false
     }
 }

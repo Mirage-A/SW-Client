@@ -1,0 +1,1 @@
+print("Someone left script area!")
