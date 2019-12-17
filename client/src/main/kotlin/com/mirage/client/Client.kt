@@ -96,7 +96,7 @@ object Client : ApplicationListener {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
                             //TODO
-                            startSinglePlayerGame(Prefs.profile.currentMap.get())
+                            startSinglePlayerGame(Prefs.profile.currentMap)
                         }
                         ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY -> {
 
@@ -129,7 +129,7 @@ object Client : ApplicationListener {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.MAIN_MENU -> openMainMenu()
-                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap.get())
+                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap)
                     }
                 }
             }
@@ -192,7 +192,7 @@ object Client : ApplicationListener {
     }
 
     override fun render() {
-        connection?.forNewMessages {
+        connection?.forNewMessages(maximumProcessingTime = 15L) {
             (currentScreen as? GameScreen)?.handleServerMessage(it)
         }
         gl.glClearColor(0f, 0f, 0f, 1f)

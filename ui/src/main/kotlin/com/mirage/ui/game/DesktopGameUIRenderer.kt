@@ -2,7 +2,7 @@ package com.mirage.ui.game
 
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-class DesktopGameUIRenderer : GameUIRenderer {
+internal class DesktopGameUIRenderer : GameUIRenderer {
 
     override fun renderUI(virtualScreen: VirtualScreen, uiState: GameUIState, currentTimeMillis: Long) {
         val player = uiState.lastRenderedState.entities[uiState.playerID]

@@ -45,6 +45,7 @@ class CircleButton(
             center = it.first
             radius = it.second
             boundedLabel?.rect = innerRect
+            boundedLabel?.resizeFont(virtualWidth, virtualHeight)
         }
     }
 

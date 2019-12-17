@@ -59,10 +59,10 @@ internal interface LogicScriptActions {
     /** Sends a text message to all players in this room */
     fun sendTextMessageToAll(message: String)
 
-    /** Returns a map with player's global quest progress. This map should not be changed in script. */
-    fun getGlobalQuestProgress(playerID: EntityID): QuestProgress?
-    /** Returns a map with player's local quest progress. This map should not be changed in script. */
-    fun getLocalQuestProgress(playerID: EntityID): QuestProgress?
+    /** Returns player's current phase in global quest [questName]. Returns 0 by default (if quest was not started yet). */
+    fun getGlobalQuestPhase(playerID: EntityID, questName: String): Int
+    /** Returns player's current phase in local quest [questName]. Returns 0 by default (if quest was not started yet). */
+    fun getLocalQuestPhase(playerID: EntityID, questName: String): Int
 
     /** Sets the current phase of global quest [questName] for player [playerID] to [newPhase] and sends message about it to this player. */
     fun setGlobalQuestPhase(playerID: EntityID, questName: String, newPhase: Int)

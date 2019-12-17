@@ -18,7 +18,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.collections.ArrayList
 
-class GameLogicImpl(private val gameMapName: String) : GameLogic {
+class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
     override val serverMessages: Queue<Pair<EntityID, ServerMessage>> = ConcurrentLinkedQueue()
     override val playerTransfers: Queue<PlayerTransferRequest> = ConcurrentLinkedQueue()
@@ -93,6 +93,9 @@ class GameLogicImpl(private val gameMapName: String) : GameLogic {
         }
     }
 
+    /** Requests to invoke script at given time */
+    private val delayedScripts = PriorityQueue<Pair<TimeMillis, Pair<String, LuaTable>>>(compareBy {it.first} )
+
     private fun invokeDelayedScripts(currentTime: TimeMillis) {
         while (delayedScripts.isNotEmpty() && delayedScripts.peek().first < currentTime) {
             val (name, args) = delayedScripts.poll().second
@@ -154,7 +157,6 @@ class GameLogicImpl(private val gameMapName: String) : GameLogic {
         clientMessages.add(Pair(id, msg))
     }
 
-    private val delayedScripts = PriorityQueue<Pair<TimeMillis, Pair<String, LuaTable>>>(compareBy {it.first} )
 
     private val scriptActions = ScriptActions()
     private val coercedScriptActions = CoerceJavaToLua.coerce(scriptActions)
@@ -206,37 +208,43 @@ class GameLogicImpl(private val gameMapName: String) : GameLogic {
         }
 
         override fun startDialog(playerID: EntityID, dialogName: String) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            serverMessages.add(Pair(playerID, StartDialogMessage(dialogName)))
         }
 
         override fun sendTextMessage(playerID: EntityID, message: String) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            serverMessages.add(Pair(playerID, DisplayTextMessage(message)))
         }
 
         override fun sendTextMessageToAll(message: String) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            serverMessages.add(Pair(-1L, DisplayTextMessage(message)))
         }
 
-        override fun getGlobalQuestProgress(playerID: EntityID): QuestProgress? =
-                playerGlobalQuestProgress[playerID]
+        override fun getGlobalQuestPhase(playerID: EntityID, questName: String): Int =
+                playerGlobalQuestProgress[playerID]?.getOrDefault(questName, 0) ?: 0
 
-        override fun getLocalQuestProgress(playerID: EntityID): QuestProgress? =
-                playerLocalQuestProgress[playerID]
+        override fun getLocalQuestPhase(playerID: EntityID, questName: String): Int =
+                playerLocalQuestProgress[playerID]?.getOrDefault(questName, 0) ?: 0
 
         override fun setGlobalQuestPhase(playerID: EntityID, questName: String, newPhase: Int) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            playerGlobalQuestProgress[playerID]?.let {
+                it[questName] = newPhase
+                serverMessages.add(Pair(playerID, GlobalQuestUpdateMessage(questName, newPhase)))
+            }
         }
 
         override fun setLocalQuestPhase(playerID: EntityID, questName: String, newPhase: Int) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            playerLocalQuestProgress[playerID]?.let {
+                it[questName] = newPhase
+                serverMessages.add(Pair(playerID, LocalQuestUpdateMessage(questName, newPhase)))
+            }
         }
 
-        override fun sendPlayerToAnotherMap(playerID: EntityID, mapName: String, code: Int) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun sendPlayerToAnotherMap(playerID: EntityID, mapName: GameMapName, code: ReturnCode) {
+            playerTransfers.add(PlayerTransferRequest(playerID, mapName, code))
         }
 
-        override fun kickPlayerFromMap(playerID: EntityID, code: Int) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun kickPlayerFromMap(playerID: EntityID, code: ReturnCode) {
+            playerTransfers.add(PlayerTransferRequest(playerID, null, code))
         }
 
     }

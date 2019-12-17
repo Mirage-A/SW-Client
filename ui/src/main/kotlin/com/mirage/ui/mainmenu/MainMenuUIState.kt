@@ -58,7 +58,7 @@ class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
             "ui/main-menu-profile-area",
             "ui/main-menu-profile-area",
             Rectangle(),
-            virtualScreen.createLabel(Prefs.account.currentProfile.get() ?: "", 30f),
+            virtualScreen.createLabel(Prefs.account.currentProfile ?: "", 30f),
             {_, virtualHeight -> Rectangle(0f, virtualHeight / 2 - btnHeight / 2, btnWidth, btnHeight)}).apply {
         isVisible = !newGame
     }

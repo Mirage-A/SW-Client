@@ -1,8 +1,7 @@
-package com.mirage.ui.game
+package com.mirage.ui.game.quests
 
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.min
 
@@ -18,15 +17,15 @@ private const val questPageLabelFontSize = 24f
 private const val questArrowWidth = 68f
 private const val questArrowHeight = 18f
 
-private const val questNameFontSize = 32f
-private const val questDescriptionFontSize = 16f
+private const val questNameFontSize = 24f
+private const val questDescriptionFontSize = 18f
 
 private const val defaultQuestBtnHeight = 40f
-private const val questBtnFontSize = 24f
+private const val questBtnFontSize = 16f
 
-const val questBtnCount = ((defaultContentHeight - 2 * questHeadLabelHeight) / defaultQuestBtnHeight).toInt()
+internal const val questBtnCount = ((defaultContentHeight - 2 * questHeadLabelHeight) / defaultQuestBtnHeight).toInt()
 
-class QuestWindow(val virtualScreen: VirtualScreen) {
+internal class QuestWindow(val virtualScreen: VirtualScreen) {
 
     private fun getWindowScale(virtualWidth: Float, virtualHeight: Float) =
             min(virtualWidth / defaultBackgroundWidth, virtualHeight / defaultBackgroundHeight)
@@ -40,6 +39,10 @@ class QuestWindow(val virtualScreen: VirtualScreen) {
         val scale = getWindowScale(virtualWidth, virtualHeight)
         return Rectangle(0f, 0f, defaultContentWidth * scale, defaultContentHeight * scale)
     }
+
+    /** Only 1 of these can be not-null at a time */
+    var selectedLocalQuest: String? = null
+    var selectedGlobalQuest: String? = null
 
     val backgroundImage = ImageWidget("ui/game/quests/quest-window-background") {
         w, h -> getBackgroundRect(w, h)
@@ -92,9 +95,9 @@ class QuestWindow(val virtualScreen: VirtualScreen) {
 
     val globalQuestBtns = Array(questBtnCount) {
         Button(
-                "ui/game/quests/quest-btn",
-                "ui/game/quests/quest-btn-highlighted",
-                "ui/game/quests/quest-btn-pressed",
+                "ui/game/quests/quest-btn-active",
+                "ui/game/quests/quest-btn-active-highlighted",
+                "ui/game/quests/quest-btn-active-pressed",
                 boundedLabel = virtualScreen.createLabel("Global quest $it", questBtnFontSize),
                 sizeUpdater = {
                     w, h -> Rectangle(
@@ -148,9 +151,9 @@ class QuestWindow(val virtualScreen: VirtualScreen) {
 
     val localQuestBtns = Array(questBtnCount) {
         Button(
-                "ui/game/quests/quest-btn",
-                "ui/game/quests/quest-btn-highlighted",
-                "ui/game/quests/quest-btn-pressed",
+                "ui/game/quests/quest-btn-active",
+                "ui/game/quests/quest-btn-active-highlighted",
+                "ui/game/quests/quest-btn-active-pressed",
                 boundedLabel = virtualScreen.createLabel("Local quest $it", questBtnFontSize),
                 sizeUpdater = {
                     w, h -> Rectangle(
@@ -170,7 +173,7 @@ class QuestWindow(val virtualScreen: VirtualScreen) {
     }.apply { isVisible = false }
 
     val questDescriptionLabel = LabelWidget(virtualScreen.createLabel("Quest description", questDescriptionFontSize)) {
-        w, h -> Rectangle(0f, - questHeadLabelHeight,
+        w, h -> Rectangle(0f, -questHeadLabelHeight,
             getContentRect(w, h).width * (1f - 2 * questListWidthPart),
             getContentRect(w, h).height - questHeadLabelHeight * 2f)
     }.apply { isVisible = false }

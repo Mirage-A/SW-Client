@@ -111,6 +111,8 @@ interface VirtualScreen {
         var rect: Rectangle
 
         fun draw()
+
+        fun resizeFont(virtualWidth: Float, virtualHeight: Float)
     }
 
     interface TextField {

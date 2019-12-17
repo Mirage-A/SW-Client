@@ -14,6 +14,7 @@ import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.SnapshotManager
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
+import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import rx.Observable
 
@@ -51,6 +52,16 @@ class GameScreen(gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
                 val state = msg.diff.projectOn(lastReceivedState)
                 lastReceivedState = state
                 snapshotManager.addNewSnapshot(GameStateSnapshot(state, msg.diff, msg.stateCreatedTimeMillis))
+            }
+            is LocalQuestUpdateMessage -> {
+                //TODO Show notification about quest progress
+                uiState.localQuestProgress[msg.localQuestName] = msg.newPhaseID
+                inputProcessor.updateQuestWindow()
+            }
+            is GlobalQuestUpdateMessage -> {
+                //TODO Show notification about quest progress
+                Prefs.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
+                inputProcessor.updateQuestWindow()
             }
         }
     }

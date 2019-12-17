@@ -3,10 +3,7 @@ package com.mirage.connection
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.Log
-import com.mirage.utils.extensions.EntityID
-import com.mirage.utils.extensions.GameMapName
-import com.mirage.utils.extensions.QuestProgress
-import com.mirage.utils.extensions.mutableCopy
+import com.mirage.utils.extensions.*
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.*
 import com.mirage.utils.preferences.Prefs
@@ -71,13 +68,14 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
         }
     }
 
-    override fun forNewMessages(block: (ServerMessage) -> Unit) {
+    override fun forNewMessages(maximumProcessingTime: IntervalMillis, block: (ServerMessage) -> Unit) {
         //TODO Process transfers to another map
         if (firstStateWithPlayerMessage != null) {
             block(firstStateWithPlayerMessage!!)
             firstStateWithPlayerMessage = null
         }
-        while (true) {
+        val startTime = System.currentTimeMillis()
+        while (System.currentTimeMillis() - startTime < maximumProcessingTime) {
             val (id, msg) = logic.serverMessages.poll() ?: break
             if (id == -1L || id == playerID) block(msg)
         }

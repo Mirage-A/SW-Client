@@ -15,9 +15,7 @@ fun createNewProfile(name: String, selectedClass: String): Boolean {
     println("Creating profile {$validatedName} and class $selectedClass")
     Prefs.account.profiles.add(validatedName)
     Prefs.switchProfile(validatedName)
-    Prefs.account.currentProfile.set(validatedName)
     with (Prefs.profile) {
-        profileName.set(validatedName)
         when (selectedClass) {
             "mage" -> {
                 //TODO Default mage skills, map, equipment etc.

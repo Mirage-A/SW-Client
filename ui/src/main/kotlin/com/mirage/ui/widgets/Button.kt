@@ -47,6 +47,7 @@ class Button(
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
             rect = it
             boundedLabel?.rect = innerRect
+            boundedLabel?.resizeFont(virtualWidth, virtualHeight)
         }
     }
 

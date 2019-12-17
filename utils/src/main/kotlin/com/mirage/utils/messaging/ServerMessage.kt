@@ -14,7 +14,9 @@ sealed class ServerMessage {
                 ReturnCodeMessage::class.java,
                 HumanoidEquipmentUpdateMessage::class.java,
                 GlobalQuestUpdateMessage::class.java,
-                LocalQuestUpdateMessage::class.java
+                LocalQuestUpdateMessage::class.java,
+                DisplayTextMessage::class.java,
+                StartDialogMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -67,4 +69,12 @@ data class GlobalQuestUpdateMessage(
 data class LocalQuestUpdateMessage(
         val localQuestName: String,
         val newPhaseID: Int
+) : ServerMessage()
+
+data class DisplayTextMessage(
+        val text: String
+) : ServerMessage()
+
+data class StartDialogMessage(
+        val dialogName: String
 ) : ServerMessage()

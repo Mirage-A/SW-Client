@@ -5,4 +5,4 @@ import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.extensions.ReturnCode
 
 
-data class PlayerTransferRequest(val entityID: EntityID, val gameMapName: GameMapName, val returnCode: ReturnCode)
+data class PlayerTransferRequest(val entityID: EntityID, val gameMapName: GameMapName?, val returnCode: ReturnCode)

@@ -8,8 +8,7 @@ import java.io.Reader
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-typealias QuestProgress = HashMap<String, Int>
-typealias ConcurrentQuestProgress = ConcurrentHashMap<String, Int>
+typealias QuestProgress = LinkedHashMap<String, Int>
 typealias PlayerCreationListener = (playerID: Long) -> Unit
 typealias SkillNames = List<String>
 typealias EntityID = Long

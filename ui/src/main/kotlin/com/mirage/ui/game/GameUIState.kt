@@ -1,8 +1,10 @@
 package com.mirage.ui.game
 
+import com.mirage.ui.game.quests.QuestWindow
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.virtualscreen.VirtualScreen
@@ -31,7 +33,9 @@ private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
 private const val settingsMenuBtnFontSize = 20f
 
-class GameUIState(val virtualScreen: VirtualScreen) {
+internal class GameUIState(val virtualScreen: VirtualScreen) {
+
+    val localQuestProgress: QuestProgress = QuestProgress()
 
     var bufferedMoving: Boolean? = null
     var bufferedMoveDirection: MoveDirection? = null

@@ -14,7 +14,6 @@ object Prefs {
 
     val account: Account
 
-    @Volatile
     var profile: Profile
         private set
 
@@ -37,7 +36,7 @@ object Prefs {
             Account()
         }
 
-        val profileName = account.currentProfile.get()
+        val profileName = account.currentProfile
         profile = if (profileName == null) Profile() else loadProfile(profileName)
     }
 
@@ -61,7 +60,7 @@ object Prefs {
     fun switchProfile(newProfileName: String) {
         saveCurrentProfile()
         profile = loadProfile(newProfileName)
-        account.currentProfile.set(newProfileName)
+        account.currentProfile = newProfileName
     }
 
     private fun loadProfile(profileName: String): Profile = try {
@@ -75,7 +74,7 @@ object Prefs {
 
     fun saveCurrentProfile() {
         try {
-            val profileName = account.currentProfile.get() ?: return
+            val profileName = account.currentProfile ?: return
             with (Gdx.app.getPreferences("SW-Profile-$profileName")) {
                 putString("profile", gson.toJson(profile))
                 flush()
