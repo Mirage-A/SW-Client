@@ -14,6 +14,7 @@ import com.mirage.utils.messaging.*
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import org.luaj.vm2.lib.jse.JsePlatform
+import java.lang.Math.random
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.collections.ArrayList
@@ -47,7 +48,7 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
     private val newPlayerRequests : Queue<Pair<QuestProgress?, PlayerCreationListener>> = ConcurrentLinkedQueue()
 
     /**
-     * Updates game state, invoking [serverMessageListener] for new server messages.
+     * Updates game state, filling [serverMessages] and [playerTransfers] queues.
      * @param delta Milliseconds passed from last invocation of this function.
      */
     private fun updateState(time: TimeMillis, delta: IntervalMillis) {
@@ -228,6 +229,8 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
             playerGlobalQuestProgress[playerID]?.let {
                 it[questName] = newPhase
                 serverMessages.add(Pair(playerID, GlobalQuestUpdateMessage(questName, newPhase)))
+                val args = tableOf("playerID" to playerID, "phase" to newPhase)
+                runAssetScript("quests/global/$questName/update", args)
             }
         }
 
@@ -235,6 +238,8 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
             playerLocalQuestProgress[playerID]?.let {
                 it[questName] = newPhase
                 serverMessages.add(Pair(playerID, LocalQuestUpdateMessage(questName, newPhase)))
+                val args = tableOf("playerID" to playerID, "phase" to newPhase)
+                runAssetScript("quests/local/$gameMapName/$questName/update", args)
             }
         }
 
