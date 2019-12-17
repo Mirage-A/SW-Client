@@ -24,8 +24,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadSceneTest() {
-        val str = """
-            {"map":{
+        val mapStr = """{
                 "width": 2,
                 "height": 2,
                 "tileSetName": "city",
@@ -35,9 +34,8 @@ internal class SceneLoaderTest {
                 "collisions": [
                   1,2,3,1
                 ]
-            },
-"objects": {
-"buildings": [
+            }""".trimIndent()
+        val buildingsStr = """[
               {
                   "template": "test-building",
                    "name": "main-gate",
@@ -45,18 +43,16 @@ internal class SceneLoaderTest {
                      "y": 0.7
                 }
              
-                ],
-"entities": [{
+                ]""".trimIndent()
+        val entitiesStr = """[{
                 "template": "test-entity",
                   "x": 0.0,
                   "y": 2.5,
                 "transparencyRange": 6.0,
                 "moveDirection": "UP_RIGHT"
-              }]
-}}
-        """.trimIndent()
-        val map = SceneLoader.loadMap(str.reader())
-        val objects = SceneLoader.loadInitialState(str.reader())
+              }]""".trimIndent()
+        val map = SceneLoader.loadMap(mapStr.reader())
+        val objects = SceneLoader.loadInitialState(buildingsStr.reader(), entitiesStr.reader())
         assertEquals(map.width, 2)
         assertEquals(map.height, 2)
         assertEquals(map.tileSetName, "city")
@@ -150,7 +146,7 @@ internal class SceneLoaderTest {
             }""".trimMargin().reader())
         }
         assertDoesNotThrow {
-            SceneLoader.loadInitialState("".reader())
+            SceneLoader.loadInitialState("".reader(), "".reader())
             SceneLoader.loadInitialState("""{
                 "objects": [
     {
@@ -158,7 +154,13 @@ internal class SceneLoaderTest {
       "y": 1.1
     }
   ]
-            }""".trimMargin().reader())
+            }""".trimMargin().reader(),
+                    """[
+    {
+      "x": 0.6,
+      "y": 1.1
+    }
+  ]""".trimMargin().reader())
         }
     }
 }

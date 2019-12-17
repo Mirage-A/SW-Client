@@ -27,6 +27,9 @@ interface GameLogic {
      */
     fun addNewPlayer(globalQuestProgress: QuestProgress? = null, onComplete: PlayerCreationListener)
 
+    /** Removes player's entity from scene */
+    fun removePlayer(playerID: EntityID)
+
     /** Pauses game loop. It can be resumed by [resumeLogic] */
     fun pauseLogic()
 

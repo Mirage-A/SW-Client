@@ -1,5 +1,4 @@
 {
-"map": {
   "width": 1,
   "height": 1,
   "spawnX": 0.5,
@@ -12,8 +11,4 @@
     1
   ],
   "defaultTileID": 1
-},
-  "objects": {
-
-  }
 }

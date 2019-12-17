@@ -33,7 +33,7 @@ fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
 }
 
 fun LuaTable.toStr(): String =
-        "LuaTable(${this.keys().map { "$it: ${this[it]}" }.joinToString()})"
+        "LuaTable(${this.keys().joinToString { "$it: ${this[it]}" }})"
 
 fun <E> NavigableSet<E>.second() : E? = try { higher(first()) } catch(ex: NoSuchElementException) { null }
 
@@ -55,6 +55,13 @@ inline fun <K, V> mutableMap(size: Int, keyInit: (Int) -> K, valueInit: (Int) ->
                 this[keyInit(i)] = valueInit(i)
             }
         }
+
+inline fun <T : Any> Queue<T>.processNewItems(block: (T) -> Unit) {
+    while (true) {
+        val item = poll() ?: break
+        block(item)
+    }
+}
 
 inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T? = this.fromJson(json, T::class.java)
 inline fun <reified T: Any> Gson.fromJson(reader: Reader): T? = this.fromJson(reader, T::class.java)

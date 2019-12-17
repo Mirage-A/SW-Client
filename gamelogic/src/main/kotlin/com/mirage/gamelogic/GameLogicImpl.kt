@@ -47,13 +47,23 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
      */
     private val newPlayerRequests : Queue<Pair<QuestProgress?, PlayerCreationListener>> = ConcurrentLinkedQueue()
 
+    /** Queue which stores new requests for player removing. */
+    private val removePlayerRequests: Queue<EntityID> = ConcurrentLinkedQueue()
+
+    private var initScriptInvoked = false
+
     /**
      * Updates game state, filling [serverMessages] and [playerTransfers] queues.
      * @param delta Milliseconds passed from last invocation of this function.
      */
     private fun updateState(time: TimeMillis, delta: IntervalMillis) {
         if (delta > 200L) Log.i("Slow update: $delta ms")
+        if (!initScriptInvoked) {
+            runAssetScript("maps/$gameMapName/init", tableOf())
+            initScriptInvoked = true
+        }
         handleNewPlayerRequests(time, delta)
+        handleRemovePlayerRequests()
         handleClientMessages()
         processMoving(delta)
         invokeDelayedScripts(time)
@@ -105,21 +115,28 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
     }
 
     private fun handleNewPlayerRequests(currentTime: TimeMillis, deltaTime: IntervalMillis) {
-        while (true) {
-            val request = newPlayerRequests.poll() ?: break
+        newPlayerRequests.processNewItems {
             val player = createPlayer(gameMap)
             val id = state.addEntity(player)
             playerIDs.add(id)
             //TODO Загрузка информации о навыках игрока через сообщения при входе в игру и через хранение профиля в БД
             val skills = listOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
             playerSkills[id] = skills
-            playerGlobalQuestProgress[id] = request.first ?: QuestProgress()
+            playerGlobalQuestProgress[id] = it.first ?: QuestProgress()
             playerLocalQuestProgress[id] = QuestProgress()
             serverMessages.add(Pair(id, InitialGameStateMessage(
                     gameMapName, state.simplifiedDeepCopy(), id, currentTime - deltaTime
             )))
-            request.second(id)
+            runAssetScript("maps/$gameMapName/new-player", tableOf("playerID" to id))
+            it.second(id)
         }
+    }
+
+    private fun handleRemovePlayerRequests() {
+            removePlayerRequests.processNewItems {
+                runAssetScript("maps/$gameMapName/player-exit", tableOf("playerID" to it))
+                state.removeEntity(it)
+            }
     }
 
     private fun finishStateUpdate() {
@@ -132,6 +149,10 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
 
     override fun addNewPlayer(globalQuestProgress: QuestProgress?, onComplete: PlayerCreationListener) {
         newPlayerRequests.add(globalQuestProgress to onComplete)
+    }
+
+    override fun removePlayer(playerID: EntityID) {
+        removePlayerRequests.add(playerID)
     }
 
     private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) { time, delta ->

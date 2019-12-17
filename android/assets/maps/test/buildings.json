@@ -1,0 +1,43 @@
+[
+  {
+    "template": "main-gate",
+    "name": "main-gate",
+    "x": 16.0,
+    "y": 16.5
+  },
+  {
+    "template": "wall",
+    "x": 2.0,
+    "y": 16.5
+  },
+  {
+    "template": "wall",
+    "x": 6.0,
+    "y": 16.5
+  },
+  {
+    "template": "wall",
+    "x": 10.0,
+    "y": 16.5
+  },
+  {
+    "template": "wall",
+    "x": 22.0,
+    "y": 16.5
+  },
+  {
+    "template": "wall",
+    "x": 26.0,
+    "y": 16.5
+  },
+  {
+    "template": "wall",
+    "x": 30.0,
+    "y": 16.5
+  },
+  {
+    "template": "main-gate-door",
+    "x": 14.0,
+    "y": 15.0
+  }
+]
