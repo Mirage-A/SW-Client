@@ -20,6 +20,7 @@
  - Kotlin
  - LibGDX
  - RxJava
+ - Lua (+ LuaJ)
  - GSON
  - JUnit, Mockito
  - Gradle, Git, Travis CI, Codecov
@@ -27,7 +28,6 @@
 Активно изучаются и будут использоваться:
  - Kotlin Coroutines
  - Netty (+ RxNetty)
- - Lua (+ LuaJ)
 
 ## Кратко об архитектуре
 
