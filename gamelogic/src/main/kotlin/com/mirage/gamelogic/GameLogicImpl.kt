@@ -70,12 +70,12 @@ class GameLogicImpl(private val gameMapName: GameMapName) : GameLogic {
             runAssetScript("scenes/$gameMapName/init", tableOf())
             initScriptInvoked = true
         }
-        handleNewPlayerRequests(time, delta)
         handleRemovePlayerRequests()
         handleClientMessages()
         processMoving(delta)
         processScriptAreas()
         invokeDelayedScripts(time)
+        handleNewPlayerRequests(time, delta)
         finishStateUpdate()
     }
 

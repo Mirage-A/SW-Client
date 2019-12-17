@@ -106,19 +106,4 @@ internal class GameLogicImplTest{
 
     }
 
-
-    @Test
-    fun testJavaUtilTimer() {
-        val timer = Timer(false)
-        val counter = AtomicInteger(0)
-        val task: TimerTask = object : TimerTask() {
-            override fun run() {
-                counter.incrementAndGet()
-            }
-        }
-        timer.scheduleAtFixedRate(task, 0L, 10L)
-        Thread.sleep(95L)
-        timer.cancel()
-        assertEquals(10, counter.get())
-    }
 }

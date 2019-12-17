@@ -66,11 +66,12 @@ internal class LocalConnectionTest {
         val messages = ArrayList<ServerMessage>()
         val connection = LocalConnection("moving-micro-test")
         connection.start()
-
-        Thread.sleep(150L)
+        Thread.sleep(25L)
+        println("Sending messages")
         connection.sendMessage(MoveDirectionClientMessage(MoveDirection.UP))
         connection.sendMessage(SetMovingClientMessage(true))
-        Thread.sleep(200L)
+        println("Finished sending messages")
+        Thread.sleep(350L)
         connection.close()
         Thread.sleep(100L)
         connection.forNewMessages {
@@ -104,9 +105,9 @@ internal class LocalConnectionTest {
             println(player3)
             println(player4)
             assert(player1.position near Point(0.5f, 0.5f))
-            assert(player2.position near Point(0.5f, 0.5f))
-            assert(player3.position near Point(0.5f, 0.9f))
-            assert(player4.position near Point(0.5f, 1.3f))
+            assert(player2.position near Point(0.5f, 0.9f) || player2.position near Point(0.5f, 0.5f))
+            assert(player3.position near Point(0.5f, 1.3f) || player3.position near Point(0.5f, 0.9f))
+            assert(player4.position near Point(0.5f, 1.7f) || player4.position near Point(0.5f, 1.3f))
             assertEquals(2, fourthState.entities.size + fourthState.buildings.size)
         }
     }
