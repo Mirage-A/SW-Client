@@ -120,6 +120,7 @@ class SceneLoader(private val gameMapName: GameMapName) {
             val health: Int?,
             val maxHealth: Int?,
             val factionID: Int?,
+            val interactionRange: Float?,
             val isRigid: Boolean?
     ) {
         fun projectOnTemplate(t: ExtendedEntity) = ExtendedEntity(
@@ -137,6 +138,7 @@ class SceneLoader(private val gameMapName: GameMapName) {
                 health ?: t.health,
                 maxHealth ?: t.maxHealth,
                 factionID ?: t.factionID,
+                interactionRange ?: t.interactionRange,
                 isRigid ?: t.isRigid
 
         )

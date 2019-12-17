@@ -19,9 +19,10 @@ class ExtendedEntity(
         override var health: Int = 0,
         override var maxHealth: Int = 0,
         override var factionID: Int = 0,
+        override var interactionRange: Float = 0f,
         var isRigid: Boolean = false
 
-) : ExtendedObject, SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID) {
+) : ExtendedObject, SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, interactionRange) {
 
     fun with(
             template: String = this.template,
@@ -38,9 +39,10 @@ class ExtendedEntity(
             health: Int = this.health,
             maxHealth: Int = this.maxHealth,
             factionID: Int = this.factionID,
+            interactionRange: Float = this.interactionRange,
             isRigid: Boolean = this.isRigid
     ): ExtendedEntity =
-            ExtendedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, isRigid)
+            ExtendedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, interactionRange, isRigid)
 
     override fun with(template: String, x: Float, y: Float): ExtendedEntity = with(
             template = template,

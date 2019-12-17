@@ -18,15 +18,16 @@ open class SimplifiedEntity(
         open val action: String = "idle",
         open val health: Int = 0,
         open val maxHealth: Int = 0,
-        open val factionID: Int = 0
+        open val factionID: Int = 0,
+        open val interactionRange: Float = 0f
 ) : SimplifiedObject {
 
 
     override fun simplifiedCopy(): SimplifiedEntity =
-            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
+            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, interactionRange)
 
     override fun with(template: String, x: Float, y: Float): SimplifiedEntity =
-            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
+            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, interactionRange)
 
     fun with(
             template: String = this.template,
@@ -42,9 +43,10 @@ open class SimplifiedEntity(
             action: String = this.action,
             health: Int = this.health,
             maxHealth: Int = this.maxHealth,
-            factionID: Int = this.factionID
+            factionID: Int = this.factionID,
+            interactionRange: Float = this.interactionRange
     ): SimplifiedEntity =
-            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID)
+            SimplifiedEntity(template, x, y, name, width, height, speed, moveDirection, isMoving, state, action, health, maxHealth, factionID, interactionRange)
 
     override val rectangle: Rectangle
         get() = Rectangle(x, y, width, height)
@@ -64,7 +66,8 @@ open class SimplifiedEntity(
                 action == other.action &&
                 health == other.health &&
                 maxHealth == other.maxHealth &&
-                factionID == other.factionID
+                factionID == other.factionID &&
+                interactionRange == other.interactionRange
     }
 
     override fun hashCode(): Int {
@@ -74,7 +77,7 @@ open class SimplifiedEntity(
 
     override fun toString(): String =
             "Entity(template=$template x=$x y=$y name=$name width=$width height=$height speed=$speed moveDirection=$moveDirection" +
-                    " isMoving=$isMoving state=$state action=$action health=$health maxHealth=$maxHealth factionID=$factionID)"
+                    " isMoving=$isMoving state=$state action=$action health=$health maxHealth=$maxHealth factionID=$factionID interactionRange=$interactionRange)"
 
 
 }

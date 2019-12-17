@@ -1,0 +1,1 @@
+print("This entity was cruelly killed")
