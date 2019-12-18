@@ -11,7 +11,7 @@ class ImageWidget(
 
     private var rect: Rectangle = Rectangle()
 
-    var isVisible = true
+    override var isVisible = true
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         rect = sizeUpdater(virtualWidth, virtualHeight)

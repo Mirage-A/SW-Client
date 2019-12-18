@@ -13,7 +13,7 @@ class TargetNameArea(
         var sizeUpdater: ((Float, Float) -> Rectangle)? = null
 ) : Widget {
 
-    var isVisible = true
+    override var isVisible = true
 
     private val resourceRect: Rectangle
         get() = Rectangle(rect.x, rect.y, rect.width - innerMargin * 2f, rect.height - innerMargin * 2f)

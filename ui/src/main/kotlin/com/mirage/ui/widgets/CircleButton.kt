@@ -20,7 +20,7 @@ class CircleButton(
 
     var isPressed = false
     var isHighlighted = false
-    var isVisible = true
+    override var isVisible = true
     var keyPressed = false // Для случаев, когда кнопка может нажиматься как курсором, так и с клавиатуры.
 
     private val rect: Rectangle

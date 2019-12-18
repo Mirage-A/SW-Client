@@ -8,13 +8,13 @@ class Profile {
 
     val profileName: String = "You"
 
-    val activeSkills: MutableList<String?> = mutableListOf("flame-strike", null, null, null)
-    val ultimateSkill: String? = "meteor"
-    val passiveSkills: MutableList<String?> = mutableListOf(null, null, null, null)
+    var activeSkills: MutableList<String?> = mutableListOf("flame-strike", null, null, null)
+    var ultimateSkill: String? = "meteor"
+    var passiveSkills: MutableList<String?> = mutableListOf(null, null, null, null)
 
-    val currentMap: String = "test"
+    var currentMap: String = "test"
 
-    val currentEquipment: Equipment = Equipment(
+    var currentEquipment: Equipment = Equipment(
             "default",
             "default",
             "default",

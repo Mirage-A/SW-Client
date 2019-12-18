@@ -17,7 +17,7 @@ class ResourcePane(
 ) : Widget {
 
     var isHighlighted = false
-    var isVisible = true
+    override var isVisible = true
 
     var currentResource: Int = 0
     var maxResource: Int = 0

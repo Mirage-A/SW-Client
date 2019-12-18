@@ -12,7 +12,7 @@ class ConfirmMessage(
         cancelTitle: String = "Cancel"
 ) : Widget {
 
-    var isVisible = false
+    override var isVisible = false
 
     private val backgroundTextureName = "ui/message-background"
     private val titleFontCapHeight = 24f

@@ -7,7 +7,7 @@ class CompositeWidget(vararg widget: Widget) : Widget {
 
     private val widgets = widget.toList()
 
-    var isVisible = true
+    override var isVisible = true
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         widgets.forEach { it.resize(virtualWidth, virtualHeight) }

@@ -12,6 +12,8 @@ class PageNavigator(
         var onPageSwitch: ((Int) -> Unit)? = null
 ) : Widget {
 
+    override var isVisible: Boolean = true
+
     val compositeWidget = CompositeWidget(leftButton, rightButton, pageTextLabel)
 
     var pageIndex = initialPageIndex
@@ -50,13 +52,15 @@ class PageNavigator(
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) { compositeWidget.resize(virtualWidth, virtualHeight) }
 
-    override fun touchUp(virtualPoint: Point): Boolean = compositeWidget.touchUp(virtualPoint)
+    override fun touchUp(virtualPoint: Point): Boolean = if (isVisible) compositeWidget.touchUp(virtualPoint) else false
 
-    override fun touchDown(virtualPoint: Point): Boolean = compositeWidget.touchDown(virtualPoint)
+    override fun touchDown(virtualPoint: Point): Boolean = if (isVisible) compositeWidget.touchDown(virtualPoint) else false
 
-    override fun mouseMoved(virtualPoint: Point) { compositeWidget.mouseMoved(virtualPoint) }
+    override fun mouseMoved(virtualPoint: Point) { if (isVisible) compositeWidget.mouseMoved(virtualPoint) }
 
-    override fun draw(virtualScreen: VirtualScreen) { compositeWidget.draw(virtualScreen) }
+    override fun draw(virtualScreen: VirtualScreen) {
+        if (isVisible) compositeWidget.draw(virtualScreen)
+    }
 
     override fun unpress() {
         compositeWidget.unpress()

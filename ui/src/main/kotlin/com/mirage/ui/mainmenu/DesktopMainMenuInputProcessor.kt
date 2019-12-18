@@ -21,6 +21,8 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
             ))
         }
         if (!uiState.newGame) uiState.multiPlayerBtn.onPressed = {
+            //TODO
+            uiState.inventoryWindow.open()
             inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY))
         }
         uiState.settingsBtn.onPressed = {
@@ -74,7 +76,7 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.widgets.forEach { it.touchUp(virtualPoint) }
+        uiState.widgets.forEach { if (it.touchUp(virtualPoint)) return true }
         return false
     }
 
@@ -106,7 +108,7 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
-        uiState.widgets.forEach { it.touchDown(virtualPoint) }
+        uiState.widgets.forEach { if (it.touchDown(virtualPoint)) return true }
         return false
     }
 

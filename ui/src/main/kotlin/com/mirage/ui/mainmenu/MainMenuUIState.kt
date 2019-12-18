@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
+import com.mirage.ui.inventory.InventoryWindow
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.preferences.Prefs
@@ -23,6 +24,7 @@ private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMarg
 
 class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
 
+    val inventoryWindow = InventoryWindow(virtualScreen) {}
 
     val singlePlayerBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",
@@ -128,7 +130,7 @@ class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
     ).apply { isVisible = false }
 
 
-    val widgets: List<Widget> = listOf(singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
+    val widgets: List<Widget> = listOf(inventoryWindow, singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
 
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {
