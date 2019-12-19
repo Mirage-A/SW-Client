@@ -10,7 +10,7 @@ import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.properties.WeaponType
 import com.mirage.utils.virtualscreen.VirtualScreen
 
-class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
+class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : DrawerTemplate {
 
     private val weaponType: WeaponType = equipment.weaponType
 
@@ -19,13 +19,13 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
             this[it] = "equipment/head/${equipment.helmet}/${it.fromSceneToView()}"
         }
     }
-    private val bodyTexture = "equipment/body/${equipment.chest}"
-    private val cloakTexture = "equipment/cloak/${equipment.cloak}"
-    private val handBottomTexture = "equipment/handbottom/${equipment.gloves}"
-    private val handTopTexture = "equipment/handtop/${equipment.chest}"
-    private val legBottomTexture = "equipment/legbottom/${equipment.legs}"
-    private val legTopTexture = "equipment/legtop/${equipment.legs}"
-    private val neckTexture = "equipment/neck/${equipment.chest}"
+    private val bodyTexture = "equipment/body/${equipment.chest}/body"
+    private val cloakTexture = "equipment/cloak/${equipment.cloak}/cloak"
+    private val handBottomTexture = "equipment/body/${equipment.chest}/handbottom"
+    private val handTopTexture = "equipment/body/${equipment.chest}/handtop"
+    private val legBottomTexture = "equipment/legs/${equipment.legs}/legbottom"
+    private val legTopTexture = "equipment/legs/${equipment.legs}/legtop"
+    private val neckTexture = "equipment/body/${equipment.chest}/neck"
     private val rightWeaponFolder : String? = when (equipment.weaponType) {
         WeaponType.UNARMED -> null
         WeaponType.ONE_HANDED -> "onehanded"
@@ -91,14 +91,14 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
                 val bottomIndex = findLayer(legsStartFrame, "${layerName}bottom")
                 if (topIndex < bottomIndex) {
                     if (topIndex != -1) {
-                        drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                        drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress, scale)
                     }
-                    drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                    drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress, scale)
                 } else if (bottomIndex < topIndex) {
                     if (bottomIndex != -1) {
-                        drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress)
+                        drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress, scale)
                     }
-                    drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress)
+                    drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress, scale)
                 }
             }
             else drawBodyLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
@@ -113,7 +113,7 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
         val endLayerIndex = findLayer(endFrame, "bodypoint")
         if (startLayerIndex != -1 && endLayerIndex != -1) {
             return curValue(startFrame.layers[startLayerIndex].getPosition(),
-                    endFrame.layers[endLayerIndex].getPosition(), progress)
+                    endFrame.layers[endLayerIndex].getPosition(), progress) * scale
         }
         return Point(0f, 0f)
     }
@@ -138,7 +138,7 @@ class HumanoidDrawerTemplate(val equipment: Equipment) : DrawerTemplate {
             "head" -> headTextures[moveDirection] ?: "null"
             else -> startLayer.imageName.substring(0, startLayer.imageName.length - 4)
         }
-        drawLayer(virtualScreen, texture, bodyX, bodyY, startLayer, endLayer, progress)
+        drawLayer(virtualScreen, texture, bodyX, bodyY, startLayer, endLayer, progress, scale)
     }
 
     override val hitBox: Rectangle

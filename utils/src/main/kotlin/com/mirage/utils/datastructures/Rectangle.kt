@@ -31,5 +31,7 @@ data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f
     operator fun contains(p: Point) : Boolean =
             p.x < rightX && p.x > leftX && p.y < topY && p.y > bottomY
 
+    fun innerRect(margin: Float): Rectangle = Rectangle(x, y, width - margin * 2f, height - margin * 2f)
+
 
 }

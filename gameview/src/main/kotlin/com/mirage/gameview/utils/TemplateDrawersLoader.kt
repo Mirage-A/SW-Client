@@ -44,13 +44,12 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
                 val helmet = drawerInfo["helmet"] ?: "default"
                 val chest = drawerInfo["chest"] ?: "default"
                 val cloak = drawerInfo["cloak"] ?: "default"
-                val gloves = drawerInfo["gloves"] ?: "default"
                 val legs = drawerInfo["legs"] ?: "default"
                 val weaponType = drawerInfo["weaponType"] ?: "UNARMED"
                 val rightWeapon = drawerInfo["rightWeapon"] ?: "default"
                 val leftWeapon = drawerInfo["leftWeapon"] ?: "default"
                 HumanoidDrawerTemplate(Equipment(
-                        helmet, chest, gloves, cloak, legs, rightWeapon, leftWeapon, WeaponType.fromString(weaponType)
+                        helmet, chest, cloak, legs, rightWeapon, leftWeapon, WeaponType.fromString(weaponType)
                 ))
             }
             "animation" -> (drawerInfo["animationName"])?.let { AnimationDrawerTemplate(it) } ?: EmptyDrawerTemplate()

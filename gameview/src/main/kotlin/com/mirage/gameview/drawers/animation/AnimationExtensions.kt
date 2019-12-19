@@ -20,7 +20,7 @@ internal fun getAnimationProgress(frames: List<Animation.Frame>, duration: Int, 
 }
 
 /** Draws animation layer at interpolated position */
-internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Float, y: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float) {
+internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Float, y: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, scale: Float = 1f) {
     val angle1 = (startLayer.angle % (2 * Math.PI)).toFloat()
     var angle2 = (endLayer.angle % (2 * Math.PI)).toFloat()
     if (angle2 > angle1) {
@@ -35,11 +35,11 @@ internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Flo
     }
     virtualScreen.draw(
             textureName = textureName,
-            x = x + curValue(startLayer.x, endLayer.x, progress),
-            y = y - curValue(startLayer.y, endLayer.y, progress),
+            x = x + curValue(startLayer.x, endLayer.x, progress) * scale,
+            y = y - curValue(startLayer.y, endLayer.y, progress) * scale,
             basicWidth = curValue(startLayer.basicWidth, endLayer.basicWidth, progress),
             basicHeight = curValue(startLayer.basicHeight, endLayer.basicHeight, progress),
-            scale = curValue(startLayer.scale, endLayer.scale, progress),
+            scale = curValue(startLayer.scale, endLayer.scale, progress) * scale,
             scaleX = curValue(startLayer.scaleX, endLayer.scaleX, progress),
             scaleY = curValue(startLayer.scaleY, endLayer.scaleY, progress),
             angle = curValue(angle1, angle2, progress)
