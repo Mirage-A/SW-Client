@@ -10,7 +10,15 @@
     
 ## Скачать без смс и регистрации
 
-Если кому-то интересно посмотреть, что уже готово на данный момент (пока что ничего), *[можно скачать jar-файл с последней готовой версией и запустить его с помощью Java]( https://github.com/ardenit/shattered-world/raw/master/shattered-world.jar)*.
+Если кому-то интересно посмотреть, что уже готово на данный момент (пока что ничего), можно скачать последнюю рабочую версию:
+
+[exe-файл (Windows)](https://github.com/ardenit/shattered-world/releases/latest/download/shattered-world.exe)
+
+или
+
+[jar-файл (Windows/Linux/MacOS/whatever)](https://github.com/ardenit/shattered-world/releases/latest/download/shattered-world.jar)
+
+Для запуска jar-файла требуется Java Runtime Environment версии 1.8.0 или выше.
 
 # Уголок интервьюера :)
 
