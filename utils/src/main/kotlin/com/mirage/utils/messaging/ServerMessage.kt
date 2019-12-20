@@ -1,8 +1,8 @@
 package com.mirage.utils.messaging
 
-import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.states.SimplifiedState
+import com.mirage.utils.game.states.StateDifference
 
 sealed class ServerMessage {
     companion object {

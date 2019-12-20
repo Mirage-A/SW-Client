@@ -12,7 +12,8 @@ import com.mirage.utils.messaging.InitialGameStateMessage
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
 import com.nhaarman.mockitokotlin2.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 internal class GameScreenTest {

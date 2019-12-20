@@ -6,15 +6,10 @@ import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.GameStateUpdateMessage
 import com.mirage.utils.messaging.InitialGameStateMessage
 import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.serializeClientMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
-import java.util.concurrent.atomic.AtomicReference
-import kotlin.collections.ArrayList
 
 internal class GameLogicImplTest{
 

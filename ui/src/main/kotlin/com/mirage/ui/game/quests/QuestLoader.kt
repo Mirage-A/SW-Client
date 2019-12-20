@@ -1,11 +1,9 @@
 package com.mirage.ui.game.quests
 
 import com.mirage.utils.Assets
-import com.mirage.utils.COMPLETED_QUEST_PHASE
 import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.extensions.runScript
 import com.mirage.utils.extensions.tableOf
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
 object QuestLoader {

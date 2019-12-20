@@ -1,7 +1,9 @@
 package com.mirage.utils.preferences
 
 import com.badlogic.gdx.Input
-import java.util.concurrent.atomic.*
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicIntegerArray
 
 class Settings {
 

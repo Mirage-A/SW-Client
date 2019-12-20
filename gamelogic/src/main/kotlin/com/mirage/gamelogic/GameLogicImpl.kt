@@ -18,8 +18,6 @@ import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.messaging.*
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
-import org.luaj.vm2.lib.jse.JsePlatform
-import java.lang.Math.random
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.collections.ArrayList

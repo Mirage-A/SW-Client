@@ -3,7 +3,6 @@ package com.mirage.utils.game.states
 import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.objects.simplified.SimplifiedObject
-import com.mirage.utils.game.states.Difference
 import java.util.*
 import kotlin.collections.HashMap
 

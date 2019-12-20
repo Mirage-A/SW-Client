@@ -1,15 +1,10 @@
 package com.mirage.desktop;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mirage.client.Client;
-import com.mirage.utils.Assets;
 import com.mirage.utils.ConfigurationKt;
-import com.mirage.utils.preferences.Prefs;
 
 import java.io.File;
 

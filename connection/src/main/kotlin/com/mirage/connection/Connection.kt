@@ -3,7 +3,6 @@ package com.mirage.connection
 import com.mirage.utils.extensions.IntervalMillis
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
-import rx.Observable
 
 interface Connection {
 

@@ -1,6 +1,7 @@
 ## Java
 /ideas
 /asdf
+*/build
 *.class
 *.war
 *.ear

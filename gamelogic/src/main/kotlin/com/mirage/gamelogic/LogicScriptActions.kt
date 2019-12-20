@@ -1,17 +1,11 @@
 package com.mirage.gamelogic
 
 import com.mirage.utils.extensions.EntityID
-import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
-import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
-import com.mirage.utils.game.objects.simplified.SimplifiedEntity
-import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import com.mirage.utils.game.states.ExtendedState
-import org.luaj.vm2.LuaDouble
 import org.luaj.vm2.LuaTable
-import org.luaj.vm2.LuaValue
 
 /** Methods which can be used by any script */
 internal interface LogicScriptActions {

@@ -1,7 +1,6 @@
 package com.mirage.ui.mainmenu
 
 import com.badlogic.gdx.InputProcessor
-import com.mirage.ui.game.GameUIState
 import com.mirage.utils.messaging.ClientMessage
 import rx.subjects.Subject
 

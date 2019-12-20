@@ -2,14 +2,12 @@ package com.mirage.utils.extensions
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
-import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import org.luaj.vm2.lib.jse.JsePlatform
 import java.io.Reader
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 typealias QuestProgress = LinkedHashMap<String, Int>
 typealias PlayerCreationListener = (playerID: Long) -> Unit

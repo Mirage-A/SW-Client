@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.google.gson.Gson
 import com.mirage.utils.Log
 import com.mirage.utils.extensions.fromJson
-import java.lang.Exception
 
 object Prefs {
 

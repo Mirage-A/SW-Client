@@ -1,7 +1,5 @@
 package com.mirage.utils.game.objects.properties
 
-import com.mirage.utils.game.objects.properties.WeaponType
-
 
 data class Equipment(
         val helmet: String,

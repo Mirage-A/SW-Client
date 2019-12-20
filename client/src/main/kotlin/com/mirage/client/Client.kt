@@ -3,7 +3,6 @@ package com.mirage.client
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
-import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.GL20
 import com.mirage.connection.Connection
@@ -20,7 +19,6 @@ import com.mirage.utils.messaging.ClearTargetMessage
 import com.mirage.utils.messaging.ExitClientMessage
 import com.mirage.utils.messaging.NewTargetMessage
 import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.preferences.Profile
 import com.mirage.utils.virtualscreen.VirtualScreen
 import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
 import kotlin.system.exitProcess
