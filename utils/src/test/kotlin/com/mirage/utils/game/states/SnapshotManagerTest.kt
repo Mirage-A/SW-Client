@@ -2,7 +2,6 @@ package com.mirage.utils.game.states
 
 import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.utils.MAX_EXTRAPOLATION_INTERVAL
-import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.objects.properties.MoveDirection
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow

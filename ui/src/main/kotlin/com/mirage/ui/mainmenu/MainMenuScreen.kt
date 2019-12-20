@@ -1,6 +1,5 @@
 package com.mirage.ui.mainmenu
 
-import com.badlogic.gdx.InputMultiplexer
 import com.mirage.ui.Screen
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.messaging.ClientMessage

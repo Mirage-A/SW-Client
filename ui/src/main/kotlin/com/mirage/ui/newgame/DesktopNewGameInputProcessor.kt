@@ -5,12 +5,8 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.messaging.ChangeSceneClientMessage
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.EventSubjectAdapter
-import com.mirage.utils.preferences.Account
-import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.preferences.Profile
 import com.mirage.utils.preferences.createNewProfile
 import rx.subjects.Subject
-import kotlin.math.min
 
 class DesktopNewGameInputProcessor(private val uiState: NewGameUIState) : NewGameInputProcessor {
 

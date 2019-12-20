@@ -1,6 +1,5 @@
 package com.mirage.ui.inventory
 
-import com.badlogic.gdx.graphics.g2d.PixmapPacker
 import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Point
@@ -272,6 +271,7 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
         initialEquipment = Prefs.profile.currentEquipment
         equipment = initialEquipment.copy()
         isVisible = true
+
     }
 
     override var isVisible: Boolean = false
@@ -325,5 +325,6 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
         offDrawer(virtualScreen, equipment.leftWeapon, offRect)
         rightColumn.draw(virtualScreen)
         centerColumn.draw(virtualScreen)
+
     }
 }

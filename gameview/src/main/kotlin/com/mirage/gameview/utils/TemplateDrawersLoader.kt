@@ -3,7 +3,6 @@ package com.mirage.gameview.utils
 import com.google.gson.Gson
 import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.templates.*
-import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.extensions.fromJson
 import com.mirage.utils.game.maps.SceneLoader

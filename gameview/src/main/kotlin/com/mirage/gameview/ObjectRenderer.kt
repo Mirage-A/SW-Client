@@ -59,9 +59,9 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
                     }
                     val textureName = "ui/scene/interact-$modifier"
                     virtualScreen.draw(textureName, pos.x - cameraX, interactionBoxY)
-                    if (id == targetID) {
+                    /*if (id == targetID) {
                         virtualScreen.draw("ui/scene/interact-btn-$modifier", pos.x - cameraX - 46f - 18f, interactionBoxY)
-                    }
+                    }*/
                 }
             }
         }

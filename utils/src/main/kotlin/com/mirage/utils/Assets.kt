@@ -3,7 +3,6 @@ package com.mirage.utils
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
-import com.google.gson.Gson
 import java.io.File
 import java.io.InputStream
 import java.io.Reader

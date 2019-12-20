@@ -7,7 +7,8 @@ import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.states.SimplifiedState
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class SceneLoaderTest {

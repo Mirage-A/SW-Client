@@ -5,10 +5,7 @@ import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.simplified.SimplifiedBuilding
-import com.mirage.utils.game.objects.simplified.SimplifiedEntity
-import com.mirage.utils.game.objects.simplified.SimplifiedObject
 import com.mirage.utils.game.states.ExtendedState
-import com.mirage.utils.game.states.SimplifiedState
 
 object TestSamples {
     val TEST_GAME_OBJECT = SimplifiedBuilding(

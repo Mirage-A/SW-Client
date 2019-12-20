@@ -3,7 +3,7 @@ package com.mirage.utils.preferences
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.backends.headless.HeadlessApplication
 import com.mirage.utils.PLATFORM
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 
 internal class PrefsTest {

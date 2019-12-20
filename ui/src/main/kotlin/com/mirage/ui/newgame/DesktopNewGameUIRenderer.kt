@@ -1,9 +1,6 @@
 package com.mirage.ui.newgame
 
-import com.mirage.utils.DEFAULT_SCREEN_HEIGHT
-import com.mirage.utils.DEFAULT_SCREEN_WIDTH
 import com.mirage.utils.virtualscreen.VirtualScreen
-import java.lang.Float.max
 
 class DesktopNewGameUIRenderer : NewGameUIRenderer {
 

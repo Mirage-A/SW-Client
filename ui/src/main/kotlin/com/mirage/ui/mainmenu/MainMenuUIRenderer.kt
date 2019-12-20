@@ -1,6 +1,5 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.ui.game.GameUIState
 import com.mirage.utils.virtualscreen.VirtualScreen
 
 interface MainMenuUIRenderer {

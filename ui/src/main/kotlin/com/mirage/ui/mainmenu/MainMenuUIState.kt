@@ -1,9 +1,5 @@
 package com.mirage.ui.mainmenu
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.scenes.scene2d.ui.TextField
-import com.badlogic.gdx.utils.Align
 import com.mirage.ui.inventory.InventoryWindow
 import com.mirage.ui.widgets.*
 import com.mirage.utils.datastructures.Rectangle

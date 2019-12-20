@@ -2,11 +2,6 @@ package com.mirage.gameview.drawers.templates
 
 import com.mirage.gameview.drawers.DrawerTemplate
 import com.mirage.gameview.drawers.animation.*
-import com.mirage.gameview.drawers.animation.drawLayer
-import com.mirage.gameview.drawers.animation.getAnimationCurrentTime
-import com.mirage.gameview.drawers.animation.getAnimationProgress
-import com.mirage.gameview.drawers.animation.getEndFrame
-import com.mirage.gameview.drawers.animation.getStartFrame
 import com.mirage.utils.Log
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.properties.WeaponType

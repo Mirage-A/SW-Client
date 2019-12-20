@@ -1,9 +1,11 @@
 package com.mirage.ui.newgame
 
-import com.mirage.ui.widgets.*
+import com.mirage.ui.widgets.Button
+import com.mirage.ui.widgets.ImageWidget
+import com.mirage.ui.widgets.LabelWidget
+import com.mirage.ui.widgets.Widget
 import com.mirage.utils.PLATFORM
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
