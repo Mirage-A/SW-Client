@@ -41,11 +41,12 @@ shadowJar {
 
     //Этот код автоматически скопирует созданный jar-файл в корневую папку приложения.
     //Перед заливом приложения в master-ветку следует выполнить этот код (или скопировать jar-файл ручками).
+    /*
     System.out.println("shadowJar created")
     def src = new File('desktop\\build\\libs\\shattered-world.jar')
     def copied = new File('shattered-world.jar')
     if (!copied.exists()) copied.createNewFile()
-    copied << src.bytes
+    copied << src.bytes*/
 }
 
 task debug(dependsOn: classes, type: JavaExec) {
