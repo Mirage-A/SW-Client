@@ -2,7 +2,10 @@
 /ideas
 /asdf
 /shattered-world.jar
-/Shattered-World.jar
+/shattered-world.exe
+/launch4j.log
+/linux-launch.sh
+/windows-launch.bat
 */build
 *.class
 *.war
