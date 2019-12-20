@@ -1,0 +1,1 @@
+gradlew build && gradlew :desktop:shadowJar && copy desktop\build\libs\shattered-world.jar release\shattered-world.jar /y && D:\Soft\Launch4j\launch4jc.exe release\launch4j-config.xml
