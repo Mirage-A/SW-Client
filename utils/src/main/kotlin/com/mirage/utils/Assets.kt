@@ -3,6 +3,10 @@ package com.mirage.utils
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
+import com.google.gson.Gson
+import com.mirage.utils.extensions.fromJson
+import com.mirage.utils.game.objects.properties.EquipmentData
+import com.mirage.utils.preferences.EquipmentSlot
 import java.io.File
 import java.io.InputStream
 import java.io.Reader
@@ -61,6 +65,23 @@ object Assets {
     fun loadAnimation(name: String) : InputStream? =
         loadFile("animations/$name.xml")?.read()
 
+    private val gson = Gson()
+
+    private fun getEquipmentFolder(type: EquipmentSlot) = when (type) {
+        EquipmentSlot.HELMET -> "head"
+        EquipmentSlot.CHEST -> "body"
+        EquipmentSlot.LEGGINGS -> "legs"
+        EquipmentSlot.CLOAK -> "cloak"
+        EquipmentSlot.MAIN_HAND, EquipmentSlot.OFF_HAND -> "weapon"
+    }
+
+    fun loadEquipmentData(itemType: EquipmentSlot, itemName: String): EquipmentData = try {
+        gson.fromJson(loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/data.json")!!)!!
+    }
+    catch(ex: Exception) {
+        Log.e("Error while loading equipment data $itemType $itemName")
+        EquipmentData()
+    }
 
 
 }

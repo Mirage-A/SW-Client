@@ -9,7 +9,8 @@ class ConfirmMessage(
         title: String = "Confirm action",
         description: String = "This action needs to be confirmed",
         okTitle: String = "OK",
-        cancelTitle: String = "Cancel"
+        cancelTitle: String = "Cancel",
+        val blocksFocus: Boolean = false
 ) : Widget {
 
     override var isVisible = false
@@ -68,12 +69,12 @@ class ConfirmMessage(
 
     override fun touchUp(virtualPoint: Point): Boolean {
         if (!isVisible) return false
-        return okButton.touchUp(virtualPoint) || cancelButton.touchUp(virtualPoint) || descriptionLabel.rect.contains(virtualPoint)
+        return okButton.touchUp(virtualPoint) || cancelButton.touchUp(virtualPoint) || blocksFocus || descriptionLabel.rect.contains(virtualPoint)
     }
 
     override fun touchDown(virtualPoint: Point): Boolean {
         if (!isVisible) return false
-        return okButton.touchDown(virtualPoint) || cancelButton.touchDown(virtualPoint) || descriptionLabel.rect.contains(virtualPoint)
+        return okButton.touchDown(virtualPoint) || cancelButton.touchDown(virtualPoint) || blocksFocus || descriptionLabel.rect.contains(virtualPoint)
     }
 
     override fun mouseMoved(virtualPoint: Point) {

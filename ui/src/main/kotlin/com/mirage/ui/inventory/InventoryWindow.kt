@@ -2,6 +2,8 @@ package com.mirage.ui.inventory
 
 import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.ui.widgets.*
+import com.mirage.utils.Assets
+import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.Equipment
@@ -92,6 +94,7 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
     val leftBackground = ImageWidget("ui/inventory/left-background") {
         w, h -> Rectangle(getLeftColumnCenterX(w), 0f, leftBackgroundTextureWidth, h)
     }
+
 
 
     val helmetBtn = Button(
@@ -284,7 +287,6 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
 
     val rightColumn = CompositeWidget(*itemBtns, pageNavigator, selectedSlotLabel, rightBackground)
 
-    val compositeWidget = CompositeWidget(leftColumnBtns, centerColumn, leftColumn, rightColumn)
 
     var humanoidDrawer = HumanoidDrawerTemplate(equipment, humanoidScale)
 
@@ -322,7 +324,7 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
             for (i in 0 until itemBtnsCount) {
                 with (itemBtns[i]) {
                     isVisible = if (startIndex + i < itemsCount) {
-                        openItemMessage(slot, availableItems[startIndex + i])
+                        onPressed = { openItemMessage(slot, availableItems[startIndex + i]) }
                         true
                     }
                     else false
@@ -333,10 +335,59 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
         loadPage(0)
     }
 
+    val itemMessage = ConfirmMessage(
+            virtualScreen, "Title", "description", "Equip", "Cancel", true
+    ).apply {
+        setCancelAction { isVisible = false }
+    }
 
     fun openItemMessage(itemType: EquipmentSlot, itemName: String) {
-        println("$itemType $itemName")
+        with (itemMessage) {
+            setOkAction {
+                when (itemType) {
+                    EquipmentSlot.HELMET -> equipment = equipment.copy(helmet = itemName)
+                    EquipmentSlot.CHEST -> equipment = equipment.copy(chest = itemName)
+                    EquipmentSlot.LEGGINGS -> equipment = equipment.copy(legs = itemName)
+                    EquipmentSlot.CLOAK -> equipment = equipment.copy(cloak = itemName)
+                    EquipmentSlot.MAIN_HAND -> {
+                        val weaponType = Assets.loadEquipmentData(itemType, itemName).weaponType ?: WeaponType.ONE_HANDED
+                        val isTwoHanded = weaponType.isTwoHanded()
+                        equipment = if (isTwoHanded) {
+                            equipment.copy(mainHand = itemName, offHand = "null", weaponType = weaponType)
+                        }
+                        else if (equipment.weaponType.isTwoHanded()) {
+                            equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
+                        }
+                        else {
+                            equipment.copy(mainHand = itemName)
+                        }
+                    }
+                    EquipmentSlot.OFF_HAND -> {
+                        val weaponType = Assets.loadEquipmentData(itemType, itemName).weaponType ?: WeaponType.ONE_HANDED
+                        val isTwoHanded = weaponType in arrayOf(WeaponType.TWO_HANDED, WeaponType.BOW, WeaponType.STAFF)
+                        if (isTwoHanded) {
+                            Log.e("Error: Two handed weapons must not be visible in off hand page")
+                        }
+                        else if (equipment.weaponType.isTwoHanded()) {
+                            equipment = equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
+                        }
+                        else if (weaponType == WeaponType.SHIELD) {
+                            equipment = equipment.copy(offHand = itemName, weaponType = WeaponType.SHIELD)
+                        }
+                        else {
+                            equipment = equipment.copy(offHand = itemName, weaponType = WeaponType.DUAL)
+                        }
+                    }
+                }
+                isVisible = false
+                humanoidDrawer = HumanoidDrawerTemplate(equipment, humanoidScale)
+            }
+            isVisible = true
+        }
     }
+
+
+    val compositeWidget = CompositeWidget(itemMessage, leftColumnBtns, centerColumn, leftColumn, rightColumn)
 
     fun open() {
         initialEquipment = Prefs.profile.currentEquipment
@@ -413,6 +464,7 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
         }
 
         centerColumn.draw(virtualScreen)
+        itemMessage.draw(virtualScreen)
 
     }
 }

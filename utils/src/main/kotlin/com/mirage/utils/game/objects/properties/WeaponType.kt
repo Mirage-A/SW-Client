@@ -27,4 +27,6 @@ enum class WeaponType {
             }
         }
     }
+
+    fun isTwoHanded() = this in arrayOf(TWO_HANDED, BOW, STAFF)
 }
