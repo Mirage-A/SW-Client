@@ -31,7 +31,7 @@
         <layer10 imageName="head.png" x="-3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -67,7 +67,7 @@
         <layer10 imageName="head.png" x="-0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -103,7 +103,7 @@
         <layer10 imageName="head.png" x="-0.0" y="-58.75" scale="0.61" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -139,7 +139,7 @@
         <layer10 imageName="head.png" x="0.3333335" y="-59.166668" scale="0.68" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -175,7 +175,7 @@
         <layer10 imageName="head.png" x="3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="74" basicHeight="74"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -211,7 +211,7 @@
         <layer10 imageName="lefthandbottom.png" x="12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.03867611" basicWidth="16" basicHeight="32"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -247,7 +247,7 @@
         <layer10 imageName="onehandedright.png" x="-39.216217" y="-7.567566" scale="0.73" scaleX="1.0" scaleY="1.0" angle="1.1769601" basicWidth="66" basicHeight="106"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -283,7 +283,7 @@
         <layer10 imageName="righthandbottom.png" x="-12.096862" y="-1.9372444" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.03867611" basicWidth="16" basicHeight="32"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>

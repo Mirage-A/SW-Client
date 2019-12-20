@@ -7,7 +7,7 @@ package com.mirage.utils.game.objects.properties
 enum class WeaponType {
     UNARMED,
     ONE_HANDED,
-    ONE_HANDED_AND_SHIELD,
+    SHIELD, // One-handed and shield
     DUAL,
     TWO_HANDED,
     BOW,
@@ -18,7 +18,7 @@ enum class WeaponType {
             return when (str) {
                 "UNARMED" -> UNARMED
                 "ONE_HANDED" -> ONE_HANDED
-                "ONE_HANDED_AND_SHIELD" -> ONE_HANDED_AND_SHIELD
+                "SHIELD" -> SHIELD
                 "DUAL" -> DUAL
                 "TWO_HANDED" -> TWO_HANDED
                 "BOW" -> BOW

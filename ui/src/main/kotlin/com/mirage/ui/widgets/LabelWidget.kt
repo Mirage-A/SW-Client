@@ -6,6 +6,10 @@ import com.mirage.utils.virtualscreen.VirtualScreen
 
 class LabelWidget(val label: VirtualScreen.Label, var sizeUpdater: (Float, Float) -> Rectangle) : Widget {
 
+    var text: String
+        get() = label.text
+        set(value) { label.text = value }
+
     override var isVisible = true
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {

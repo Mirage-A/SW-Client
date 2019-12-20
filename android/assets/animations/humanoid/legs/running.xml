@@ -48,7 +48,7 @@
         <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -101,7 +101,7 @@
         <layer4 imageName="rightlegtop.png" x="7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="0.047583103" basicWidth="16" basicHeight="40"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -154,7 +154,7 @@
         <layer4 imageName="leftlegtop.png" x="6.8333335" y="-43.5" scale="0.86" scaleX="1.0" scaleY="0.97" angle="0.012657642" basicWidth="16" basicHeight="40"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -207,7 +207,7 @@
         <layer4 imageName="leftlegtop.png" x="-7.0" y="-41.166668" scale="0.93" scaleX="1.0" scaleY="0.94" angle="-0.047583103" basicWidth="16" basicHeight="40"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -260,7 +260,7 @@
         <layer4 imageName="bodypoint.png" x="-0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -313,7 +313,7 @@
         <layer4 imageName="bodypoint.png" x="-0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="-0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -366,7 +366,7 @@
         <layer4 imageName="bodypoint.png" x="0.0" y="-58.0" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -419,7 +419,7 @@
         <layer4 imageName="bodypoint.png" x="0.0" y="-57.833332" scale="0.25" scaleX="1.0" scaleY="1.0" angle="0.0" basicWidth="18" basicHeight="18"/>
       </frame0>
     </ONE_HANDED>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>

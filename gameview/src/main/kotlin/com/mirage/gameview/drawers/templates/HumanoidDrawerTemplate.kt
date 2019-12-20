@@ -16,39 +16,22 @@ class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : 
 
     private val headTextures: Map<MoveDirection, String> = HashMap<MoveDirection, String>().apply {
         MoveDirection.values().forEach {
-            this[it] = "equipment/head/${equipment.helmet}/${it.fromSceneToView()}"
+            this[it] = "../equipment/head/${equipment.helmet}/${it.fromSceneToView()}"
         }
     }
-    private val bodyTexture = "equipment/body/${equipment.chest}/body"
-    private val cloakTexture = "equipment/cloak/${equipment.cloak}/cloak"
-    private val handBottomTexture = "equipment/body/${equipment.chest}/handbottom"
-    private val handTopTexture = "equipment/body/${equipment.chest}/handtop"
-    private val legBottomTexture = "equipment/legs/${equipment.legs}/legbottom"
-    private val legTopTexture = "equipment/legs/${equipment.legs}/legtop"
-    private val neckTexture = "equipment/body/${equipment.chest}/neck"
-    private val rightWeaponFolder : String? = when (equipment.weaponType) {
-        WeaponType.UNARMED -> null
-        WeaponType.ONE_HANDED -> "onehanded"
-        WeaponType.ONE_HANDED_AND_SHIELD -> "onehanded"
-        WeaponType.DUAL -> "onehanded"
-        WeaponType.TWO_HANDED -> "twohanded"
-        WeaponType.BOW -> "bow"
-        WeaponType.STAFF -> "staff"
-    }
+    private val bodyTexture = "../equipment/body/${equipment.chest}/body"
+    private val cloakTexture = "../equipment/cloak/${equipment.cloak}/cloak"
+    private val handBottomTexture = "../equipment/body/${equipment.chest}/handbottom"
+    private val handTopTexture = "../equipment/body/${equipment.chest}/handtop"
+    private val legBottomTexture = "../equipment/legs/${equipment.legs}/legbottom"
+    private val legTopTexture = "../equipment/legs/${equipment.legs}/legtop"
+    private val neckTexture = "../equipment/body/${equipment.chest}/neck"
     private val rightWeaponTexture =
-            if (rightWeaponFolder != null) "equipment/$rightWeaponFolder/${equipment.rightWeapon}"
+            if (equipment.weaponType != WeaponType.UNARMED) "../equipment/weapon/${equipment.mainHand}/weapon"
             else "null"
-    private val leftWeaponFolder : String? = when(equipment.weaponType) {
-        WeaponType.UNARMED -> null
-        WeaponType.ONE_HANDED -> null
-        WeaponType.ONE_HANDED_AND_SHIELD -> "shield"
-        WeaponType.DUAL -> "onehanded"
-        WeaponType.TWO_HANDED -> null
-        WeaponType.BOW -> null
-        WeaponType.STAFF -> null
-    }
     private val leftWeaponTexture =
-            if (leftWeaponFolder != null) "equipment/$leftWeaponFolder/${equipment.leftWeapon}"
+            if (equipment.weaponType in arrayOf(WeaponType.SHIELD, WeaponType.DUAL))
+                "../equipment/weapon/${equipment.offHand}/weapon"
             else "null"
 
 

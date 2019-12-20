@@ -7,6 +7,7 @@ import com.mirage.utils.datastructures.Rectangle
 import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.properties.MoveDirection
 import com.mirage.utils.game.objects.properties.WeaponType
+import com.mirage.utils.preferences.EquipmentSlot
 import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.min
@@ -26,6 +27,7 @@ private const val slotLabelHeight = 64f
 private const val pageNavigatorHeight = 64f
 private const val arrowSize = 50f
 private const val arrowMargin = (pageNavigatorHeight - arrowSize) / 2f
+private const val itemBtnsCount = 16
 
 
 class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widget {
@@ -33,6 +35,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
     private var initialEquipment: Equipment = Prefs.profile.currentEquipment
 
     private var equipment: Equipment = initialEquipment.copy()
+
+    private var selectedSlot: EquipmentSlot? = null
 
     val centerBackground = ImageWidget("ui/inventory/inventory-center-background") {
         w, h -> Rectangle(0f, 0f, w * centerColumnWidthPart, h)
@@ -100,7 +104,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     - h / 2f + getBorderedBtnSize(w) / 2f + equipmentBtnMargin,
                     getBorderedBtnSize(w), getBorderedBtnSize(w)
                 )
-            }
+            },
+            onPressed = { selectEquipmentSlot(EquipmentSlot.HELMET) }
     )
 
     val chestBtn = Button(
@@ -113,7 +118,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     - h / 2f + getBorderedBtnSize(w) / 2f + equipmentBtnMargin,
                     getBorderedBtnSize(w), getBorderedBtnSize(w)
             )
-            }
+            },
+            onPressed = { selectEquipmentSlot(EquipmentSlot.CHEST) }
     )
 
     val legsBtn = Button(
@@ -126,7 +132,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     - h / 2f + getBorderedBtnSize(w) / 2f + equipmentBtnMargin,
                     getBorderedBtnSize(w), getBorderedBtnSize(w)
             )
-            }
+            },
+            onPressed = { selectEquipmentSlot(EquipmentSlot.LEGGINGS) }
     )
 
     val cloakBtn = Button(
@@ -139,7 +146,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     - h / 2f + getBorderedBtnSize(w) / 2f + equipmentBtnMargin,
                     getBorderedBtnSize(w), getBorderedBtnSize(w)
             )
-            }
+            },
+            onPressed = { selectEquipmentSlot(EquipmentSlot.CLOAK) }
     )
 
     val mainHandBtn = Button(
@@ -152,7 +160,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     - h / 2f + getBorderedBtnSize(w) * 1.5f + equipmentBtnMargin * 2f,
                     getBorderedBtnSize(w), getBorderedBtnSize(w)
             )
-            }
+            },
+            onPressed = { selectEquipmentSlot(EquipmentSlot.MAIN_HAND) }
     )
 
     val offHandBtn = Button(
@@ -165,52 +174,46 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     - h / 2f + getBorderedBtnSize(w) * 1.5f + equipmentBtnMargin * 2f,
                     getBorderedBtnSize(w), getBorderedBtnSize(w)
             )
-            }
+            },
+            onPressed = { selectEquipmentSlot(EquipmentSlot.OFF_HAND) }
     )
 
     fun drawHelmetIcon(virtualScreen: VirtualScreen, helmet: String, rect: Rectangle) {
-        val helmetTexture = "equipment/head/$helmet/DOWN"
+        val helmetTexture = "../equipment/head/$helmet/DOWN"
         virtualScreen.draw(helmetTexture, rect)
     }
 
     fun drawChestIcon(virtualScreen: VirtualScreen, chest: String, rect: Rectangle) {
-        val bodyTexture = "equipment/body/$chest/body"
-        val handTopTexture = "equipment/body/$chest/handtop"
-        val handBottomTexture = "equipment/body/$chest/handbottom"
-        val neckTexture = "equipment/body/$chest/neck"
+        val bodyTexture = "../equipment/body/$chest/body"
+        val handTopTexture = "../equipment/body/$chest/handtop"
+        val handBottomTexture = "../equipment/body/$chest/handbottom"
+        val neckTexture = "../equipment/body/$chest/neck"
         //TODO
         virtualScreen.draw(bodyTexture, rect)
     }
 
     fun drawLegsIcon(virtualScreen: VirtualScreen, legs: String, rect: Rectangle) {
-        val legTopTexture = "equipment/legs/$legs/legtop"
-        val legBottomTexture = "equipment/legs/$legs/legbottom"
+        val legTopTexture = "../equipment/legs/$legs/legtop"
+        val legBottomTexture = "../equipment/legs/$legs/legbottom"
         //TODO
         virtualScreen.draw(legBottomTexture, rect)
     }
 
     fun drawCloakIcon(virtualScreen: VirtualScreen, cloak: String, rect: Rectangle) {
-        val cloakTexture = "equipment/cloak/$cloak/cloak"
+        val cloakTexture = "../equipment/cloak/$cloak/cloak"
         //TODO
         virtualScreen.draw(cloakTexture, rect)
     }
 
-    fun drawOneHandedIcon(virtualScreen: VirtualScreen, oneHanded: String, rect: Rectangle) {
-        val oneHandedTexture = "equipment/onehanded/$oneHanded"
+    fun drawWeaponIcon(virtualScreen: VirtualScreen, weapon: String, rect: Rectangle) {
+        val weaponTexture = "../equipment/weapon/$weapon/weapon"
         //TODO
-        virtualScreen.draw(oneHandedTexture, rect)
+        virtualScreen.draw(weaponTexture, rect)
     }
 
-    fun drawTwoHandedIcon(virtualScreen: VirtualScreen, twoHanded: String, rect: Rectangle) {
-        val twoHandedTexture = "equipment/twohanded/$twoHanded"
-        //TODO
-        virtualScreen.draw(twoHandedTexture, rect)
-    }
-
-    fun drawNoneTexture(virtualScreen: VirtualScreen, mockString: String = "none", rect: Rectangle) {
+    fun drawNoneIcon(virtualScreen: VirtualScreen, mockString: String = "none", rect: Rectangle) {
         virtualScreen.draw("ui/inventory/no-selection", rect)
     }
-
 
 
     val leftColumn = CompositeWidget(leftBackground)
@@ -260,18 +263,86 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
     val pageNavigator = PageNavigator(0, 4, leftArrow, rightArrow, pageLabel)
 
 
-    val rightColumn = CompositeWidget(pageNavigator, selectedSlotLabel, rightBackground)
+    fun getItemBtnSize(virtualWidth: Float, virtualHeight: Float): Float =
+            min(getBorderedBtnSize(virtualWidth), (virtualHeight - slotLabelHeight - pageNavigatorHeight/ 5 * equipmentBtnMargin) / 4f)
+
+    val itemBtns = Array(itemBtnsCount) {
+        Button(
+                "ui/inventory/left-button-background",
+                "ui/inventory/left-button-background-highlighted",
+                "ui/inventory/left-button-background-pressed",
+                sizeUpdater = {
+                    w, h -> Rectangle(
+                        getRightColumnCenterX(w) + getItemBtnSize(w, h) * (it % 4 - 1.5f) + equipmentBtnMargin * (it % 4 - 1.5f),
+                        - (slotLabelHeight + pageNavigatorHeight) / 2f - getItemBtnSize(w, h) * (it / 4 - 1.5f) - equipmentBtnMargin * (it / 4 - 1.5f),
+                        getItemBtnSize(w, h), getItemBtnSize(w, h)
+                )
+                }
+        )
+    }
+
+
+    val rightColumn = CompositeWidget(*itemBtns, pageNavigator, selectedSlotLabel, rightBackground)
 
     val compositeWidget = CompositeWidget(leftColumnBtns, centerColumn, leftColumn, rightColumn)
 
-    var humanoidDrawer = HumanoidDrawerTemplate(equipment, humanoidScale) //TODO Zoom
+    var humanoidDrawer = HumanoidDrawerTemplate(equipment, humanoidScale)
+
+    fun getSlotName(slot: EquipmentSlot?) = when (slot) {
+        null -> "Inventory"
+        EquipmentSlot.HELMET -> "Helmet"
+        EquipmentSlot.CHEST -> "Chest"
+        EquipmentSlot.LEGGINGS -> "Leggings"
+        EquipmentSlot.CLOAK -> "Cloak"
+        EquipmentSlot.MAIN_HAND -> "Main hand"
+        EquipmentSlot.OFF_HAND -> "Off hand"
+    }
+
+    fun selectEquipmentSlot(slot: EquipmentSlot?) {
+        if (slot == null || slot == selectedSlot) {
+            selectedSlot = null
+            pageNavigator.isVisible = false
+            itemBtns.forEach { it.isVisible = false }
+            selectedSlotLabel.text = "Inventory"
+            return
+        }
+        selectedSlot = slot
+        selectedSlotLabel.text = getSlotName(slot)
+        pageNavigator.isVisible = true
+        pageNavigator.pageIndex = 0
+        val availableItems = Prefs.account.availableEquipment[slot]
+        if (availableItems == null) {
+            selectEquipmentSlot(null)
+            return
+        }
+        val itemsCount = availableItems.size
+        pageNavigator.pageCount = (itemsCount - 1) / itemsCount + 1
+        val loadPage: (Int) -> Unit = {
+            val startIndex = it * itemBtnsCount
+            for (i in 0 until itemBtnsCount) {
+                with (itemBtns[i]) {
+                    isVisible = if (startIndex + i < itemsCount) {
+                        openItemMessage(slot, availableItems[startIndex + i])
+                        true
+                    }
+                    else false
+                }
+            }
+        }
+        pageNavigator.onPageSwitch = loadPage
+        loadPage(0)
+    }
+
+
+    fun openItemMessage(itemType: EquipmentSlot, itemName: String) {
+        println("$itemType $itemName")
+    }
 
     fun open() {
-        //TODO
         initialEquipment = Prefs.profile.currentEquipment
         equipment = initialEquipment.copy()
+        selectEquipmentSlot(null)
         isVisible = true
-
     }
 
     override var isVisible: Boolean = false
@@ -292,7 +363,6 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         val w = virtualScreen.width
-        val h = virtualScreen.height
         leftBackground.draw(virtualScreen)
         humanoidDrawer.draw(
                 virtualScreen,
@@ -313,17 +383,35 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
         val mainRect = mainHandBtn.rect.innerRect(16f)
         val offRect = offHandBtn.rect.innerRect(16f)
         val mainDrawer: (VirtualScreen, String, Rectangle) -> Unit = when (equipment.weaponType) {
-            WeaponType.UNARMED -> ::drawNoneTexture
-            WeaponType.ONE_HANDED, WeaponType.ONE_HANDED_AND_SHIELD, WeaponType.DUAL -> ::drawOneHandedIcon
-            WeaponType.TWO_HANDED, WeaponType.STAFF, WeaponType.BOW -> ::drawTwoHandedIcon
+            WeaponType.UNARMED -> ::drawNoneIcon
+            else -> ::drawWeaponIcon
         }
         val offDrawer: (VirtualScreen, String, Rectangle) -> Unit = when (equipment.weaponType) {
-            WeaponType.UNARMED, WeaponType.ONE_HANDED, WeaponType.TWO_HANDED, WeaponType.STAFF, WeaponType.BOW -> ::drawNoneTexture
-            WeaponType.ONE_HANDED_AND_SHIELD, WeaponType.DUAL -> ::drawOneHandedIcon
+            WeaponType.UNARMED, WeaponType.ONE_HANDED, WeaponType.TWO_HANDED, WeaponType.STAFF, WeaponType.BOW -> ::drawNoneIcon
+            WeaponType.SHIELD, WeaponType.DUAL -> ::drawWeaponIcon
         }
-        mainDrawer(virtualScreen, equipment.rightWeapon, mainRect)
-        offDrawer(virtualScreen, equipment.leftWeapon, offRect)
+        mainDrawer(virtualScreen, equipment.mainHand, mainRect)
+        offDrawer(virtualScreen, equipment.offHand, offRect)
         rightColumn.draw(virtualScreen)
+
+        val items = Prefs.account.availableEquipment[selectedSlot]
+        val drawer = when (selectedSlot) {
+            null -> ::drawNoneIcon
+            EquipmentSlot.HELMET -> ::drawHelmetIcon
+            EquipmentSlot.CHEST -> ::drawChestIcon
+            EquipmentSlot.LEGGINGS -> ::drawLegsIcon
+            EquipmentSlot.CLOAK -> ::drawCloakIcon
+            EquipmentSlot.MAIN_HAND, EquipmentSlot.OFF_HAND -> ::drawWeaponIcon
+        }
+        if (items != null) {
+            val itemsCount = items.size
+            for (i in 0 until itemBtnsCount) {
+                val itemIndex = i + itemBtnsCount * pageNavigator.pageIndex
+                if (i >= itemsCount) break
+                drawer(virtualScreen, items[itemIndex], itemBtns[i].rect.innerRect(16f))
+            }
+        }
+
         centerColumn.draw(virtualScreen)
 
     }

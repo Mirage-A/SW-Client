@@ -11,7 +11,7 @@
       </frame1>
     </UNARMED>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -20,7 +20,7 @@
   <UP_RIGHT>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -29,7 +29,7 @@
   <UP>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -38,7 +38,7 @@
   <UP_LEFT>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -47,7 +47,7 @@
   <LEFT>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -56,7 +56,7 @@
   <DOWN_LEFT>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -65,7 +65,7 @@
   <DOWN>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>
@@ -74,7 +74,7 @@
   <DOWN_RIGHT>
     <UNARMED/>
     <ONE_HANDED/>
-    <ONE_HANDED_AND_SHIELD/>
+    <SHIELD/>
     <DUAL/>
     <TWO_HANDED/>
     <BOW/>

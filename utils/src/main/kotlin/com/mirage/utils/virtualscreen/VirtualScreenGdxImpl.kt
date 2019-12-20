@@ -86,7 +86,8 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
      */
     private fun loadTexture(name: String): Texture {
         try {
-            val file = Assets.loadFile("drawable/$name.png")
+            val path = if (name.startsWith("../")) name.substring(3) + ".png" else "drawable/$name.png"
+            val file = Assets.loadFile(path)
             file ?: return emptyTexture.value
             val loadedTexture = Texture(file, false)
             loadedTexture.setFilter(minFilter, magFilter)
