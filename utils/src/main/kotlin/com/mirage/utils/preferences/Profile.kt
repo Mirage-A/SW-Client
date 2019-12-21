@@ -20,7 +20,7 @@ class Profile {
             "default",
             "default",
             "default",
-            "default",
+            "null",
             WeaponType.ONE_HANDED
     )
 

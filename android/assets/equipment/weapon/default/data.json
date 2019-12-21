@@ -1,0 +1,8 @@
+{
+  "name": "Iron Sword",
+  "weaponType": "ONE_HANDED",
+  "attackDamage": 20,
+  "attackCooldown": 2500,
+  "attackRange": 2.0,
+  "modifier": "Rend"
+}

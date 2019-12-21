@@ -67,6 +67,8 @@ object Assets {
 
     private val gson = Gson()
 
+    private val cachedEquipmentData = HashMap<Pair<EquipmentSlot, String>, EquipmentData>()
+
     private fun getEquipmentFolder(type: EquipmentSlot) = when (type) {
         EquipmentSlot.HELMET -> "head"
         EquipmentSlot.CHEST -> "body"
@@ -75,12 +77,33 @@ object Assets {
         EquipmentSlot.MAIN_HAND, EquipmentSlot.OFF_HAND -> "weapon"
     }
 
-    fun loadEquipmentData(itemType: EquipmentSlot, itemName: String): EquipmentData = try {
-        gson.fromJson(loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/data.json")!!)!!
-    }
-    catch(ex: Exception) {
-        Log.e("Error while loading equipment data $itemType $itemName")
-        EquipmentData()
+    fun getEquipmentData(itemType: EquipmentSlot, itemName: String): EquipmentData {
+        if (itemName == "null") return EquipmentData()
+        val pair = Pair(itemType, itemName)
+        val cached = cachedEquipmentData[pair]
+        if (cached != null) return cached
+        val onAttackScript: String? = try {
+            loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/on-attack.json")!!.readText()
+        }
+        catch (ex: Exception) { null }
+        val onDefenseScript: String? = try {
+            loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/on-defense.json")!!.readText()
+        }
+        catch (ex: Exception) { null }
+        val data: EquipmentData = try {
+            gson.fromJson<EquipmentData>(
+                    loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/data.json")!!
+            )!!.copy(
+                    onAttackScript = onAttackScript,
+                    onDefenseScript = onDefenseScript
+            )
+        } catch (ex: Exception) {
+            Log.e("Error while loading equipment data $itemType $itemName")
+            EquipmentData()
+        }
+
+        cachedEquipmentData[pair] = data
+        return data
     }
 
 

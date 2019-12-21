@@ -13,6 +13,18 @@ class ConfirmMessage(
         val blocksFocus: Boolean = false
 ) : Widget {
 
+    var title: String
+        get() = titleLabel.text
+        set(value) {
+            titleLabel.text = value
+        }
+
+    var description: String
+        get() = descriptionLabel.text
+        set(value) {
+            descriptionLabel.text = value
+        }
+
     override var isVisible = false
 
     private val backgroundTextureName = "ui/message-background"

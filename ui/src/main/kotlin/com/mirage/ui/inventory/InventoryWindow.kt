@@ -6,13 +6,12 @@ import com.mirage.utils.Assets
 import com.mirage.utils.Log
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.objects.properties.Equipment
-import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.game.objects.properties.WeaponType
+import com.mirage.utils.game.objects.properties.*
 import com.mirage.utils.preferences.EquipmentSlot
 import com.mirage.utils.preferences.Prefs
 import com.mirage.utils.virtualscreen.VirtualScreen
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 private const val saveCancelBtnHeight = 80f
 private const val saveCancelBtnMargin = 40f
@@ -78,7 +77,14 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
             }
     )
 
-    val centerColumn = CompositeWidget(saveBtn, cancelBtn, centerBackground)
+    val fullDataLabel = LabelWidget(virtualScreen.createLabel("", 30f)) {
+        w, h -> Rectangle(0f, saveCancelBtnHeight + saveCancelBtnMargin,
+                w * centerColumnWidthPart - 2f * saveCancelBtnMargin,
+                h - saveCancelBtnHeight * 2f - saveCancelBtnHeight * 4f
+            )
+    }
+
+    val centerColumn = CompositeWidget(fullDataLabel, saveBtn, cancelBtn, centerBackground)
 
     private fun getLeftColumnCenterX(virtualWidth: Float): Float =
             - virtualWidth * centerColumnWidthPart / 2f - (virtualWidth / 2f - virtualWidth * centerColumnWidthPart / 2f) / 2f
@@ -342,6 +348,7 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
     }
 
     fun openItemMessage(itemType: EquipmentSlot, itemName: String) {
+        val itemData = Assets.getEquipmentData(itemType, itemName)
         with (itemMessage) {
             setOkAction {
                 when (itemType) {
@@ -350,38 +357,40 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                     EquipmentSlot.LEGGINGS -> equipment = equipment.copy(legs = itemName)
                     EquipmentSlot.CLOAK -> equipment = equipment.copy(cloak = itemName)
                     EquipmentSlot.MAIN_HAND -> {
-                        val weaponType = Assets.loadEquipmentData(itemType, itemName).weaponType ?: WeaponType.ONE_HANDED
+                        val weaponType = itemData.weaponType ?: WeaponType.ONE_HANDED
                         val isTwoHanded = weaponType.isTwoHanded()
-                        equipment = if (isTwoHanded) {
-                            equipment.copy(mainHand = itemName, offHand = "null", weaponType = weaponType)
-                        }
-                        else if (equipment.weaponType.isTwoHanded()) {
-                            equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
-                        }
-                        else {
-                            equipment.copy(mainHand = itemName)
+                        equipment = when {
+                            isTwoHanded ->
+                                equipment.copy(mainHand = itemName, offHand = "null", weaponType = weaponType)
+                            equipment.weaponType.isTwoHanded() ->
+                                equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
+                            else ->
+                                equipment.copy(mainHand = itemName)
                         }
                     }
                     EquipmentSlot.OFF_HAND -> {
-                        val weaponType = Assets.loadEquipmentData(itemType, itemName).weaponType ?: WeaponType.ONE_HANDED
+                        val weaponType = itemData.weaponType ?: WeaponType.ONE_HANDED
                         val isTwoHanded = weaponType in arrayOf(WeaponType.TWO_HANDED, WeaponType.BOW, WeaponType.STAFF)
-                        if (isTwoHanded) {
-                            Log.e("Error: Two handed weapons must not be visible in off hand page")
-                        }
-                        else if (equipment.weaponType.isTwoHanded()) {
-                            equipment = equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
-                        }
-                        else if (weaponType == WeaponType.SHIELD) {
-                            equipment = equipment.copy(offHand = itemName, weaponType = WeaponType.SHIELD)
-                        }
-                        else {
-                            equipment = equipment.copy(offHand = itemName, weaponType = WeaponType.DUAL)
+                        equipment = when {
+                            isTwoHanded -> {
+                                Log.e("Error: Two handed weapons must not be visible in off hand page")
+                                equipment
+                            }
+                            equipment.weaponType.isTwoHanded() ->
+                                equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
+                            weaponType == WeaponType.SHIELD ->
+                                equipment.copy(offHand = itemName, weaponType = WeaponType.SHIELD)
+                            else ->
+                                equipment.copy(offHand = itemName, weaponType = WeaponType.DUAL)
                         }
                     }
                 }
                 isVisible = false
                 humanoidDrawer = HumanoidDrawerTemplate(equipment, humanoidScale)
+                fullDataLabel.text = PlayerAttributes(equipment).toInventoryInfoString()
             }
+            itemMessage.title = itemData.name
+            itemMessage.description = itemData.toInventoryInfo()
             isVisible = true
         }
     }
@@ -393,6 +402,8 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
         initialEquipment = Prefs.profile.currentEquipment
         equipment = initialEquipment.copy()
         selectEquipmentSlot(null)
+        fullDataLabel.text = PlayerAttributes(equipment).toInventoryInfoString()
+        humanoidDrawer = HumanoidDrawerTemplate(equipment, humanoidScale)
         isVisible = true
     }
 
