@@ -7,7 +7,7 @@ junitPlatform {
 }
 dependencies {
     implementation project(":client")
-    implementation project(":utils")
+    implementation project(":core")
     
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"

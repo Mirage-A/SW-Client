@@ -1,10 +1,10 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ExitClientMessage
-import com.mirage.utils.virtualscreen.VirtualScreen
-import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.ExitClientMessage
+import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

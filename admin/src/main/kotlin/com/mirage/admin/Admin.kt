@@ -5,11 +5,11 @@ import com.badlogic.gdx.net.NetJavaSocketImpl
 import com.badlogic.gdx.net.Socket
 import com.badlogic.gdx.net.SocketHints
 import com.mirage.server.*
-import com.mirage.utils.SERVER_ADDRESS
-import com.mirage.utils.SERVER_PORT
-import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.messaging.MoveDirectionClientMessage
-import com.mirage.utils.messaging.streams.impls.ClientMessageOutputStream
+import com.mirage.core.SERVER_ADDRESS
+import com.mirage.core.SERVER_PORT
+import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.messaging.MoveDirectionClientMessage
+import com.mirage.core.messaging.streams.impls.ClientMessageOutputStream
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -1,11 +1,11 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.messaging.ChangeSceneClientMessage
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.EventSubjectAdapter
-import com.mirage.utils.messaging.ExitClientMessage
-import com.mirage.utils.preferences.Prefs
+import com.mirage.core.datastructures.Point
+import com.mirage.core.messaging.ChangeSceneClientMessage
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.EventSubjectAdapter
+import com.mirage.core.messaging.ExitClientMessage
+import com.mirage.core.preferences.Prefs
 import rx.subjects.Subject
 import kotlin.math.min
 

@@ -1,8 +1,8 @@
 apply plugin: "kotlin"
 
 dependencies {
-    implementation project(":utils")
-    implementation project(":gameview")
+    implementation project(":core")
+    implementation project(":view")
     
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation 'org.luaj:luaj-jse:3.0.1'

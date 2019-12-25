@@ -1,8 +1,8 @@
 package com.mirage.ui.game.quests
 
 import com.mirage.ui.widgets.*
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.min
 
 private const val defaultBackgroundWidth = 1000f

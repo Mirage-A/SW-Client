@@ -2,9 +2,9 @@ package com.mirage.ui.mainmenu
 
 import com.mirage.ui.inventory.InventoryWindow
 import com.mirage.ui.widgets.*
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.preferences.Prefs
+import com.mirage.core.virtualscreen.VirtualScreen
 
 private const val btnWidth = 400f
 private const val btnHeight = 80f

@@ -3,7 +3,7 @@ package com.mirage.server
 import com.badlogic.gdx.Net
 import com.badlogic.gdx.net.*
 import com.badlogic.gdx.utils.GdxRuntimeException
-import com.mirage.utils.SERVER_PORT
+import com.mirage.core.SERVER_PORT
 
 /**
  * Поток, принимающий новые подключения и генерирующий объекты Socket.

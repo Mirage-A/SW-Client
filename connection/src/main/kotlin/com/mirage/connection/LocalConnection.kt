@@ -1,15 +1,14 @@
 package com.mirage.connection
 
-import com.mirage.gamelogic.GameLogic
-import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.Log
-import com.mirage.utils.extensions.*
-import com.mirage.utils.game.states.SimplifiedState
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.GameStateUpdateMessage
-import com.mirage.utils.messaging.InitialGameStateMessage
-import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.preferences.Prefs
+import com.mirage.logic.GameLogic
+import com.mirage.logic.GameLogicImpl
+import com.mirage.core.Log
+import com.mirage.core.extensions.*
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.GameStateUpdateMessage
+import com.mirage.core.messaging.InitialGameStateMessage
+import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.preferences.Prefs
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock

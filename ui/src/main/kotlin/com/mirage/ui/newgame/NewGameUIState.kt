@@ -4,9 +4,9 @@ import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.ImageWidget
 import com.mirage.ui.widgets.LabelWidget
 import com.mirage.ui.widgets.Widget
-import com.mirage.utils.PLATFORM
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.PLATFORM
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 

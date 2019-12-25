@@ -1,10 +1,10 @@
 package com.mirage.server
 
 import com.badlogic.gdx.net.Socket
-import com.mirage.utils.messaging.CityJoinClientMessage
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.LoginClientMessage
-import com.mirage.utils.messaging.ReturnCodeMessage
+import com.mirage.core.messaging.CityJoinClientMessage
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.LoginClientMessage
+import com.mirage.core.messaging.ReturnCodeMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext

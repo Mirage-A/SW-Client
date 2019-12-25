@@ -1,7 +1,7 @@
 package com.mirage.ui.widgets
 
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.datastructures.Point
+import com.mirage.core.virtualscreen.VirtualScreen
 
 class PageNavigator(
         initialPageIndex: Int,

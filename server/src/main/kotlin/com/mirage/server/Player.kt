@@ -1,11 +1,11 @@
 package com.mirage.server
 
 import com.badlogic.gdx.net.Socket
-import com.mirage.utils.SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.messaging.streams.impls.ClientMessageInputStream
-import com.mirage.utils.messaging.streams.impls.ServerMessageOutputStream
+import com.mirage.core.SERVER_MESSAGE_BUFFER_UPDATE_INTERVAL
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.messaging.streams.impls.ClientMessageInputStream
+import com.mirage.core.messaging.streams.impls.ServerMessageOutputStream
 import java.util.concurrent.ConcurrentLinkedQueue
 
 /**

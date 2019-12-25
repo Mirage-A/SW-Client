@@ -1,10 +1,10 @@
 package com.mirage.server
 
-import com.mirage.gamelogic.GameLogic
-import com.mirage.gamelogic.GameLogicImpl
-import com.mirage.utils.extensions.PlayerCreationRequest
-import com.mirage.utils.extensions.QuestProgress
-import com.mirage.utils.game.objects.properties.Equipment
+import com.mirage.logic.GameLogic
+import com.mirage.logic.GameLogicImpl
+import com.mirage.core.extensions.PlayerCreationRequest
+import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.game.objects.properties.Equipment
 import java.util.*
 
 /**

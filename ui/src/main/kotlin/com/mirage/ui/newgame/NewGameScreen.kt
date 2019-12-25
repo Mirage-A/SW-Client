@@ -1,10 +1,10 @@
 package com.mirage.ui.newgame
 
 import com.mirage.ui.Screen
-import com.mirage.utils.PLATFORM
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.PLATFORM
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.virtualscreen.VirtualScreen
 import rx.Observable
 
 class NewGameScreen(virtualScreen: VirtualScreen) : Screen {

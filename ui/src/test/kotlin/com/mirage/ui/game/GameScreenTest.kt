@@ -1,16 +1,16 @@
 package com.mirage.ui.game
 
-import com.mirage.utils.DELTA_CENTER_Y
-import com.mirage.utils.TILE_HEIGHT
-import com.mirage.utils.TILE_WIDTH
-import com.mirage.utils.TestSamples
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.states.SimplifiedState
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.InitialGameStateMessage
-import com.mirage.utils.virtualscreen.VirtualScreen
-import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.core.DELTA_CENTER_Y
+import com.mirage.core.TILE_HEIGHT
+import com.mirage.core.TILE_WIDTH
+import com.mirage.core.TestSamples
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.game.maps.GameMap
+import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.InitialGameStateMessage
+import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull

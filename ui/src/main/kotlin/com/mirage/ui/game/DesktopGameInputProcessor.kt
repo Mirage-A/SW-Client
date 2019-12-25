@@ -5,13 +5,13 @@ import com.mirage.ui.game.quests.QuestLoader
 import com.mirage.ui.game.quests.questBtnCount
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.PageNavigator
-import com.mirage.utils.COMPLETED_QUEST_PHASE
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.datastructures.rangeBetween
-import com.mirage.utils.extensions.QuestProgress
-import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.messaging.*
-import com.mirage.utils.preferences.Prefs
+import com.mirage.core.COMPLETED_QUEST_PHASE
+import com.mirage.core.datastructures.Point
+import com.mirage.core.datastructures.rangeBetween
+import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.messaging.*
+import com.mirage.core.preferences.Prefs
 import rx.subjects.Subject
 import kotlin.math.max
 

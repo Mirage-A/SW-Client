@@ -11,16 +11,16 @@ import com.mirage.ui.Screen
 import com.mirage.ui.game.GameScreen
 import com.mirage.ui.mainmenu.MainMenuScreen
 import com.mirage.ui.newgame.NewGameScreen
-import com.mirage.utils.INTERPOLATION_DELAY_MILLIS
-import com.mirage.utils.PLATFORM
-import com.mirage.utils.game.maps.SceneLoader
-import com.mirage.utils.messaging.ChangeSceneClientMessage
-import com.mirage.utils.messaging.ClearTargetMessage
-import com.mirage.utils.messaging.ExitClientMessage
-import com.mirage.utils.messaging.NewTargetMessage
-import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.virtualscreen.VirtualScreen
-import com.mirage.utils.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.core.INTERPOLATION_DELAY_MILLIS
+import com.mirage.core.PLATFORM
+import com.mirage.core.game.maps.SceneLoader
+import com.mirage.core.messaging.ChangeSceneClientMessage
+import com.mirage.core.messaging.ClearTargetMessage
+import com.mirage.core.messaging.ExitClientMessage
+import com.mirage.core.messaging.NewTargetMessage
+import com.mirage.core.preferences.Prefs
+import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {

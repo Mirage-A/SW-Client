@@ -1,9 +1,9 @@
 package com.mirage.ui
 
 import com.badlogic.gdx.InputProcessor
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.virtualscreen.VirtualScreen
 import rx.Observable
 
 interface Screen {

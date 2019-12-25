@@ -1,11 +1,11 @@
 package com.mirage.ui.newgame
 
 import com.badlogic.gdx.Input
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.messaging.ChangeSceneClientMessage
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.EventSubjectAdapter
-import com.mirage.utils.preferences.createNewProfile
+import com.mirage.core.datastructures.Point
+import com.mirage.core.messaging.ChangeSceneClientMessage
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.EventSubjectAdapter
+import com.mirage.core.preferences.createNewProfile
 import rx.subjects.Subject
 
 class DesktopNewGameInputProcessor(private val uiState: NewGameUIState) : NewGameInputProcessor {

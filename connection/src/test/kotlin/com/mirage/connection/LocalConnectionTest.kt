@@ -1,8 +1,8 @@
 package com.mirage.connection
 
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.messaging.*
+import com.mirage.core.datastructures.Point
+import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.messaging.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*

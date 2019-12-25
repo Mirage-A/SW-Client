@@ -1,8 +1,8 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.utils.DEFAULT_SCREEN_HEIGHT
-import com.mirage.utils.DEFAULT_SCREEN_WIDTH
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.DEFAULT_SCREEN_HEIGHT
+import com.mirage.core.DEFAULT_SCREEN_WIDTH
+import com.mirage.core.virtualscreen.VirtualScreen
 import java.lang.Float.max
 
 class DesktopMainMenuUIRenderer : MainMenuUIRenderer {

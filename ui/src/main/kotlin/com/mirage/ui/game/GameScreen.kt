@@ -1,23 +1,23 @@
 package com.mirage.ui.game
 
-import com.mirage.gameview.GameViewImpl
-import com.mirage.gameview.utils.getVirtualScreenPointFromScene
+import com.mirage.view.GameViewImpl
+import com.mirage.view.utils.getVirtualScreenPointFromScene
 import com.mirage.ui.Screen
-import com.mirage.utils.DELTA_CENTER_Y
-import com.mirage.utils.PLATFORM
-import com.mirage.utils.TestSamples
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.extensions.GameMapName
-import com.mirage.utils.game.maps.GameMap
-import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.game.objects.simplified.SimplifiedEntity
-import com.mirage.utils.game.states.GameStateSnapshot
-import com.mirage.utils.game.states.SimplifiedState
-import com.mirage.utils.game.states.SnapshotManager
-import com.mirage.utils.game.states.StateDifference
-import com.mirage.utils.messaging.*
-import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.DELTA_CENTER_Y
+import com.mirage.core.PLATFORM
+import com.mirage.core.TestSamples
+import com.mirage.core.datastructures.Point
+import com.mirage.core.extensions.GameMapName
+import com.mirage.core.game.maps.GameMap
+import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.game.objects.simplified.SimplifiedEntity
+import com.mirage.core.game.states.GameStateSnapshot
+import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.states.SnapshotManager
+import com.mirage.core.game.states.StateDifference
+import com.mirage.core.messaging.*
+import com.mirage.core.preferences.Prefs
+import com.mirage.core.virtualscreen.VirtualScreen
 import rx.Observable
 
 class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {

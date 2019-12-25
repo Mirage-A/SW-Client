@@ -2,13 +2,13 @@ package com.mirage.ui.game
 
 import com.mirage.ui.game.quests.QuestWindow
 import com.mirage.ui.widgets.*
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.extensions.GameMapName
-import com.mirage.utils.extensions.QuestProgress
-import com.mirage.utils.game.objects.properties.MoveDirection
-import com.mirage.utils.game.states.SimplifiedState
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.datastructures.Point
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.extensions.GameMapName
+import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.virtualscreen.VirtualScreen
 
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
 private const val skillIconSize = 64f

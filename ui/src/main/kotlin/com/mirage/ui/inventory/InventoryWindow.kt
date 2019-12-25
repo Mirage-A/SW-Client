@@ -1,17 +1,16 @@
 package com.mirage.ui.inventory
 
-import com.mirage.gameview.drawers.templates.HumanoidDrawerTemplate
+import com.mirage.view.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.ui.widgets.*
-import com.mirage.utils.Assets
-import com.mirage.utils.Log
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.game.objects.properties.*
-import com.mirage.utils.preferences.EquipmentSlot
-import com.mirage.utils.preferences.Prefs
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.Assets
+import com.mirage.core.Log
+import com.mirage.core.datastructures.Point
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.game.objects.properties.*
+import com.mirage.core.preferences.EquipmentSlot
+import com.mirage.core.preferences.Prefs
+import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 private const val saveCancelBtnHeight = 80f
 private const val saveCancelBtnMargin = 40f

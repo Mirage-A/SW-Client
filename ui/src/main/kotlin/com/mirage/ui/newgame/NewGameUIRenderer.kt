@@ -1,6 +1,6 @@
 package com.mirage.ui.newgame
 
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.virtualscreen.VirtualScreen
 
 interface NewGameUIRenderer {
 

@@ -1,8 +1,8 @@
 package com.mirage.ui.widgets
 
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.datastructures.Point
+import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 
