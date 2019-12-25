@@ -4,6 +4,7 @@ import com.mirage.gamelogic.LogicData
 import com.mirage.gamelogic.LogicScriptActions
 import com.mirage.utils.extensions.*
 import com.mirage.utils.game.objects.extended.ExtendedEntity
+import com.mirage.utils.messaging.HumanoidEquipmentUpdateMessage
 import com.mirage.utils.messaging.InitialGameStateMessage
 import org.luaj.vm2.LuaValue
 
@@ -26,6 +27,7 @@ internal fun LogicData.handleNewPlayerRequests(currentTime: TimeMillis, deltaTim
         serverMessages.add(Pair(id, InitialGameStateMessage(
                 gameMapName, state.simplifiedDeepCopy(), id, currentTime - deltaTime
         )))
+        serverMessages.add(Pair(-1L, HumanoidEquipmentUpdateMessage(id, it.equipment)))
         runAssetScript("scenes/$gameMapName/new-player", tableOf("playerID" to id), coercedScriptActions)
         it.onCreate(id)
     }

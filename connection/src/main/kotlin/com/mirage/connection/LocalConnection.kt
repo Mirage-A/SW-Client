@@ -10,6 +10,7 @@ import com.mirage.utils.messaging.GameStateUpdateMessage
 import com.mirage.utils.messaging.InitialGameStateMessage
 import com.mirage.utils.messaging.ServerMessage
 import com.mirage.utils.preferences.Prefs
+import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -19,9 +20,8 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
     @Volatile
     private var playerID : EntityID? = null
 
-    /** A message we want to send to client before all server messages */
-    @Volatile
-    private var firstStateWithPlayerMessage: InitialGameStateMessage? = null
+    /** Messages received before initial state with player */
+    private val bufferedMessages = ArrayDeque<ServerMessage>()
 
     private val logic : GameLogic = GameLogicImpl(mapName)
 
@@ -41,21 +41,18 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
         lock.withLock {
             idReceivedCondition.await()
         }
-        var currentState: SimplifiedState? = null
+        var initialStateReceived = false
         while (true) {
             val msg = logic.serverMessages.poll()?.second
             if (msg == null) {
                 Thread.sleep(10L)
             }
-            else if (msg is InitialGameStateMessage) {
-                currentState = msg.initialState
-            }
-            else if (msg is GameStateUpdateMessage) {
-                if (currentState != null) currentState = msg.diff.projectOn(currentState)
-                if (playerID != null) {
-                    firstStateWithPlayerMessage = InitialGameStateMessage(
-                            mapName, currentState ?: SimplifiedState(), playerID!!, msg.stateCreatedTimeMillis
-                    )
+            else {
+                if (!initialStateReceived && (msg !is InitialGameStateMessage || msg.playerID == -1L)) continue
+                initialStateReceived = true
+                bufferedMessages.add(msg)
+                val receivedID = playerID
+                if (msg is GameStateUpdateMessage && receivedID != null) {
                     break
                 }
             }
@@ -74,9 +71,11 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
 
     override fun forNewMessages(maximumProcessingTime: IntervalMillis, block: (ServerMessage) -> Unit) {
         //TODO Process transfers to another map
-        if (firstStateWithPlayerMessage != null) {
-            block(firstStateWithPlayerMessage!!)
-            firstStateWithPlayerMessage = null
+        if (bufferedMessages.isNotEmpty()) {
+            for (msg in bufferedMessages) {
+                block(msg)
+            }
+            bufferedMessages.clear()
         }
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime <= maximumProcessingTime) {

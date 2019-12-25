@@ -10,6 +10,7 @@ import com.mirage.utils.datastructures.Point
 import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.objects.properties.MoveDirection
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.states.GameStateSnapshot
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.SnapshotManager
@@ -63,6 +64,14 @@ class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: Virt
                 //TODO Show notification about quest progress
                 Prefs.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
                 inputProcessor.updateQuestWindow()
+            }
+            is HumanoidEquipmentUpdateMessage -> {
+                println(msg)
+                gameView.setHumanoidEquipment(
+                        msg.objectID,
+                        lastReceivedState.entities[msg.objectID] ?: SimplifiedEntity(),
+                        msg.newEquipment
+                )
             }
         }
     }

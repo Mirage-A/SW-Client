@@ -1,6 +1,9 @@
 package com.mirage.gameview
 
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.EntityID
+import com.mirage.utils.game.objects.properties.Equipment
+import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
 import com.mirage.utils.virtualscreen.VirtualScreen
@@ -20,6 +23,9 @@ interface GameView {
      * or on receiving new [com.mirage.utils.messaging.GameStateUpdateMessage].
      */
     fun updateDrawers(oldState: SimplifiedState, diff: StateDifference)
+
+    /** Sets drawer of entity [id] to instance of [HumanoidDrawerTemplate] with equipment [newEquipment] */
+    fun setHumanoidEquipment(id: EntityID, entity: SimplifiedEntity, newEquipment: Equipment)
 
     /** Renders game state [state] on [virtualScreen] */
     fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?, isTargetEnemy: Boolean)

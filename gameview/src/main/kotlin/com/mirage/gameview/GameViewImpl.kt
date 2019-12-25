@@ -5,9 +5,11 @@ import com.mirage.gameview.drawers.DrawersManagerImpl
 import com.mirage.gameview.utils.getVirtualScreenPointFromScene
 import com.mirage.utils.DELTA_CENTER_Y
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.EntityID
 import com.mirage.utils.extensions.GameMapName
 import com.mirage.utils.game.maps.GameMap
 import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.objects.simplified.SimplifiedEntity
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.game.states.StateDifference
@@ -23,6 +25,10 @@ class GameViewImpl(gameMapName: GameMapName, private val gameMap: GameMap) : Gam
 
     override fun updateDrawers(oldState: SimplifiedState, diff: StateDifference) {
         drawersManager.updateDrawers(diff, oldState)
+    }
+
+    override fun setHumanoidEquipment(id: EntityID, entity: SimplifiedEntity, newEquipment: Equipment) {
+        drawersManager.updateEquipment(id, entity, newEquipment, System.currentTimeMillis())
     }
 
     override fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedState, playerPositionOnScene: Point, targetID: Long?, isTargetEnemy: Boolean) {
