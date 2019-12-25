@@ -1,0 +1,8 @@
+{
+  "name": "Unarmed",
+  "description": "Do you want to be unarmed?",
+  "weaponType": "UNARMED",
+  "attackDamage": 5,
+  "attackCooldown": 2000,
+  "attackRange": 2.0
+}

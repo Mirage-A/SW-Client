@@ -78,7 +78,6 @@ object Assets {
     }
 
     fun getEquipmentData(itemType: EquipmentSlot, itemName: String): EquipmentData {
-        if (itemName == "null") return EquipmentData()
         val pair = Pair(itemType, itemName)
         val cached = cachedEquipmentData[pair]
         if (cached != null) return cached

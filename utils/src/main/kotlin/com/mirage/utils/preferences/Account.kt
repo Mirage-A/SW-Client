@@ -14,11 +14,11 @@ class Account {
     val availableSkills = arrayListOf<String>()
 
     val availableEquipment = hashMapOf(
-            EquipmentSlot.HELMET to arrayListOf("default"),
-            EquipmentSlot.CHEST to arrayListOf("default"),
-            EquipmentSlot.LEGGINGS to arrayListOf("default"),
-            EquipmentSlot.CLOAK to arrayListOf("default"),
-            EquipmentSlot.MAIN_HAND to arrayListOf("default"),
-            EquipmentSlot.OFF_HAND to arrayListOf("default") // Just copy one-handed weapons here
+            EquipmentSlot.HELMET to arrayListOf("null", "default"),
+            EquipmentSlot.CHEST to arrayListOf("null", "default"),
+            EquipmentSlot.LEGGINGS to arrayListOf("null", "default"),
+            EquipmentSlot.CLOAK to arrayListOf("null", "default"),
+            EquipmentSlot.MAIN_HAND to arrayListOf("null", "default"),
+            EquipmentSlot.OFF_HAND to arrayListOf("null", "default") // Just copy one-handed weapons here
     )
 }

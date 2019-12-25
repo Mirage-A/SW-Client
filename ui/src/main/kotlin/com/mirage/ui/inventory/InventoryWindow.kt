@@ -188,36 +188,51 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
     )
 
     fun drawHelmetIcon(virtualScreen: VirtualScreen, helmet: String, rect: Rectangle) {
-        val helmetTexture = "../equipment/head/$helmet/DOWN"
-        virtualScreen.draw(helmetTexture, rect)
+        if (helmet == "null") drawNoneIcon(virtualScreen, helmet, rect)
+        else {
+            val helmetTexture = "../equipment/head/$helmet/DOWN"
+            virtualScreen.draw(helmetTexture, rect)
+        }
     }
 
     fun drawChestIcon(virtualScreen: VirtualScreen, chest: String, rect: Rectangle) {
-        val bodyTexture = "../equipment/body/$chest/body"
-        val handTopTexture = "../equipment/body/$chest/handtop"
-        val handBottomTexture = "../equipment/body/$chest/handbottom"
-        val neckTexture = "../equipment/body/$chest/neck"
-        //TODO
-        virtualScreen.draw(bodyTexture, rect)
+        if (chest == "null") drawNoneIcon(virtualScreen, chest, rect)
+        else {
+            val bodyTexture = "../equipment/body/$chest/body"
+            val handTopTexture = "../equipment/body/$chest/handtop"
+            val handBottomTexture = "../equipment/body/$chest/handbottom"
+            val neckTexture = "../equipment/body/$chest/neck"
+            //TODO
+            virtualScreen.draw(bodyTexture, rect)
+        }
     }
 
     fun drawLegsIcon(virtualScreen: VirtualScreen, legs: String, rect: Rectangle) {
-        val legTopTexture = "../equipment/legs/$legs/legtop"
-        val legBottomTexture = "../equipment/legs/$legs/legbottom"
-        //TODO
-        virtualScreen.draw(legBottomTexture, rect)
+        if (legs == "null") drawNoneIcon(virtualScreen, legs, rect)
+        else {
+            val legTopTexture = "../equipment/legs/$legs/legtop"
+            val legBottomTexture = "../equipment/legs/$legs/legbottom"
+            //TODO
+            virtualScreen.draw(legBottomTexture, rect)
+        }
     }
 
     fun drawCloakIcon(virtualScreen: VirtualScreen, cloak: String, rect: Rectangle) {
-        val cloakTexture = "../equipment/cloak/$cloak/cloak"
-        //TODO
-        virtualScreen.draw(cloakTexture, rect)
+        if (cloak == "null") drawNoneIcon(virtualScreen, cloak, rect)
+        else {
+            val cloakTexture = "../equipment/cloak/$cloak/cloak"
+            //TODO
+            virtualScreen.draw(cloakTexture, rect)
+        }
     }
 
     fun drawWeaponIcon(virtualScreen: VirtualScreen, weapon: String, rect: Rectangle) {
-        val weaponTexture = "../equipment/weapon/$weapon/weapon"
-        //TODO
-        virtualScreen.draw(weaponTexture, rect)
+        if (weapon == "null") drawNoneIcon(virtualScreen, weapon, rect)
+        else {
+            val weaponTexture = "../equipment/weapon/$weapon/weapon"
+            //TODO
+            virtualScreen.draw(weaponTexture, rect)
+        }
     }
 
     fun drawNoneIcon(virtualScreen: VirtualScreen, mockString: String = "none", rect: Rectangle) {
@@ -360,7 +375,9 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                         val weaponType = itemData.weaponType ?: WeaponType.ONE_HANDED
                         val isTwoHanded = weaponType.isTwoHanded()
                         equipment = when {
-                            isTwoHanded ->
+                            itemName == "null" ->
+                                equipment.copy(mainHand = "null", offHand = "null", weaponType = WeaponType.UNARMED)
+                            isTwoHanded || equipment.weaponType == WeaponType.UNARMED ->
                                 equipment.copy(mainHand = itemName, offHand = "null", weaponType = weaponType)
                             equipment.weaponType.isTwoHanded() ->
                                 equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
@@ -376,10 +393,21 @@ class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widge
                                 Log.e("Error: Two handed weapons must not be visible in off hand page")
                                 equipment
                             }
-                            equipment.weaponType.isTwoHanded() ->
+                            itemName == "null" ->
+                                equipment.copy(
+                                        offHand = "null",
+                                        weaponType = when (equipment.weaponType) {
+                                            WeaponType.DUAL, WeaponType.SHIELD -> WeaponType.ONE_HANDED
+                                            else -> equipment.weaponType
+                                        }
+                                )
+                            equipment.weaponType.isTwoHanded() || equipment.weaponType == WeaponType.UNARMED ->
                                 equipment.copy(mainHand = itemName, offHand = itemName, weaponType = WeaponType.DUAL)
                             weaponType == WeaponType.SHIELD ->
-                                equipment.copy(offHand = itemName, weaponType = WeaponType.SHIELD)
+                                if (equipment.weaponType.isTwoHanded() || equipment.weaponType == WeaponType.UNARMED)
+                                    equipment.copy(mainHand = "default", offHand = itemName, weaponType = WeaponType.SHIELD)
+                                else
+                                    equipment.copy(offHand = itemName, weaponType = WeaponType.SHIELD)
                             else ->
                                 equipment.copy(offHand = itemName, weaponType = WeaponType.DUAL)
                         }
