@@ -33,8 +33,7 @@ internal data class LogicData(
         val scriptAreas: Iterable<ScriptArea> = sceneLoader.loadAreas(),
         var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy(),
 
-        val behaviors: MutableMap<EntityID, Behavior> =
-                state.entities.mapValues { sceneLoader.loadBehavior(it.value.template) }.toMutableMap(),
+        val behaviors: MutableMap<EntityID, Behavior> = HashMap(),
 
         /** These maps must be mutated only through ScriptActions class */
         val playerGlobalQuestProgress: MutableMap<EntityID, QuestProgress> = HashMap(),

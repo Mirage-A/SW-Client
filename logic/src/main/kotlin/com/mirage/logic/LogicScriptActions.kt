@@ -36,13 +36,18 @@ internal interface LogicScriptActions {
     fun findEntity(name: String): ExtendedEntity?
     fun findBuilding(name: String): ExtendedBuilding?
 
+    fun getEntity(id: EntityID): ExtendedEntity?
+
     /** Finds all entities with the name [name] */
-    fun findAllEntityIDs(name: String) : List<Long>
+    fun findAllEntityIDs(name: String): List<Long>
     /** Finds all buildings with the name [name] */
-    fun findAllBuildingIDs(name: String) : List<Long>
+    fun findAllBuildingIDs(name: String): List<Long>
 
     /** Returns table with all player IDs */
-    fun findAllPlayerIDs() : List<Long>
+    fun findAllPlayerIDs(): List<Long>
+
+    /** Adds [entity] to scene and returns its id */
+    fun addEntity(entity: ExtendedEntity): EntityID
 
     /** Deals damage from [sourceID] entity (use -1 for no source) to [entityID] entity, maybe triggering death script of [targetID] */
     fun dealDamageToEntity(sourceID: EntityID, entityID: EntityID, damage: Int)

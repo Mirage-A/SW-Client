@@ -41,6 +41,8 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
 
     override fun findBuilding(name: String): ExtendedBuilding? = data.state.buildings.entries.find { it.value.name == name }?.value
 
+    override fun getEntity(id: EntityID): ExtendedEntity? = data.state.entities[id]
+
     override fun findAllEntityIDs(name: String): List<EntityID> =
             data.state.entities.filter { it.value.name == name }.map { it.key }
 
@@ -48,6 +50,12 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
             data.state.buildings.filter { it.value.name == name }.map { it.key }
 
     override fun findAllPlayerIDs(): List<EntityID> = data.playerIDs.toList()
+
+    override fun addEntity(entity: ExtendedEntity): EntityID {
+        val id = data.state.addEntity(entity)
+        data.behaviors[id] = data.sceneLoader.loadBehavior(entity.template, id, data)
+        return id
+    }
 
     override fun dealDamageToEntity(sourceID: EntityID, entityID: EntityID, damage: Int) {
         data.state.entities[entityID]?.let {

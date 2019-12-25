@@ -14,6 +14,7 @@ import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.ExtendedState
 import com.mirage.logic.behavior.Behavior
+import com.mirage.logic.behavior.DummyBehavior
 import com.mirage.logic.behavior.NullBehavior
 import java.io.Reader
 import java.lang.reflect.Type
@@ -24,7 +25,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
     private val cachedBuildingTemplates = HashMap<String, ExtendedBuilding>()
     private val cachedBehaviorInfo = HashMap<String, Map<String, Any?>>()
 
-    internal fun loadBehavior(entityTemplate: String): Behavior =
+    internal fun loadBehavior(entityTemplate: String, entityID: EntityID, data: LogicData): Behavior =
             try {
                 val cached = cachedBehaviorInfo[entityTemplate]
                 val info = if (cached == null) {
@@ -35,6 +36,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
                 else cached
                 when (info["type"]) {
                     "null" -> NullBehavior()
+                    "dummy" -> DummyBehavior(entityID, data)
                     else -> NullBehavior()
                 }
             }

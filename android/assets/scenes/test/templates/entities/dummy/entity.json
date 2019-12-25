@@ -12,7 +12,7 @@
   "factionID": 2,
   "interactionRange": 2,
   "behavior": {
-    "type": "null"
+    "type": "dummy"
   },
   "drawers": {
     "default": {

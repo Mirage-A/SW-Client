@@ -47,10 +47,12 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
     }
 
     private fun LogicData.processBehaviors(delta: IntervalMillis) {
-        for ((entityID, entity) in state.entities) {
+        val entityIDs = state.entities.keys.toSet()
+        for (entityID in entityIDs) {
+            val entity = state.entities[entityID] ?: continue
             val savedBehavior = behaviors[entityID]
             val behavior = if (savedBehavior == null) {
-                val loadedBehavior = sceneLoader.loadBehavior(entity.template)
+                val loadedBehavior = sceneLoader.loadBehavior(entity.template, entityID, data)
                 behaviors[entityID] = loadedBehavior
                 loadedBehavior
             }
@@ -81,6 +83,9 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
 
     override fun startLogic(initialPlayerRequests: Iterable<PlayerCreationRequest>) {
         with (data) {
+            for ((id, entity) in state.entities) {
+                behaviors[id] = sceneLoader.loadBehavior(entity.template, id, this)
+            }
             serverMessages.add(Pair(-1L, InitialGameStateMessage(gameMapName, latestStateSnapshot, -1L, System.currentTimeMillis())))
             initialPlayerRequests.forEach { newPlayerRequests.add(it) }
             loopTimer.start()
