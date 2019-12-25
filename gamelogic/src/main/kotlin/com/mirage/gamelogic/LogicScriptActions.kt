@@ -6,9 +6,14 @@ import com.mirage.utils.game.objects.extended.ExtendedBuilding
 import com.mirage.utils.game.objects.extended.ExtendedEntity
 import com.mirage.utils.game.states.ExtendedState
 import org.luaj.vm2.LuaTable
+import org.luaj.vm2.LuaValue
+import org.luaj.vm2.lib.jse.CoerceJavaToLua
 
 /** Methods which can be used by any script */
 internal interface LogicScriptActions {
+
+    /** Instance of this interface, coerced to lua value */
+    val coerced: LuaValue
 
     /** Runs another script from scripts folder of this scene immediately */
     fun runSceneScript(scriptName: String, args: LuaTable)

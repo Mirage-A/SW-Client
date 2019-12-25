@@ -3,6 +3,7 @@ package com.mirage.utils.extensions
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.mirage.utils.Log
+import com.mirage.utils.game.objects.properties.Equipment
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
 import org.luaj.vm2.lib.jse.JsePlatform
@@ -18,6 +19,12 @@ typealias IntervalMillis = Long
 typealias TimeMillis = Long
 typealias GameMapName = String
 typealias ReturnCode = Int
+
+data class PlayerCreationRequest(
+        val questProgress: QuestProgress = QuestProgress(),
+        val equipment: Equipment,
+        val onCreate: PlayerCreationListener
+)
 
 private val luaGlobals = JsePlatform.standardGlobals()
 

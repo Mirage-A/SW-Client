@@ -1,4 +1,4 @@
-package com.mirage.gamelogic
+package com.mirage.gamelogic.logic
 
 import com.mirage.utils.datastructures.Point
 import com.mirage.utils.datastructures.Rectangle

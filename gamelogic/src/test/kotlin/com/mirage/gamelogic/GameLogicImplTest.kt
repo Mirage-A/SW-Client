@@ -1,7 +1,10 @@
 package com.mirage.gamelogic
 
 import com.mirage.utils.datastructures.Point
+import com.mirage.utils.extensions.PlayerCreationRequest
+import com.mirage.utils.extensions.QuestProgress
 import com.mirage.utils.game.maps.SceneLoader
+import com.mirage.utils.game.objects.properties.Equipment
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.GameStateUpdateMessage
 import com.mirage.utils.messaging.InitialGameStateMessage
@@ -17,7 +20,7 @@ internal class GameLogicImplTest{
     fun testStart() {
         val logic = GameLogicImpl("micro-test")
         logic.startLogic()
-        logic.addNewPlayer {  }
+        logic.addNewPlayer(PlayerCreationRequest(QuestProgress(), Equipment()) {})
         logic.stopLogic()
         Thread.sleep(250L)
         assertEquals(
@@ -33,9 +36,8 @@ internal class GameLogicImplTest{
         logic.startLogic()
         Thread.sleep(50L)
         val id = AtomicLong()
-        logic.addNewPlayer {
-            id.set(it)
-        }
+        val request = PlayerCreationRequest(QuestProgress(), Equipment()) { id.set(it) }
+        logic.addNewPlayer(request)
         Thread.sleep(150L)
         logic.stopLogic()
         Thread.sleep(100L)

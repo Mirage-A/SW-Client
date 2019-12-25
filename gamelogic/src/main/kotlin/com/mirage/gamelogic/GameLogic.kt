@@ -1,8 +1,6 @@
 package com.mirage.gamelogic
 
-import com.mirage.utils.extensions.EntityID
-import com.mirage.utils.extensions.PlayerCreationListener
-import com.mirage.utils.extensions.QuestProgress
+import com.mirage.utils.extensions.*
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.ServerMessage
 import java.util.*
@@ -20,14 +18,14 @@ interface GameLogic {
     val playerTransfers: Queue<PlayerTransferRequest>
 
     /** Starts game logic loop */
-    fun startLogic()
+    fun startLogic(initialPlayerRequests: Iterable<PlayerCreationRequest> = ArrayList())
 
     /**
-     * Creates a new entity for a player at the next tick of game loop and invokes [onComplete]
+     * Creates a new entity for a player at the next tick of game loop and invokes [PlayerCreationRequest.onCreate]
      * with new entity's ID as a parameter.
-     * [onComplete] is invoked at game loop thread.
+     * [PlayerCreationRequest.onCreate] is invoked at game loop thread.
      */
-    fun addNewPlayer(globalQuestProgress: QuestProgress? = null, onComplete: PlayerCreationListener)
+    fun addNewPlayer(request: PlayerCreationRequest)
 
     /** Removes player's entity from scene */
     fun removePlayer(playerID: EntityID)

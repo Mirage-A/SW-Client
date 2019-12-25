@@ -11,13 +11,13 @@ private const val unarmedCooldown = 2000L
 
 
 data class Equipment(
-        val helmet: String,
-        val chest: String,
-        val cloak: String,
-        val legs: String,
-        val mainHand: String,
-        val offHand: String,
-        val weaponType: WeaponType
+        val helmet: String = "null",
+        val chest: String = "null",
+        val cloak: String = "null",
+        val legs: String = "null",
+        val mainHand: String = "null",
+        val offHand: String = "null",
+        val weaponType: WeaponType = WeaponType.UNARMED
 ) {
     fun getFullData(): Map<EquipmentSlot, EquipmentData> = linkedMapOf(
             EquipmentSlot.HELMET to Assets.getEquipmentData(EquipmentSlot.HELMET, helmet),

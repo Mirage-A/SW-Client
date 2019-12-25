@@ -2,6 +2,9 @@ package com.mirage.server
 
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
+import com.mirage.utils.extensions.PlayerCreationRequest
+import com.mirage.utils.extensions.QuestProgress
+import com.mirage.utils.game.objects.properties.Equipment
 import java.util.*
 
 /**
@@ -45,6 +48,7 @@ class Room {
     fun addPlayer(p: Player) {
         players.add(p)
         p.room = this
-        logic.addNewPlayer { p.id = it }
+        val request = PlayerCreationRequest(QuestProgress(), Equipment()) { p.id = it }
+        logic.addNewPlayer(request)
     }
 }

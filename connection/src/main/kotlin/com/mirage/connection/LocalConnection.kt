@@ -3,10 +3,7 @@ package com.mirage.connection
 import com.mirage.gamelogic.GameLogic
 import com.mirage.gamelogic.GameLogicImpl
 import com.mirage.utils.Log
-import com.mirage.utils.extensions.EntityID
-import com.mirage.utils.extensions.GameMapName
-import com.mirage.utils.extensions.IntervalMillis
-import com.mirage.utils.extensions.QuestProgress
+import com.mirage.utils.extensions.*
 import com.mirage.utils.game.states.SimplifiedState
 import com.mirage.utils.messaging.ClientMessage
 import com.mirage.utils.messaging.GameStateUpdateMessage
@@ -32,14 +29,15 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
         Log.i("connection.start() invoked")
         val lock = ReentrantLock()
         val idReceivedCondition = lock.newCondition()
-        logic.addNewPlayer(QuestProgress(Prefs.profile.globalQuestProgress)) {
+        val questProgress = QuestProgress(Prefs.profile.globalQuestProgress)
+        val newPlayerListener: PlayerCreationListener = {
             lock.withLock {
                 playerID = it
                 Log.i("PlayerID received! $playerID")
                 idReceivedCondition.signal()
             }
         }
-        logic.startLogic()
+        logic.startLogic(listOf(PlayerCreationRequest(questProgress, Prefs.profile.currentEquipment, newPlayerListener)))
         lock.withLock {
             idReceivedCondition.await()
         }
