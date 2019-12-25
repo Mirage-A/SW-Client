@@ -9,6 +9,7 @@ import com.mirage.core.game.states.ExtendedState
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
+import com.mirage.logic.behavior.Behavior
 import org.luaj.vm2.LuaTable
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -25,15 +26,15 @@ internal data class LogicData(
         /** Queue which stores new messages from clients */
         val clientMessages : Queue<Pair<EntityID, ClientMessage>> = ConcurrentLinkedQueue(),
 
-        val sceneLoader: SceneLoader = SceneLoader(gameMapName),
+        val sceneLoader: ExtendedSceneLoader = ExtendedSceneLoader(gameMapName),
 
         val gameMap : GameMap = sceneLoader.loadMap(),
         val state: ExtendedState = sceneLoader.loadInitialState(),
         val scriptAreas: Iterable<ScriptArea> = sceneLoader.loadAreas(),
         var latestStateSnapshot: SimplifiedState = state.simplifiedDeepCopy(),
 
-        /** Maps id of player entity to list of his skills */
-        val playerSkills: MutableMap<EntityID, SkillNames> = HashMap(),
+        val behaviors: MutableMap<EntityID, Behavior> =
+                state.entities.mapValues { sceneLoader.loadBehavior(it.value.template) }.toMutableMap(),
 
         /** These maps must be mutated only through ScriptActions class */
         val playerGlobalQuestProgress: MutableMap<EntityID, QuestProgress> = HashMap(),

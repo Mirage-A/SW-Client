@@ -5,6 +5,7 @@ import com.mirage.core.extensions.*
 import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.messaging.HumanoidEquipmentUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
+import com.mirage.logic.behavior.PlayerBehavior
 import org.luaj.vm2.LuaValue
 
 
@@ -18,11 +19,10 @@ internal fun LogicData.processNewPlayerRequests(currentTime: TimeMillis, deltaTi
         val player = createPlayer()
         val id = state.addEntity(player)
         playerIDs.add(id)
-        //TODO Загрузка информации о навыках игрока через сообщения при входе в игру и через хранение профиля в БД
-        val skills = listOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
-        playerSkills[id] = skills
         playerGlobalQuestProgress[id] = it.questProgress
         playerLocalQuestProgress[id] = QuestProgress()
+        val skills = listOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
+        behaviors[id] = PlayerBehavior(id, it.equipment, skills, this)
         serverMessages.add(Pair(id, InitialGameStateMessage(
                 gameMapName, state.simplifiedDeepCopy(), id, currentTime - deltaTime
         )))

@@ -10,6 +10,9 @@
   "health": 100,
   "maxHealth": 100,
   "factionID": 0,
+  "behavior": {
+    "type": "null"
+  },
   "drawers": {
     "default": {
       "type": "humanoid",

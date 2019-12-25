@@ -11,6 +11,9 @@
   "maxHealth": 1000,
   "factionID": 2,
   "interactionRange": 2,
+  "behavior": {
+    "type": "null"
+  },
   "drawers": {
     "default": {
       "type": "humanoid",

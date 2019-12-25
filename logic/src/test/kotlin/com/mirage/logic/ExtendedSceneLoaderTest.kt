@@ -1,4 +1,4 @@
-package com.mirage.core.game.maps
+package com.mirage.logic
 
 import com.google.gson.Gson
 import com.mirage.core.TestSamples
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class SceneLoaderTest {
+internal class ExtendedSceneLoaderTest {
 
     @Test
     fun testJSON() {
@@ -52,8 +52,8 @@ internal class SceneLoaderTest {
                 "transparencyRange": 6.0,
                 "moveDirection": "UP_RIGHT"
               }]""".trimIndent()
-        val map = SceneLoader("").loadMap(mapStr.reader())
-        val objects = SceneLoader("micro-test").loadInitialState(buildingsStr.reader(), entitiesStr.reader())
+        val map = ExtendedSceneLoader("").loadMap(mapStr.reader())
+        val objects = ExtendedSceneLoader("micro-test").loadInitialState(buildingsStr.reader(), entitiesStr.reader())
         assertEquals(map.width, 2)
         assertEquals(map.height, 2)
         assertEquals(map.tileSetName, "city")
@@ -99,7 +99,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadBuildingByNameTemplateTest() {
-        val obj = SceneLoader("micro-test").loadBuildingTemplate("test-building")
+        val obj = ExtendedSceneLoader("micro-test").loadBuildingTemplate("test-building")
         assertEquals(ExtendedBuilding(
                 template = "test-building",
                 x = 0f,
@@ -115,7 +115,7 @@ internal class SceneLoaderTest {
 
     @Test
     fun loadEntityByNameTemplateTest() {
-        val obj = SceneLoader("moving-micro-test").loadEntityTemplate("test-entity")
+        val obj = ExtendedSceneLoader("moving-micro-test").loadEntityTemplate("test-entity")
         assertEquals(ExtendedEntity(
                 name = "test-entity-1",
                 template = "test-entity",
@@ -136,8 +136,8 @@ internal class SceneLoaderTest {
     @Test
     fun testExceptions() {
         assertDoesNotThrow {
-            SceneLoader("").loadMap("".reader())
-            SceneLoader("").loadMap("""{
+            ExtendedSceneLoader("").loadMap("".reader())
+            ExtendedSceneLoader("").loadMap("""{
                 "objects": [
     {
       "x": 0.6,
@@ -147,8 +147,8 @@ internal class SceneLoaderTest {
             }""".trimMargin().reader())
         }
         assertDoesNotThrow {
-            SceneLoader("").loadInitialState("".reader(), "".reader())
-            SceneLoader("").loadInitialState("""{
+            ExtendedSceneLoader("").loadInitialState("".reader(), "".reader())
+            ExtendedSceneLoader("").loadInitialState("""{
                 "objects": [
     {
       "x": 0.6,

@@ -28,30 +28,34 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
     private fun updateState(time: TimeMillis, delta: IntervalMillis) {
         if (delta > 200L) Log.i("Slow update: $delta ms")
         with (data) {
-            if (!initScriptInvoked) {
-                runAssetScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
-                initScriptInvoked = true
-            }
+            triggerInitScript()
             processNewPlayerRequests(time, delta, scriptActions.coerced)
             processRemovePlayerRequests(scriptActions.coerced)
             processClientMessages(scriptActions.coerced)
-            processMoving(delta)
+            processBehaviors(delta)
             processScriptAreas(scriptActions.coerced)
             invokeDelayedScripts(time, scriptActions.coerced)
             finishStateUpdate()
         }
     }
 
-    //TODO Move to Behavior class
-    /** Process moving of all entities during [delta] interval, including collisions and entering script zones */
-    private fun LogicData.processMoving(delta: IntervalMillis) {
-        //TODO Process script zones entering
-        for ((_, entity) in state.entities) {
-            //TODO Move this expression to Behavior class
-            entity.action = if (entity.isMoving) "running" else "idle"
-            if (entity.isMoving) {
-                moveObject(entity, delta, gameMap, state)
+    private fun LogicData.triggerInitScript() {
+        if (!initScriptInvoked) {
+            runAssetScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
+            initScriptInvoked = true
+        }
+    }
+
+    private fun LogicData.processBehaviors(delta: IntervalMillis) {
+        for ((entityID, entity) in state.entities) {
+            val savedBehavior = behaviors[entityID]
+            val behavior = if (savedBehavior == null) {
+                val loadedBehavior = sceneLoader.loadBehavior(entity.template)
+                behaviors[entityID] = loadedBehavior
+                loadedBehavior
             }
+            else savedBehavior
+            behavior.onUpdate(delta, data, scriptActions.coerced)
         }
     }
 

@@ -71,6 +71,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
                 coerced
         )
         data.state.removeEntity(entityID)
+        data.behaviors.remove(entityID)
     }
 
     override fun print(msg: Any?) = Log.i(msg)
