@@ -75,6 +75,7 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.widgets.forEach { it.unpress() }
         uiState.widgets.forEach { if (it.touchUp(virtualPoint)) return true }
         return false
     }

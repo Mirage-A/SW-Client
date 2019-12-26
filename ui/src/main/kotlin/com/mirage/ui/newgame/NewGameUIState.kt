@@ -17,7 +17,6 @@ private const val classBtnMargin = 48f
 private const val classNameLabelHeight = 80f
 private const val classNameLabelFontSize = 32f
 private const val confirmBtnHeight = 80f
-private const val confirmBtnWidth = 400f
 
 
 class NewGameUIState(val virtualScreen: VirtualScreen) {

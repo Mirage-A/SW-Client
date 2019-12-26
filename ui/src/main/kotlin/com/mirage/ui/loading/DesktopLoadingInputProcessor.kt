@@ -32,6 +32,7 @@ class DesktopLoadingInputProcessor(private val uiState: LoadingUIState) : Loadin
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
+        uiState.compositeWidget.unpress()
         uiState.compositeWidget.touchUp(virtualPoint)
         return false
     }
