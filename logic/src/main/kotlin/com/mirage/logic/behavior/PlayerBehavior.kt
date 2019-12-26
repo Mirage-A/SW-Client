@@ -35,13 +35,17 @@ internal class PlayerBehavior(
                 moveObject(entity, delta, gameMap, state)
             }
             val targetBehavior = behaviors[targetID]
-            targetBehavior?.onDamage(10, id, this, coercedScriptActions)
+            targetBehavior?.onDamage(40, id, this, coercedScriptActions)
         }
     }
 
     override fun onDamage(damage: Int, source: EntityID, data: LogicData, coercedScriptActions: LuaValue) {
         //TODO
-
+        entity.health -= damage
+        if (entity.health <= 0) {
+            entity.health = 0
+            entity.state = "dead"
+        }
     }
 
     fun handleClientMessage(msg: ClientMessage, data: LogicData, coercedScriptActions: LuaValue) {

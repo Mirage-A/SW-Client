@@ -38,6 +38,12 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
         uiState.confirmExitMessage.setCancelAction {
             uiState.confirmExitMessage.isVisible = false
         }
+        uiState.retryBtn.onPressed = {
+            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.LOADING_SCREEN))
+        }
+        uiState.mainMenuBtn.onPressed = {
+            inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MAIN_MENU))
+        }
         updateQuestWindow()
     }
 
@@ -184,7 +190,7 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
         uiState.widgets.forEach { if (it.touchDown(virtualPoint)) return true }
-        inputMessages.onNext(NewTargetMessage(virtualPoint))
+        if (!uiState.gameOver) inputMessages.onNext(NewTargetMessage(virtualPoint))
         return false
     }
 
@@ -205,6 +211,7 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
     }
 
     override fun keyUp(keycode: Int): Boolean {
+        if (uiState.gameOver) return false
         when (keycode) {
             Input.Keys.W -> {
                 wReleasedTime = System.currentTimeMillis()
@@ -317,6 +324,7 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
 
 
     override fun keyDown(keycode: Int): Boolean {
+        if (uiState.gameOver) return false
         when (keycode) {
             Input.Keys.W -> {
                 if (uiState.bufferedMoving == true) {

@@ -80,6 +80,12 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         Texture(Pixmap(1, 1, Pixmap.Format.Alpha))
     }
 
+    override fun drawColorOnAllScreen(r: Float, g: Float, b: Float, a: Float) {
+        batch.setColor(r, g, b, a / 255f)
+        batch.draw(getTexture("white"), - width / 2f, - height / 2f, width, height)
+        batch.color = Color.WHITE
+    }
+
     /**
      * Загружает текстуру с заданным названием из файла.
      * Для получения текстуры для отрисовки следует использовать [getTexture]

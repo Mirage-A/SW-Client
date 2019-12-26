@@ -34,6 +34,16 @@ private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
 private const val settingsMenuBtnFontSize = 20f
 
+internal const val screenFadingInterval = 1000L
+internal const val maxFadingAlpha = 196f
+
+private const val gameOverWidth = 1000f
+private const val gameOverHeight = 200f
+private const val btnWidth = 400f
+private const val btnHeight = 80f
+private const val gameOverMargin = 32f
+private const val gameOverMessageHeight = 80f
+
 internal class GameUIState(val virtualScreen: VirtualScreen, val gameMapName: GameMapName) {
 
     val localQuestProgress: QuestProgress = QuestProgress()
@@ -47,6 +57,8 @@ internal class GameUIState(val virtualScreen: VirtualScreen, val gameMapName: Ga
     var targetID: Long? = null
     var playerID: Long? = null
 
+    var gameOver = false
+    var gameOverStartTime = 0L
 
     val skillNames: MutableList<String?> = mutableListOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
     val skillCoolDowns: MutableList<Long> = MutableList(5) {0L}
@@ -206,8 +218,41 @@ internal class GameUIState(val virtualScreen: VirtualScreen, val gameMapName: Ga
 
     val questWindow = QuestWindow(virtualScreen)
 
+    val gameOverText = ImageWidget("ui/game/game-over") {
+        w, h -> Rectangle(0f, 0f, gameOverWidth, gameOverHeight)
+    }
+
+    val gameOverMessage = Button(
+            textureName = "ui/game/game-over-background",
+            borderTextureName = "ui/game/game-over-border",
+            boundedLabel = virtualScreen.createLabel("Lol noob", 24f),
+            borderSize = 4f,
+            sizeUpdater = {
+                w, h -> Rectangle(
+                    0f, h / 2f - gameOverMessageHeight / 2f - gameOverMargin,
+                    w - gameOverMargin * 2f, gameOverMessageHeight
+                )
+            }
+    )
+
+    val retryBtn = Button("ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
+            Rectangle(),
+            virtualScreen.createLabel("Retry", 30f),
+            {_, h -> Rectangle(0f, - h / 2f + btnHeight * 1.5f + gameOverMargin, btnWidth, btnHeight)})
+
+    val mainMenuBtn = Button("ui/main-menu-btn",
+            "ui/main-menu-btn-highlighted",
+            "ui/main-menu-btn-pressed",
+            Rectangle(),
+            virtualScreen.createLabel("Main menu", 30f),
+            {_, h -> Rectangle(0f, - h / 2f + btnHeight * 0.5f + gameOverMargin, btnWidth, btnHeight)})
+
+    val gameOverCompositeWidget = CompositeWidget(gameOverMessage, retryBtn, mainMenuBtn, gameOverText).apply { isVisible = false }
+
     val widgets: List<Widget> =
-            settingsMenuBtnList + confirmExitMessage + microMenuBtnList + questWindow.widget +
+            settingsMenuBtnList + gameOverCompositeWidget + confirmExitMessage + microMenuBtnList + questWindow.widget +
                     activeSkills + ultimateSkillBtn +
                     playerHealthPane + targetHealthPane + targetNameArea
 

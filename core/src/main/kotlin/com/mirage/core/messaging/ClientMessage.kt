@@ -83,3 +83,6 @@ data class NewTargetMessage(val virtualScreenPoint: Point) : ClientMessage()
 
 /** This message is handled by client and does not reach game logic */
 data class ClearTargetMessage(val unit: Unit = Unit) : ClientMessage()
+
+/** This message is handled by client and does not reach game logic */
+data class CloseConnectionMessage(val unit: Unit = Unit) : ClientMessage()

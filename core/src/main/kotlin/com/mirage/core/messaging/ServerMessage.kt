@@ -11,6 +11,7 @@ sealed class ServerMessage {
         private val serverMessageClasses = listOf<Class<*>>(
                 InitialGameStateMessage::class.java,
                 GameStateUpdateMessage::class.java,
+                GameOverMessage::class.java,
                 ReturnCodeMessage::class.java,
                 HumanoidEquipmentUpdateMessage::class.java,
                 GlobalQuestUpdateMessage::class.java,
@@ -50,6 +51,11 @@ data class InitialGameStateMessage(
 data class GameStateUpdateMessage(
         val diff: StateDifference,
         val stateCreatedTimeMillis: Long
+) : ServerMessage()
+
+/** This message in sent to all players when all players are dead and game must be fully restarted */
+data class GameOverMessage(
+        val message: String? = null
 ) : ServerMessage()
 
 data class ReturnCodeMessage(

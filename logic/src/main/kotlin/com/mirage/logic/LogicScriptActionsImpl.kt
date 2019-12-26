@@ -6,10 +6,7 @@ import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.objects.extended.ExtendedBuilding
 import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.states.ExtendedState
-import com.mirage.core.messaging.DisplayTextMessage
-import com.mirage.core.messaging.GlobalQuestUpdateMessage
-import com.mirage.core.messaging.LocalQuestUpdateMessage
-import com.mirage.core.messaging.StartDialogMessage
+import com.mirage.core.messaging.*
 import com.mirage.logic.processors.runAssetScript
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
@@ -134,6 +131,10 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
 
     override fun kickPlayerFromMap(playerID: EntityID, code: ReturnCode) {
         data.playerTransfers.add(PlayerTransferRequest(playerID, null, code))
+    }
+
+    override fun gameOver(message: String?) {
+        data.serverMessages.add(-1L to GameOverMessage(message))
     }
 
 }

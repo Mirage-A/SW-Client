@@ -38,6 +38,7 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
             processScriptAreas(scriptActions.coerced)
             invokeDelayedScripts(time, scriptActions.coerced)
             finishStateUpdate()
+            triggerAllDeadScript()
         }
     }
 
@@ -45,6 +46,12 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
         if (!initScriptInvoked) {
             runAssetScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
             initScriptInvoked = true
+        }
+    }
+
+    private fun LogicData.triggerAllDeadScript() {
+        if (playerIDs.map { state.entities[it] }.all { it?.state ?: "dead" == "dead"}) {
+            runAssetScript("scenes/$gameMapName/all-players-dead", tableOf(), scriptActions.coerced)
         }
     }
 

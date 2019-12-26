@@ -19,6 +19,7 @@ import com.mirage.core.messaging.*
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import rx.Observable
+import kotlin.math.min
 
 class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
 
@@ -66,12 +67,22 @@ class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: Virt
                 inputProcessor.updateQuestWindow()
             }
             is HumanoidEquipmentUpdateMessage -> {
-                println(msg)
                 gameView.setHumanoidEquipment(
                         msg.objectID,
                         lastReceivedState.entities[msg.objectID] ?: SimplifiedEntity(),
                         msg.newEquipment
                 )
+            }
+            is GameOverMessage -> {
+                //TODO
+                inputProcessor.inputMessages.onNext(CloseConnectionMessage())
+                with (uiState) {
+                    gameOver = true
+                    gameOverStartTime = System.currentTimeMillis()
+                    gameOverMessage.boundedLabel?.text = msg.message ?: ""
+                    gameOverMessage.isVisible = msg.message != null
+                    widgets.forEach { it.isVisible = false }
+                }
             }
         }
     }
@@ -107,6 +118,14 @@ class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: Virt
                 uiState.targetID,
                 state.entities[uiState.playerID]?.factionID != state.entities[uiState.targetID]?.factionID
         )
+        if (uiState.gameOver) {
+            val timePassed = currentTimeMillis - uiState.gameOverStartTime
+            val alpha = min(1f, timePassed.toFloat() / screenFadingInterval.toFloat()) * maxFadingAlpha
+            virtualScreen.drawColorOnAllScreen(0f, 0f, 0f, alpha)
+            if (timePassed > screenFadingInterval) {
+                uiState.gameOverCompositeWidget.isVisible = true
+            }
+        }
         uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
         uiState.lastRenderedState = state
     }

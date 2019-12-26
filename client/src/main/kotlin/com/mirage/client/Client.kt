@@ -14,27 +14,26 @@ import com.mirage.ui.newgame.NewGameScreen
 import com.mirage.core.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.PLATFORM
 import com.mirage.core.extensions.GameMapName
+import com.mirage.core.extensions.TimeMillis
 import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.maps.SceneLoader
-import com.mirage.core.messaging.ChangeSceneClientMessage
-import com.mirage.core.messaging.ClearTargetMessage
-import com.mirage.core.messaging.ExitClientMessage
-import com.mirage.core.messaging.NewTargetMessage
+import com.mirage.core.messaging.*
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.mirage.ui.loading.LoadingScreen
+import java.util.*
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
 
-    private val virtualScreen : VirtualScreen = VirtualScreenGdxImpl()
-    private var currentScreen : Screen? = null
+    private val virtualScreen: VirtualScreen = VirtualScreenGdxImpl()
+    private var currentScreen: Screen? = null
         private set(value) {
             value?.resize(virtualScreen.width, virtualScreen.height)
             field = value
         }
-    private var connection : Connection? = null
+    private var connection: Connection? = null
 
     private fun setInputProcessor(screen: Screen) {
         Gdx.input.inputProcessor = object : InputProcessor {
@@ -173,6 +172,10 @@ object Client : ApplicationListener {
                             connection.close()
                             openMainMenu()
                         }
+                        ChangeSceneClientMessage.Scene.LOADING_SCREEN -> {
+                            connection.close()
+                            openLoadingScreen()
+                        }
                     }
                 }
                 is NewTargetMessage -> {
@@ -180,6 +183,10 @@ object Client : ApplicationListener {
                 }
                 is ClearTargetMessage -> {
                     gameScreen.clearTarget()
+                }
+                is CloseConnectionMessage -> {
+                    connection.close()
+                    this.connection = null
                 }
                 else -> connection.sendMessage(msg)
             }

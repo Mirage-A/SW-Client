@@ -86,4 +86,7 @@ internal interface LogicScriptActions {
     /** Removes a player [playerID] from this map with "return code" [code] */
     fun kickPlayerFromMap(playerID: EntityID, code: Int)
 
+    /** Sends GameOverMessage with message [message] to all players and stops logic */
+    fun gameOver(message: String?)
+
 }

@@ -43,6 +43,8 @@ interface VirtualScreen {
      */
     fun resize(newRealWidth: Int, newRealHeight: Int)
 
+    fun drawColorOnAllScreen(r: Float, g: Float, b: Float, a: Float)
+
     /** Caches all textures with names [textureNames] */
     fun loadAllTextures(textureNames: Iterable<String>)
 

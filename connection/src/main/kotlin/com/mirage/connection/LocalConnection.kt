@@ -83,9 +83,14 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
         }
     }
 
+    private var isClosed = false
+
     override fun close() {
-        logic.stopLogic()
-        logic.dispose()
+        if (!isClosed) {
+            logic.stopLogic()
+            logic.dispose()
+            isClosed = true
+        }
     }
 
 }
