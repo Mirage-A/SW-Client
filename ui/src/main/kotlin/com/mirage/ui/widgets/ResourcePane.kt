@@ -6,28 +6,25 @@ import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 
-class ResourcePane(
-        var borderTextureName: String,
-        var lostResourceTextureName: String,
-        var resourceTextureName: String,
-        var rect: Rectangle = Rectangle(),
+internal class ResourcePane(
+        var borderTextureName: String = "ui/game/health-border",
+        var lostResourceTextureName: String = "ui/game/health-lost",
+        var resourceTextureName: String = "ui/game/health",
         var boundedLabel: VirtualScreen.Label? = null,
-        var innerMargin: Float,
+        var innerMargin: Float = 0f,
         var sizeUpdater: ((Float, Float) -> Rectangle)? = null
 ) : Widget {
 
-    var isHighlighted = false
+    private var isHighlighted = false
     override var isVisible = true
 
     var currentResource: Int = 0
     var maxResource: Int = 0
 
-    private val resourceRect: Rectangle
-        get() = Rectangle(rect.x, rect.y, rect.width - innerMargin * 2f, rect.height - innerMargin * 2f)
+    private var rect: Rectangle = Rectangle()
 
-    init {
-        boundedLabel?.rect = resourceRect
-    }
+    private val resourceRect: Rectangle
+        get() = rect.innerRect(innerMargin)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
@@ -36,9 +33,10 @@ class ResourcePane(
         }
     }
 
-    override fun mouseMoved(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun mouseMoved(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
         isHighlighted = rect.contains(virtualPoint)
+        return isHighlighted
     }
 
     override fun draw(virtualScreen: VirtualScreen) {
@@ -54,8 +52,8 @@ class ResourcePane(
         }
     }
 
-    override fun touchDown(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchDown(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
-    override fun touchUp(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchUp(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
 }

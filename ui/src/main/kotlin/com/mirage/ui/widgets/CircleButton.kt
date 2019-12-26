@@ -5,84 +5,66 @@ import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.datastructures.rangeBetween
 import com.mirage.core.virtualscreen.VirtualScreen
 
-class CircleButton(
-        var textureName: String,
+
+/** Circle button, maybe bordered or with bounded label with some text.
+ *  Position of rectangle received from [sizeUpdater] is used as center, and its width is used as diameter.
+ *  Invokes [onPressed] when this button is touched or when key with [keyCode] is pressed.
+ *  */
+internal class CircleButton(
+        var textureName: String = "ui/circle-background",
         var highlightedTextureName: String = textureName,
-        var pressedTextureName: String = highlightedTextureName,
-        var center: Point = Point(0f, 0f),
-        var radius: Float = 0f,
-        var boundedLabel: VirtualScreen.Label? = null,
-        var sizeUpdater: ((Float, Float) -> Pair<Point, Float>)? = null,
+        var boundedLabel: LabelWidget? = null,
+        sizeUpdater: SizeUpdater? = null,
         var onPressed: () -> Unit = {},
+        var keyCode: Int? = null,
         var borderSize: Float = 0f,
         var borderTextureName: String = "ui/circle-border"
 ) : Widget {
 
-    var isPressed = false
-    var isHighlighted = false
-    override var isVisible = true
-    var keyPressed = false // Для случаев, когда кнопка может нажиматься как курсором, так и с клавиатуры.
+    var sizeUpdater: SizeUpdater? = sizeUpdater
+        set(value) {
+            boundedLabel?.sizeUpdater = value
+            field = value
+        }
 
-    private val rect: Rectangle
-        get() = Rectangle(center.x, center.y, radius * 2f, radius * 2f)
+    private var isHighlighted = false
+    override var isVisible = true
+    private var keyPressed = false
+
+    private var rect: Rectangle = Rectangle()
 
     private val innerRect: Rectangle
-        get() = Rectangle(center.x, center.y, (radius - borderSize) * 2f, (radius - borderSize) * 2f)
-
-    init {
-        boundedLabel?.rect = innerRect
-    }
-
-    private fun getCurrentTextureName() =
-            when {
-                isPressed || keyPressed -> pressedTextureName
-                isHighlighted -> highlightedTextureName
-                else -> textureName
-            }
+        get() = rect.innerRect(borderSize)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            center = it.first
-            radius = it.second
-            boundedLabel?.rect = innerRect
-            boundedLabel?.resizeFont(virtualWidth, virtualHeight)
-        }
+        rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
+        boundedLabel?.resize(virtualWidth, virtualHeight)
     }
 
-    override fun touchUp(virtualPoint: Point): Boolean {
-        if (!isVisible) return false
-        isPressed = false
-        if (rangeBetween(center, virtualPoint) < radius) {
-            onPressed()
-            return true
-        }
-        else {
-            isHighlighted = false
-        }
-        return false
-    }
+    override fun touchUp(virtualPoint: Point): Boolean =
+            isVisible && virtualPoint..rect.position < rect.width / 2f
 
     override fun touchDown(virtualPoint: Point): Boolean {
         if (!isVisible) return false
-        isPressed = rangeBetween(center, virtualPoint) < radius
-        isHighlighted = isPressed
-        return isPressed
+        return if (virtualPoint..rect.position < rect.width / 2f) {
+            onPressed()
+            true
+        }
+        else false
     }
 
-    override fun mouseMoved(virtualPoint: Point) {
-        if (!isVisible) return
-        isHighlighted = rangeBetween(center, virtualPoint) < radius
+    override fun mouseMoved(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isHighlighted = virtualPoint..rect.position < rect.width / 2f
+        return isHighlighted
     }
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
-        virtualScreen.draw(getCurrentTextureName(), innerRect)
-        boundedLabel?.draw()
-    }
-
-    override fun unpress() {
-        isPressed = false
+        val textureName = if (isHighlighted || keyPressed) highlightedTextureName else textureName
+        virtualScreen.draw(textureName, innerRect)
+        boundedLabel?.draw(virtualScreen)
     }
 
 }

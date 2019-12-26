@@ -5,17 +5,14 @@ import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
 import com.mirage.core.virtualscreen.VirtualScreen
 import rx.Observable
+import java.util.*
 
-interface Screen {
-
-    val inputMessages: Observable<ClientMessage>
-
-    val inputProcessor: InputProcessor
+interface Screen : InputProcessor {
 
     fun handleServerMessage(msg: ServerMessage)
 
     fun resize(virtualWidth: Float, virtualHeight: Float)
 
-    fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long)
+    fun render(virtualScreen: VirtualScreen)
 
 }

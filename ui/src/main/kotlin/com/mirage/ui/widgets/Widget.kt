@@ -1,22 +1,33 @@
 package com.mirage.ui.widgets
 
 import com.mirage.core.datastructures.Point
+import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 
-interface Widget {
+internal typealias SizeUpdater = (virtualWidth: Float, virtualHeight: Float) -> Rectangle
+
+internal interface Widget {
 
     var isVisible: Boolean
 
-    fun resize(virtualWidth: Float, virtualHeight: Float)
-
-    fun touchUp(virtualPoint: Point): Boolean
-
-    fun touchDown(virtualPoint: Point): Boolean
-
-    fun mouseMoved(virtualPoint: Point)
-
     fun draw(virtualScreen: VirtualScreen)
 
-    fun unpress() {}
+    fun resize(virtualWidth: Float, virtualHeight: Float)
+
+    fun touchUp(virtualPoint: Point): Boolean = false
+
+    fun touchDown(virtualPoint: Point): Boolean = false
+
+    fun mouseMoved(virtualPoint: Point): Boolean = false
+
+    fun keyTyped(character: Char): Boolean = false
+
+    fun scrolled(amount: Int): Boolean = false
+
+    fun touchDragged(virtualPoint: Point): Boolean = false
+
+    fun keyUp(keycode: Int): Boolean = false
+
+    fun keyDown(keycode: Int): Boolean = false
 
 }

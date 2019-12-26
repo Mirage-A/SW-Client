@@ -26,6 +26,15 @@ data class Equipment(
             EquipmentSlot.MAIN_HAND to Assets.getEquipmentData(EquipmentSlot.MAIN_HAND, mainHand),
             EquipmentSlot.OFF_HAND to Assets.getEquipmentData(EquipmentSlot.OFF_HAND, offHand)
     )
+
+    fun getItemName(slot: EquipmentSlot) = when (slot) {
+        EquipmentSlot.HELMET -> helmet
+        EquipmentSlot.CHEST -> chest
+        EquipmentSlot.CLOAK -> cloak
+        EquipmentSlot.LEGGINGS -> legs
+        EquipmentSlot.MAIN_HAND -> mainHand
+        EquipmentSlot.OFF_HAND -> offHand
+    }
 }
 
 class PlayerAttributes(equipment: Equipment) {

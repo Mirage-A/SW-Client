@@ -4,23 +4,20 @@ import com.mirage.core.datastructures.Point
 import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 
-class TargetNameArea(
-        var borderTextureName: String,
-        var textAreaTextureName: String,
-        var rect: Rectangle = Rectangle(),
+internal class TargetNameArea(
+        var borderTextureName: String = "ui/game/health-border",
+        var textAreaTextureName: String = "ui/game/health-lost",
         var boundedLabel: VirtualScreen.Label? = null,
-        var innerMargin: Float,
-        var sizeUpdater: ((Float, Float) -> Rectangle)? = null
+        var innerMargin: Float = 0f,
+        var sizeUpdater: SizeUpdater? = null
 ) : Widget {
 
     override var isVisible = true
 
-    private val resourceRect: Rectangle
-        get() = Rectangle(rect.x, rect.y, rect.width - innerMargin * 2f, rect.height - innerMargin * 2f)
+    private var rect: Rectangle = Rectangle()
 
-    init {
-        boundedLabel?.rect = resourceRect
-    }
+    private val resourceRect: Rectangle
+        get() = rect.innerRect(innerMargin)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
@@ -28,8 +25,6 @@ class TargetNameArea(
             boundedLabel?.rect = resourceRect
         }
     }
-
-    override fun mouseMoved(virtualPoint: Point) {}
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
@@ -39,8 +34,8 @@ class TargetNameArea(
 
     }
 
-    override fun touchDown(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchDown(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
-    override fun touchUp(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchUp(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
 }

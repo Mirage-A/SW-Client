@@ -9,6 +9,7 @@ import com.mirage.core.extensions.QuestProgress
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.ui.widgets.Widget
 
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном
 private const val skillIconSize = 64f
