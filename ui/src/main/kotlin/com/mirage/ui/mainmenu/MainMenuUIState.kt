@@ -20,8 +20,6 @@ private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMarg
 
 class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
 
-    val inventoryWindow = InventoryWindow(virtualScreen) {}
-
     val singlePlayerBtn = Button("ui/main-menu-btn",
             "ui/main-menu-btn-highlighted",
             "ui/main-menu-btn-pressed",
@@ -126,7 +124,7 @@ class MainMenuUIState(val virtualScreen: VirtualScreen, val newGame: Boolean) {
     ).apply { isVisible = false }
 
 
-    val widgets: List<Widget> = listOf(inventoryWindow, singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
+    val widgets: List<Widget> = listOf(singlePlayerBtn, multiPlayerBtn, settingsBtn, exitBtn, profileNameArea, changeProfileBtn, profileWindow)
 
 
     fun resize(virtualWidth: Float, virtualHeight: Float) {

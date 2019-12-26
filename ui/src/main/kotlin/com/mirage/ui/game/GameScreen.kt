@@ -116,6 +116,7 @@ class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: Virt
         val playerOnVirtualScreen = getVirtualScreenPointFromScene(player.position)
         val virtualPoint = Point(virtualHitPoint.x + playerOnVirtualScreen.x, virtualHitPoint.y + playerOnVirtualScreen.y + DELTA_CENTER_Y)
         val targetID = gameView.hit(virtualPoint, uiState.lastRenderedState)
+        if (targetID != uiState.targetID) inputProcessor.inputMessages.onNext(SetTargetClientMessage(targetID))
         if (targetID != null) uiState.targetID = targetID
     }
 

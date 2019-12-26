@@ -21,6 +21,7 @@ typealias GameMapName = String
 typealias ReturnCode = Int
 
 data class PlayerCreationRequest(
+        val playerName: String = "Player",
         val questProgress: QuestProgress = QuestProgress(),
         val equipment: Equipment,
         val onCreate: PlayerCreationListener

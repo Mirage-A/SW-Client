@@ -6,7 +6,7 @@ import com.mirage.core.game.objects.properties.WeaponType
 
 class Profile {
 
-    val profileName: String = "You"
+    var profileName: String = "You"
 
     var activeSkills: MutableList<String?> = mutableListOf("flame-strike", null, null, null)
     var ultimateSkill: String? = "meteor"

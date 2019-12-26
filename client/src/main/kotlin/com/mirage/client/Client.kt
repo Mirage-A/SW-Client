@@ -13,6 +13,8 @@ import com.mirage.ui.mainmenu.MainMenuScreen
 import com.mirage.ui.newgame.NewGameScreen
 import com.mirage.core.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.PLATFORM
+import com.mirage.core.extensions.GameMapName
+import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.messaging.ChangeSceneClientMessage
 import com.mirage.core.messaging.ClearTargetMessage
@@ -21,6 +23,7 @@ import com.mirage.core.messaging.NewTargetMessage
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.ui.loading.LoadingScreen
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
@@ -85,6 +88,27 @@ object Client : ApplicationListener {
         }
     }
 
+    private fun openLoadingScreen() {
+        virtualScreen.stage.clear()
+        val loadingScreen = LoadingScreen(virtualScreen, Prefs.profile.currentMap)
+        loadingScreen.inputMessages.subscribe { msg ->
+            when (msg) {
+                is ChangeSceneClientMessage -> {
+                    when (msg.newScene) {
+                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
+                            startSinglePlayerGame(Prefs.profile.currentMap)
+                        }
+                        ChangeSceneClientMessage.Scene.MAIN_MENU -> {
+                            openMainMenu()
+                        }
+                    }
+                }
+            }
+        }
+        setInputProcessor(loadingScreen)
+        currentScreen = loadingScreen
+    }
+
     private fun openMainMenu() {
         virtualScreen.stage.clear()
         val mainMenuScreen = MainMenuScreen(virtualScreen)
@@ -93,8 +117,7 @@ object Client : ApplicationListener {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
-                            //TODO
-                            startSinglePlayerGame(Prefs.profile.currentMap)
+                            openLoadingScreen()
                         }
                         ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY -> {
 

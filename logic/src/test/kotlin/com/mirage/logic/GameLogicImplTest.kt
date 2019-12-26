@@ -20,11 +20,11 @@ internal class GameLogicImplTest{
     fun testStart() {
         val logic = GameLogicImpl("micro-test")
         logic.startLogic()
-        logic.addNewPlayer(PlayerCreationRequest(QuestProgress(), Equipment()) {})
+        logic.addNewPlayer(PlayerCreationRequest("", QuestProgress(), Equipment()) {})
         logic.stopLogic()
         Thread.sleep(250L)
         assertEquals(
-                SceneLoader("micro-test").loadInitialState(),
+                ExtendedSceneLoader("micro-test").loadInitialState(),
                 (logic.serverMessages.peek().second as InitialGameStateMessage).initialState
         )
     }
@@ -36,7 +36,7 @@ internal class GameLogicImplTest{
         logic.startLogic()
         Thread.sleep(50L)
         val id = AtomicLong()
-        val request = PlayerCreationRequest(QuestProgress(), Equipment()) { id.set(it) }
+        val request = PlayerCreationRequest("", QuestProgress(), Equipment()) { id.set(it) }
         logic.addNewPlayer(request)
         Thread.sleep(150L)
         logic.stopLogic()

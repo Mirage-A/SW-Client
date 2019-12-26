@@ -9,14 +9,13 @@ import com.mirage.logic.behavior.PlayerBehavior
 import org.luaj.vm2.LuaValue
 
 
-private fun LogicData.createPlayer(): ExtendedEntity = sceneLoader.loadEntityTemplate("player").with(
-        x = gameMap.spawnX,
-        y = gameMap.spawnY
-)
-
 internal fun LogicData.processNewPlayerRequests(currentTime: TimeMillis, deltaTime: IntervalMillis, coercedScriptActions: LuaValue) {
     newPlayerRequests.processNewItems {
-        val player = createPlayer()
+        val player = sceneLoader.loadEntityTemplate("player").apply {
+            name = it.playerName
+            x = gameMap.spawnX
+            y = gameMap.spawnY
+        }
         val id = state.addEntity(player)
         playerIDs.add(id)
         playerGlobalQuestProgress[id] = it.questProgress

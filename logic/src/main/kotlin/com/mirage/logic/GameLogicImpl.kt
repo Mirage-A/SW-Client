@@ -21,6 +21,8 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
     override val playerTransfers: Queue<PlayerTransferRequest> = data.playerTransfers
     override val serverMessages: Queue<Pair<EntityID, ServerMessage>> = data.serverMessages
 
+    private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) { time, delta -> updateState(time, delta) }
+
     /**
      * Updates game state, filling [serverMessages] and [playerTransfers] queues.
      * @param delta Milliseconds passed from last invocation of this function.
@@ -47,7 +49,7 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
     }
 
     private fun LogicData.processBehaviors(delta: IntervalMillis) {
-        val entityIDs = state.entities.keys.toSet()
+        val entityIDs = state.entities.keys.toList()
         for (entityID in entityIDs) {
             val entity = state.entities[entityID] ?: continue
             val savedBehavior = behaviors[entityID]
@@ -75,10 +77,6 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
 
     override fun removePlayer(playerID: EntityID) {
         data.removePlayerRequests.add(playerID)
-    }
-
-    private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) { time, delta ->
-        updateState(time, delta)
     }
 
     override fun startLogic(initialPlayerRequests: Iterable<PlayerCreationRequest>) {

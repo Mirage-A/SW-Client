@@ -26,18 +26,22 @@ internal class PlayerBehavior(
     private val entity = data.state.entities[id] ?: ExtendedEntity()
     private val attributes = PlayerAttributes(equipment)
 
+    private var targetID: EntityID? = null
+
     override fun onUpdate(delta: IntervalMillis, data: LogicData, coercedScriptActions: LuaValue) {
         with (data) {
             entity.action = if (entity.isMoving) "running" else "idle"
             if (entity.isMoving) {
                 moveObject(entity, delta, gameMap, state)
             }
+            val targetBehavior = behaviors[targetID]
+            targetBehavior?.onDamage(10, id, this, coercedScriptActions)
         }
     }
 
     override fun onDamage(damage: Int, source: EntityID, data: LogicData, coercedScriptActions: LuaValue) {
         //TODO
-        println("Player has taken $damage damage from entity $source!")
+
     }
 
     fun handleClientMessage(msg: ClientMessage, data: LogicData, coercedScriptActions: LuaValue) {
@@ -62,6 +66,10 @@ internal class PlayerBehavior(
                                 coercedScriptActions
                         )
                     }
+                }
+                is SetTargetClientMessage -> {
+                    //TODO Cancelling attacks
+                    targetID = msg.targetID
                 }
             }
         }

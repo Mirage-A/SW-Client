@@ -48,7 +48,7 @@ class Room {
     fun addPlayer(p: Player) {
         players.add(p)
         p.room = this
-        val request = PlayerCreationRequest(QuestProgress(), Equipment()) { p.id = it }
+        val request = PlayerCreationRequest("", QuestProgress(), Equipment()) { p.id = it }
         logic.addNewPlayer(request)
     }
 }

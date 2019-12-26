@@ -388,6 +388,7 @@ internal class DesktopGameInputProcessor(private val uiState: GameUIState) : Gam
             }
             Input.Keys.ESCAPE -> {
                 inputMessages.onNext(ClearTargetMessage())
+                inputMessages.onNext(SetTargetClientMessage(null))
             }
             Input.Keys.E -> {
                 val targetID = uiState.targetID

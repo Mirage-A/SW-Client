@@ -14,7 +14,7 @@ internal class DummyBehavior(private val id: EntityID, data: LogicData) : Behavi
     private val entity = data.state.entities[id] ?: ExtendedEntity()
 
     override fun onUpdate(delta: IntervalMillis, data: LogicData, coercedScriptActions: LuaValue) {
-        onDamage(10, 1L, data, coercedScriptActions)
+        //onDamage(10, 1L, data, coercedScriptActions)
     }
 
     override fun onDamage(damage: Int, source: EntityID, data: LogicData, coercedScriptActions: LuaValue) {

@@ -36,7 +36,7 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
                 idReceivedCondition.signal()
             }
         }
-        logic.startLogic(listOf(PlayerCreationRequest(questProgress, Prefs.profile.currentEquipment, newPlayerListener)))
+        logic.startLogic(listOf(PlayerCreationRequest(Prefs.profile.profileName, questProgress, Prefs.profile.currentEquipment, newPlayerListener)))
         lock.withLock {
             idReceivedCondition.await()
         }

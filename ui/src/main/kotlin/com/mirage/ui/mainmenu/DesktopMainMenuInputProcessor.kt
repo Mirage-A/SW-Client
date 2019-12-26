@@ -22,7 +22,6 @@ class DesktopMainMenuInputProcessor(private val uiState: MainMenuUIState) : Main
         }
         if (!uiState.newGame) uiState.multiPlayerBtn.onPressed = {
             //TODO
-            uiState.inventoryWindow.open()
             inputMessages.onNext(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.MULTIPLAYER_LOBBY))
         }
         uiState.settingsBtn.onPressed = {

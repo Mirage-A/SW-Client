@@ -13,6 +13,7 @@ sealed class ClientMessage {
                 SetMovingClientMessage::class.java,
                 CastSkillClientMessage::class.java,
                 InteractionClientMessage::class.java,
+                SetTargetClientMessage::class.java,
                 RegisterClientMessage::class.java,
                 LoginClientMessage::class.java,
                 CityJoinClientMessage::class.java,
@@ -50,6 +51,8 @@ data class CastSkillClientMessage(val skillID: Int, val targetID: Long?) : Clien
 /** Message of trying to interact with entity [entityID] through interaction button */
 data class InteractionClientMessage(val entityID: EntityID) : ClientMessage()
 
+data class SetTargetClientMessage(val targetID: EntityID?): ClientMessage()
+
 data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage()
 
 data class LoginClientMessage(val login: String, val password: String) : ClientMessage()
@@ -63,6 +66,7 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
 
     enum class Scene {
         MAIN_MENU,
+        LOADING_SCREEN,
         NEW_PROFILE_MENU,
         SETTINGS_MENU,
         MULTIPLAYER_LOBBY,
