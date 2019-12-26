@@ -23,18 +23,6 @@ import kotlin.math.min
 
 class GameScreen(gameMapName: GameMapName, gameMap: GameMap, virtualScreen: VirtualScreen) : Screen {
 
-    private val uiState : GameUIState = GameUIState(virtualScreen, gameMapName)
-
-    override val inputProcessor : GameInputProcessor = when (PLATFORM) {
-        "desktop", "test" -> DesktopGameInputProcessor(uiState)
-        else -> DesktopGameInputProcessor(uiState)
-    }
-
-    private val uiRenderer : GameUIRenderer = when (PLATFORM) {
-        "desktop", "test" -> DesktopGameUIRenderer()
-        else -> DesktopGameUIRenderer()
-    }
-
     private val gameView = GameViewImpl(gameMapName, gameMap)
 
     private val snapshotManager = SnapshotManager()

@@ -1,21 +1,15 @@
 package com.mirage.ui.mainmenu
 
-import com.mirage.ui.Screen
-import com.mirage.core.PLATFORM
-import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
-import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.AbstractScreen
 import com.mirage.ui.ClientMessageListener
 import com.mirage.ui.widgets.Widget
-import rx.Observable
-import java.util.*
 
 class MainMenuScreen(virtualScreen: VirtualScreen, listener: ClientMessageListener) : AbstractScreen(virtualScreen) {
 
     private val mainMenuState = MainMenuState()
-    private val mainMenuWidgets = MainMenuWidgets(virtualScreen).apply {
+    private val mainMenuWidgets = MainMenuWidgets(virtualScreen, mainMenuState).apply {
         initializeSizeUpdaters(mainMenuState)
         initializeListeners(mainMenuState, listener)
     }

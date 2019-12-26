@@ -1,4 +1,4 @@
-package com.mirage.ui.game.quests
+package com.mirage.ui.fragments.quests
 
 import com.mirage.core.Assets
 import com.mirage.core.extensions.GameMapName

@@ -1,37 +1,25 @@
 package com.mirage.ui.loading
 
-import com.mirage.ui.Screen
-import com.mirage.core.PLATFORM
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
-import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
-import rx.Observable
+import com.mirage.ui.AbstractScreen
+import com.mirage.ui.ClientMessageListener
+import com.mirage.ui.widgets.Widget
 
-class LoadingScreen(virtualScreen: VirtualScreen, gameMapName: GameMapName) : Screen {
+class LoadingScreen(virtualScreen: VirtualScreen, listener: ClientMessageListener) : AbstractScreen(virtualScreen) {
 
-    private val uiState: LoadingUIState = LoadingUIState(virtualScreen, gameMapName)
-
-    override val inputProcessor = when (PLATFORM) {
-        "desktop", "test" -> DesktopLoadingInputProcessor(uiState)
-        else -> DesktopLoadingInputProcessor(uiState)
+    private val loadingState = LoadingState()
+    private val loadingWidgets = LoadingWidgets(virtualScreen, loadingState).apply {
+        initializeSizeUpdaters()
+        initializeListeners(loadingState, listener)
     }
 
-    private val uiRenderer : LoadingUIRenderer = when (PLATFORM) {
-        "desktop", "test" -> DesktopLoadingUIRenderer()
-        else -> DesktopLoadingUIRenderer()
+    override val rootWidget: Widget = loadingWidgets.rootWidget
+
+    override fun handleServerMessage(msg: ServerMessage) {}
+
+    init {
+        resize(virtualScreen.width, virtualScreen.height)
     }
 
-    override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages
-
-    override fun handleServerMessage(msg: ServerMessage) {
-        //TODO Maybe implement waiting other players in multi-player, or move it to multiplayer lobby
-    }
-
-    override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
-        uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
-    }
-
-    override fun resize(virtualWidth: Float, virtualHeight: Float) = uiState.resize(virtualWidth, virtualHeight)
 }

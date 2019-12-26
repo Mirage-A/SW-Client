@@ -1,33 +1,24 @@
 package com.mirage.ui.newgame
 
-import com.mirage.ui.Screen
-import com.mirage.core.PLATFORM
-import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
 import com.mirage.core.virtualscreen.VirtualScreen
-import rx.Observable
+import com.mirage.ui.AbstractScreen
+import com.mirage.ui.ClientMessageListener
+import com.mirage.ui.widgets.Widget
 
-class NewGameScreen(virtualScreen: VirtualScreen) : Screen {
+class NewGameScreen(virtualScreen: VirtualScreen, listener: ClientMessageListener) : AbstractScreen(virtualScreen) {
 
-    private val uiState: NewGameUIState = NewGameUIState(virtualScreen)
-
-    override val inputProcessor: NewGameInputProcessor = when (PLATFORM) {
-        "desktop", "test" -> DesktopNewGameInputProcessor(uiState)
-        else -> DesktopNewGameInputProcessor(uiState)
+    private val newGameState = NewGameState()
+    private val newGameWidgets = NewGameWidgets(virtualScreen).apply {
+        initializeSizeUpdaters()
+        initializeListeners(newGameState, listener)
     }
 
-    private val uiRenderer : NewGameUIRenderer = when (PLATFORM) {
-        "desktop", "test" -> DesktopNewGameUIRenderer()
-        else -> DesktopNewGameUIRenderer()
-    }
-
-    override val inputMessages: Observable<ClientMessage> = inputProcessor.inputMessages
+    override val rootWidget: Widget = newGameWidgets.rootWidget
 
     override fun handleServerMessage(msg: ServerMessage) {}
 
-    override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
-        uiRenderer.renderUI(virtualScreen, uiState, currentTimeMillis)
+    init {
+        resize(virtualScreen.width, virtualScreen.height)
     }
-
-    override fun resize(virtualWidth: Float, virtualHeight: Float) = uiState.resize(virtualWidth, virtualHeight)
 }

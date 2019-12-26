@@ -28,7 +28,6 @@ internal fun MainMenuWidgets.initializeSizeUpdaters(mainMenuState: MainMenuState
     multiPlayerBtn.sizeUpdater = { _, virtualHeight ->
         Rectangle(0f, -virtualHeight / 2 + btnHeight * 5 / 2, btnWidth, btnHeight)
     }
-    multiPlayerBtn.isVisible = !mainMenuState.newGame
     settingsBtn.sizeUpdater = { _, virtualHeight ->
         Rectangle(0f, -virtualHeight / 2 + btnHeight * 3 / 2, btnWidth, btnHeight)
     }
@@ -38,11 +37,9 @@ internal fun MainMenuWidgets.initializeSizeUpdaters(mainMenuState: MainMenuState
     profileNameArea.sizeUpdater = { _, virtualHeight ->
         Rectangle(0f, virtualHeight / 2 - btnHeight / 2, btnWidth, btnHeight)
     }
-    profileNameArea.isVisible = !mainMenuState.newGame
     changeProfileBtn.sizeUpdater = { _, virtualHeight ->
         Rectangle(0f, virtualHeight / 2 - btnHeight * 3 / 2, btnWidth, btnHeight)
     }
-    changeProfileBtn.isVisible = !mainMenuState.newGame
     profileWindowHead.sizeUpdater = { _, virtualHeight ->
         Rectangle(profileWindowX, virtualHeight / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
     }
@@ -63,5 +60,4 @@ internal fun MainMenuWidgets.initializeSizeUpdaters(mainMenuState: MainMenuState
     profileWindowPageLabel.sizeUpdater = { _, virtualHeight ->
         Rectangle(profileWindowX, virtualHeight / 2f - btnHeight / 2f, profileWindowWidth, btnHeight)
     }
-    profileWindow.isVisible = false
 }

@@ -1,4 +1,4 @@
-package com.mirage.ui.inventory
+package com.mirage.ui.fragments.inventory
 
 import com.mirage.core.preferences.EquipmentSlot
 import com.mirage.core.virtualscreen.VirtualScreen
@@ -18,14 +18,10 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
     val centerBackground = ImageWidget("ui/inventory/inventory-center-background")
 
     val saveBtn = Button(
-            textureName = "ui/main-menu-btn",
-            highlightedTextureName = "ui/main-menu-btn-highlighted",
             boundedLabel = LabelWidget(virtualScreen, "Save", 30f)
     )
 
     val cancelBtn = Button(
-            textureName = "ui/main-menu-btn",
-            highlightedTextureName = "ui/main-menu-btn-highlighted",
             boundedLabel = LabelWidget(virtualScreen, "Cancel", 30f)
     )
 

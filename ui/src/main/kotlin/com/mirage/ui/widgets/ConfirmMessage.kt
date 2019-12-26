@@ -10,7 +10,8 @@ internal class ConfirmMessage(
         description: String = "This action needs to be confirmed",
         okTitle: String = "OK",
         cancelTitle: String = "Cancel",
-        private val blocksFocus: Boolean = false
+        private val blocksFocus: Boolean = false,
+        override var isVisible: Boolean = false
 ) : Widget {
 
     var title: String
@@ -24,8 +25,6 @@ internal class ConfirmMessage(
         set(value) {
             descriptionLabel.text = value
         }
-
-    override var isVisible = false
 
     private val titleFontCapHeight = 24f
     private val descriptionFontCapHeight = 16f

@@ -15,7 +15,8 @@ internal class Button(
         var onPressed: () -> Unit = {},
         var keyCode: Int? = null,
         var borderSize: Float = 0f,
-        var borderTextureName: String = "ui/btn-border"
+        var borderTextureName: String = "ui/btn-border",
+        override var isVisible: Boolean = true
 ) : Widget {
 
     var sizeUpdater: SizeUpdater? = sizeUpdater
@@ -25,7 +26,6 @@ internal class Button(
         }
 
     private var isHighlighted = false
-    override var isVisible = true
     private var keyPressed = false
 
     private var rect: Rectangle = Rectangle()

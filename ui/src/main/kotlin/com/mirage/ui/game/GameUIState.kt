@@ -1,6 +1,5 @@
 package com.mirage.ui.game
 
-import com.mirage.ui.game.quests.QuestWindow
 import com.mirage.ui.widgets.*
 import com.mirage.core.datastructures.Point
 import com.mirage.core.datastructures.Rectangle

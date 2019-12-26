@@ -1,9 +1,11 @@
-package com.mirage.ui.inventory
+package com.mirage.ui.widgets
 
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.ui.widgets.Widget
+import com.mirage.ui.fragments.inventory.centerColumnWidthPart
+import com.mirage.ui.fragments.inventory.humanoidScale
+import com.mirage.ui.fragments.inventory.humanoidSize
 import com.mirage.view.drawers.templates.HumanoidDrawerTemplate
 
 /** Draws humanoid in inventory widget */
@@ -24,7 +26,7 @@ internal class HumanoidWidget : Widget {
         drawer.draw(
                 virtualScreen,
                 - w * centerColumnWidthPart / 2f - (w / 2f - w * centerColumnWidthPart / 2f) / 2f,
-                - humanoidSize / 2f,
+                -humanoidSize / 2f,
                 true,
                 "idle",
                 0L,

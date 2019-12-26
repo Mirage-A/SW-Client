@@ -9,10 +9,9 @@ internal class TargetNameArea(
         var textAreaTextureName: String = "ui/game/health-lost",
         var boundedLabel: VirtualScreen.Label? = null,
         var innerMargin: Float = 0f,
-        var sizeUpdater: SizeUpdater? = null
+        var sizeUpdater: SizeUpdater? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
-
-    override var isVisible = true
 
     private var rect: Rectangle = Rectangle()
 

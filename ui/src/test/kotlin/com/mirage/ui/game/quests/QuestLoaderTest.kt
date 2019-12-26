@@ -1,5 +1,6 @@
 package com.mirage.ui.game.quests
 
+import com.mirage.ui.fragments.quests.QuestLoader
 import org.junit.jupiter.api.Test
 
 internal class QuestLoaderTest {

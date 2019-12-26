@@ -12,11 +12,11 @@ internal class ResourcePane(
         var resourceTextureName: String = "ui/game/health",
         var boundedLabel: VirtualScreen.Label? = null,
         var innerMargin: Float = 0f,
-        var sizeUpdater: ((Float, Float) -> Rectangle)? = null
+        var sizeUpdater: ((Float, Float) -> Rectangle)? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
 
     private var isHighlighted = false
-    override var isVisible = true
 
     var currentResource: Int = 0
     var maxResource: Int = 0

@@ -1,4 +1,4 @@
-package com.mirage.ui.inventory
+package com.mirage.ui.fragments.inventory
 
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.preferences.EquipmentSlot

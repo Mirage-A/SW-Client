@@ -1,21 +1,13 @@
-package com.mirage.ui.inventory
+package com.mirage.ui.fragments.inventory
 
-import com.mirage.view.drawers.templates.HumanoidDrawerTemplate
-import com.mirage.ui.widgets.*
-import com.mirage.core.Assets
-import com.mirage.core.Log
 import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.game.objects.properties.*
-import com.mirage.core.preferences.EquipmentSlot
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.widgets.Widget
-import kotlin.math.min
 
 
-
-internal class InventoryWindow(virtualScreen: VirtualScreen, onClose: () -> Unit) : Widget {
+internal class InventoryFragment(virtualScreen: VirtualScreen, onClose: () -> Unit = {}) : Widget {
 
     private val inventoryState = InventoryState()
     private val subWidgets = InventoryWidgets(virtualScreen).apply {

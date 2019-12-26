@@ -14,10 +14,9 @@ internal class PageNavigator(
         /** Label displaying current page and pages count */
         val pageTextLabel: LabelWidget,
         /** This method is invoked when user switches current page */
-        var onPageSwitch: ((newPageIndex: Int) -> Unit)? = null
+        var onPageSwitch: ((newPageIndex: Int) -> Unit)? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
-
-    override var isVisible: Boolean = true
 
     val compositeWidget = CompositeWidget(leftButton, rightButton, pageTextLabel)
 

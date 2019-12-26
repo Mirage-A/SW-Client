@@ -4,11 +4,9 @@ import com.mirage.core.datastructures.Point
 import com.mirage.core.virtualscreen.VirtualScreen
 
 /** Composes given widgets into one. Input events are processed in straight order, rendering performs in reversed order */
-internal class CompositeWidget(vararg widget: Widget) : Widget {
+internal class CompositeWidget(vararg widget: Widget, override var isVisible: Boolean = true) : Widget {
 
     private val widgets = widget.toList()
-
-    override var isVisible = true
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) =
             widgets.forEach { it.resize(virtualWidth, virtualHeight) }

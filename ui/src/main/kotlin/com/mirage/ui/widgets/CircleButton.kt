@@ -2,7 +2,6 @@ package com.mirage.ui.widgets
 
 import com.mirage.core.datastructures.Point
 import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.datastructures.rangeBetween
 import com.mirage.core.virtualscreen.VirtualScreen
 
 
@@ -18,7 +17,8 @@ internal class CircleButton(
         var onPressed: () -> Unit = {},
         var keyCode: Int? = null,
         var borderSize: Float = 0f,
-        var borderTextureName: String = "ui/circle-border"
+        var borderTextureName: String = "ui/circle-border",
+        override var isVisible: Boolean = true
 ) : Widget {
 
     var sizeUpdater: SizeUpdater? = sizeUpdater
@@ -28,7 +28,6 @@ internal class CircleButton(
         }
 
     private var isHighlighted = false
-    override var isVisible = true
     private var keyPressed = false
 
     private var rect: Rectangle = Rectangle()

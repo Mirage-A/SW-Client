@@ -7,7 +7,8 @@ internal class LabelWidget(
         virtualScreen: VirtualScreen,
         text: String = "",
         fontCapHeight: Float = 16f,
-        var sizeUpdater: SizeUpdater? = null
+        var sizeUpdater: SizeUpdater? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
 
     private val label = virtualScreen.createLabel(text, fontCapHeight)
@@ -15,8 +16,6 @@ internal class LabelWidget(
     var text: String
         get() = label.text
         set(value) { label.text = value }
-
-    override var isVisible = true
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         label.rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
