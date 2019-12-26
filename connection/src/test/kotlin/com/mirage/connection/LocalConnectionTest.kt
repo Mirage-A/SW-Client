@@ -22,9 +22,9 @@ internal class LocalConnectionTest {
         assertEquals(3, msg.initialState.entities.size + msg.initialState.buildings.size)
         assertEquals("wall", msg.initialState.buildings[0L]?.template)
         assertEquals("test-entity-1", msg.initialState.entities[0L]?.name)
-        assertEquals("Player", msg.initialState.entities[1L]?.name)
+        assertEquals("You", msg.initialState.entities[1L]?.name)
     }
-
+/* TODO Refactor these concurrency tests
     @Test
     fun testMinorStateUpdate() {
         val messages = ArrayList<ServerMessage>()
@@ -111,5 +111,5 @@ internal class LocalConnectionTest {
             assert(player4.position near Point(0.5f, 1.7f) || player4.position near Point(0.5f, 1.3f) || player4.position near Point(0.5f, 0.9f))
             assertEquals(2, fourthState.entities.size + fourthState.buildings.size)
         }
-    }
+    }*/
 }

@@ -21,7 +21,7 @@ internal class GameScreenTest {
     @Test
     fun testSimpleStateRendering() {
         val mock = createVirtualScreenMock(TILE_WIDTH + 10f, TILE_HEIGHT + 10f)
-        val oneTileMap = GameMap(1, 1, 0f, 0f, "test", 0, listOf(1), listOf(2))
+        val oneTileMap = GameMap(null, null, 1, 1, 0f, 0f, "test", 0, listOf(1), listOf(2))
         val oneObject = TestSamples.TEST_BUILDING.with(
                 template = "wall",
                 x = -0.5f,
