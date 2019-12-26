@@ -6,6 +6,7 @@ import com.mirage.ui.inventory.InventoryWindow
 import com.mirage.ui.widgets.*
 import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.extensions.GameMapName
+import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.max
@@ -25,6 +26,8 @@ class LoadingUIState(val virtualScreen: VirtualScreen, val gameMapName: GameMapN
 
     val inventoryWindow = InventoryWindow(virtualScreen) {}
 
+    private val gameMap = SceneLoader(gameMapName).loadMap()
+
     fun getArtScale(virtualWidth: Float, virtualHeight: Float): Float =
             max((virtualWidth - columnWidth) / defaultArtWidth, virtualHeight / defaultArtHeight)
 
@@ -39,14 +42,14 @@ class LoadingUIState(val virtualScreen: VirtualScreen, val gameMapName: GameMapN
         w, h -> Rectangle(w / 2f - columnWidth / 2f, 0f, columnWidth, h)
     }
 
-    val sceneNameLabel = LabelWidget(virtualScreen.createLabel("Game map name", sceneNameFontSize)) {
+    val sceneNameLabel = LabelWidget(virtualScreen.createLabel(gameMap.name ?: gameMapName, sceneNameFontSize)) {
         w, h -> Rectangle(
             w / 2f - columnWidth / 2f, h / 2f - columnInnerMargin - sceneNameLabelHeight / 2f,
             columnInnerWidth, sceneNameLabelHeight
         )
     }
 
-    val sceneDescriptionLabel = LabelWidget(virtualScreen.createLabel("Scene description", sceneDescriptionFontSize)) {
+    val sceneDescriptionLabel = LabelWidget(virtualScreen.createLabel(gameMap.description ?: "", sceneDescriptionFontSize)) {
         w, h -> Rectangle(
             w / 2f - columnWidth / 2f, (btnHeight * 4f - sceneNameLabelHeight) / 2f,
             columnInnerWidth, h - columnInnerMargin * 2f - sceneNameLabelHeight - btnHeight * 4f

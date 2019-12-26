@@ -48,6 +48,6 @@ object TestSamples {
     val TEST_TWO_GAME_OBJECTS = ExtendedState(listOf(TEST_BUILDING), listOf(TEST_ENTITY))
 
     val TEST_SMALL_MAP = GameMap(
-            4, 4, 2f, 2f, "test", 0, Array(16) { 0 }.toList(), Array(16) { 1 }.toList()
+            null, null, 4, 4, 2f, 2f, "test", 0, Array(16) { 0 }.toList(), Array(16) { 1 }.toList()
     )
 }

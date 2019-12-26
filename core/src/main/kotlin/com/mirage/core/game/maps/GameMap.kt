@@ -5,6 +5,12 @@ package com.mirage.core.game.maps
  * Содержит только параметры карты (размеры, тайлы), а не объекты.
  */
 data class GameMap(
+
+        /** Name of this scene on loading screen */
+        val name: String?,
+
+        /** Description of this scene on loading screen */
+        val description: String?,
         /**
          * Ширина карты в тайлах
          */

@@ -1,4 +1,6 @@
 {
+    "name": "Demo map",
+    "description": "Wtf is happening here?",
     "width": 32,
     "height": 32,
     "spawnX": 10.0,
