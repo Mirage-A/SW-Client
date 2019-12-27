@@ -10,11 +10,17 @@ internal class ResourcePane(
         var borderTextureName: String = "ui/game/health-border",
         var lostResourceTextureName: String = "ui/game/health-lost",
         var resourceTextureName: String = "ui/game/health",
-        var boundedLabel: VirtualScreen.Label? = null,
+        var boundedLabel: LabelWidget? = null,
         var innerMargin: Float = 0f,
-        var sizeUpdater: ((Float, Float) -> Rectangle)? = null,
+        sizeUpdater: SizeUpdater? = null,
         override var isVisible: Boolean = true
 ) : Widget {
+
+    var sizeUpdater: SizeUpdater? = sizeUpdater
+        set(value) {
+            boundedLabel?.sizeUpdater = value
+            field = value
+        }
 
     private var isHighlighted = false
 
@@ -27,10 +33,8 @@ internal class ResourcePane(
         get() = rect.innerRect(innerMargin)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            rect = it
-            boundedLabel?.rect = resourceRect
-        }
+        rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
+        boundedLabel?.resize(virtualWidth, virtualHeight)
     }
 
     override fun mouseMoved(virtualPoint: Point): Boolean {
@@ -48,7 +52,7 @@ internal class ResourcePane(
         virtualScreen.draw(resourceTextureName, currentResourceRect)
         if (isHighlighted) {
             boundedLabel?.text = "$currentResource/$maxResource"
-            boundedLabel?.draw()
+            boundedLabel?.draw(virtualScreen)
         }
     }
 

@@ -7,9 +7,9 @@ import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.widgets.Widget
 
 /** Window with information about current quest progress */
-internal class QuestFragment(virtualScreen: VirtualScreen, gameMapName: GameMapName) : Widget {
+internal class QuestFragment(virtualScreen: VirtualScreen, gameMapName: GameMapName, localQuestProgress: QuestProgress) : Widget {
 
-    private val questState = QuestState(gameMapName)
+    private val questState = QuestState(gameMapName, localQuestProgress)
     private val subWidgets = QuestWidgets(virtualScreen).apply {
         initializeSizeUpdaters()
         initializeListeners(questState)

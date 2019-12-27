@@ -7,22 +7,18 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.GL20
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
-import com.mirage.ui.Screen
-import com.mirage.ui.game.GameScreen
-import com.mirage.ui.mainmenu.MainMenuScreen
-import com.mirage.ui.newgame.NewGameScreen
+import com.mirage.ui.screens.Screen
+import com.mirage.ui.screens.game.GameScreen
+import com.mirage.ui.screens.mainmenu.MainMenuScreen
+import com.mirage.ui.screens.newgame.NewGameScreen
 import com.mirage.core.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.PLATFORM
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.TimeMillis
-import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.messaging.*
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
-import com.mirage.ui.loading.LoadingScreen
-import java.util.*
+import com.mirage.ui.screens.loading.LoadingScreen
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {

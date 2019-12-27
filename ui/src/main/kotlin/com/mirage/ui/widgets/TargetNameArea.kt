@@ -7,11 +7,17 @@ import com.mirage.core.virtualscreen.VirtualScreen
 internal class TargetNameArea(
         var borderTextureName: String = "ui/game/health-border",
         var textAreaTextureName: String = "ui/game/health-lost",
-        var boundedLabel: VirtualScreen.Label? = null,
+        var boundedLabel: LabelWidget? = null,
         var innerMargin: Float = 0f,
-        var sizeUpdater: SizeUpdater? = null,
+        sizeUpdater: SizeUpdater? = null,
         override var isVisible: Boolean = true
 ) : Widget {
+
+    var sizeUpdater: SizeUpdater? = sizeUpdater
+        set(value) {
+            boundedLabel?.sizeUpdater = value
+            field = value
+        }
 
     private var rect: Rectangle = Rectangle()
 
@@ -19,17 +25,15 @@ internal class TargetNameArea(
         get() = rect.innerRect(innerMargin)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            rect = it
-            boundedLabel?.rect = resourceRect
-        }
+        rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
+        boundedLabel?.resize(virtualWidth, virtualHeight)
     }
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         virtualScreen.draw(borderTextureName, rect)
         virtualScreen.draw(textAreaTextureName, resourceRect)
-        boundedLabel?.draw()
+        boundedLabel?.draw(virtualScreen)
 
     }
 

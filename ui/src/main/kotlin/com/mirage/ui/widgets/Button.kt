@@ -8,16 +8,16 @@ import com.mirage.core.virtualscreen.VirtualScreen
  *  Invokes [onPressed] when this button is touched or when key with [keyCode] is pressed.
  *  */
 internal class Button(
-        var textureName: String = "ui/main-menu-btn",
-        var highlightedTextureName: String = textureName,
-        var boundedLabel: LabelWidget? = null,
+        override var textureName: String = "ui/main-menu-btn",
+        override var highlightedTextureName: String = textureName,
+        override var boundedLabel: LabelWidget? = null,
         sizeUpdater: SizeUpdater? = null,
         var onPressed: () -> Unit = {},
         var keyCode: Int? = null,
         var borderSize: Float = 0f,
         var borderTextureName: String = "ui/btn-border",
         override var isVisible: Boolean = true
-) : Widget {
+) : AbstractButton {
 
     var sizeUpdater: SizeUpdater? = sizeUpdater
         set(value) {
