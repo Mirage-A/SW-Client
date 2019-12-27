@@ -12,8 +12,6 @@ internal class GameState(val gameMapName: GameMapName) {
 
     val gameMap = SceneLoader(gameMapName).loadMap()
 
-    val snapshotManager = SnapshotManager()
-
     var lastReceivedState : SimplifiedState = TestSamples.TEST_NO_GAME_OBJECTS
 
     val localQuestProgress: QuestProgress = QuestProgress()

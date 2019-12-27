@@ -8,7 +8,10 @@ import com.mirage.core.virtualscreen.VirtualScreen
 /** Button displaying a piece of equipment */
 internal class EquipmentButton(
         var textureName: String = "ui/main-menu-btn",
-        var highlightedTextureName: String = textureName,
+        var highlightedTextureName: String =
+                if (textureName == "ui/main-menu-btn") "ui/main-menu-btn-highlighted" else textureName,
+        var pressedTextureName: String =
+                if (highlightedTextureName == "ui/main-menu-btn-highlighted") "ui/main-menu-btn-pressed" else highlightedTextureName,
         var sizeUpdater: SizeUpdater? = null,
         var onPressed: () -> Unit = {},
         var borderSize: Float = 0f,
@@ -17,8 +20,10 @@ internal class EquipmentButton(
         var itemName: String = "null"
 ) : Widget {
 
-    private var isHighlighted = false
     override var isVisible = true
+
+    private var isHighlighted = false
+    private var isPressed = false
     private var keyPressed = false
 
     private var rect: Rectangle = Rectangle()
@@ -30,15 +35,19 @@ internal class EquipmentButton(
         rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
     }
 
-    override fun touchUp(virtualPoint: Point): Boolean =
-            isVisible && rect.contains(virtualPoint)
-
-    override fun touchDown(virtualPoint: Point): Boolean {
-        if (!isVisible) return false
+    override fun touchUp(virtualPoint: Point): Boolean {
+        if (!isVisible || !isPressed) return false
+        isPressed = false
         return if (rect.contains(virtualPoint)) {
             onPressed()
             true
         } else false
+    }
+
+    override fun touchDown(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isPressed = rect.contains(virtualPoint)
+        return isPressed
     }
 
     override fun mouseMoved(virtualPoint: Point): Boolean {
@@ -47,10 +56,20 @@ internal class EquipmentButton(
         return isHighlighted
     }
 
+    override fun touchDragged(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isHighlighted = rect.contains(virtualPoint)
+        return isHighlighted
+    }
+
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
-        val textureName = if (isHighlighted || keyPressed) highlightedTextureName else textureName
+        val textureName = when {
+            isPressed || keyPressed -> pressedTextureName
+            isHighlighted -> highlightedTextureName
+            else -> textureName
+        }
         virtualScreen.draw(textureName, innerRect)
         when (equipmentSlot) {
             EquipmentSlot.HELMET -> ::drawHelmetIcon

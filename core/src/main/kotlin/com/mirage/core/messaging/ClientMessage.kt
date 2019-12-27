@@ -19,9 +19,7 @@ sealed class ClientMessage {
                 CityJoinClientMessage::class.java,
                 ReconnectClientMessage::class.java,
                 ChangeSceneClientMessage::class.java,
-                ExitClientMessage::class.java,
-                NewTargetMessage::class.java,
-                ClearTargetMessage::class.java
+                ExitClientMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -77,12 +75,6 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
 }
 /** This message is handled by client and does not reach game logic */
 data class ExitClientMessage(val exitCode: Int) : ClientMessage()
-
-/** This message is handled by client and does not reach game logic */
-data class NewTargetMessage(val virtualScreenPoint: Point) : ClientMessage()
-
-/** This message is handled by client and does not reach game logic */
-data class ClearTargetMessage(val unit: Unit = Unit) : ClientMessage()
 
 /** This message is handled by client and does not reach game logic */
 data class CloseConnectionMessage(val unit: Unit = Unit) : ClientMessage()

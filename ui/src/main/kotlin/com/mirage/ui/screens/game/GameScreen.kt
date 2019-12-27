@@ -29,10 +29,8 @@ class GameScreen(
         private val listener: ClientMessageListener
 ) : AbstractScreen(virtualScreen) {
 
-    //private val gameView = GameViewImpl(gameMapName, gameMap)
-
     private val gameState = GameState(gameMapName)
-    private val gameWidgets = GameWidgets(virtualScreen, gameState).apply {
+    private val gameWidgets = GameWidgets(virtualScreen, gameState, listener).apply {
         initializeSizeUpdaters()
         initializeListeners(gameState, listener)
     }
@@ -68,77 +66,47 @@ class GameScreen(
                 gameState.gameOverStartTime = System.currentTimeMillis()
                 gameWidgets.gameOverMessage.boundedLabel?.text = msg.message ?: "You died"
                 gameWidgets.gameOverMessage.isVisible = msg.message != null
-                gameWidgets.gameCompositeWidget.isVisible = false
                 gameWidgets.gameOverBackground.isVisible = true
             }
         }
     }
 
-    override fun render(virtualScreen: VirtualScreen, currentTimeMillis: Long) {
-        uiState.let {
-            if (it.bufferedMoving != it.lastSentMoving) {
-                it.bufferedMoving?.let { newMoving ->
-                    uiState.lastSentMoving = newMoving
-                    inputProcessor.inputMessages.onNext(SetMovingClientMessage(newMoving))
+    override fun render(virtualScreen: VirtualScreen) {
+        with(gameState) {
+            if (bufferedMoving != lastSentMoving) {
+                bufferedMoving?.let { newMoving ->
+                    lastSentMoving = newMoving
+                    listener(SetMovingClientMessage(newMoving))
                 }
             }
-            if (it.bufferedMoveDirection != it.lastSentMoveDirection) {
-                it.bufferedMoveDirection?.let { newMoveDirection ->
-                    uiState.lastSentMoveDirection = newMoveDirection
-                    inputProcessor.inputMessages.onNext(MoveDirectionClientMessage(when (newMoveDirection) {
-                        MoveDirection.RIGHT -> MoveDirection.UP_RIGHT
-                        MoveDirection.UP_RIGHT -> MoveDirection.UP
-                        MoveDirection.UP -> MoveDirection.UP_LEFT
-                        MoveDirection.UP_LEFT -> MoveDirection.LEFT
-                        MoveDirection.LEFT -> MoveDirection.DOWN_LEFT
-                        MoveDirection.DOWN_LEFT -> MoveDirection.DOWN
-                        MoveDirection.DOWN -> MoveDirection.DOWN_RIGHT
-                        MoveDirection.DOWN_RIGHT -> MoveDirection.RIGHT
-                    }))
+            if (bufferedMoveDirection != lastSentMoveDirection) {
+                bufferedMoveDirection?.let { newMoveDirection ->
+                    lastSentMoveDirection = newMoveDirection
+                    listener(MoveDirectionClientMessage(newMoveDirection.fromViewToScene()))
                 }
             }
-        }
-        if (uiState.gameOver) {
-            val timePassed = currentTimeMillis - uiState.gameOverStartTime
-            val alpha = min(1f, timePassed.toFloat() / screenFadingInterval.toFloat()) * maxFadingAlpha
-            if (timePassed > screenFadingInterval) {
-                uiState.gameOverCompositeWidget.isVisible = true
+            if (gameOver && System.currentTimeMillis() > gameOverStartTime + screenFadingInterval) {
+                gameWidgets.gameOverCompositeWidget.isVisible = true
             }
         }
-        if (!uiState.gameOver) {
-            val player = uiState.lastRenderedState.entities[uiState.playerID]
-            uiState.playerHealthPane.currentResource = player?.health ?: 0
-            uiState.playerHealthPane.maxResource = player?.maxHealth ?: 0
-            val target = uiState.lastRenderedState.entities[uiState.targetID]
-            uiState.targetHealthPane.isVisible = target != null
-            uiState.targetNameArea.isVisible = target != null
+        with(gameWidgets) {
+            val player = gameView.lastRenderedState.entities[gameState.playerID]
+            playerHealthPane.currentResource = player?.health ?: 0
+            playerHealthPane.maxResource = player?.maxHealth ?: 0
+            val target = gameView.lastRenderedState.entities[gameState.targetID]
+            targetHealthPane.isVisible = target != null
+            targetNameArea.isVisible = target != null
             if (target != null) {
-                uiState.targetHealthPane.currentResource = target.health
-                uiState.targetHealthPane.maxResource = target.maxHealth
-                uiState.targetNameLabel.text = target.name
+                targetHealthPane.currentResource = target.health
+                targetHealthPane.maxResource = target.maxHealth
+                targetNameArea.boundedLabel?.text = target.name
             }
         }
-        for (i in uiState.widgets.size - 1 downTo 0) {
-            uiState.widgets[i].draw(virtualScreen)
-        }
-        uiState.lastRenderedState = state
+        rootWidget.draw(virtualScreen)
     }
-
-    fun changeTarget(virtualHitPoint: Point) {
-        val player = uiState.lastRenderedState.entities[uiState.playerID] ?: return
-        val playerOnVirtualScreen = getVirtualScreenPointFromScene(player.position)
-        val virtualPoint = Point(virtualHitPoint.x + playerOnVirtualScreen.x, virtualHitPoint.y + playerOnVirtualScreen.y + DELTA_CENTER_Y)
-        val targetID = gameView.hit(virtualPoint, uiState.lastRenderedState)
-        if (targetID != uiState.targetID) inputProcessor.inputMessages.onNext(SetTargetClientMessage(targetID))
-        if (targetID != null) uiState.targetID = targetID
-    }
-
-    fun clearTarget() {
-        gameState.targetID = null
-    }
-
 
     init {
+        virtualScreen.setTileSet(gameState.gameMap.tileSetName)
         resize(virtualScreen.width, virtualScreen.height)
     }
 

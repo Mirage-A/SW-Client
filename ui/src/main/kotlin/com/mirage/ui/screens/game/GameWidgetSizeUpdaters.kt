@@ -23,9 +23,6 @@ private const val microMenuBtnSize = 64f
 private const val microMenuMargin = 8f
 private const val settingsMenuBtnWidth = microMenuBtnSize * 3f + microMenuMargin * 2f
 
-internal const val screenFadingInterval = 2000L
-internal const val maxFadingAlpha = 196f
-
 private const val gameOverWidth = 1000f
 private const val gameOverHeight = 200f
 private const val btnWidth = 400f

@@ -1,9 +1,18 @@
 package com.mirage.ui.screens.game
 
+import com.mirage.core.messaging.CastSkillClientMessage
 import com.mirage.core.messaging.ChangeSceneClientMessage
 import com.mirage.ui.screens.ClientMessageListener
 
 internal fun GameWidgets.initializeListeners(gameState: GameState, listener: ClientMessageListener) {
+    for ((i, btn) in activeSkills.withIndex()) {
+        btn.onPressed = {
+            listener(CastSkillClientMessage(i, gameState.targetID))
+        }
+    }
+    ultimateSkillBtn.onPressed = {
+        listener(CastSkillClientMessage(4, gameState.targetID))
+    }
     settingsBtn.onPressed = {
         settingsMenu.isVisible = !settingsMenu.isVisible
     }
@@ -44,6 +53,7 @@ private fun GameWidgets.updateSkillBtns(gameState: GameState) {
             btn.isVisible = true
             btn.textureName = if (cd == 0L) "skills/colored/$skill" else "skills/uncolored/$skill"
             btn.highlightedTextureName = btn.textureName
+            btn.pressedTextureName = "skills/uncolored/$skill"
             btn.boundedLabel?.text = if (cd == 0L) "" else cd.toString()
         }
     }

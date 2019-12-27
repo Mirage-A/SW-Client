@@ -14,7 +14,11 @@ internal interface Widget {
 
     fun resize(virtualWidth: Float, virtualHeight: Float)
 
+    fun touchUp(virtualPoint: Point, pointer: Int, button: Int): Boolean = touchUp(virtualPoint)
+
     fun touchUp(virtualPoint: Point): Boolean = false
+
+    fun touchDown(virtualPoint: Point, pointer: Int, button: Int): Boolean = touchDown(virtualPoint)
 
     fun touchDown(virtualPoint: Point): Boolean = false
 
@@ -23,6 +27,8 @@ internal interface Widget {
     fun keyTyped(character: Char): Boolean = false
 
     fun scrolled(amount: Int): Boolean = false
+
+    fun touchDragged(virtualPoint: Point, pointer: Int): Boolean = touchDragged(virtualPoint)
 
     fun touchDragged(virtualPoint: Point): Boolean = false
 

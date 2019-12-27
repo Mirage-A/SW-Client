@@ -41,6 +41,7 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
         EquipmentButton(
                 textureName = "ui/inventory/left-button-background",
                 highlightedTextureName = "ui/inventory/left-button-background-highlighted",
+                pressedTextureName = "ui/inventory/left-button-background-pressed",
                 equipmentSlot = equipmentSlots[it]
         )
     }
@@ -60,7 +61,8 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
     val itemBtns = Array(itemBtnsCount) {
         EquipmentButton(
                 textureName = "ui/inventory/left-button-background",
-                highlightedTextureName = "ui/inventory/left-button-background-highlighted"
+                highlightedTextureName = "ui/inventory/left-button-background-highlighted",
+                pressedTextureName = "ui/inventory/left-button-background-pressed"
         )
     }
 

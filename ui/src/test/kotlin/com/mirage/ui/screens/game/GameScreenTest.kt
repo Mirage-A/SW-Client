@@ -21,7 +21,6 @@ internal class GameScreenTest {
     @Test
     fun testSimpleStateRendering() {
         val mock = createVirtualScreenMock(TILE_WIDTH + 10f, TILE_HEIGHT + 10f)
-        val oneTileMap = GameMap(null, null, 1, 1, 0f, 0f, "test", 0, listOf(1), listOf(2))
         val oneObject = TestSamples.TEST_BUILDING.with(
                 template = "wall",
                 x = -0.5f,
@@ -36,15 +35,14 @@ internal class GameScreenTest {
                 y = 0.5f
         )
         val oneObjectState = SimplifiedState(listOf(oneObject), listOf(twoObject))
-        val gameScreen = GameScreen("one-tile-test", oneTileMap, mock)
         var lastMsg: ClientMessage? = null
         var msgCount = 0
-        gameScreen.inputMessages.subscribe {
+        val gameScreen = GameScreen(mock, "one-tile-test") {
             lastMsg = it
             ++msgCount
         }
         gameScreen.handleServerMessage(InitialGameStateMessage("one-tile-test", oneObjectState, 0L, 0L))
-        gameScreen.render(mock, 0L)
+        gameScreen.render(mock)
         verify(mock, times(1)).drawTile(eq(1), eq(0f), eq(-DELTA_CENTER_Y))
         verify(mock, times(8)).drawTile(eq(0), any(), any())
         verify(mock, times(1)).draw(eq("objects/wall"), any(), any())

@@ -11,11 +11,11 @@ internal class CompositeWidget(vararg widget: Widget, override var isVisible: Bo
     override fun resize(virtualWidth: Float, virtualHeight: Float) =
             widgets.forEach { it.resize(virtualWidth, virtualHeight) }
 
-    override fun touchUp(virtualPoint: Point): Boolean =
-            isVisible && widgets.any { it.touchUp(virtualPoint) }
+    override fun touchUp(virtualPoint: Point, pointer: Int, button: Int): Boolean =
+            isVisible && widgets.any { it.touchUp(virtualPoint, pointer, button) }
 
-    override fun touchDown(virtualPoint: Point): Boolean =
-            isVisible && widgets.any { it.touchDown(virtualPoint) }
+    override fun touchDown(virtualPoint: Point, pointer: Int, button: Int): Boolean =
+            isVisible && widgets.any { it.touchDown(virtualPoint, pointer, button) }
 
     override fun mouseMoved(virtualPoint: Point): Boolean {
         var processed = false
@@ -29,8 +29,11 @@ internal class CompositeWidget(vararg widget: Widget, override var isVisible: Bo
     override fun scrolled(amount: Int): Boolean =
             isVisible && widgets.any { it.scrolled(amount) }
 
-    override fun touchDragged(virtualPoint: Point): Boolean =
-            isVisible && widgets.any { it.touchDragged(virtualPoint) }
+    override fun touchDragged(virtualPoint: Point, pointer: Int): Boolean {
+        var processed = false
+        widgets.forEach { if (it.touchDragged(virtualPoint, pointer)) processed = true }
+        return processed
+    }
 
     override fun keyUp(keycode: Int): Boolean =
             isVisible && widgets.any { it.keyUp(keycode) }

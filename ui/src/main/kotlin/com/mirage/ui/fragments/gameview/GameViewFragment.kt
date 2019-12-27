@@ -1,28 +1,36 @@
 package com.mirage.ui.fragments.gameview
 
+import com.badlogic.gdx.Input
+import com.mirage.core.DELTA_CENTER_Y
 import com.mirage.core.datastructures.Point
+import com.mirage.core.datastructures.rangeBetween
 import com.mirage.core.extensions.EntityID
 import com.mirage.core.extensions.GameMapName
+import com.mirage.core.extensions.IntervalMillis
 import com.mirage.core.extensions.TimeMillis
 import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.objects.properties.Equipment
+import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.GameStateSnapshot
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.game.states.SnapshotManager
 import com.mirage.core.game.states.StateDifference
+import com.mirage.core.messaging.InteractionClientMessage
+import com.mirage.core.messaging.SetTargetClientMessage
 import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.screens.game.GameState
 import com.mirage.ui.widgets.Widget
 import com.mirage.view.GameView
 import com.mirage.view.GameViewImpl
+import com.mirage.view.utils.getVirtualScreenPointFromScene
 import java.util.*
 
 /** Fragment wrapper for GameView class, rendering game state on virtual screen */
 internal class GameViewFragment(
         /** State of GameScreen (using this fragment only makes sense in game screen) */
         private val gameState: GameState,
-        /** This method is invoked when player changes target by clicking on entity on pressing ESC */
-        var targetListener: ((EntityID?) -> Unit)? = null
+        var listener: ClientMessageListener
 ) : Widget {
 
     override var isVisible: Boolean = true
@@ -54,9 +62,20 @@ internal class GameViewFragment(
         }
     }
 
-    private var lastRenderedState: SimplifiedState = SimplifiedState()
+    var lastRenderedState: SimplifiedState = SimplifiedState()
+        private set
+
+    /** Move buttons release time*/
+    private var wReleasedTime = 0L
+    private var aReleasedTime = 0L
+    private var sReleasedTime = 0L
+    private var dReleasedTime = 0L
+
+    /** If two move buttons are released in time lesser than this interval, character will stay in diagonal move direction */
+    private val diagonalMoveDirectionInterval: IntervalMillis = 50L
 
     fun setInitialState(initialState: SimplifiedState, createdTimeMillis: TimeMillis) {
+        gameView.loadDrawers(initialState)
         snapshotManager.setInitialState(initialState, createdTimeMillis)
     }
 
@@ -80,5 +99,235 @@ internal class GameViewFragment(
         lastRenderedState = state
     }
 
+
     override fun resize(virtualWidth: Float, virtualHeight: Float) {}
+
+    override fun touchUp(virtualPoint: Point): Boolean = false
+
+    override fun touchDown(virtualPoint: Point): Boolean {
+        val player = lastRenderedState.entities[gameState.playerID] ?: return true
+        val playerOnVirtualScreen = getVirtualScreenPointFromScene(player.position)
+        val virtualHitPoint = Point(
+                x = virtualPoint.x + playerOnVirtualScreen.x,
+                y = virtualPoint.y + playerOnVirtualScreen.y + DELTA_CENTER_Y
+        )
+        val targetID = gameView.hit(virtualHitPoint, lastRenderedState)
+        if (targetID != null && targetID != gameState.targetID) {
+            gameState.targetID = targetID
+            listener(SetTargetClientMessage(targetID))
+        }
+        return true
+    }
+
+    override fun mouseMoved(virtualPoint: Point): Boolean = false
+
+    override fun keyTyped(character: Char): Boolean = false
+
+    override fun scrolled(amount: Int): Boolean = false
+
+    override fun touchDragged(virtualPoint: Point): Boolean = false
+
+    override fun keyUp(keycode: Int): Boolean {
+        when (keycode) {
+            Input.Keys.W -> {
+                wReleasedTime = System.currentTimeMillis()
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.UP_LEFT -> {
+                            startMoving(MoveDirection.LEFT)
+                        }
+                        MoveDirection.UP_RIGHT -> {
+                            startMoving(MoveDirection.RIGHT)
+                        }
+                        MoveDirection.UP -> {
+                            if (aReleasedTime >= dReleasedTime && wReleasedTime - aReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.UP_LEFT)
+                            } else if (dReleasedTime >= aReleasedTime && wReleasedTime - dReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.UP_RIGHT)
+                            }
+                            stopMoving()
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
+            Input.Keys.A -> {
+                aReleasedTime = System.currentTimeMillis()
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.UP_LEFT -> {
+                            startMoving(MoveDirection.UP)
+                        }
+                        MoveDirection.DOWN_LEFT -> {
+                            startMoving(MoveDirection.DOWN)
+                        }
+                        MoveDirection.LEFT -> {
+                            if (wReleasedTime >= sReleasedTime && aReleasedTime - wReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.UP_LEFT)
+                            } else if (sReleasedTime >= wReleasedTime && aReleasedTime - sReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.DOWN_LEFT)
+                            }
+                            stopMoving()
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
+            Input.Keys.S -> {
+                sReleasedTime = System.currentTimeMillis()
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.DOWN_LEFT -> {
+                            startMoving(MoveDirection.LEFT)
+                        }
+                        MoveDirection.DOWN_RIGHT -> {
+                            startMoving(MoveDirection.RIGHT)
+                        }
+                        MoveDirection.DOWN -> {
+                            if (aReleasedTime >= dReleasedTime && sReleasedTime - aReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.DOWN_LEFT)
+                            } else if (dReleasedTime >= aReleasedTime && sReleasedTime - dReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.DOWN_RIGHT)
+                            }
+                            stopMoving()
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
+            Input.Keys.D -> {
+                dReleasedTime = System.currentTimeMillis()
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.UP_RIGHT -> {
+                            startMoving(MoveDirection.UP)
+                        }
+                        MoveDirection.DOWN_RIGHT -> {
+                            startMoving(MoveDirection.DOWN)
+                        }
+                        MoveDirection.RIGHT -> {
+                            if (wReleasedTime >= sReleasedTime && dReleasedTime - wReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.UP_RIGHT)
+                            } else if (sReleasedTime >= wReleasedTime && dReleasedTime - sReleasedTime < diagonalMoveDirectionInterval) {
+                                setMoveDirection(MoveDirection.DOWN_RIGHT)
+                            }
+                            stopMoving()
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
+
+        }
+        return true
+    }
+
+    override fun keyDown(keycode: Int): Boolean {
+        println(keycode)
+        when (keycode) {
+            Input.Keys.W -> {
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.LEFT -> {
+                            startMoving(MoveDirection.UP_LEFT)
+                        }
+                        MoveDirection.RIGHT -> {
+                            startMoving(MoveDirection.UP_RIGHT)
+                        }
+                        else -> {
+                            startMoving(MoveDirection.UP)
+                        }
+                    }
+                } else {
+                    startMoving(MoveDirection.UP)
+                }
+            }
+            Input.Keys.A -> {
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.UP -> {
+                            startMoving(MoveDirection.UP_LEFT)
+                        }
+                        MoveDirection.DOWN -> {
+                            startMoving(MoveDirection.DOWN_LEFT)
+                        }
+                        else -> {
+                            startMoving(MoveDirection.LEFT)
+                        }
+                    }
+                } else {
+                    startMoving(MoveDirection.LEFT)
+                }
+            }
+            Input.Keys.S -> {
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.LEFT -> {
+                            startMoving(MoveDirection.DOWN_LEFT)
+                        }
+                        MoveDirection.RIGHT -> {
+                            startMoving(MoveDirection.DOWN_RIGHT)
+                        }
+                        else -> {
+                            startMoving(MoveDirection.DOWN)
+                        }
+                    }
+                } else {
+                    startMoving(MoveDirection.DOWN)
+                }
+            }
+            Input.Keys.D -> {
+                if (gameState.bufferedMoving == true) {
+                    when (gameState.bufferedMoveDirection) {
+                        MoveDirection.UP -> {
+                            startMoving(MoveDirection.UP_RIGHT)
+                        }
+                        MoveDirection.DOWN -> {
+                            startMoving(MoveDirection.DOWN_RIGHT)
+                        }
+                        else -> {
+                            startMoving(MoveDirection.RIGHT)
+                        }
+                    }
+                } else {
+                    startMoving(MoveDirection.RIGHT)
+                }
+            }
+            Input.Keys.ESCAPE -> {
+                if (gameState.targetID != null) {
+                    gameState.targetID = null
+                    listener(SetTargetClientMessage(null))
+                }
+            }
+            Input.Keys.E -> {
+                val targetID = gameState.targetID
+                val player = lastRenderedState.entities[gameState.playerID]
+                val target = lastRenderedState.entities[targetID]
+                if (targetID != null && player != null && target != null &&
+                        player.position..target.position < target.interactionRange) {
+                    listener(InteractionClientMessage(targetID))
+                }
+            }
+        }
+        return true
+    }
+
+
+    private fun startMoving(md: MoveDirection) {
+        gameState.bufferedMoveDirection = md
+        gameState.bufferedMoving = true
+    }
+
+    private fun stopMoving() {
+        gameState.bufferedMoving = false
+    }
+
+    private fun setMoveDirection(md: MoveDirection) {
+        gameState.bufferedMoveDirection = md
+    }
+
 }

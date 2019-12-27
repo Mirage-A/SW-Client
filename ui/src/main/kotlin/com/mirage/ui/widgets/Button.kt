@@ -9,7 +9,10 @@ import com.mirage.core.virtualscreen.VirtualScreen
  *  */
 internal class Button(
         override var textureName: String = "ui/main-menu-btn",
-        override var highlightedTextureName: String = textureName,
+        override var highlightedTextureName: String =
+                if (textureName == "ui/main-menu-btn") "ui/main-menu-btn-highlighted" else textureName,
+        override var pressedTextureName: String =
+                if (highlightedTextureName == "ui/main-menu-btn-highlighted") "ui/main-menu-btn-pressed" else highlightedTextureName,
         override var boundedLabel: LabelWidget? = null,
         sizeUpdater: SizeUpdater? = null,
         var onPressed: () -> Unit = {},
@@ -19,6 +22,10 @@ internal class Button(
         override var isVisible: Boolean = true
 ) : AbstractButton {
 
+    init {
+        boundedLabel?.sizeUpdater = sizeUpdater
+    }
+
     var sizeUpdater: SizeUpdater? = sizeUpdater
         set(value) {
             boundedLabel?.sizeUpdater = value
@@ -26,6 +33,7 @@ internal class Button(
         }
 
     private var isHighlighted = false
+    private var isPressed = false
     private var keyPressed = false
 
     private var rect: Rectangle = Rectangle()
@@ -38,19 +46,45 @@ internal class Button(
         boundedLabel?.resize(virtualWidth, virtualHeight)
     }
 
-    override fun touchUp(virtualPoint: Point): Boolean =
-            isVisible && rect.contains(virtualPoint)
-
-    override fun touchDown(virtualPoint: Point): Boolean {
-        if (!isVisible) return false
+    override fun touchUp(virtualPoint: Point): Boolean {
+        if (!isVisible || !isPressed) return false
+        isPressed = false
         return if (rect.contains(virtualPoint)) {
             onPressed()
             true
-        }
-        else false
+        } else false
     }
 
+    override fun touchDown(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isPressed = rect.contains(virtualPoint)
+        return isPressed
+    }
+
+    override fun keyUp(keycode: Int): Boolean {
+        return if (isVisible && keycode == keyCode) {
+            keyPressed = false
+            onPressed()
+            true
+        } else false
+    }
+
+
+    override fun keyDown(keycode: Int): Boolean {
+        return if (isVisible && keycode == keyCode) {
+            keyPressed = true
+            true
+        } else false
+    }
+
+
     override fun mouseMoved(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isHighlighted = rect.contains(virtualPoint)
+        return isHighlighted
+    }
+
+    override fun touchDragged(virtualPoint: Point): Boolean {
         if (!isVisible) return false
         isHighlighted = rect.contains(virtualPoint)
         return isHighlighted
@@ -59,7 +93,11 @@ internal class Button(
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
-        val textureName = if (isHighlighted || keyPressed) highlightedTextureName else textureName
+        val textureName = when {
+            isPressed || keyPressed -> pressedTextureName
+            isHighlighted -> highlightedTextureName
+            else -> textureName
+        }
         virtualScreen.draw(textureName, innerRect)
         boundedLabel?.draw(virtualScreen)
     }

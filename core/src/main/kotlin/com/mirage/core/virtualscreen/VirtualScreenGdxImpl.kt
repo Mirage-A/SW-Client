@@ -81,7 +81,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     }
 
     override fun drawColorOnAllScreen(r: Float, g: Float, b: Float, a: Float) {
-        batch.setColor(r, g, b, a / 255f)
+        batch.setColor(r, g, b, a)
         batch.draw(getTexture("white"), - width / 2f, - height / 2f, width, height)
         batch.color = Color.WHITE
     }
@@ -324,7 +324,6 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
             val scale = max(0.1f, min(virtualWidth / DEFAULT_SCREEN_WIDTH, virtualHeight / DEFAULT_SCREEN_HEIGHT))
             val fontScale = fontCapHeight / font.data.capHeight * scale
             font.data.setScale(fontScale)
-            textField.style = TextField.TextFieldStyle()
             textField.style = TextField.TextFieldStyle(
                     font,
                     Color.BLACK,

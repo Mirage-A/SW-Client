@@ -25,21 +25,13 @@ internal class LoadingWidgets(virtualScreen: VirtualScreen, loadingState: Loadin
     val sceneDescriptionLabel = LabelWidget(virtualScreen, loadingState.gameMap.description
             ?: "", sceneDescriptionFontSize)
 
-    val startGameBtn = Button(
-            boundedLabel = LabelWidget(virtualScreen, "Start game", 30f)
-    )
+    val startGameBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Start game", 30f))
 
-    val openInventoryBtn = Button(
-            boundedLabel = LabelWidget(virtualScreen, "Open inventory", 30f)
-    )
+    val openInventoryBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Open inventory", 30f))
 
-    val openSkillsBtn = Button(
-            boundedLabel = LabelWidget(virtualScreen, "Open skills menu", 30f)
-    )
+    val openSkillsBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Open skills menu", 30f))
 
-    val mainMenuBtn = Button(
-            boundedLabel = LabelWidget(virtualScreen, "Main menu", 30f)
-    )
+    val mainMenuBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Main menu", 30f))
 
     val rootWidget = CompositeWidget(
             inventoryWindow, startGameBtn, openInventoryBtn, openSkillsBtn, mainMenuBtn,

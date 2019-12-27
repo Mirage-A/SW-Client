@@ -23,12 +23,14 @@ internal class QuestWidgets(virtualScreen: VirtualScreen) {
 
     val globalQuestsLeftArrow = Button(
             textureName = "ui/game/quests/left-arrow",
-            highlightedTextureName = "ui/game/quests/left-arrow-highlighted"
+            highlightedTextureName = "ui/game/quests/left-arrow-highlighted",
+            pressedTextureName = "ui/game/quests/left-arrow-pressed"
     )
 
     val globalQuestsRightArrow = Button(
             textureName = "ui/game/quests/right-arrow",
-            highlightedTextureName = "ui/game/quests/right-arrow-highlighted"
+            highlightedTextureName = "ui/game/quests/right-arrow-highlighted",
+            pressedTextureName = "ui/game/quests/right-arrow-pressed"
     )
 
     val globalQuestsPageLabel = LabelWidget(virtualScreen, "", questPageLabelFontSize)
@@ -45,6 +47,7 @@ internal class QuestWidgets(virtualScreen: VirtualScreen) {
         Button(
                 textureName = "ui/game/quests/quest-btn-active",
                 highlightedTextureName = "ui/game/quests/quest-btn-active-highlighted",
+                pressedTextureName = "ui/game/quests/quest-btn-active-pressed",
                 boundedLabel = LabelWidget(virtualScreen, "Global quest $it", questBtnFontSize)
         )
     }
@@ -54,12 +57,14 @@ internal class QuestWidgets(virtualScreen: VirtualScreen) {
 
     val localQuestsLeftArrow = Button(
             textureName = "ui/game/quests/left-arrow",
-            highlightedTextureName = "ui/game/quests/left-arrow-highlighted"
+            highlightedTextureName = "ui/game/quests/left-arrow-highlighted",
+            pressedTextureName = "ui/game/quests/left-arrow-pressed"
     )
 
     val localQuestsRightArrow = Button(
             textureName = "ui/game/quests/right-arrow",
-            highlightedTextureName = "ui/game/quests/right-arrow-highlighted"
+            highlightedTextureName = "ui/game/quests/right-arrow-highlighted",
+            pressedTextureName = "ui/game/quests/right-arrow-pressed"
     )
 
     val localQuestsPageLabel = LabelWidget(virtualScreen, "", questPageLabelFontSize)
@@ -76,6 +81,7 @@ internal class QuestWidgets(virtualScreen: VirtualScreen) {
         Button(
                 textureName = "ui/game/quests/quest-btn-active",
                 highlightedTextureName = "ui/game/quests/quest-btn-active-highlighted",
+                pressedTextureName = "ui/game/quests/quest-btn-active-pressed",
                 boundedLabel = LabelWidget(virtualScreen, "Local quest $it", questBtnFontSize)
         )
     }

@@ -55,8 +55,6 @@ internal class ConfirmMessage(
     )
 
     private val okButton = Button(
-            textureName = "ui/main-menu-btn",
-            highlightedTextureName = "ui/main-menu-btn-highlighted",
             boundedLabel = LabelWidget(virtualScreen, okTitle, okCancelFontCapHeight),
             sizeUpdater = {
                 _, _ -> Rectangle(-176f, -185f, 260f, 86f)
@@ -64,13 +62,12 @@ internal class ConfirmMessage(
     )
 
     private val cancelButton = Button(
-            textureName = "ui/main-menu-btn",
-            highlightedTextureName = "ui/main-menu-btn-highlighted",
             boundedLabel = LabelWidget(virtualScreen, cancelTitle, okCancelFontCapHeight),
             sizeUpdater = {
                 _, _ -> Rectangle(176f, -185f, 260f, 86f)
             }
     )
+
 
     private val compositeWidget = CompositeWidget(okButton, cancelButton, titleLabel, descriptionLabel, background)
 
@@ -94,12 +91,18 @@ internal class ConfirmMessage(
         compositeWidget.resize(virtualWidth, virtualHeight)
     }
 
-    override fun touchUp(virtualPoint: Point): Boolean =
-            isVisible && (compositeWidget.touchUp(virtualPoint) || blocksFocus)
+    override fun touchUp(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        val processed = compositeWidget.touchUp(virtualPoint)
+        return processed || blocksFocus
+    }
 
 
-    override fun touchDown(virtualPoint: Point): Boolean =
-            isVisible && (compositeWidget.touchDown(virtualPoint) || blocksFocus)
+    override fun touchDown(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        val processed = compositeWidget.touchDown(virtualPoint)
+        return processed || blocksFocus
+    }
 
 
     override fun mouseMoved(virtualPoint: Point): Boolean =

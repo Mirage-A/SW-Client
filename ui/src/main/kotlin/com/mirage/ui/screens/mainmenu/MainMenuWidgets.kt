@@ -50,16 +50,10 @@ internal class MainMenuWidgets(virtualScreen: VirtualScreen, mainMenuState: Main
         )
     }
 
-    val profileWindowLeftArrow = Button(
-            textureName = "ui/main-menu/profile-left-arrow",
-            highlightedTextureName = "ui/main-menu/profile-left-arrow"
-    )
+    val profileWindowLeftArrow = Button(textureName = "ui/main-menu/profile-left-arrow")
 
 
-    val profileWindowRightArrow = Button(
-            textureName = "ui/main-menu/profile-right-arrow",
-            highlightedTextureName = "ui/main-menu/profile-right-arrow"
-    )
+    val profileWindowRightArrow = Button(textureName = "ui/main-menu/profile-right-arrow")
 
     val profileWindowPageLabel = LabelWidget(virtualScreen, "", 30f)
 

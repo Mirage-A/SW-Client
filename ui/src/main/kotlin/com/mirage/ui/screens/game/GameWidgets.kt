@@ -1,9 +1,11 @@
 package com.mirage.ui.screens.game
 
+import com.badlogic.gdx.Input
 import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.fragments.gameview.GameViewFragment
 import com.mirage.ui.fragments.quests.QuestFragment
+import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.*
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.CircleButton
@@ -20,12 +22,16 @@ private const val ultimateCoolDownFontSize = 40f
 private const val playerHealthFontHeight = 24f
 private const val targetNameFontHeight = 16f
 private const val settingsMenuBtnFontSize = 20f
+internal const val screenFadingInterval = 2000L
+private const val maxFadingAlpha = 196f / 256f
 
-internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState) {
+internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, listener: ClientMessageListener) {
 
-    val gameView = GameViewFragment(gameState)
+    val gameView = GameViewFragment(gameState, listener)
 
     val questWindow = QuestFragment(virtualScreen, gameState.gameMapName, gameState.localQuestProgress)
+
+    private val activeKeyCodes = arrayOf(Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_4, Input.Keys.NUM_5)
 
     val activeSkills: Array<Button> = Array(4) {
         Button(
@@ -33,7 +39,8 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState) {
                 boundedLabel = LabelWidget(virtualScreen, "", skillCoolDownFontSize),
                 borderSize = skillBorderSize,
                 borderTextureName = "ui/game/skill-border",
-                isVisible = false
+                isVisible = false,
+                keyCode = activeKeyCodes[it]
         )
     }
 
@@ -42,26 +49,28 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState) {
             boundedLabel = LabelWidget(virtualScreen, "", ultimateCoolDownFontSize),
             borderSize = skillBorderSize,
             borderTextureName = "ui/game/ultimate-border",
-            isVisible = false
+            isVisible = false,
+            keyCode = Input.Keys.NUM_3
     )
 
     val settingsBtn = Button(
             textureName = "ui/game/settings",
-            highlightedTextureName = "ui/game/settings-highlighted"
+            highlightedTextureName = "ui/game/settings-highlighted",
+            pressedTextureName = "ui/game/settings-pressed"
     )
 
     val questsBtn = Button(
             textureName = "ui/game/quests",
-            highlightedTextureName = "ui/game/quests-highlighted"
+            highlightedTextureName = "ui/game/quests-highlighted",
+            pressedTextureName = "ui/game/quests-pressed"
     )
 
     val leaveGameBtn = Button(
-            boundedLabel = LabelWidget(virtualScreen, "Main menu", settingsMenuBtnFontSize),
-            isVisible = false
+            boundedLabel = LabelWidget(virtualScreen, "Main menu", settingsMenuBtnFontSize)
     )
 
     val microMenu = CompositeWidget(settingsBtn, questsBtn)
-    val settingsMenu = CompositeWidget(leaveGameBtn)
+    val settingsMenu = CompositeWidget(leaveGameBtn, isVisible = false)
 
     val confirmExitMessage : ConfirmMessage = ConfirmMessage(
             virtualScreen = virtualScreen,
@@ -94,7 +103,12 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState) {
             innerMargin = playerHealthBorderMargin
     )
 
-    val gameOverBackground = ShadowingWidget(isVisible = false, blocksInput = true)
+    val gameOverBackground = ShadowingWidget(
+            maxAlpha = maxFadingAlpha,
+            shadowingTime = screenFadingInterval,
+            isVisible = false,
+            blocksInput = true
+    )
 
     val gameOverText = ImageWidget(textureName = "ui/game/game-over")
 
@@ -116,7 +130,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState) {
 
     val gameCompositeWidget = CompositeWidget(
             settingsMenu, confirmExitMessage, microMenu, questWindow,
-            *activeSkills, ultimateSkillBtn, playerHealthPane, targetHealthPane, targetNameArea
+            *activeSkills, ultimateSkillBtn, playerHealthPane, targetHealthPane, targetNameArea, gameView
     )
 
     val rootWidget = CompositeWidget(

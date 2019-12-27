@@ -3,6 +3,7 @@ package com.mirage.ui.screens.mainmenu
 import com.mirage.core.DEFAULT_SCREEN_HEIGHT
 import com.mirage.core.DEFAULT_SCREEN_WIDTH
 import com.mirage.core.datastructures.Rectangle
+import kotlin.math.max
 import kotlin.math.min
 
 
@@ -19,7 +20,7 @@ private const val profileArrowShift = profileWindowWidth / 2f - profileArrowMarg
 
 internal fun MainMenuWidgets.initializeSizeUpdaters(mainMenuState: MainMenuState) {
     backgroundArt.sizeUpdater = { virtualWidth, virtualHeight ->
-        val scale = min(virtualWidth / DEFAULT_SCREEN_WIDTH, virtualHeight / DEFAULT_SCREEN_HEIGHT)
+        val scale = max(virtualWidth / DEFAULT_SCREEN_WIDTH, virtualHeight / DEFAULT_SCREEN_HEIGHT)
         Rectangle(0f, 0f, DEFAULT_SCREEN_WIDTH * scale, DEFAULT_SCREEN_HEIGHT * scale)
     }
     singlePlayerBtn.sizeUpdater = { _, virtualHeight ->
