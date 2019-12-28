@@ -25,7 +25,7 @@ internal class HumanoidWidget : Widget {
         val w = virtualScreen.width
         drawer.draw(
                 virtualScreen,
-                - w * centerColumnWidthPart / 2f - (w / 2f - w * centerColumnWidthPart / 2f) / 2f,
+                -w * centerColumnWidthPart / 2f - (w / 2f - w * centerColumnWidthPart / 2f) / 2f,
                 -humanoidSize / 2f,
                 true,
                 "idle",

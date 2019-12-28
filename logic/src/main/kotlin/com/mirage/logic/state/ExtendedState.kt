@@ -14,8 +14,8 @@ class ExtendedState(
     constructor() : this(HashMap(), HashMap(), 0L, 0L)
 
     constructor(buildingsList: List<ExtendedBuilding>, entitiesList: List<ExtendedEntity>) : this(
-            mutableMap(buildingsList.size, {it.toLong()}, {buildingsList[it]}),
-            mutableMap(entitiesList.size, {it.toLong()}, {entitiesList[it]}),
+            mutableMap(buildingsList.size, { it.toLong() }, { buildingsList[it] }),
+            mutableMap(entitiesList.size, { it.toLong() }, { entitiesList[it] }),
             buildingsList.size.toLong(),
             entitiesList.size.toLong()
     )

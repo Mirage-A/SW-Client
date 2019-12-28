@@ -22,12 +22,16 @@ internal class TextFieldWidget(
     /** Hint is displayed when no text is entered */
     var hint: String
         get() = textField.hint
-        set(value) { textField.hint = value }
+        set(value) {
+            textField.hint = value
+        }
 
     /** Entered text */
     var text: String
         get() = textField.text
-        set(value) { textField.text = value }
+        set(value) {
+            textField.text = value
+        }
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         textField.rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()

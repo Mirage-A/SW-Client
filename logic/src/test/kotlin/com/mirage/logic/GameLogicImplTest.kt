@@ -3,18 +3,18 @@ package com.mirage.logic
 import com.mirage.core.datastructures.Point
 import com.mirage.core.extensions.PlayerCreationRequest
 import com.mirage.core.extensions.QuestProgress
-import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.messaging.ServerMessage
+import com.mirage.logic.data.ExtendedSceneLoader
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicLong
 
-internal class GameLogicImplTest{
+internal class GameLogicImplTest {
 
     @Test
     fun testStart() {
@@ -73,8 +73,7 @@ internal class GameLogicImplTest{
             val state = it.second
             if (state is InitialGameStateMessage) {
                 states.add(state.initialState)
-            }
-            else if (state is GameStateUpdateMessage) {
+            } else if (state is GameStateUpdateMessage) {
                 if (states.isNotEmpty()) {
                     states.add(state.diff.projectOn(states.last()))
                     messages.add(state)

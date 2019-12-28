@@ -21,11 +21,11 @@ internal class MapRendererKtTest {
     @Test
     fun testSmallMapRendering() {
         val gameMap = SceneLoader("micro-test").loadMap()
-        val list = Array(5) {"null"}.toList()
+        val list = Array(5) { "null" }.toList()
         assertEquals(list[0], list[0])
         val mock: VirtualScreen = mock {
-            on {width} doReturn TILE_WIDTH * 3 / 2
-            on {height} doReturn TILE_HEIGHT * 3 / 2
+            on { width } doReturn TILE_WIDTH * 3 / 2
+            on { height } doReturn TILE_HEIGHT * 3 / 2
         }
         renderGameMap(
                 virtualScreen = mock,

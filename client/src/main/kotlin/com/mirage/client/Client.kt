@@ -3,22 +3,22 @@ package com.mirage.client
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.GL20
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
-import com.mirage.ui.screens.Screen
-import com.mirage.ui.screens.game.GameScreen
-import com.mirage.ui.screens.mainmenu.MainMenuScreen
-import com.mirage.ui.screens.newgame.NewGameScreen
 import com.mirage.core.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.PLATFORM
-import com.mirage.core.game.maps.SceneLoader
-import com.mirage.core.messaging.*
+import com.mirage.core.messaging.ChangeSceneClientMessage
+import com.mirage.core.messaging.CloseConnectionMessage
+import com.mirage.core.messaging.ExitClientMessage
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.ui.screens.Screen
+import com.mirage.ui.screens.game.GameScreen
 import com.mirage.ui.screens.loading.LoadingScreen
+import com.mirage.ui.screens.mainmenu.MainMenuScreen
+import com.mirage.ui.screens.newgame.NewGameScreen
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
@@ -97,7 +97,7 @@ object Client : ApplicationListener {
     }
 
     private fun startSinglePlayerGame(mapName: String) {
-        val connection : Connection = LocalConnection(mapName)
+        val connection: Connection = LocalConnection(mapName)
         val gameScreen = GameScreen(virtualScreen, mapName) { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {

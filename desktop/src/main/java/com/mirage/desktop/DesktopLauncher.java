@@ -22,8 +22,7 @@ class DesktopLauncher {
             System.out.println("Test mode enabled. Assets path: " + new File("android/assets/").getAbsolutePath());
             config.addIcon("android/assets/drawable/windows_icon.png", Files.FileType.Internal);
             config.addIcon("android/assets/drawable/mac_icon.png", Files.FileType.Internal);
-        }
-        else {
+        } else {
             //Во время запуска собранного jar-файла
             ConfigurationKt.setPLATFORM("desktop");
             System.out.println("Release mode enabled.");

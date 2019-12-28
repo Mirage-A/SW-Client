@@ -9,12 +9,12 @@ import kotlin.math.sqrt
  * Неизменяемая точка с координатами типа Float
  * Используется для хранения позиции объектов на сцене
  */
-data class Point (val x: Float, val y: Float){
+data class Point(val x: Float, val y: Float) {
 
     /**
      * Создаёт точку, сдвинутую на заданное расстояние в сторону заданного угла
      */
-    fun move(angle: Float, range: Float) : Point =
+    fun move(angle: Float, range: Float): Point =
             Point(x + (cos(angle.toDouble()) * range).toFloat(), y + (sin(angle.toDouble()) * range).toFloat())
 
     operator fun plus(p: Point) = Point(x + p.x, y + p.y)
@@ -33,7 +33,7 @@ data class Point (val x: Float, val y: Float){
      * Проверяет, что данная точка находится на расстоянии менее 0.1f от точки [point].
      * Используется для тестов.
      */
-    infix fun near(point: Point) : Boolean = rangeBetween(this, point) < 0.1f
+    infix fun near(point: Point): Boolean = rangeBetween(this, point) < 0.1f
 
 
 }

@@ -1,7 +1,5 @@
 package com.mirage.connection
 
-import com.mirage.logic.GameLogic
-import com.mirage.logic.GameLogicImpl
 import com.mirage.core.Log
 import com.mirage.core.extensions.*
 import com.mirage.core.messaging.ClientMessage
@@ -9,6 +7,8 @@ import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.messaging.ServerMessage
 import com.mirage.core.preferences.Prefs
+import com.mirage.logic.GameLogic
+import com.mirage.logic.GameLogicImpl
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
@@ -17,12 +17,12 @@ import kotlin.concurrent.withLock
 class LocalConnection(private val mapName: GameMapName) : Connection {
 
     @Volatile
-    private var playerID : EntityID? = null
+    private var playerID: EntityID? = null
 
     /** Messages received before initial state with player */
     private val bufferedMessages = ArrayDeque<ServerMessage>()
 
-    private val logic : GameLogic = GameLogicImpl(mapName)
+    private val logic: GameLogic = GameLogicImpl(mapName)
 
     override fun start() {
         Log.i("connection.start() invoked")
@@ -45,8 +45,7 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
             val msg = logic.serverMessages.poll()?.second
             if (msg == null) {
                 Thread.sleep(10L)
-            }
-            else {
+            } else {
                 if (!initialStateReceived && (msg !is InitialGameStateMessage || msg.playerID == -1L)) continue
                 initialStateReceived = true
                 bufferedMessages.add(msg)

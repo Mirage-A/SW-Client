@@ -13,15 +13,13 @@ import java.io.Reader
 
 object Assets {
 
-    private val assetsResolver : FileHandleResolver = when (PLATFORM) {
+    private val assetsResolver: FileHandleResolver = when (PLATFORM) {
         "test" -> FileHandleResolver {
             if (File(File("").absoluteFile.parentFile.absolutePath + "/android/assets").exists()) {
                 FileHandle(File(File("").absoluteFile.parentFile.absolutePath + "/android/assets/$it"))
-            }
-            else if (File(File("").absolutePath + "/android/assets").exists()) {
+            } else if (File(File("").absolutePath + "/android/assets").exists()) {
                 FileHandle(File(File("").absolutePath + "/android/assets/$it"))
-            }
-            else {
+            } else {
                 Log.e("ERROR: Assets directory not found.")
                 null
             }
@@ -43,27 +41,25 @@ object Assets {
         }
     }
 
-    fun loadFile(path: String) : FileHandle? =
-        try {
-            val file = assetsResolver.resolve(path)
-            if (file == null || !file.exists()) {
+    fun loadFile(path: String): FileHandle? =
+            try {
+                val file = assetsResolver.resolve(path)
+                if (file == null || !file.exists()) {
+                    Log.e("File not found: $path")
+                    null
+                } else file
+            } catch (ex: Exception) {
                 Log.e("File not found: $path")
                 null
             }
-            else file
-        }
-        catch (ex: Exception) {
-            Log.e("File not found: $path")
-            null
-        }
 
 
-    fun loadReader(path: String) : Reader? =
+    fun loadReader(path: String): Reader? =
             loadFile(path)?.reader()
 
 
-    fun loadAnimation(name: String) : InputStream? =
-        loadFile("animations/$name.xml")?.read()
+    fun loadAnimation(name: String): InputStream? =
+            loadFile("animations/$name.xml")?.read()
 
     private val gson = Gson()
 
@@ -83,12 +79,14 @@ object Assets {
         if (cached != null) return cached
         val onAttackScript: String? = try {
             loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/on-attack.json")!!.readText()
+        } catch (ex: Exception) {
+            null
         }
-        catch (ex: Exception) { null }
         val onDefenseScript: String? = try {
             loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/on-defense.json")!!.readText()
+        } catch (ex: Exception) {
+            null
         }
-        catch (ex: Exception) { null }
         val data: EquipmentData = try {
             gson.fromJson<EquipmentData>(
                     loadReader("equipment/${getEquipmentFolder(itemType)}/$itemName/data.json")!!

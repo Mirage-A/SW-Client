@@ -5,7 +5,7 @@ dependencies {
     implementation project(":ui")
     implementation project(":connection")
     implementation project(":core")
-    
+
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
 
 }

@@ -5,7 +5,7 @@ import com.mirage.core.*
 
 private val gson = Gson()
 
-fun serializeServerMessage(msg: ServerMessage) : String {
+fun serializeServerMessage(msg: ServerMessage): String {
     val clazz = msg::class.java
     val code = ServerMessage.classToCodeMap[clazz] ?: return run {
         Log.e("Error: class $clazz is not included in ServerMessage.serverMessageClasses list")
@@ -14,7 +14,7 @@ fun serializeServerMessage(msg: ServerMessage) : String {
     return serializeMessage(code, msg)
 }
 
-fun serializeClientMessage(msg: ClientMessage) : String {
+fun serializeClientMessage(msg: ClientMessage): String {
     val clazz = msg::class.java
     val code = ClientMessage.classToCodeMap[clazz] ?: return run {
         Log.e("Error: class $clazz is not included in ClientMessage.clientMessageClasses list")
@@ -23,7 +23,7 @@ fun serializeClientMessage(msg: ClientMessage) : String {
     return serializeMessage(code, msg)
 }
 
-private fun serializeMessage(code: Int, msg: Any) : String {
+private fun serializeMessage(code: Int, msg: Any): String {
     val serializedMessage = gson.toJson(msg)
     val filteredMessage = serializedMessage.filterNot { it == INNER_DLMTR || it == OUTER_DLMTR || it == MAP_OBJ_DLMTR || it == PROPS_DLMTR }
     if (serializedMessage != filteredMessage) {
@@ -32,7 +32,7 @@ private fun serializeMessage(code: Int, msg: Any) : String {
     return "$code$INNER_DLMTR$filteredMessage"
 }
 
-fun deserializeServerMessage(serializedMessage: String) : ServerMessage? {
+fun deserializeServerMessage(serializedMessage: String): ServerMessage? {
     val codeAndMsg = serializedMessage.split(INNER_DLMTR)
     if (codeAndMsg.size != 2) {
         Log.e("Error: received string is not a serialized message: $serializedMessage")
@@ -44,14 +44,13 @@ fun deserializeServerMessage(serializedMessage: String) : ServerMessage? {
         val clazz = ServerMessage.codeToClassMap[code]
         val msg = gson.fromJson<ServerMessage>(msgString.reader(), clazz)
         msg as ServerMessage
-    }
-    catch(ex: Exception) {
+    } catch (ex: Exception) {
         Log.e("Error: received string is not a serialized message: $serializedMessage")
         null
     }
 }
 
-fun deserializeClientMessage(serializedMessage: String) : ClientMessage? {
+fun deserializeClientMessage(serializedMessage: String): ClientMessage? {
     val codeAndMsg = serializedMessage.split(INNER_DLMTR)
     if (codeAndMsg.size != 2) {
         Log.e("Error: received string is not a serialized message: $serializedMessage")
@@ -63,8 +62,7 @@ fun deserializeClientMessage(serializedMessage: String) : ClientMessage? {
         val clazz = ClientMessage.codeToClassMap[code]
         val msg = gson.fromJson<ClientMessage>(msgString.reader(), clazz)
         msg as ClientMessage
-    }
-    catch(ex: Exception) {
+    } catch (ex: Exception) {
         Log.e("Error: received string is not a serialized message: $serializedMessage")
         null
     }

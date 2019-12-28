@@ -3,11 +3,6 @@ package com.mirage.ui.fragments.inventory
 import com.mirage.core.preferences.EquipmentSlot
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.widgets.*
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.ConfirmMessage
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.LabelWidget
-import com.mirage.ui.widgets.PageNavigator
 
 
 internal const val itemBtnsCount = 16

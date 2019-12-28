@@ -1,5 +1,6 @@
 package com.mirage.admin
 
+/*
 import com.mirage.server.Room
 import java.awt.Color
 import java.awt.Dimension
@@ -229,4 +230,4 @@ internal class AdminGUI(private val rooms: List<Room>) : JFrame() {
         isVisible = true
     }
 
-}
+}*/

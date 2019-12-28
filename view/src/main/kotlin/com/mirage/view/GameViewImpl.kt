@@ -1,8 +1,5 @@
 package com.mirage.view
 
-import com.mirage.view.drawers.DrawersManager
-import com.mirage.view.drawers.DrawersManagerImpl
-import com.mirage.view.utils.getVirtualScreenPointFromScene
 import com.mirage.core.DELTA_CENTER_Y
 import com.mirage.core.datastructures.Point
 import com.mirage.core.extensions.EntityID
@@ -14,6 +11,9 @@ import com.mirage.core.game.objects.simplified.SimplifiedEntity
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.game.states.StateDifference
 import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.view.drawers.DrawersManager
+import com.mirage.view.drawers.DrawersManagerImpl
+import com.mirage.view.utils.getVirtualScreenPointFromScene
 
 class GameViewImpl(gameMapName: GameMapName, private val gameMap: GameMap) : GameView {
 

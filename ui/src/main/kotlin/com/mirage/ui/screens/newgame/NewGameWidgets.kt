@@ -3,10 +3,6 @@ package com.mirage.ui.screens.newgame
 import com.mirage.core.PLATFORM
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.widgets.*
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.CompositeWidget
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.LabelWidget
 
 
 private const val classBtnBorderSize = 4f
@@ -46,7 +42,7 @@ internal class NewGameWidgets(virtualScreen: VirtualScreen) {
             isVisible = false
     )
 
-    val descriptionLabel = LabelWidget(virtualScreen,"Choose starting specialization", 24f)
+    val descriptionLabel = LabelWidget(virtualScreen, "Choose starting specialization", 24f)
 
     val nameAreaBackground = ImageWidget(
             textureName = "ui/new-game/text-field-background",

@@ -85,7 +85,7 @@ internal fun InventoryWidgets.initializeSizeUpdaters() {
         itemBtns[i].sizeUpdater = { w, h ->
             Rectangle(
                     x = getRightColumnCenterX(w) + getItemBtnSize(w, h) * (i % 4 - 1.5f) + equipmentBtnMargin * (i % 4 - 1.5f),
-                    y = - (slotLabelHeight + pageNavigatorHeight) / 2f -
+                    y = -(slotLabelHeight + pageNavigatorHeight) / 2f -
                             getItemBtnSize(w, h) * (i / 4 - 1.5f) -
                             equipmentBtnMargin * (i / 4 - 1.5f),
                     width = getItemBtnSize(w, h),
@@ -107,4 +107,4 @@ private fun getRightColumnWidth(virtualWidth: Float): Float =
         virtualWidth * (1f - centerColumnWidthPart) / 2f
 
 private fun getItemBtnSize(virtualWidth: Float, virtualHeight: Float): Float =
-        min(getBorderedBtnSize(virtualWidth), (virtualHeight - slotLabelHeight - pageNavigatorHeight/ 5 * equipmentBtnMargin) / 4f)
+        min(getBorderedBtnSize(virtualWidth), (virtualHeight - slotLabelHeight - pageNavigatorHeight / 5 * equipmentBtnMargin) / 4f)

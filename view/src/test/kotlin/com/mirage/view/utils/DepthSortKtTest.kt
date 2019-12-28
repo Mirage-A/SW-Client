@@ -1,7 +1,7 @@
 package com.mirage.view.utils
 
-import com.mirage.core.TestSamples
 import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.utils.TestSamples
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -101,14 +101,14 @@ internal class DepthSortKtTest {
         )
 
         val unsortedObjs = listOf(
-                        0L to obj5,
-                        1L to obj2,
-                        2L to obj0,
-                        3L to obj7,
-                        4L to obj6,
-                        5L to obj3,
-                        6L to obj1,
-                        7L to obj4
+                0L to obj5,
+                1L to obj2,
+                2L to obj0,
+                3L to obj7,
+                4L to obj6,
+                5L to obj3,
+                6L to obj1,
+                7L to obj4
         )
 
         //Проверяем, что compare работает корректно

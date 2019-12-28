@@ -1,23 +1,9 @@
 package com.mirage.admin
 
-import com.badlogic.gdx.Net
-import com.badlogic.gdx.net.NetJavaSocketImpl
-import com.badlogic.gdx.net.Socket
-import com.badlogic.gdx.net.SocketHints
-import com.mirage.server.*
-import com.mirage.core.SERVER_ADDRESS
-import com.mirage.core.SERVER_PORT
-import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.messaging.MoveDirectionClientMessage
-import com.mirage.core.messaging.streams.impls.ClientMessageOutputStream
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.util.*
 import javax.swing.JFrame
 
 internal class Admin : JFrame() {
-
+/*
 
     private fun adminMessageListener(msg: AdminMessage) {
         when (msg) {
@@ -127,5 +113,5 @@ internal class Admin : JFrame() {
     init {
         Server.adminMessageListener = ::adminMessageListener
         gui.setTerminalInputListener(terminalInputListener)
-    }
+    }*/
 }

@@ -33,8 +33,7 @@ fun runScript(reader: Reader, args: LuaTable) {
     try {
         val chunk = luaGlobals.load(reader, "main")
         chunk.call(args)
-    }
-    catch(ex: Exception) {
+    } catch (ex: Exception) {
         Log.e("Error while evaluating script with args ${args.toStr()}")
         ex.printStackTrace()
     }
@@ -49,15 +48,19 @@ fun tableOf(vararg args: Pair<String, Any?>) = LuaTable().apply {
 fun LuaTable.toStr(): String =
         "LuaTable(${this.keys().joinToString { "$it: ${this[it]}" }})"
 
-fun <E> NavigableSet<E>.second() : E? = try { higher(first()) } catch(ex: NoSuchElementException) { null }
+fun <E> NavigableSet<E>.second(): E? = try {
+    higher(first())
+} catch (ex: NoSuchElementException) {
+    null
+}
 
-fun <K, V> Map<K, V>.mutableCopy() : MutableMap<K, V> = HashMap<K, V>().apply {
+fun <K, V> Map<K, V>.mutableCopy(): MutableMap<K, V> = HashMap<K, V>().apply {
     for ((key, value) in this@mutableCopy) {
         this[key] = value
     }
 }
 
-fun <T> treeSetOf(vararg args: T) : TreeSet<T> = TreeSet<T>().apply {
+fun <T> treeSetOf(vararg args: T): TreeSet<T> = TreeSet<T>().apply {
     for (arg in args) {
         add(arg)
     }
@@ -77,6 +80,6 @@ inline fun <T : Any> Queue<T>.processNewItems(block: (T) -> Unit) {
     }
 }
 
-inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T? = this.fromJson(json, T::class.java)
-inline fun <reified T: Any> Gson.fromJson(reader: Reader): T? = this.fromJson(reader, T::class.java)
-inline fun <reified T: Any> Gson.fromJson(str: String): T? = this.fromJson(str, T::class.java)
+inline fun <reified T : Any> Gson.fromJson(json: JsonElement): T? = this.fromJson(json, T::class.java)
+inline fun <reified T : Any> Gson.fromJson(reader: Reader): T? = this.fromJson(reader, T::class.java)
+inline fun <reified T : Any> Gson.fromJson(str: String): T? = this.fromJson(str, T::class.java)

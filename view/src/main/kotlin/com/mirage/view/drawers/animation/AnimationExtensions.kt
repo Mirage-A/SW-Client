@@ -8,28 +8,28 @@ internal fun getAnimationCurrentTime(animation: Animation, timePassed: Long) =
         if (animation.isRepeatable) timePassed % animation.duration
         else min(timePassed, animation.duration - 1L)
 
-internal fun getStartFrame(frames: List<Animation.Frame>, duration: Int, currentTime: Long) : Animation.Frame =
+internal fun getStartFrame(frames: List<Animation.Frame>, duration: Int, currentTime: Long): Animation.Frame =
         frames[(currentTime * (frames.size - 1) / duration).toInt()]
 
-internal fun getEndFrame(frames: List<Animation.Frame>, duration: Int, currentTime: Long) : Animation.Frame =
+internal fun getEndFrame(frames: List<Animation.Frame>, duration: Int, currentTime: Long): Animation.Frame =
         frames[min((currentTime * (frames.size - 1) / duration).toInt() + 1, frames.size - 1)]
 
-internal fun getAnimationProgress(frames: List<Animation.Frame>, duration: Int, currentTime: Long) : Float {
+internal fun getAnimationProgress(frames: List<Animation.Frame>, duration: Int, currentTime: Long): Float {
     val interval = duration / (frames.size - 1f)
     return currentTime % interval / interval
 }
 
 /** Draws animation layer at interpolated position */
-internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Float, y: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, scale: Float = 1f) {
+internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Float, y: Float, startLayer: Animation.Layer, endLayer: Animation.Layer, progress: Float, scale: Float = 1f) {
     val angle1 = (startLayer.angle % (2 * Math.PI)).toFloat()
     var angle2 = (endLayer.angle % (2 * Math.PI)).toFloat()
     if (angle2 > angle1) {
-        if (angle1  - angle2  + 2 * Math.PI < angle2 - angle1) {
+        if (angle1 - angle2 + 2 * Math.PI < angle2 - angle1) {
             angle2 -= 2 * Math.PI.toFloat()
         }
     }
     if (angle2 < angle1) {
-        if (angle2  - angle1  + 2 * Math.PI < angle1 - angle2) {
+        if (angle2 - angle1 + 2 * Math.PI < angle1 - angle2) {
             angle2 += 2 * Math.PI.toFloat()
         }
     }
@@ -61,9 +61,8 @@ internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Flo
 }
 
 
-
 /** Finds a layer with name [layerName] in [frame] or returns -1 if it is absent */
-internal fun findLayer(frame : Animation.Frame, layerName: String) : Int {
+internal fun findLayer(frame: Animation.Frame, layerName: String): Int {
     for (layerIndex in frame.layers.indices) {
         if (frame.layers[layerIndex].getName() == layerName) {
             return layerIndex
@@ -73,15 +72,15 @@ internal fun findLayer(frame : Animation.Frame, layerName: String) : Int {
 }
 
 /** Returns value, interpolated between [startValue] and [endValue] with interpolation progress [progress] */
-internal fun curValue(startValue: Float, endValue : Float, progress : Float) : Float {
+internal fun curValue(startValue: Float, endValue: Float, progress: Float): Float {
     return startValue + (endValue - startValue) * progress
 }
 
 /** @see curValue */
-internal fun curValue(startValue: Int, endValue : Int, progress : Float) : Float {
+internal fun curValue(startValue: Int, endValue: Int, progress: Float): Float {
     return startValue + (endValue - startValue) * progress
 }
 
 /** @see curValue */
-internal fun curValue(startPoint: Point, endPoint: Point, progress: Float) : Point =
-    Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))
+internal fun curValue(startPoint: Point, endPoint: Point, progress: Float): Point =
+        Point(curValue(startPoint.x, endPoint.x, progress), curValue(startPoint.y, endPoint.y, progress))

@@ -18,7 +18,7 @@ class Animation() {
     /**
      * Список кадров анимации
      */
-    var frames : ArrayList<Frame> = ArrayList()
+    var frames: ArrayList<Frame> = ArrayList()
     /**
      * Длительность (период) анимации
      */
@@ -35,7 +35,7 @@ class Animation() {
     /**
      * Конструктор считывания анимации из файла XML (.xml)
      */
-    constructor(inputStream : InputStream?) : this() {
+    constructor(inputStream: InputStream?) : this() {
         for (moveDirection in MoveDirection.values()) {
             data[moveDirection] = HashMap()
             for (weaponType in WeaponType.values()) {
@@ -82,8 +82,7 @@ class Animation() {
             }
 
             frames = data[MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
-        }
-        catch(ex: Exception) {
+        } catch (ex: Exception) {
             Log.e("Unexpected error occurred:\n" + ex.message)
         }
     }
@@ -92,13 +91,13 @@ class Animation() {
     /**
      * Кадр анимации
      */
-    data class Frame(var layers : ArrayList<Layer> = ArrayList())
+    data class Frame(var layers: ArrayList<Layer> = ArrayList())
 
     /**
      * Слой на кадре анимации
      */
-    data class Layer (var imageName: String, var x : Float = 0f, var y : Float = 0f, var scale : Float = 1f, var scaleX : Float = 1f,
-                 var scaleY : Float = 1f, var angle : Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
+    data class Layer(var imageName: String, var x: Float = 0f, var y: Float = 0f, var scale: Float = 1f, var scaleX: Float = 1f,
+                     var scaleY: Float = 1f, var angle: Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
         /**
          * Обрезает формат изображения и возвращает название слоя
          */
@@ -107,7 +106,7 @@ class Animation() {
         /**
          * Возвращает точку - координаты слоя
          */
-        fun getPosition() : Point {
+        fun getPosition(): Point {
             return Point(x, y)
         }
 

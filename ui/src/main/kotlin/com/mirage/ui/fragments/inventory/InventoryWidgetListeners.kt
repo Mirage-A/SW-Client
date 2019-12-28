@@ -81,12 +81,11 @@ private fun InventoryWidgets.selectEquipmentSlot(inventoryState: InventoryState,
     val loadPage: (Int) -> Unit = {
         val startIndex = it * itemBtnsCount
         for (i in 0 until itemBtnsCount) {
-            with (itemBtns[i]) {
+            with(itemBtns[i]) {
                 isVisible = if (startIndex + i < itemsCount) {
                     onPressed = { openItemMessage(inventoryState, slot, availableItems[startIndex + i]) }
                     true
-                }
-                else false
+                } else false
             }
         }
         updateSelectSlotBtns(inventoryState)

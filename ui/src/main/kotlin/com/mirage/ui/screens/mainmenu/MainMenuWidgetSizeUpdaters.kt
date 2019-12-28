@@ -4,7 +4,6 @@ import com.mirage.core.DEFAULT_SCREEN_HEIGHT
 import com.mirage.core.DEFAULT_SCREEN_WIDTH
 import com.mirage.core.datastructures.Rectangle
 import kotlin.math.max
-import kotlin.math.min
 
 
 private const val btnWidth = 400f

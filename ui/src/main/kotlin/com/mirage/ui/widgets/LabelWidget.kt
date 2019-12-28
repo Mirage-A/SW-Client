@@ -15,7 +15,9 @@ internal class LabelWidget(
 
     var text: String
         get() = label.text
-        set(value) { label.text = value }
+        set(value) {
+            label.text = value
+        }
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
         label.rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()

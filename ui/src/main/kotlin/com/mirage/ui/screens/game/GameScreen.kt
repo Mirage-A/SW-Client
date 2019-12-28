@@ -1,27 +1,12 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.view.GameViewImpl
-import com.mirage.view.utils.getVirtualScreenPointFromScene
-import com.mirage.ui.screens.Screen
-import com.mirage.core.DELTA_CENTER_Y
-import com.mirage.core.TestSamples
-import com.mirage.core.datastructures.Point
 import com.mirage.core.extensions.GameMapName
-import com.mirage.core.game.maps.GameMap
-import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.states.GameStateSnapshot
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.SnapshotManager
-import com.mirage.core.game.states.StateDifference
 import com.mirage.core.messaging.*
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.screens.AbstractScreen
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.Widget
-import rx.Observable
-import kotlin.math.min
 
 class GameScreen(
         virtualScreen: VirtualScreen,

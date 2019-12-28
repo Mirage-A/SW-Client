@@ -1,7 +1,7 @@
 package com.mirage.ui.fragments.inventory
 
 import com.mirage.core.datastructures.Point
-import com.mirage.core.game.objects.properties.*
+import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.widgets.Widget
@@ -16,12 +16,12 @@ internal class InventoryFragment(virtualScreen: VirtualScreen, onClose: () -> Un
     }
 
     fun open() {
-        with (inventoryState) {
+        with(inventoryState) {
             initialEquipment = Prefs.profile.currentEquipment
             equipment = initialEquipment.copy()
             selectedSlot = null
         }
-        with (subWidgets) {
+        with(subWidgets) {
             pageNavigator.isVisible = false
             itemBtns.forEach { it.isVisible = false }
             selectedSlotLabel.text = "Inventory"

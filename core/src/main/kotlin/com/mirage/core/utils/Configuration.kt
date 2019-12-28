@@ -5,7 +5,7 @@ const val COMPLETED_QUEST_PHASE = 1000000
 const val LOG_ALL_MESSAGES = true
 
 const val OUTER_DLMTR = '\n' //Символ, который должен вставляться в конец каждого сериализованного сообщения
-                            // Этот символ лучше не менять - ClientMessageInputStream читает сообщения построчно
+// Этот символ лучше не менять - ClientMessageInputStream читает сообщения построчно
 const val INNER_DLMTR = '@'//'φ' //Символ, который должен вставляться внутри сериализованного сообщения для разделения элементов
 const val MAP_OBJ_DLMTR = '|'//'ξ' //Символ, по которому разделяются элементы объекта
 const val PROPS_DLMTR = '&'//'ψ' //Символ, по которому разделяются properties
@@ -16,7 +16,7 @@ const val SERVER_ADDRESS = "localhost" //Адрес сервера
 const val INTERPOLATION_DELAY_MILLIS = 250L //Задержка в отображении состояния сцены
 
 const val MAX_EXTRAPOLATION_INTERVAL = 250L //Максимальный интервал после получения последнего сообщения, после которого
-                                            //экстраполяция не выполняется
+//экстраполяция не выполняется
 
 const val GAME_LOOP_TICK_INTERVAL = 100L //Интервал между повторениями цикла логики
 

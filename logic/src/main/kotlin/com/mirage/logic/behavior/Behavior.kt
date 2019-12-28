@@ -2,7 +2,7 @@ package com.mirage.logic.behavior
 
 import com.mirage.core.extensions.EntityID
 import com.mirage.core.extensions.IntervalMillis
-import com.mirage.logic.LogicData
+import com.mirage.logic.data.LogicData
 import org.luaj.vm2.LuaValue
 
 /**

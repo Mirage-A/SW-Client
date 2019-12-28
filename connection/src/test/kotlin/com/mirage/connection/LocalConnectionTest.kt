@@ -1,11 +1,9 @@
 package com.mirage.connection
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.messaging.*
+import com.mirage.core.messaging.InitialGameStateMessage
+import com.mirage.core.messaging.ServerMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 
 internal class LocalConnectionTest {

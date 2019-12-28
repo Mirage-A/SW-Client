@@ -48,8 +48,7 @@ private fun GameWidgets.updateSkillBtns(gameState: GameState) {
         val cd = gameState.skillCoolDowns[i]
         if (skill == null) {
             btn.isVisible = false
-        }
-        else {
+        } else {
             btn.isVisible = true
             btn.textureName = if (cd == 0L) "skills/colored/$skill" else "skills/uncolored/$skill"
             btn.highlightedTextureName = btn.textureName

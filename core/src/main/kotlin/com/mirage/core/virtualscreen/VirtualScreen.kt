@@ -28,12 +28,12 @@ interface VirtualScreen {
     /** Translates coordinates of a point on real screen to virtual screen */
     fun projectRealPointOnVirtualScreen(realPoint: Point): Point = Point(
             x = (realPoint.x - realWidth / 2) * (width / realWidth),
-            y = - (realPoint.y - realHeight / 2) * (height / realHeight)
+            y = -(realPoint.y - realHeight / 2) * (height / realHeight)
     )
 
     fun projectVirtualPointOnRealScreen(virtualPoint: Point): Point = Point(
             x = virtualPoint.x * (realWidth / width) + realWidth / 2,
-            y = - virtualPoint.y * (realHeight / height) + realHeight / 2
+            y = -virtualPoint.y * (realHeight / height) + realHeight / 2
     )
 
     /** Start rendering a new frame. This method must be called before any draw */
@@ -72,15 +72,16 @@ interface VirtualScreen {
      * Creates a label to draw text [text] inside rectangle [rect].
      * Use [Label.draw] to render this text on virtual screen.
      */
-    fun createLabel(text: String, rect: Rectangle) : Label
-    fun createLabel(text: String) : Label = createLabel(text, Rectangle())
-    fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
-    fun createLabel(text: String, fontCapHeight: Float) : Label = createLabel(text, Rectangle(), fontCapHeight)
+    fun createLabel(text: String, rect: Rectangle): Label
 
-    fun createTextField(hint: String, rect: Rectangle) : TextField
-    fun createTextField(hint: String) : TextField = createTextField(hint, Rectangle())
-    fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float) : TextField
-    fun createTextField(hint: String, fontCapHeight: Float) : TextField = createTextField(hint, Rectangle(), fontCapHeight)
+    fun createLabel(text: String): Label = createLabel(text, Rectangle())
+    fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float): Label
+    fun createLabel(text: String, fontCapHeight: Float): Label = createLabel(text, Rectangle(), fontCapHeight)
+
+    fun createTextField(hint: String, rect: Rectangle): TextField
+    fun createTextField(hint: String): TextField = createTextField(hint, Rectangle())
+    fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float): TextField
+    fun createTextField(hint: String, fontCapHeight: Float): TextField = createTextField(hint, Rectangle(), fontCapHeight)
 
 
     /** Draws a texture [textureName] with center at point ([x]. [y])*/

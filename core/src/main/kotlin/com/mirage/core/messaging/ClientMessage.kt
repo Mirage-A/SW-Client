@@ -1,6 +1,5 @@
 package com.mirage.core.messaging
 
-import com.mirage.core.datastructures.Point
 import com.mirage.core.extensions.EntityID
 import com.mirage.core.game.objects.properties.MoveDirection
 
@@ -49,9 +48,9 @@ data class CastSkillClientMessage(val skillID: Int, val targetID: Long?) : Clien
 /** Message of trying to interact with entity [entityID] through interaction button */
 data class InteractionClientMessage(val entityID: EntityID) : ClientMessage()
 
-data class SetTargetClientMessage(val targetID: EntityID?): ClientMessage()
+data class SetTargetClientMessage(val targetID: EntityID?) : ClientMessage()
 
-data class RegisterClientMessage(val nickname: String, val login: String, val password: String): ClientMessage()
+data class RegisterClientMessage(val nickname: String, val login: String, val password: String) : ClientMessage()
 
 data class LoginClientMessage(val login: String, val password: String) : ClientMessage()
 
@@ -73,6 +72,7 @@ data class ChangeSceneClientMessage(val newScene: Scene) : ClientMessage() {
     }
 
 }
+
 /** This message is handled by client and does not reach game logic */
 data class ExitClientMessage(val exitCode: Int) : ClientMessage()
 

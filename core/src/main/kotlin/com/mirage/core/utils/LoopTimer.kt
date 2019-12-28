@@ -29,11 +29,11 @@ class LoopTimer(private val delayMillis: Long, private val onUpdate: (TimeMillis
                     val updateTime = secondTime - time
                     if (updateTime < delayMillis) {
                         if (updateTime < delayMillis - 5L) Thread.sleep(delayMillis - updateTime - 5L)
-                        while (System.currentTimeMillis() < time + delayMillis) {}
+                        while (System.currentTimeMillis() < time + delayMillis) {
+                        }
                     }
                 }
-            }
-            else Thread.sleep(10L)
+            } else Thread.sleep(10L)
         }
     }
 

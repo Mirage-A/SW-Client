@@ -3,7 +3,7 @@ package com.mirage.core.game.states
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class GameStateSnapshotTest{
+internal class GameStateSnapshotTest {
 
     @Test
     fun test() {

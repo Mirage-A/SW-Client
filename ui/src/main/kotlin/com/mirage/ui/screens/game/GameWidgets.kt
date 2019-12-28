@@ -1,20 +1,11 @@
 package com.mirage.ui.screens.game
 
 import com.badlogic.gdx.Input
-import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.fragments.gameview.GameViewFragment
 import com.mirage.ui.fragments.quests.QuestFragment
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.*
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.CircleButton
-import com.mirage.ui.widgets.CompositeWidget
-import com.mirage.ui.widgets.ConfirmMessage
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.ResourcePane
-import com.mirage.ui.widgets.TargetNameArea
-import com.mirage.ui.widgets.Widget
 
 
 private const val skillCoolDownFontSize = 20f
@@ -72,7 +63,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
     val microMenu = CompositeWidget(settingsBtn, questsBtn)
     val settingsMenu = CompositeWidget(leaveGameBtn, isVisible = false)
 
-    val confirmExitMessage : ConfirmMessage = ConfirmMessage(
+    val confirmExitMessage: ConfirmMessage = ConfirmMessage(
             virtualScreen = virtualScreen,
             title = "Main menu",
             description = "Do you want to leave game and open main menu?\nUnsaved progress will be lost.",

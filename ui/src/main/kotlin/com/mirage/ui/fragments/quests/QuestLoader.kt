@@ -31,8 +31,7 @@ object QuestLoader {
             val args = tableOf("name" to questName, "phase" to questPhase, "answer" to answer)
             runScript(reader, args)
             answer.get()
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             "$questName $questPhase"
         }
     }

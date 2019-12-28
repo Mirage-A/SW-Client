@@ -12,14 +12,14 @@ interface SimplifiedObject {
     val y: Float
 
     /** Creates a simplified copy of an object */
-    fun simplifiedCopy() : SimplifiedObject
+    fun simplifiedCopy(): SimplifiedObject
 
     /** Creates a copy of this object with changed parameters */
     fun with(
             template: String = this.template,
             x: Float = this.x,
             y: Float = this.y
-    ) : SimplifiedObject
+    ): SimplifiedObject
 
     val position: Point
         get() = Point(x, y)

@@ -4,7 +4,7 @@ apply plugin: "kotlin-android"
 configurations { natives }
 dependencies {
     implementation project(":client")
-    implementation project(":utils")
+    implementation project(":core")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
@@ -51,7 +51,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.mirage"
+        applicationId "com.mirage.android"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -121,7 +121,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.mirage/com.mirage.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.mirage/com.mirage.android.AndroidLauncher'
 }
 // sets up the Android Idea project, using the old Ant based build.
 idea {

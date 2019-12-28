@@ -1,12 +1,12 @@
-package com.mirage.logic
+package com.mirage.logic.data
 
 import com.google.gson.Gson
-import com.mirage.core.TestSamples
 import com.mirage.core.extensions.fromJson
 import com.mirage.core.game.objects.extended.ExtendedBuilding
 import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.utils.TestSamples
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -57,14 +57,14 @@ internal class ExtendedSceneLoaderTest {
         assertEquals(map.width, 2)
         assertEquals(map.height, 2)
         assertEquals(map.tileSetName, "city")
-        assert(map.isTileWalkable(0,0))
-        assert(map.isTileShootable(0,0))
-        assert(!map.isTileWalkable(1,0))
-        assert(map.isTileShootable(1,0))
-        assert(!map.isTileWalkable(0,1))
-        assert(!map.isTileShootable(0,1))
-        assert(map.isTileWalkable(1,1))
-        assert(map.isTileShootable(1,1))
+        assert(map.isTileWalkable(0, 0))
+        assert(map.isTileShootable(0, 0))
+        assert(!map.isTileWalkable(1, 0))
+        assert(map.isTileShootable(1, 0))
+        assert(!map.isTileWalkable(0, 1))
+        assert(!map.isTileShootable(0, 1))
+        assert(map.isTileWalkable(1, 1))
+        assert(map.isTileShootable(1, 1))
         assertEquals(1, map.getTileID(0, 0))
         assertEquals(2, map.getTileID(1, 0))
         assertEquals(3, map.getTileID(0, 1))

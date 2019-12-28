@@ -7,10 +7,9 @@ import com.mirage.core.extensions.SkillNames
 import com.mirage.core.extensions.tableOf
 import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.objects.properties.Equipment
-import com.mirage.core.game.objects.properties.EquipmentData
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.messaging.*
-import com.mirage.logic.LogicData
+import com.mirage.logic.data.LogicData
 import com.mirage.logic.processors.moveObject
 import com.mirage.logic.processors.runAssetScript
 import org.luaj.vm2.LuaValue
@@ -29,7 +28,7 @@ internal class PlayerBehavior(
     private var targetID: EntityID? = null
 
     override fun onUpdate(delta: IntervalMillis, data: LogicData, coercedScriptActions: LuaValue) {
-        with (data) {
+        with(data) {
             entity.action = if (entity.isMoving) "running" else "idle"
             if (entity.isMoving) {
                 moveObject(entity, delta, gameMap, state)
@@ -49,7 +48,7 @@ internal class PlayerBehavior(
     }
 
     fun handleClientMessage(msg: ClientMessage, data: LogicData, coercedScriptActions: LuaValue) {
-        with (data) {
+        with(data) {
             when (msg) {
                 is MoveDirectionClientMessage -> {
                     state.entities[id]?.moveDirection = msg.md

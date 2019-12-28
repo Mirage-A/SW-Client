@@ -1,8 +1,10 @@
 package com.mirage.logic
 
-import com.mirage.core.extensions.*
+import com.mirage.core.extensions.EntityID
+import com.mirage.core.extensions.PlayerCreationRequest
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
+import com.mirage.logic.data.PlayerTransferRequest
 import java.util.*
 
 /** Game logic facade */

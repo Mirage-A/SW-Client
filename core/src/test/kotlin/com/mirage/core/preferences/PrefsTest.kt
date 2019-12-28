@@ -16,7 +16,7 @@ internal class PrefsTest {
 
     @Test
     fun testHeadlessProfileInfo() {
-        val appListener: ApplicationListener = object: ApplicationListener {
+        val appListener: ApplicationListener = object : ApplicationListener {
             override fun render() {}
             override fun pause() {}
             override fun resume() {}

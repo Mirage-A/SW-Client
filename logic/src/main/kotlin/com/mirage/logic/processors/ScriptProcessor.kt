@@ -1,11 +1,11 @@
 package com.mirage.logic.processors
 
-import com.mirage.logic.LogicData
 import com.mirage.core.Assets
 import com.mirage.core.datastructures.Point
 import com.mirage.core.extensions.TimeMillis
 import com.mirage.core.extensions.runScript
 import com.mirage.core.extensions.tableOf
+import com.mirage.logic.data.LogicData
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
 
@@ -42,8 +42,8 @@ internal fun LogicData.processScriptAreas(coercedScriptActions: LuaValue) {
 }
 
 internal fun LogicData.invokeDelayedScripts(currentTime: TimeMillis, coercedScriptActions: LuaValue) {
-    while (delayedScripts.isNotEmpty() && delayedScripts.peek().first < currentTime) {
-        val (name, args) = delayedScripts.poll().second
+    while (delayedScripts.isNotEmpty() && delayedScripts.peek().invocationTime < currentTime) {
+        val (_, name, args) = delayedScripts.poll()
         runAssetScript("scenes/$gameMapName/scripts/$name", args, coercedScriptActions)
     }
 }

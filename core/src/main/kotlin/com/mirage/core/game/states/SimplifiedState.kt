@@ -9,9 +9,9 @@ open class SimplifiedState(
         open val entities: Map<Long, SimplifiedEntity> = HashMap()
 ) {
 
-    constructor(buildingsList: List<SimplifiedBuilding>, entitiesList: List<SimplifiedEntity>): this(
-            mutableMap(buildingsList.size, {it.toLong()}, {buildingsList[it]}),
-            mutableMap(entitiesList.size, {it.toLong()}, {entitiesList[it]})
+    constructor(buildingsList: List<SimplifiedBuilding>, entitiesList: List<SimplifiedEntity>) : this(
+            mutableMap(buildingsList.size, { it.toLong() }, { buildingsList[it] }),
+            mutableMap(entitiesList.size, { it.toLong() }, { entitiesList[it] })
     )
 
     fun simplifiedDeepCopy(): SimplifiedState = SimplifiedState(

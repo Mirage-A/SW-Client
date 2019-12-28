@@ -7,6 +7,9 @@ import com.mirage.core.game.objects.extended.ExtendedBuilding
 import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.states.ExtendedState
 import com.mirage.core.messaging.*
+import com.mirage.logic.data.DelayedScriptRequest
+import com.mirage.logic.data.LogicData
+import com.mirage.logic.data.PlayerTransferRequest
 import com.mirage.logic.processors.runAssetScript
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
@@ -21,7 +24,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
     }
 
     override fun runSceneScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long) {
-        data.delayedScripts.add((System.currentTimeMillis() + timeout) to (scriptName to args))
+        data.delayedScripts.add(DelayedScriptRequest(System.currentTimeMillis() + timeout, scriptName, args))
     }
 
     override fun getState(): ExtendedState = data.state

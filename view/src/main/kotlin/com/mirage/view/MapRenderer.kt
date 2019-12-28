@@ -1,12 +1,12 @@
 package com.mirage.view
 
-import com.mirage.view.utils.getScenePointFromVirtualScreen
-import com.mirage.view.utils.getVirtualScreenPointFromScene
 import com.mirage.core.TILE_WIDTH
 import com.mirage.core.datastructures.Point
 import com.mirage.core.extensions.trunc
 import com.mirage.core.game.maps.GameMap
 import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.view.utils.getScenePointFromVirtualScreen
+import com.mirage.view.utils.getVirtualScreenPointFromScene
 
 /** Renders game map tiles */
 fun renderGameMap(virtualScreen: VirtualScreen, gameMap: GameMap, cameraX: Float, cameraY: Float) {
@@ -25,12 +25,10 @@ fun renderGameMap(virtualScreen: VirtualScreen, gameMap: GameMap, cameraX: Float
             try {
                 if (i in 0 until gameMap.width && j in 0 until gameMap.height) {
                     virtualScreen.drawTile(gameMap.getTileID(i, j), textureX, textureY)
-                }
-                else {
+                } else {
                     virtualScreen.drawTile(gameMap.defaultTileID, textureX, textureY)
                 }
-            }
-            catch(ex: Exception) {
+            } catch (ex: Exception) {
                 ex.printStackTrace()
             }
         }

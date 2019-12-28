@@ -3,15 +3,11 @@ package com.mirage.ui.fragments.gameview
 import com.badlogic.gdx.Input
 import com.mirage.core.DELTA_CENTER_Y
 import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.rangeBetween
 import com.mirage.core.extensions.EntityID
-import com.mirage.core.extensions.GameMapName
 import com.mirage.core.extensions.IntervalMillis
 import com.mirage.core.extensions.TimeMillis
-import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.states.GameStateSnapshot
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.game.states.SnapshotManager
 import com.mirage.core.game.states.StateDifference

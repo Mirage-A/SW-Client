@@ -22,9 +22,9 @@ import kotlin.math.roundToInt
 
 
 open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
-                           initialVirtualHeight: Float = 0f,
-                           initialRealWidth: Float = 0f,
-                           initialRealHeight: Float = 0f) : VirtualScreen {
+                                initialVirtualHeight: Float = 0f,
+                                initialRealWidth: Float = 0f,
+                                initialRealHeight: Float = 0f) : VirtualScreen {
 
 
     override var width: Float = initialVirtualWidth
@@ -33,7 +33,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     override var realHeight: Float = initialRealHeight
 
 
-    private val camera : OrthographicCamera = OrthographicCamera()
+    private val camera: OrthographicCamera = OrthographicCamera()
 
     private val batch: SpriteBatch by lazy(LazyThreadSafetyMode.NONE) {
         SpriteBatch().apply {
@@ -82,7 +82,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun drawColorOnAllScreen(r: Float, g: Float, b: Float, a: Float) {
         batch.setColor(r, g, b, a)
-        batch.draw(getTexture("white"), - width / 2f, - height / 2f, width, height)
+        batch.draw(getTexture("white"), -width / 2f, -height / 2f, width, height)
         batch.color = Color.WHITE
     }
 
@@ -172,7 +172,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun draw(textureName: String, x: Float, y: Float, width: Float, height: Float) {
         val texture = getTexture(textureName)
-        batch.draw(texture, x - width / 2f,y - height / 2f, width, height)
+        batch.draw(texture, x - width / 2f, y - height / 2f, width, height)
     }
 
     override fun draw(textureName: String, rect: Rectangle) =
@@ -208,7 +208,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun createLabel(text: String, rect: Rectangle): VirtualScreen.Label = GdxLabel(text, rect)
 
-    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
+    override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
     override fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField =
             GdxTextField(hint, rect, fontCapHeight).also { stage.addActor(it.textField) }
@@ -285,7 +285,9 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
         override var text: String
             get() = textField.text
-            set(value) { textField.text = value }
+            set(value) {
+                textField.text = value
+            }
 
 
         private val skin = Skin().apply {

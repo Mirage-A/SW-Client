@@ -1,10 +1,8 @@
 package com.mirage.core.game.states
 
 import com.mirage.core.INTERPOLATION_DELAY_MILLIS
-import com.mirage.core.Log
 import com.mirage.core.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.core.extensions.TimeMillis
-import com.mirage.core.extensions.second
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.simplified.SimplifiedEntity
 import com.mirage.core.game.objects.simplified.SimplifiedObject

@@ -25,11 +25,13 @@ internal interface LogicScriptActions {
 
     /** Returns game map */
     fun getGameMap(): GameMap
+
     /** Returns game map name */
     fun getGameMapName(): String
 
     /** Finds any entity with the name [name] */
     fun findEntityID(name: String): Long?
+
     /** Finds any building with the name [name] */
     fun findBuildingID(name: String): Long?
 
@@ -40,6 +42,7 @@ internal interface LogicScriptActions {
 
     /** Finds all entities with the name [name] */
     fun findAllEntityIDs(name: String): List<Long>
+
     /** Finds all buildings with the name [name] */
     fun findAllBuildingIDs(name: String): List<Long>
 
@@ -60,6 +63,7 @@ internal interface LogicScriptActions {
 
     /** Sets a cooldown for player's skill */
     fun setSkillCooldown(playerID: EntityID, skillID: Int, cooldown: Float)
+
     /** Returns current cooldown of player's skill */
     fun getSkillCooldown(playerID: EntityID, skillID: Int): Float
 
@@ -68,21 +72,25 @@ internal interface LogicScriptActions {
 
     /** Sends a text message to player. It will be displayed as a small text on top of player's screen */
     fun sendTextMessage(playerID: EntityID, message: String)
+
     /** Sends a text message to all players in this room */
     fun sendTextMessageToAll(message: String)
 
     /** Returns player's current phase in global quest [questName]. Returns 0 by default (if quest was not started yet). */
     fun getGlobalQuestPhase(playerID: EntityID, questName: String): Int
+
     /** Returns player's current phase in local quest [questName]. Returns 0 by default (if quest was not started yet). */
     fun getLocalQuestPhase(playerID: EntityID, questName: String): Int
 
     /** Sets the current phase of global quest [questName] for player [playerID] to [newPhase] and sends message about it to this player. */
     fun setGlobalQuestPhase(playerID: EntityID, questName: String, newPhase: Int)
+
     /** Sets the current phase of local quest [questName] for player [playerID] to [newPhase] and sends message about it to this player. */
     fun setLocalQuestPhase(playerID: EntityID, questName: String, newPhase: Int)
 
     /** Sends a player [playerID] to map [mapName] with "return code" [code] (e.g. 0 for successful mission, -1 for death etc) */
     fun sendPlayerToAnotherMap(playerID: EntityID, mapName: String, code: Int)
+
     /** Removes a player [playerID] from this map with "return code" [code] */
     fun kickPlayerFromMap(playerID: EntityID, code: Int)
 

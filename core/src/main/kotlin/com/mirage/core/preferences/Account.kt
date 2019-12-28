@@ -1,7 +1,5 @@
 package com.mirage.core.preferences
 
-import kotlin.collections.ArrayList
-
 class Account {
 
     val profiles = ArrayList<String>()

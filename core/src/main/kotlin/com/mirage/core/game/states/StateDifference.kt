@@ -23,10 +23,10 @@ data class StateDifference(
 
 }
 
-data class Difference<T: SimplifiedObject>(
-        val new : Map<Long, T> = HashMap(),
-        val removed : Collection<Long> = TreeSet(),
-        val changed : Map<Long, T> = HashMap()
+data class Difference<T : SimplifiedObject>(
+        val new: Map<Long, T> = HashMap(),
+        val removed: Collection<Long> = TreeSet(),
+        val changed: Map<Long, T> = HashMap()
 ) {
 
     constructor(originState: Map<Long, T>, finalState: Map<Long, T>) : this(
@@ -35,7 +35,7 @@ data class Difference<T: SimplifiedObject>(
             changed = finalState.filterNot { it.value == originState[it.key] ?: it.value }
     )
 
-    fun projectOn(originState: Map<Long, T>) : Map<Long, T> =
+    fun projectOn(originState: Map<Long, T>): Map<Long, T> =
             originState
                     .filterKeys { !removed.contains(it) }
                     .mapValues { changed[it.key] ?: it.value }

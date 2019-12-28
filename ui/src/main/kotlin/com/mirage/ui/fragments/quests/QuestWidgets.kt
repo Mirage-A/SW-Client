@@ -1,11 +1,7 @@
 package com.mirage.ui.fragments.quests
 
 import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.CompositeWidget
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.LabelWidget
-import com.mirage.ui.widgets.PageNavigator
+import com.mirage.ui.widgets.*
 
 private const val questHeadLabelFontSize = 32f
 private const val questPageLabelFontSize = 24f

@@ -1,6 +1,5 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.datastructures.Point
 import com.mirage.core.datastructures.Rectangle
 
 
@@ -92,6 +91,7 @@ internal fun GameWidgets.initializeSizeUpdaters() {
     retryBtn.sizeUpdater = { _, h ->
         Rectangle(0f, -h / 2f + btnHeight * 1.5f + gameOverMargin, btnWidth, btnHeight)
     }
-    mainMenuBtn.sizeUpdater = {_, h ->
-        Rectangle(0f, - h / 2f + btnHeight * 0.5f + gameOverMargin, btnWidth, btnHeight) }
+    mainMenuBtn.sizeUpdater = { _, h ->
+        Rectangle(0f, -h / 2f + btnHeight * 0.5f + gameOverMargin, btnWidth, btnHeight)
+    }
 }

@@ -12,7 +12,6 @@ internal fun QuestWidgets.initializeListeners(questState: QuestState) {
 }
 
 
-
 internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
     fun sortQuests(quests: QuestProgress) =
             // Active quests
@@ -35,8 +34,7 @@ internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
                 btns[i].apply {
                     if (startBtnIndex + i >= quests.size) {
                         isVisible = false
-                    }
-                    else {
+                    } else {
                         isVisible = true
                         val (questName, questPhase) = quests[startBtnIndex + i]
                         boundedLabel?.text = QuestLoader.getGuiQuestName(questName, questPhase, questState.gameMapName, questType)
@@ -55,8 +53,7 @@ internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
                                         if (questState.selectedLocalQuest == questName) null else questName
                                 updateSelectedQuest(questState)
                             }
-                        }
-                        else {
+                        } else {
                             {
                                 questState.selectedLocalQuest = null
                                 questState.selectedGlobalQuest =
@@ -106,8 +103,7 @@ private fun QuestWidgets.updateSelectedQuest(questState: QuestState) {
                 isQuestSelected = false
                 selectedQuestGuiName = ""
                 selectedQuestGuiDescription = ""
-            }
-            else {
+            } else {
                 isQuestSelected = true
                 selectedQuestGuiName = QuestLoader.getGuiQuestName(
                         questName, questPhase, questState.gameMapName, QuestLoader.QuestType.GLOBAL
@@ -123,8 +119,7 @@ private fun QuestWidgets.updateSelectedQuest(questState: QuestState) {
                 isQuestSelected = false
                 selectedQuestGuiName = ""
                 selectedQuestGuiDescription = ""
-            }
-            else {
+            } else {
                 isQuestSelected = true
                 selectedQuestGuiName = QuestLoader.getGuiQuestName(
                         localQ, questPhase, questState.gameMapName, QuestLoader.QuestType.LOCAL

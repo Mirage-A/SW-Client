@@ -3,7 +3,7 @@ package com.mirage.core.messaging
 import me.khol.reactive.subjects.EventSubject
 import rx.Subscription
 
-class EventSubjectAdapter<T>(private val subj: EventSubject<T> = EventSubject.create<T>()) : rx.subjects.Subject<T, T> ({
+class EventSubjectAdapter<T>(private val subj: EventSubject<T> = EventSubject.create<T>()) : rx.subjects.Subject<T, T>({
 
     it.add(object : Subscription {
         val subs = subj.subscribe(it::onNext, it::onError, it::onCompleted)

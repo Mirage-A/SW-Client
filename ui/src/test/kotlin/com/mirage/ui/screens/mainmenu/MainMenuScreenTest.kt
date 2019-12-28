@@ -15,28 +15,27 @@ internal class MainMenuScreenTest {
     @Test
     fun testMainMenuRendering() {
         val mock = createVirtualScreenMock(1600f, 900f)
-        val menuScreen = MainMenuScreen(mock)
         var lastMsg: ClientMessage? = null
         var msgCount = 0
-        menuScreen.inputMessages.subscribe {
+        val menuScreen = MainMenuScreen(mock) {
             lastMsg = it
             ++msgCount
         }
-        menuScreen.render(mock, 0L)
+        menuScreen.render(mock)
         verify(mock, times(3)).draw(eq("ui/main-menu-btn"), any())
         verify(mock, times(1)).draw(eq("ui/art"), eq(0f), eq(0f), any(), any())
         clearInvocations(mock)
-        menuScreen.inputProcessor.touchDown(800, 850, 0, 0)
-        menuScreen.render(mock, 0L)
+        menuScreen.touchDown(800, 850, 0, 0)
+        menuScreen.render(mock)
         verify(mock, times(2)).draw(eq("ui/main-menu-btn"), any())
         verify(mock, times(1)).draw(eq("ui/main-menu-btn-pressed"), any())
         verify(mock, times(1)).draw(eq("ui/art"), eq(0f), eq(0f), any(), any())
         clearInvocations(mock)
         assertEquals(0, msgCount)
         assertEquals(null, lastMsg)
-        menuScreen.inputProcessor.touchUp(800, 850, 0, 0)
-        menuScreen.inputProcessor.mouseMoved(800, 850)
-        menuScreen.render(mock, 0L)
+        menuScreen.touchUp(800, 850, 0, 0)
+        menuScreen.mouseMoved(800, 850)
+        menuScreen.render(mock)
         verify(mock, times(2)).draw(eq("ui/main-menu-btn"), any())
         verify(mock, times(1)).draw(eq("ui/main-menu-btn-highlighted"), any())
         verify(mock, times(1)).draw(eq("ui/art"), eq(0f), eq(0f), any(), any())
@@ -46,7 +45,7 @@ internal class MainMenuScreenTest {
 
     }
 
-    private fun createVirtualScreenMock(width: Float, height: Float, realWidth: Float = width, realHeight: Float = height) : VirtualScreen {
+    private fun createVirtualScreenMock(width: Float, height: Float, realWidth: Float = width, realHeight: Float = height): VirtualScreen {
         val mock: VirtualScreenGdxImpl = mock()
         whenever(mock.width) doReturn width
         whenever(mock.height) doReturn height

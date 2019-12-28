@@ -63,7 +63,7 @@ enum class MoveDirection {
         }
 
 
-        fun fromString(str: String) : MoveDirection {
+        fun fromString(str: String): MoveDirection {
             return when (str) {
                 "RIGHT" -> RIGHT
                 "UP_RIGHT" -> UP_RIGHT

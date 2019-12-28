@@ -1,4 +1,4 @@
-package com.mirage.logic
+package com.mirage.logic.data
 
 import com.google.gson.reflect.TypeToken
 import com.mirage.core.Assets
@@ -8,7 +8,6 @@ import com.mirage.core.extensions.EntityID
 import com.mirage.core.extensions.GameMapName
 import com.mirage.core.extensions.fromJson
 import com.mirage.core.game.maps.SceneLoader
-import com.mirage.core.game.maps.ScriptArea
 import com.mirage.core.game.objects.extended.ExtendedBuilding
 import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
@@ -19,7 +18,7 @@ import com.mirage.logic.behavior.NullBehavior
 import java.io.Reader
 import java.lang.reflect.Type
 
-class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
+internal class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
 
     private val cachedEntityTemplates = HashMap<String, ExtendedEntity>()
     private val cachedBuildingTemplates = HashMap<String, ExtendedBuilding>()
@@ -32,15 +31,13 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
                     val loaded = gson.fromJson<BehaviorInfoWrapper>(getEntityTemplateReader(entityTemplate)!!)!!.behavior!!
                     cachedBehaviorInfo[entityTemplate] = loaded
                     loaded
-                }
-                else cached
+                } else cached
                 when (info["type"]) {
                     "null" -> NullBehavior()
                     "dummy" -> DummyBehavior(entityID, data)
                     else -> NullBehavior()
                 }
-            }
-            catch(ex: Exception) {
+            } catch (ex: Exception) {
                 Log.e("Error while loading entity behavior: $entityTemplate")
                 NullBehavior()
             }
@@ -49,8 +46,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
     fun loadAreas(): Iterable<ScriptArea> =
             try {
                 loadAreas(Assets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
-            }
-            catch(ex: Exception) {
+            } catch (ex: Exception) {
                 Log.e("Error while loading areas from scene: $gameMapName")
                 ArrayList()
             }
@@ -67,8 +63,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
                             it.onLeave
                     )
                 }
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 Log.e("Error while loading areas.")
                 ex.printStackTrace()
                 ArrayList()
@@ -83,8 +78,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
                         "scenes/$gameMapName/buildings.json")!!,
                         Assets.loadReader("scenes/$gameMapName/entities.json")!!
                 )
-            }
-            catch(ex: Exception) {
+            } catch (ex: Exception) {
                 Log.e("Error while loading initial objects from scene: $gameMapName")
                 ExtendedState()
             }
@@ -102,8 +96,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
                     it.projectOnTemplate(loadEntityTemplate(it.template ?: "undefined"))
                 } ?: ArrayList()
                 ExtendedState(buildingsList, entitiesList)
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 Log.e("Error while loading initial objects from scene.")
                 ex.printStackTrace()
                 ExtendedState()
@@ -115,8 +108,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
         )?.projectOnTemplate(defaultEntity) ?: defaultEntity
         cachedEntityTemplates[name] = t
         t
-    }
-    catch (ex: Exception) {
+    } catch (ex: Exception) {
         Log.e("Error while loading entity template: $name")
         Log.e(ex.stackTrace.toString())
         ExtendedEntity()
@@ -128,8 +120,7 @@ class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
         )?.projectOnTemplate(defaultBuilding) ?: defaultBuilding
         cachedBuildingTemplates[name] = t
         t
-    }
-    catch (ex: Exception) {
+    } catch (ex: Exception) {
         Log.e("Error while loading building template: $name")
         Log.e(ex.stackTrace.toString())
         ExtendedBuilding()

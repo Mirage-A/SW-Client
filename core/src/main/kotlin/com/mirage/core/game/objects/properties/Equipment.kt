@@ -129,7 +129,8 @@ data class EquipmentData(
             WeaponType.TWO_HANDED -> appendln("Two-handed")
             WeaponType.STAFF -> appendln("Staff")
             WeaponType.BOW -> appendln("Bow")
-            else -> {}
+            else -> {
+            }
         }
         if (weaponType != null && weaponType != WeaponType.SHIELD) {
             appendln("Attack damage: $attackDamage")
@@ -140,8 +141,7 @@ data class EquipmentData(
         if (health != 0) modifiersList += "+$health Health"
         if (weaponType == null || weaponType == WeaponType.SHIELD) {
             appendln("Armor: $armor")
-        }
-        else if (armor != 0) {
+        } else if (armor != 0) {
             modifiersList += "+$armor Armor"
         }
         if (haste != 0) modifiersList += "+$haste Haste"
@@ -153,7 +153,6 @@ data class EquipmentData(
         appendln(description)
     }
 }
-
 
 
 fun Float.toStringWithTwoDigits() = ((this * 100f).round().toFloat() / 100f).toString()

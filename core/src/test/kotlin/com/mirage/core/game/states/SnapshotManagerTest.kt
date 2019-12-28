@@ -2,8 +2,8 @@ package com.mirage.core.game.states
 
 import com.mirage.core.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.MAX_EXTRAPOLATION_INTERVAL
-import com.mirage.core.game.objects.extended.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.game.objects.simplified.SimplifiedEntity
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -12,7 +12,7 @@ internal class SnapshotManagerTest {
 
     @Test
     fun test() {
-        val obj = ExtendedEntity(
+        val obj = SimplifiedEntity(
                 template = "wtf",
                 x = 0f,
                 y = 0f,
@@ -24,35 +24,35 @@ internal class SnapshotManagerTest {
                 moveDirection = MoveDirection.UP
         )
 
-        val mutableState = ExtendedState()
-
         // 0 мс, пустая сцена
-        val firstState = mutableState.simplifiedDeepCopy()
+        val firstState = SimplifiedState()
         val firstDiff = StateDifference()
         val firstSnapshot = GameStateSnapshot(firstState, firstDiff, 0L)
 
-        mutableState += obj
-        mutableState += obj.with(x = 10f, y = 10f)
-
         // 1000 мс, добавлены 2 объекта с координатами (0, 0) и (10, 10)
-        val secondState = mutableState.simplifiedDeepCopy()
-        val secondDiff = StateDifference(firstState, secondState)
+        val secondDiff = StateDifference(
+                entitiesDifference = Difference(new = mapOf(0L to obj, 1L to obj.with(x = 10f, y = 10f)))
+        )
+        val secondState = secondDiff.projectOn(firstState)
         val secondSnapshot = GameStateSnapshot(secondState, secondDiff, 1000L)
 
-        mutableState.entities[0L]!!.x = 10f
-        mutableState.entities[1L]!!.y = 0f
-
         // 2000 мс, оба объекта переместились на точку (10, 0)
-        val thirdState = mutableState.simplifiedDeepCopy()
-        val thirdDiff = StateDifference(secondState, thirdState)
+        val thirdDiff = StateDifference(
+                entitiesDifference = Difference(
+                        changed = mapOf(0L to secondState.entities[0L]!!.with(x = 10f), 1L to secondState.entities[1L]!!.with(y = 0f))
+                )
+        )
+        val thirdState = thirdDiff.projectOn(secondState)
         val thirdSnapshot = GameStateSnapshot(thirdState, thirdDiff, 2000L)
 
-        mutableState.removeEntity(0L)
-        mutableState.entities[1L]!!.x = 0f
-
         // 3000 мс, первый объект исчез, второй объект переместился на точку (0, 0)
-        val fourthState = mutableState.simplifiedDeepCopy()
-        val fourthDiff = StateDifference(thirdState, fourthState)
+        val fourthDiff = StateDifference(
+                entitiesDifference = Difference(
+                        removed = listOf(0L),
+                        changed = mapOf(1L to thirdState.entities[1L]!!.with(x = 0f))
+                )
+        )
+        val fourthState = fourthDiff.projectOn(thirdState)
         val fourthSnapshot = GameStateSnapshot(fourthState, fourthDiff, 3000L)
 
         val snapshotManager = SnapshotManager()

@@ -1,18 +1,17 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.TestSamples
 import com.mirage.core.extensions.GameMapName
 import com.mirage.core.extensions.QuestProgress
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.SnapshotManager
+import com.mirage.core.utils.TestSamples
 
 internal class GameState(val gameMapName: GameMapName) {
 
     val gameMap = SceneLoader(gameMapName).loadMap()
 
-    var lastReceivedState : SimplifiedState = TestSamples.TEST_NO_GAME_OBJECTS
+    var lastReceivedState: SimplifiedState = TestSamples.TEST_NO_GAME_OBJECTS
 
     val localQuestProgress: QuestProgress = QuestProgress()
 
