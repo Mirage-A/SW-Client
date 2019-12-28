@@ -3,16 +3,20 @@ package com.mirage.ui.widgets
 import com.mirage.core.datastructures.Point
 import com.mirage.core.virtualscreen.VirtualScreen
 
-class PageNavigator(
+/** This widget implements navigation through multiple pages */
+internal class PageNavigator(
         initialPageIndex: Int,
         initialPageCount: Int,
+        /** Previous page button. onPressed will be set by PageNavigator */
         val leftButton: Button,
+        /** Next page button. onPressed will be set by PageNavigator */
         val rightButton: Button,
+        /** Label displaying current page and pages count */
         val pageTextLabel: LabelWidget,
-        var onPageSwitch: ((Int) -> Unit)? = null
+        /** This method is invoked when user switches current page */
+        var onPageSwitch: ((newPageIndex: Int) -> Unit)? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
-
-    override var isVisible: Boolean = true
 
     val compositeWidget = CompositeWidget(leftButton, rightButton, pageTextLabel)
 
@@ -29,7 +33,7 @@ class PageNavigator(
         }
 
     private fun update() {
-        pageTextLabel.label.text = "Page ${pageIndex + 1}/$pageCount"
+        pageTextLabel.text = "Page ${pageIndex + 1}/$pageCount"
         leftButton.isVisible = pageIndex > 0
         rightButton.isVisible = pageIndex < pageCount - 1
     }
@@ -50,20 +54,16 @@ class PageNavigator(
         update()
     }
 
-    override fun resize(virtualWidth: Float, virtualHeight: Float) { compositeWidget.resize(virtualWidth, virtualHeight) }
+    override fun resize(virtualWidth: Float, virtualHeight: Float) = compositeWidget.resize(virtualWidth, virtualHeight)
 
-    override fun touchUp(virtualPoint: Point): Boolean = if (isVisible) compositeWidget.touchUp(virtualPoint) else false
+    override fun touchUp(virtualPoint: Point): Boolean = isVisible && compositeWidget.touchUp(virtualPoint)
 
-    override fun touchDown(virtualPoint: Point): Boolean = if (isVisible) compositeWidget.touchDown(virtualPoint) else false
+    override fun touchDown(virtualPoint: Point): Boolean = isVisible && compositeWidget.touchDown(virtualPoint)
 
-    override fun mouseMoved(virtualPoint: Point) { if (isVisible) compositeWidget.mouseMoved(virtualPoint) }
+    override fun mouseMoved(virtualPoint: Point): Boolean = isVisible && compositeWidget.mouseMoved(virtualPoint)
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (isVisible) compositeWidget.draw(virtualScreen)
-    }
-
-    override fun unpress() {
-        compositeWidget.unpress()
     }
 
 }

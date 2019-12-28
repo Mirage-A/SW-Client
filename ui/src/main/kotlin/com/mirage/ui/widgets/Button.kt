@@ -4,86 +4,102 @@ import com.mirage.core.datastructures.Point
 import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 
-/**
- * @param textureName Текстура кнопки по умолчанию.
- * @param highlightedTextureName Текстура кнопки при наведении на неё.
- * @param pressedTextureName Текстура кнопки при нажатии на неё.
- * @param rect Позиция кнопки на виртуальном экране.
- * @param boundedLabel Текстовое поле, которое будет привязано к кнопке. Размеры поля будут равны размеру кнопки.
- * @param sizeUpdater Функция, вызывающаяся для определения позиции кнопки при изменении размера виртуального экрана.
- * @param onPressed Функция, вызывающаяся при нажатии кнопки.
- */
-class Button(
-        var textureName: String,
-        var highlightedTextureName: String = textureName,
-        var pressedTextureName: String = highlightedTextureName,
-        var rect: Rectangle = Rectangle(),
-        var boundedLabel: VirtualScreen.Label? = null,
-        var sizeUpdater: ((Float, Float) -> Rectangle)? = null,
+/** Simple button, maybe bordered or with bounded label with some text.
+ *  Invokes [onPressed] when this button is touched or when key with [keyCode] is pressed.
+ *  */
+internal class Button(
+        override var textureName: String = "ui/main-menu-btn",
+        override var highlightedTextureName: String =
+                if (textureName == "ui/main-menu-btn") "ui/main-menu-btn-highlighted" else textureName,
+        override var pressedTextureName: String =
+                if (highlightedTextureName == "ui/main-menu-btn-highlighted") "ui/main-menu-btn-pressed" else highlightedTextureName,
+        override var boundedLabel: LabelWidget? = null,
+        sizeUpdater: SizeUpdater? = null,
         var onPressed: () -> Unit = {},
+        var keyCode: Int? = null,
         var borderSize: Float = 0f,
-        var borderTextureName: String = "ui/btn-border"
-) : Widget {
-    var isPressed = false
-    var isHighlighted = false
-    override var isVisible = true
-    var keyPressed = false // Для случаев, когда кнопка может нажиматься как курсором, так и с клавиатуры.
-
-    private val innerRect: Rectangle
-        get() = Rectangle(rect.x, rect.y, rect.width - borderSize * 2f, rect.height - borderSize * 2f)
+        var borderTextureName: String = "ui/btn-border",
+        override var isVisible: Boolean = true
+) : AbstractButton {
 
     init {
-        boundedLabel?.rect = innerRect
+        boundedLabel?.sizeUpdater = sizeUpdater
     }
 
-    private fun getCurrentTextureName() =
-            when {
-                isPressed || keyPressed -> pressedTextureName
-                isHighlighted -> highlightedTextureName
-                else -> textureName
-            }
+    var sizeUpdater: SizeUpdater? = sizeUpdater
+        set(value) {
+            boundedLabel?.sizeUpdater = value
+            field = value
+        }
+
+    private var isHighlighted = false
+    private var isPressed = false
+    private var keyPressed = false
+
+    private var rect: Rectangle = Rectangle()
+
+    private val innerRect: Rectangle
+        get() = rect.innerRect(borderSize)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            rect = it
-            boundedLabel?.rect = innerRect
-            boundedLabel?.resizeFont(virtualWidth, virtualHeight)
-        }
+        rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
+        boundedLabel?.resize(virtualWidth, virtualHeight)
     }
 
     override fun touchUp(virtualPoint: Point): Boolean {
-        if (!isVisible) return false
+        if (!isVisible || !isPressed) return false
         isPressed = false
-        if (rect.contains(virtualPoint)) {
+        return if (rect.contains(virtualPoint)) {
             onPressed()
-            return true
-        }
-        else {
-            isHighlighted = false
-        }
-        return false
+            true
+        } else false
     }
 
     override fun touchDown(virtualPoint: Point): Boolean {
         if (!isVisible) return false
         isPressed = rect.contains(virtualPoint)
-        isHighlighted = isPressed
         return isPressed
     }
 
-    override fun mouseMoved(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun keyUp(keycode: Int): Boolean {
+        return if (isVisible && keycode == keyCode) {
+            keyPressed = false
+            onPressed()
+            true
+        } else false
+    }
+
+
+    override fun keyDown(keycode: Int): Boolean {
+        return if (isVisible && keycode == keyCode) {
+            keyPressed = true
+            true
+        } else false
+    }
+
+
+    override fun mouseMoved(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
         isHighlighted = rect.contains(virtualPoint)
+        return isHighlighted
+    }
+
+    override fun touchDragged(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
+        isHighlighted = rect.contains(virtualPoint)
+        return isHighlighted
     }
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         if (borderSize != 0f) virtualScreen.draw(borderTextureName, rect)
-        virtualScreen.draw(getCurrentTextureName(), innerRect)
-        boundedLabel?.draw()
+        val textureName = when {
+            isPressed || keyPressed -> pressedTextureName
+            isHighlighted -> highlightedTextureName
+            else -> textureName
+        }
+        virtualScreen.draw(textureName, innerRect)
+        boundedLabel?.draw(virtualScreen)
     }
 
-    override fun unpress() {
-        isPressed = false
-    }
 }

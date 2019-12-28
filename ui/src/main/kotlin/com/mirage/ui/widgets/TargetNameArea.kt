@@ -4,43 +4,41 @@ import com.mirage.core.datastructures.Point
 import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 
-class TargetNameArea(
-        var borderTextureName: String,
-        var textAreaTextureName: String,
-        var rect: Rectangle = Rectangle(),
-        var boundedLabel: VirtualScreen.Label? = null,
-        var innerMargin: Float,
-        var sizeUpdater: ((Float, Float) -> Rectangle)? = null
+internal class TargetNameArea(
+        var borderTextureName: String = "ui/game/health-border",
+        var textAreaTextureName: String = "ui/game/health-lost",
+        var boundedLabel: LabelWidget? = null,
+        var innerMargin: Float = 0f,
+        sizeUpdater: SizeUpdater? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
 
-    override var isVisible = true
+    var sizeUpdater: SizeUpdater? = sizeUpdater
+        set(value) {
+            boundedLabel?.sizeUpdater = value
+            field = value
+        }
+
+    private var rect: Rectangle = Rectangle()
 
     private val resourceRect: Rectangle
-        get() = Rectangle(rect.x, rect.y, rect.width - innerMargin * 2f, rect.height - innerMargin * 2f)
-
-    init {
-        boundedLabel?.rect = resourceRect
-    }
+        get() = rect.innerRect(innerMargin)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            rect = it
-            boundedLabel?.rect = resourceRect
-        }
+        rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
+        boundedLabel?.resize(virtualWidth, virtualHeight)
     }
-
-    override fun mouseMoved(virtualPoint: Point) {}
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (!isVisible) return
         virtualScreen.draw(borderTextureName, rect)
         virtualScreen.draw(textAreaTextureName, resourceRect)
-        boundedLabel?.draw()
+        boundedLabel?.draw(virtualScreen)
 
     }
 
-    override fun touchDown(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchDown(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
-    override fun touchUp(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchUp(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
 }

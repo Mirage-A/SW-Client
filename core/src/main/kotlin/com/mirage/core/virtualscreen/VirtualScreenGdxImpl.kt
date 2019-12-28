@@ -81,7 +81,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     }
 
     override fun drawColorOnAllScreen(r: Float, g: Float, b: Float, a: Float) {
-        batch.setColor(r, g, b, a / 255f)
+        batch.setColor(r, g, b, a)
         batch.draw(getTexture("white"), - width / 2f, - height / 2f, width, height)
         batch.color = Color.WHITE
     }
@@ -210,8 +210,10 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
-    override fun createTextField(text: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField =
-            GdxTextField(text, rect, fontCapHeight).also { stage.addActor(it.textField) }
+    override fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField =
+            GdxTextField(hint, rect, fontCapHeight).also { stage.addActor(it.textField) }
+
+    override fun createTextField(hint: String, rect: Rectangle): VirtualScreen.TextField = GdxTextField(hint, rect)
 
 
     inner class GdxLabel internal constructor(
@@ -269,21 +271,21 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
 
     inner class GdxTextField internal constructor(
-            text: String,
+            hint: String,
             rect: Rectangle,
-            fontCapHeight: Float = 15f
+            private val fontCapHeight: Float = 15f
     ) : VirtualScreen.TextField {
 
-        override var text: String = text
+        override var hint: String = hint
             get() = textField.text
             set(value) {
                 textField.text = value
                 field = value
             }
 
-        private val font = BitmapFont().apply {
-            data.setScale(fontCapHeight / data.capHeight)
-        }
+        override var text: String
+            get() = textField.text
+            set(value) { textField.text = value }
 
 
         private val skin = Skin().apply {
@@ -292,7 +294,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
         }
 
         val textField = TextField("", TextField.TextFieldStyle(
-                font,
+                BitmapFont().apply { data.setScale(fontCapHeight / data.capHeight) },
                 Color.BLACK,
                 skin.newDrawable("cursor", Color.GREEN),
                 skin.newDrawable("background", 0.5f, 0.5f, 0.5f, 0.5f),
@@ -302,7 +304,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
             setSize(rect.width, rect.height)
             setPosition(rect.x, rect.y, Align.center)
             alignment = Align.center
-            messageText = text
+            messageText = hint
         }
 
         override var rect: Rectangle = rect
@@ -317,6 +319,19 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
         override fun draw() = textField.draw(batch, 255f)
 
+        override fun resizeFont(virtualWidth: Float, virtualHeight: Float) {
+            val font = BitmapFont()
+            val scale = max(0.1f, min(virtualWidth / DEFAULT_SCREEN_WIDTH, virtualHeight / DEFAULT_SCREEN_HEIGHT))
+            val fontScale = fontCapHeight / font.data.capHeight * scale
+            font.data.setScale(fontScale)
+            textField.style = TextField.TextFieldStyle(
+                    font,
+                    Color.BLACK,
+                    skin.newDrawable("cursor", Color.GREEN),
+                    skin.newDrawable("background", 0.5f, 0.5f, 0.5f, 0.5f),
+                    skin.getDrawable("background")
+            )
+        }
 
     }
 }

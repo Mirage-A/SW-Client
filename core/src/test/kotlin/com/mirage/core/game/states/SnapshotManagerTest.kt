@@ -56,10 +56,10 @@ internal class SnapshotManagerTest {
         val fourthSnapshot = GameStateSnapshot(fourthState, fourthDiff, 3000L)
 
         val snapshotManager = SnapshotManager()
-        snapshotManager.addNewSnapshot(thirdSnapshot)
-        snapshotManager.addNewSnapshot(firstSnapshot)
-        snapshotManager.addNewSnapshot(fourthSnapshot)
-        snapshotManager.addNewSnapshot(secondSnapshot)
+        snapshotManager.setInitialState(firstSnapshot.finalState, firstSnapshot.createdTimeMillis)
+        snapshotManager.addSnapshot(thirdSnapshot.stateDifference, thirdSnapshot.createdTimeMillis)
+        snapshotManager.addSnapshot(fourthSnapshot.stateDifference, fourthSnapshot.createdTimeMillis)
+        snapshotManager.addSnapshot(secondSnapshot.stateDifference, secondSnapshot.createdTimeMillis)
 
         // На момент -500 мс данных нет
         assertDoesNotThrow {

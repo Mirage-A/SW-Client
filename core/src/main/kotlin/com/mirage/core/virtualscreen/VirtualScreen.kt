@@ -27,8 +27,13 @@ interface VirtualScreen {
 
     /** Translates coordinates of a point on real screen to virtual screen */
     fun projectRealPointOnVirtualScreen(realPoint: Point): Point = Point(
-            (realPoint.x - realWidth / 2) * (width / realWidth),
-            - (realPoint.y - realHeight / 2) * (height / realHeight)
+            x = (realPoint.x - realWidth / 2) * (width / realWidth),
+            y = - (realPoint.y - realHeight / 2) * (height / realHeight)
+    )
+
+    fun projectVirtualPointOnRealScreen(virtualPoint: Point): Point = Point(
+            x = virtualPoint.x * (realWidth / width) + realWidth / 2,
+            y = - virtualPoint.y * (realHeight / height) + realHeight / 2
     )
 
     /** Start rendering a new frame. This method must be called before any draw */
@@ -72,7 +77,10 @@ interface VirtualScreen {
     fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float) : Label
     fun createLabel(text: String, fontCapHeight: Float) : Label = createLabel(text, Rectangle(), fontCapHeight)
 
-    fun createTextField(text: String, rect: Rectangle, fontCapHeight: Float) : TextField
+    fun createTextField(hint: String, rect: Rectangle) : TextField
+    fun createTextField(hint: String) : TextField = createTextField(hint, Rectangle())
+    fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float) : TextField
+    fun createTextField(hint: String, fontCapHeight: Float) : TextField = createTextField(hint, Rectangle(), fontCapHeight)
 
 
     /** Draws a texture [textureName] with center at point ([x]. [y])*/
@@ -119,10 +127,14 @@ interface VirtualScreen {
 
     interface TextField {
 
+        var hint: String
+
         var text: String
 
         var rect: Rectangle
 
         fun draw()
+
+        fun resizeFont(virtualWidth: Float, virtualHeight: Float)
     }
 }

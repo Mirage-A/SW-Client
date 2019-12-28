@@ -35,6 +35,17 @@ enum class MoveDirection {
         DOWN_RIGHT -> DOWN
     }
 
+    fun fromViewToScene(): MoveDirection = when (this) {
+        RIGHT -> UP_RIGHT
+        UP_RIGHT -> UP
+        UP -> UP_LEFT
+        UP_LEFT -> LEFT
+        LEFT -> DOWN_LEFT
+        DOWN_LEFT -> DOWN
+        DOWN -> DOWN_RIGHT
+        DOWN_RIGHT -> RIGHT
+    }
+
 
     companion object {
 
