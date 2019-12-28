@@ -31,19 +31,26 @@ internal class InventoryFragment(virtualScreen: VirtualScreen, onClose: () -> Un
         isVisible = true
     }
 
-    override var isVisible: Boolean = false
+    override var isVisible: Boolean
+        get() = subWidgets.rootWidget.isVisible
+        set(value) {
+            subWidgets.rootWidget.isVisible = value
+        }
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) =
             subWidgets.rootWidget.resize(virtualWidth, virtualHeight)
 
-    override fun touchUp(virtualPoint: Point): Boolean =
-            isVisible && subWidgets.rootWidget.touchUp(virtualPoint)
+    override fun touchUp(virtualPoint: Point, pointer: Int, button: Int): Boolean =
+            isVisible && subWidgets.rootWidget.touchUp(virtualPoint, pointer, button)
 
-    override fun touchDown(virtualPoint: Point): Boolean =
-            isVisible && subWidgets.rootWidget.touchDown(virtualPoint)
+    override fun touchDown(virtualPoint: Point, pointer: Int, button: Int): Boolean =
+            isVisible && subWidgets.rootWidget.touchDown(virtualPoint, pointer, button)
 
     override fun mouseMoved(virtualPoint: Point): Boolean =
-        isVisible && subWidgets.rootWidget.mouseMoved(virtualPoint)
+            isVisible && subWidgets.rootWidget.mouseMoved(virtualPoint)
+
+    override fun touchDragged(virtualPoint: Point, pointer: Int): Boolean =
+            isVisible && subWidgets.rootWidget.touchDragged(virtualPoint, pointer)
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (isVisible) subWidgets.rootWidget.draw(virtualScreen)

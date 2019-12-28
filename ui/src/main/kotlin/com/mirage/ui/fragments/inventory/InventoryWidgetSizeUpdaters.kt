@@ -46,7 +46,7 @@ internal fun InventoryWidgets.initializeSizeUpdaters() {
         selectSlotBtns[i].sizeUpdater = { w, h ->
             Rectangle(
                     x = getLeftColumnCenterX(w) + (getBorderedBtnSize(w) + equipmentBtnMargin) * (xIndex - 1.5f),
-                    y = -h / 2f + getBorderedBtnSize(w) * (yIndex - 0.5f) + equipmentBtnMargin * yIndex,
+                    y = -h / 2f + getBorderedBtnSize(w) * (yIndex + 0.5f) + equipmentBtnMargin * (yIndex + 1f),
                     width = getBorderedBtnSize(w),
                     height = getBorderedBtnSize(w)
             )

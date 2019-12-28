@@ -47,6 +47,7 @@ internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
                         }
                         textureName = "ui/game/quests/quest-btn-$state"
                         highlightedTextureName = "ui/game/quests/quest-btn-$state-highlighted"
+                        pressedTextureName = "ui/game/quests/quest-btn-$state-pressed"
                         onPressed = if (questType == QuestLoader.QuestType.LOCAL) {
                             {
                                 questState.selectedGlobalQuest = null

@@ -69,7 +69,7 @@ internal class ConfirmMessage(
     )
 
 
-    private val compositeWidget = CompositeWidget(okButton, cancelButton, titleLabel, descriptionLabel, background)
+    private val compositeWidget = CompositeWidget(okButton, cancelButton, titleLabel, descriptionLabel, background, isVisible = true)
 
     init {
         resize(virtualScreen.width, virtualScreen.height)
@@ -91,21 +91,23 @@ internal class ConfirmMessage(
         compositeWidget.resize(virtualWidth, virtualHeight)
     }
 
-    override fun touchUp(virtualPoint: Point): Boolean {
+    override fun touchUp(virtualPoint: Point, pointer: Int, button: Int): Boolean {
         if (!isVisible) return false
-        val processed = compositeWidget.touchUp(virtualPoint)
+        val processed = compositeWidget.touchUp(virtualPoint, pointer, button)
         return processed || blocksFocus
     }
 
 
-    override fun touchDown(virtualPoint: Point): Boolean {
+    override fun touchDown(virtualPoint: Point, pointer: Int, button: Int): Boolean {
         if (!isVisible) return false
-        val processed = compositeWidget.touchDown(virtualPoint)
+        val processed = compositeWidget.touchDown(virtualPoint, pointer, button)
         return processed || blocksFocus
     }
-
 
     override fun mouseMoved(virtualPoint: Point): Boolean =
             isVisible && compositeWidget.mouseMoved(virtualPoint)
+
+    override fun touchDragged(virtualPoint: Point, pointer: Int): Boolean =
+            isVisible && compositeWidget.touchDragged(virtualPoint, pointer)
 
 }

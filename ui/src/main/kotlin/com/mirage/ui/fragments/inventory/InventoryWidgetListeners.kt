@@ -153,6 +153,8 @@ private fun InventoryWidgets.openItemMessage(inventoryState: InventoryState, ite
         itemMessage.isVisible = false
         humanoidWidget.equipment = inventoryState.equipment
         fullDataLabel.text = PlayerAttributes(inventoryState.equipment).toInventoryInfoString()
+        updateItemBtns(inventoryState)
+        updateSelectSlotBtns(inventoryState)
     }
     itemMessage.title = itemData.name
     itemMessage.description = itemData.toInventoryInfo()

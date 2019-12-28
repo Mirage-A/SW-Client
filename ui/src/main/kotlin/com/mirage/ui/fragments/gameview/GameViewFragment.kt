@@ -227,7 +227,6 @@ internal class GameViewFragment(
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        println(keycode)
         when (keycode) {
             Input.Keys.W -> {
                 if (gameState.bufferedMoving == true) {

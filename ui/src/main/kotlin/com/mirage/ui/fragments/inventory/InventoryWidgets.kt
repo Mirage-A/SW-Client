@@ -42,6 +42,7 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
                 textureName = "ui/inventory/left-button-background",
                 highlightedTextureName = "ui/inventory/left-button-background-highlighted",
                 pressedTextureName = "ui/inventory/left-button-background-pressed",
+                borderSize = 10f,
                 equipmentSlot = equipmentSlots[it]
         )
     }
@@ -62,7 +63,8 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
         EquipmentButton(
                 textureName = "ui/inventory/left-button-background",
                 highlightedTextureName = "ui/inventory/left-button-background-highlighted",
-                pressedTextureName = "ui/inventory/left-button-background-pressed"
+                pressedTextureName = "ui/inventory/left-button-background-pressed",
+                borderSize = 10f
         )
     }
 
@@ -74,6 +76,6 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
     private val centerColumn = CompositeWidget(fullDataLabel, saveBtn, cancelBtn, centerBackground)
     private val rightColumn = CompositeWidget(*itemBtns, pageNavigator, selectedSlotLabel, rightBackground)
 
-    val rootWidget = CompositeWidget(itemMessage, centerColumn, rightColumn, leftColumn)
+    val rootWidget = CompositeWidget(itemMessage, centerColumn, rightColumn, leftColumn, isVisible = false)
 
 }
