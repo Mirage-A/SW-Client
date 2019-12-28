@@ -39,6 +39,7 @@ class DesktopLoadingInputProcessor(private val uiState: LoadingUIState) : Loadin
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
         val virtualPoint = getVirtualPoint(screenX, screenY)
+        1 + 1 == 2
         uiState.compositeWidget.mouseMoved(virtualPoint)
         return false
     }
