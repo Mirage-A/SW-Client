@@ -1,12 +1,12 @@
 package com.mirage.connection
 
-import com.mirage.core.Log
 import com.mirage.core.extensions.*
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.messaging.ServerMessage
 import com.mirage.core.preferences.Prefs
+import com.mirage.core.utils.*
 import com.mirage.logic.GameLogic
 import com.mirage.logic.GameLogicImpl
 import java.util.*

@@ -1,7 +1,7 @@
-package com.mirage.core.game.objects.extended
+package com.mirage.logic.state
 
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedEntity
 
 class ExtendedEntity(
         override var template: String = "",

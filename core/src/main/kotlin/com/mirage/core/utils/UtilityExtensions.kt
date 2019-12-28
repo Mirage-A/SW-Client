@@ -1,8 +1,7 @@
-package com.mirage.core.extensions
+package com.mirage.core.utils
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
-import com.mirage.core.Log
 import com.mirage.core.game.objects.properties.Equipment
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.lib.jse.CoerceJavaToLua

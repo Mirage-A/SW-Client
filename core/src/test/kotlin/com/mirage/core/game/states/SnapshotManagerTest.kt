@@ -1,9 +1,9 @@
 package com.mirage.core.game.states
 
-import com.mirage.core.INTERPOLATION_DELAY_MILLIS
-import com.mirage.core.MAX_EXTRAPOLATION_INTERVAL
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
+import com.mirage.core.utils.MAX_EXTRAPOLATION_INTERVAL
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled

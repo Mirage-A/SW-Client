@@ -1,12 +1,12 @@
 package com.mirage.logic
 
-import com.mirage.core.Log
 import com.mirage.core.extensions.*
 import com.mirage.core.game.maps.GameMap
-import com.mirage.core.game.objects.extended.ExtendedBuilding
-import com.mirage.core.game.objects.extended.ExtendedEntity
-import com.mirage.core.game.states.ExtendedState
+import com.mirage.logic.state.ExtendedBuilding
+import com.mirage.logic.state.ExtendedEntity
+import com.mirage.logic.state.ExtendedState
 import com.mirage.core.messaging.*
+import com.mirage.core.utils.*
 import com.mirage.logic.data.DelayedScriptRequest
 import com.mirage.logic.data.LogicData
 import com.mirage.logic.data.PlayerTransferRequest

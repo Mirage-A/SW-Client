@@ -1,6 +1,6 @@
 package com.mirage.logic.processors
 
-import com.mirage.core.extensions.EntityID
+import com.mirage.core.utils.EntityID
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.logic.behavior.PlayerBehavior
 import com.mirage.logic.data.LogicData

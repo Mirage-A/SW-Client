@@ -1,11 +1,11 @@
 package com.mirage.core.game.states
 
-import com.mirage.core.INTERPOLATION_DELAY_MILLIS
-import com.mirage.core.MAX_EXTRAPOLATION_INTERVAL
-import com.mirage.core.extensions.TimeMillis
+import com.mirage.core.utils.TimeMillis
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedObject
+import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
+import com.mirage.core.utils.MAX_EXTRAPOLATION_INTERVAL
 import java.util.*
 import kotlin.math.min
 

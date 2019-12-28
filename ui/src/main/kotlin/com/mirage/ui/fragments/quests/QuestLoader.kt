@@ -1,9 +1,9 @@
 package com.mirage.ui.fragments.quests
 
-import com.mirage.core.Assets
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.runScript
-import com.mirage.core.extensions.tableOf
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.runScript
+import com.mirage.core.utils.tableOf
 import java.util.concurrent.atomic.AtomicReference
 
 object QuestLoader {

@@ -1,7 +1,7 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.QuestProgress
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.SimplifiedState

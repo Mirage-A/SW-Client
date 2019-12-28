@@ -1,8 +1,7 @@
-package com.mirage.core.game.states
+package com.mirage.logic.state
 
-import com.mirage.core.extensions.mutableMap
-import com.mirage.core.game.objects.extended.ExtendedBuilding
-import com.mirage.core.game.objects.extended.ExtendedEntity
+import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.utils.mutableMap
 
 class ExtendedState(
         private val extendedBuildings: MutableMap<Long, ExtendedBuilding>,

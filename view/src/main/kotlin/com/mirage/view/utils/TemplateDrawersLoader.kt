@@ -1,8 +1,8 @@
 package com.mirage.view.utils
 
 import com.google.gson.Gson
-import com.mirage.core.Log
-import com.mirage.core.extensions.fromJson
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.fromJson
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.WeaponType

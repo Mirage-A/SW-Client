@@ -1,6 +1,6 @@
 package com.mirage.view.drawers.animation
 
-import com.mirage.core.datastructures.Point
+import com.mirage.core.utils.Point
 import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.min
 

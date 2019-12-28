@@ -1,13 +1,9 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.DELTA_CENTER_Y
-import com.mirage.core.TILE_HEIGHT
-import com.mirage.core.TILE_WIDTH
-import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.InitialGameStateMessage
-import com.mirage.core.utils.TestSamples
+import com.mirage.core.utils.*
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.nhaarman.mockitokotlin2.*

@@ -1,10 +1,10 @@
 package com.mirage.view.utils
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.game.objects.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedObject
 import java.util.*
 
 

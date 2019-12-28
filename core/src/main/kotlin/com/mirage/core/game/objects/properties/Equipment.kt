@@ -1,7 +1,7 @@
 package com.mirage.core.game.objects.properties
 
-import com.mirage.core.Assets
-import com.mirage.core.extensions.IntervalMillis
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.IntervalMillis
 import com.mirage.core.preferences.EquipmentSlot
 
 private const val unarmedDamage = 5
@@ -148,7 +148,7 @@ data class EquipmentData(
         if (power != 0) modifiersList += "+$power Power"
         if (range != 0) modifiersList += "+$range Range"
         if (duration != 0) modifiersList += "+$duration Duration"
-        if (modifier != null) modifiersList += modifier ?: ""
+        if (modifier != null) modifiersList += modifier
         appendln(modifiersList.joinToString())
         appendln(description)
     }

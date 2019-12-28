@@ -1,7 +1,7 @@
-package com.mirage.core.game.objects.simplified
+package com.mirage.core.game.objects
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
 
 interface SimplifiedObject {
 

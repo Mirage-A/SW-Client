@@ -2,8 +2,8 @@ package com.mirage.core.preferences
 
 import com.badlogic.gdx.Gdx
 import com.google.gson.Gson
-import com.mirage.core.Log
-import com.mirage.core.extensions.fromJson
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.fromJson
 
 object Prefs {
 

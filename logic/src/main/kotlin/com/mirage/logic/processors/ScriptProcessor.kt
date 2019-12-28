@@ -1,10 +1,10 @@
 package com.mirage.logic.processors
 
-import com.mirage.core.Assets
-import com.mirage.core.datastructures.Point
-import com.mirage.core.extensions.TimeMillis
-import com.mirage.core.extensions.runScript
-import com.mirage.core.extensions.tableOf
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.TimeMillis
+import com.mirage.core.utils.runScript
+import com.mirage.core.utils.tableOf
 import com.mirage.logic.data.LogicData
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue

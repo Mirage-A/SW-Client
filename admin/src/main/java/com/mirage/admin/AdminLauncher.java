@@ -1,7 +1,7 @@
 package com.mirage.admin;
 
 
-import com.mirage.core.ConfigurationKt;
+import com.mirage.core.utils.ConfigurationKt;
 
 public class AdminLauncher {
 

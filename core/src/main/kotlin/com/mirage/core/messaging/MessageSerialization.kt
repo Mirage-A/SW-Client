@@ -1,7 +1,7 @@
 package com.mirage.core.messaging
 
 import com.google.gson.Gson
-import com.mirage.core.*
+import com.mirage.core.utils.*
 
 private val gson = Gson()
 

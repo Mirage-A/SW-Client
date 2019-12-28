@@ -1,8 +1,8 @@
 package com.mirage.core.game.maps
 
 import com.google.gson.Gson
-import com.mirage.core.extensions.fromJson
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
+import com.mirage.core.utils.fromJson
+import com.mirage.core.game.objects.SimplifiedBuilding
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

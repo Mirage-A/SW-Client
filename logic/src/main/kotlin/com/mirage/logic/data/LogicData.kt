@@ -1,13 +1,12 @@
 package com.mirage.logic.data
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
 import com.mirage.core.extensions.*
 import com.mirage.core.game.maps.GameMap
-import com.mirage.core.game.states.ExtendedState
+import com.mirage.logic.state.ExtendedState
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.utils.*
 import com.mirage.logic.behavior.Behavior
 import org.luaj.vm2.LuaTable
 import java.util.*

@@ -1,10 +1,10 @@
 package com.mirage.core.game.maps
 
 import com.google.gson.Gson
-import com.mirage.core.Assets
-import com.mirage.core.Log
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.fromJson
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.fromJson
 import com.mirage.core.utils.TestSamples
 import java.io.Reader
 

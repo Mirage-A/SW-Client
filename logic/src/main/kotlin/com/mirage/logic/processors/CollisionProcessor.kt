@@ -1,10 +1,10 @@
 package com.mirage.logic.processors
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.maps.GameMap
-import com.mirage.core.game.objects.extended.ExtendedEntity
-import com.mirage.core.game.states.ExtendedState
+import com.mirage.logic.state.ExtendedEntity
+import com.mirage.logic.state.ExtendedState
 import kotlin.math.max
 import kotlin.math.min
 

@@ -2,8 +2,8 @@ package com.mirage.core.utils
 
 import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedEntity
 import com.mirage.core.game.states.SimplifiedState
 
 //TODO Remove this class

@@ -1,6 +1,6 @@
 package com.mirage.ui.screens
 
-import com.mirage.core.datastructures.Point
+import com.mirage.core.utils.Point
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.ui.widgets.Widget
@@ -12,7 +12,8 @@ abstract class AbstractScreen(protected val virtualScreen: VirtualScreen) : Scre
     init {
         try {
             virtualScreen.stage.clear()
-        } catch (ex: Exception) { }
+        } catch (ex: Exception) {
+        }
     }
 
     internal abstract val rootWidget: Widget

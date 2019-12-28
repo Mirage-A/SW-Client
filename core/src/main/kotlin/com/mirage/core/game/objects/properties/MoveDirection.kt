@@ -1,6 +1,6 @@
 package com.mirage.core.game.objects.properties
 
-import com.mirage.core.Log
+import com.mirage.core.utils.Log
 
 /** Move direction of an entity on scene (not on virtual screen) */
 enum class MoveDirection {

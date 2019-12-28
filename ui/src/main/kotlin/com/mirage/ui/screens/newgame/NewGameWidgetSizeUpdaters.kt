@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.newgame
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import kotlin.math.max
 import kotlin.math.min
 

@@ -1,6 +1,6 @@
-package com.mirage.core.game.objects.extended
+package com.mirage.logic.state
 
-import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.game.objects.SimplifiedObject
 
 interface ExtendedObject : SimplifiedObject {
 

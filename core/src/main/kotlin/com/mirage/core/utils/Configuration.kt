@@ -1,4 +1,4 @@
-package com.mirage.core
+package com.mirage.core.utils
 
 const val COMPLETED_QUEST_PHASE = 1000000
 

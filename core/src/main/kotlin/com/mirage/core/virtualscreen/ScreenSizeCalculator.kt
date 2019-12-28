@@ -1,7 +1,8 @@
 package com.mirage.core.virtualscreen
 
-import com.mirage.core.*
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.*
+import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -77,7 +78,7 @@ private fun visionsSymmetricDifference(tileH: Float, realWidth: Float, realHeigh
     }
     return if (dw <= w && dh <= h) {
         w * h - dw * dh
-    } else Math.abs(w - dw) * Math.min(h, dh) + Math.abs(h - dh) * Math.min(w, dw)
+    } else abs(w - dw) * min(h, dh) + abs(h - dh) * min(w, dw)
 }
 
 /**

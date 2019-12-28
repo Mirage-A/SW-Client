@@ -1,6 +1,6 @@
 package com.mirage.view.drawers.animation
 
-import com.mirage.core.Assets
+import com.mirage.core.utils.Assets
 import java.util.*
 
 /**

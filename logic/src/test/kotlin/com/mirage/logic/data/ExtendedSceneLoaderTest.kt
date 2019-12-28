@@ -1,9 +1,9 @@
 package com.mirage.logic.data
 
 import com.google.gson.Gson
-import com.mirage.core.extensions.fromJson
-import com.mirage.core.game.objects.extended.ExtendedBuilding
-import com.mirage.core.game.objects.extended.ExtendedEntity
+import com.mirage.core.utils.fromJson
+import com.mirage.logic.state.ExtendedBuilding
+import com.mirage.logic.state.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.utils.TestSamples

@@ -1,6 +1,6 @@
-package com.mirage.core.game.objects.extended
+package com.mirage.logic.state
 
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedBuilding
 
 class ExtendedBuilding(
         override var template: String = "",

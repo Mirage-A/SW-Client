@@ -1,6 +1,6 @@
-package com.mirage.core.game.objects.simplified
+package com.mirage.core.game.objects
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.MoveDirection
 
 open class SimplifiedEntity(
@@ -67,11 +67,6 @@ open class SimplifiedEntity(
                 maxHealth == other.maxHealth &&
                 factionID == other.factionID &&
                 interactionRange == other.interactionRange
-    }
-
-    override fun hashCode(): Int {
-        //TODO
-        return super.hashCode()
     }
 
     override fun toString(): String =

@@ -1,6 +1,6 @@
-package com.mirage.core.game.objects.simplified
+package com.mirage.core.game.objects
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 
 open class SimplifiedBuilding(
         override val template: String = "",
@@ -44,10 +44,6 @@ open class SimplifiedBuilding(
                 height == other.height &&
                 transparencyRange == other.transparencyRange &&
                 state == other.state
-    }
-
-    override fun hashCode(): Int {
-        return super.hashCode()
     }
 
     override fun toString(): String =

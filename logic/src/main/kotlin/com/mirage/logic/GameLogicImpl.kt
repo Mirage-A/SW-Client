@@ -1,14 +1,11 @@
 package com.mirage.logic
 
-import com.mirage.core.GAME_LOOP_TICK_INTERVAL
-import com.mirage.core.Log
-import com.mirage.core.LoopTimer
-import com.mirage.core.extensions.*
 import com.mirage.core.game.states.StateDifference
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.utils.*
 import com.mirage.logic.data.LogicData
 import com.mirage.logic.data.PlayerTransferRequest
 import com.mirage.logic.processors.*

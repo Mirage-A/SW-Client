@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.mainmenu
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ExitClientMessage
 import com.mirage.core.virtualscreen.VirtualScreen

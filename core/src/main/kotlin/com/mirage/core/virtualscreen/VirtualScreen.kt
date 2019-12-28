@@ -2,8 +2,8 @@ package com.mirage.core.virtualscreen
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
 
 /**
  * Cross-platform virtual screen with ability to draw textures on it.

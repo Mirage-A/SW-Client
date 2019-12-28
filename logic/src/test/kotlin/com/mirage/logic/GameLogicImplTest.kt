@@ -1,8 +1,8 @@
 package com.mirage.logic
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.extensions.PlayerCreationRequest
-import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.PlayerCreationRequest
+import com.mirage.core.utils.QuestProgress
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.messaging.GameStateUpdateMessage

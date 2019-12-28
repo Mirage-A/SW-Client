@@ -1,6 +1,6 @@
 package com.mirage.ui.fragments.inventory
 
-import com.mirage.core.datastructures.Point
+import com.mirage.core.utils.Point
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen

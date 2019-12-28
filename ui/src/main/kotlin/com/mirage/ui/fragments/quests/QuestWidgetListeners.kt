@@ -1,8 +1,8 @@
 package com.mirage.ui.fragments.quests
 
-import com.mirage.core.COMPLETED_QUEST_PHASE
-import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.utils.QuestProgress
 import com.mirage.core.preferences.Prefs
+import com.mirage.core.utils.COMPLETED_QUEST_PHASE
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.PageNavigator
 import kotlin.math.max

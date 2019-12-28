@@ -1,4 +1,4 @@
-package com.mirage.core
+package com.mirage.core.utils
 
 
 object Log {

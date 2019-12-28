@@ -1,11 +1,11 @@
 package com.mirage.logic.behavior
 
-import com.mirage.core.datastructures.rangeBetween
-import com.mirage.core.extensions.EntityID
-import com.mirage.core.extensions.IntervalMillis
-import com.mirage.core.extensions.SkillNames
-import com.mirage.core.extensions.tableOf
-import com.mirage.core.game.objects.extended.ExtendedEntity
+import com.mirage.core.utils.rangeBetween
+import com.mirage.core.utils.EntityID
+import com.mirage.core.utils.IntervalMillis
+import com.mirage.core.utils.SkillNames
+import com.mirage.core.utils.tableOf
+import com.mirage.logic.state.ExtendedEntity
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.messaging.*

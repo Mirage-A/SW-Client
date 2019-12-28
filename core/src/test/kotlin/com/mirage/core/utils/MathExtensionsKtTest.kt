@@ -1,5 +1,7 @@
-package com.mirage.core.extensions
+package com.mirage.core.utils
 
+import com.mirage.core.utils.sqr
+import com.mirage.core.utils.trunc
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

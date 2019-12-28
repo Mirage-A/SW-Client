@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 
 
 private const val skillPaneMargin = 8f // Отступ между навыками, между навыками и полосой здоровья и между полосой здоровья и экраном

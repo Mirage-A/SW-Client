@@ -14,8 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ScalingViewport
-import com.mirage.core.*
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.*
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt

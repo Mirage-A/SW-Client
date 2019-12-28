@@ -1,5 +1,6 @@
-package com.mirage.core.datastructures
+package com.mirage.core.utils
 
+import com.mirage.core.utils.Point
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

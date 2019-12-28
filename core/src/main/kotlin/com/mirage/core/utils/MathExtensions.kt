@@ -1,4 +1,4 @@
-package com.mirage.core.extensions
+package com.mirage.core.utils
 
 import kotlin.math.roundToInt
 

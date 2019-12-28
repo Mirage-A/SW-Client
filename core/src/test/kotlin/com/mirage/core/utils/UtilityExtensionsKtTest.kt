@@ -1,4 +1,4 @@
-package com.mirage.core.extensions
+package com.mirage.core.utils
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

@@ -1,6 +1,6 @@
 package com.mirage.ui.fragments.inventory
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import kotlin.math.min
 
 

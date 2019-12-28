@@ -1,6 +1,6 @@
 package com.mirage.view.drawers.templates
 
-import com.mirage.core.Log
+import com.mirage.core.utils.Log
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.properties.WeaponType
 import com.mirage.core.virtualscreen.VirtualScreen

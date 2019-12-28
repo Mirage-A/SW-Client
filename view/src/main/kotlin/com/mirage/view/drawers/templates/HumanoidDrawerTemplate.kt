@@ -1,8 +1,8 @@
 package com.mirage.view.drawers.templates
 
-import com.mirage.core.Log
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.properties.WeaponType

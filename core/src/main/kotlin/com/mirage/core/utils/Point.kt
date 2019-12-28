@@ -1,6 +1,5 @@
-package com.mirage.core.datastructures
+package com.mirage.core.utils
 
-import com.mirage.core.extensions.sqr
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt

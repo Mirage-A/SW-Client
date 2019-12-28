@@ -1,6 +1,6 @@
 package com.mirage.view.utils
 
-import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.game.objects.SimplifiedObject
 import com.mirage.core.utils.TestSamples
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

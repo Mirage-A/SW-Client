@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.newgame
 
-import com.mirage.core.Log
+import com.mirage.core.utils.Log
 import com.mirage.core.messaging.ChangeSceneClientMessage
 import com.mirage.core.preferences.Prefs
 import com.mirage.ui.screens.ClientMessageListener
@@ -19,7 +19,7 @@ internal fun NewGameWidgets.initializeListeners(newGameState: NewGameState, list
     confirmBtn.onPressed = {
         if (newGameState.selectedClass != "none") {
             //TODO For Android, use Gdx.input.getTextInput
-            if (createNewProfile(profileNameField.text ?: "", newGameState.selectedClass)) {
+            if (createNewProfile(profileNameField.text, newGameState.selectedClass)) {
                 listener(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
             }
         }

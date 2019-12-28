@@ -1,9 +1,9 @@
 package com.mirage.logic.behavior
 
-import com.mirage.core.extensions.EntityID
-import com.mirage.core.extensions.IntervalMillis
-import com.mirage.core.extensions.tableOf
-import com.mirage.core.game.objects.extended.ExtendedEntity
+import com.mirage.core.utils.EntityID
+import com.mirage.core.utils.IntervalMillis
+import com.mirage.core.utils.tableOf
+import com.mirage.logic.state.ExtendedEntity
 import com.mirage.logic.data.LogicData
 import com.mirage.logic.processors.runAssetScript
 import org.luaj.vm2.LuaValue

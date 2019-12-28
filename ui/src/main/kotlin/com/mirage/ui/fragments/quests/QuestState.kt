@@ -1,7 +1,7 @@
 package com.mirage.ui.fragments.quests
 
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.QuestProgress
 
 internal class QuestState(val gameMapName: GameMapName, val localQuestProgress: QuestProgress) {
 

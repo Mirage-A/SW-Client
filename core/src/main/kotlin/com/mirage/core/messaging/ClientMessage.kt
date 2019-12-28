@@ -1,6 +1,6 @@
 package com.mirage.core.messaging
 
-import com.mirage.core.extensions.EntityID
+import com.mirage.core.utils.EntityID
 import com.mirage.core.game.objects.properties.MoveDirection
 
 

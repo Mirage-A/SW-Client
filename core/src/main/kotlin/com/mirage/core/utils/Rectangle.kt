@@ -1,4 +1,4 @@
-package com.mirage.core.datastructures
+package com.mirage.core.utils
 
 /** Rectangle with center at ([x], [y]) and size [width] x [height] */
 data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f, val height: Float = 0f) {

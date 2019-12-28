@@ -1,11 +1,11 @@
 package com.mirage.view
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.datastructures.rangeBetween
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.utils.rangeBetween
+import com.mirage.core.game.objects.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedObject
 import com.mirage.core.game.states.SimplifiedState
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.view.drawers.DrawersManager

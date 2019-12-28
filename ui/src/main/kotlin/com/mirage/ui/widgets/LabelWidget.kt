@@ -1,6 +1,6 @@
 package com.mirage.ui.widgets
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.virtualscreen.VirtualScreen
 
 internal class LabelWidget(

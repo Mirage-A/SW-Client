@@ -1,4 +1,4 @@
-package com.mirage.core
+package com.mirage.core.utils
 
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertNotNull

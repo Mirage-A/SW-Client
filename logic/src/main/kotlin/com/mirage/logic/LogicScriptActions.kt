@@ -1,10 +1,10 @@
 package com.mirage.logic
 
-import com.mirage.core.extensions.EntityID
+import com.mirage.core.utils.EntityID
 import com.mirage.core.game.maps.GameMap
-import com.mirage.core.game.objects.extended.ExtendedBuilding
-import com.mirage.core.game.objects.extended.ExtendedEntity
-import com.mirage.core.game.states.ExtendedState
+import com.mirage.logic.state.ExtendedBuilding
+import com.mirage.logic.state.ExtendedEntity
+import com.mirage.logic.state.ExtendedState
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
 

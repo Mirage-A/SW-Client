@@ -2,7 +2,7 @@ package com.mirage.core.preferences
 
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.backends.headless.HeadlessApplication
-import com.mirage.core.PLATFORM
+import com.mirage.core.utils.PLATFORM
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 

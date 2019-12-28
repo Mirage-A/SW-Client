@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.extensions.GameMapName
+import com.mirage.core.utils.GameMapName
 import com.mirage.core.messaging.*
 import com.mirage.core.preferences.Prefs
 import com.mirage.core.virtualscreen.VirtualScreen

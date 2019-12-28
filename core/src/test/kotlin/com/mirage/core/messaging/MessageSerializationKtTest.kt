@@ -1,8 +1,8 @@
 package com.mirage.core.messaging
 
-import com.mirage.core.INNER_DLMTR
-import com.mirage.core.OUTER_DLMTR
 import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.utils.INNER_DLMTR
+import com.mirage.core.utils.OUTER_DLMTR
 import com.mirage.core.utils.TestSamples
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals

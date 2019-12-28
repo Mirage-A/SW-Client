@@ -6,12 +6,12 @@ import com.badlogic.gdx.Gdx.gl
 import com.badlogic.gdx.graphics.GL20
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
-import com.mirage.core.INTERPOLATION_DELAY_MILLIS
-import com.mirage.core.PLATFORM
 import com.mirage.core.messaging.ChangeSceneClientMessage
 import com.mirage.core.messaging.CloseConnectionMessage
 import com.mirage.core.messaging.ExitClientMessage
 import com.mirage.core.preferences.Prefs
+import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
+import com.mirage.core.utils.PLATFORM
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.mirage.ui.screens.Screen

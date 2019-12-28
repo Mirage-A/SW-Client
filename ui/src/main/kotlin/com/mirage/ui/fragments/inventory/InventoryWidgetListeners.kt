@@ -1,7 +1,7 @@
 package com.mirage.ui.fragments.inventory
 
-import com.mirage.core.Assets
-import com.mirage.core.Log
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.Log
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.game.objects.properties.WeaponType
 import com.mirage.core.preferences.EquipmentSlot

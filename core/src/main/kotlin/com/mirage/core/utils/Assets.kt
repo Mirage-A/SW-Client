@@ -1,10 +1,9 @@
-package com.mirage.core
+package com.mirage.core.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
 import com.google.gson.Gson
-import com.mirage.core.extensions.fromJson
 import com.mirage.core.game.objects.properties.EquipmentData
 import com.mirage.core.preferences.EquipmentSlot
 import java.io.File

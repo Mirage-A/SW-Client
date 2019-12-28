@@ -1,8 +1,8 @@
 package com.mirage.core.game.states
 
-import com.mirage.core.extensions.mutableMap
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
+import com.mirage.core.utils.mutableMap
+import com.mirage.core.game.objects.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedEntity
 
 open class SimplifiedState(
         open val buildings: Map<Long, SimplifiedBuilding> = HashMap(),

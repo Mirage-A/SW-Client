@@ -1,6 +1,6 @@
 package com.mirage.view.drawers
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.virtualscreen.VirtualScreen
 

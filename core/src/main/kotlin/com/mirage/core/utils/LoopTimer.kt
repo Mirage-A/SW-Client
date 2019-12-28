@@ -1,7 +1,5 @@
-package com.mirage.core
+package com.mirage.core.utils
 
-import com.mirage.core.extensions.IntervalMillis
-import com.mirage.core.extensions.TimeMillis
 import kotlin.concurrent.thread
 
 class LoopTimer(private val delayMillis: Long, private val onUpdate: (TimeMillis, IntervalMillis) -> Unit) {
