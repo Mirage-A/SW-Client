@@ -1,6 +1,5 @@
 package com.mirage.connection
 
-import com.mirage.core.extensions.*
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage

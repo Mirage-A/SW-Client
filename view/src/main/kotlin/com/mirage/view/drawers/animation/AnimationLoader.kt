@@ -4,22 +4,15 @@ import com.mirage.core.utils.Assets
 import java.util.*
 
 /**
- * Синглтон, в котором загружаются и хранятся все анимации, созданные с помощью Animation Editor-а
- * Анимации загружаются лениво при вызове getAnimation и хранятся в кэше
+ * This object should be used to load animations from assets.
+ * All animations are cached after first loading.
  */
 object AnimationLoader {
-    /**
-     * Словари с загруженными анимациями.
-     * Ключ - значение action.
-     */
+
     private var bodyAnimationsCache: MutableMap<String, Animation> = HashMap()
     private var legsAnimationsCache: MutableMap<String, Animation> = HashMap()
     private var objectAnimationsCache: MutableMap<String, Animation> = HashMap()
 
-    /**
-     * Возвращает данную анимацию
-     * Если анимация еще не загружена, она загружается и сохраняется в кэш
-     */
     fun getBodyAnimation(action: String): Animation {
         val cached = bodyAnimationsCache[action]
         return if (cached == null) {
@@ -59,9 +52,6 @@ object AnimationLoader {
         } else cached
     }
 
-    /**
-     * Очищает кэш с загруженными анимациями
-     */
     fun clearCache() {
         bodyAnimationsCache.clear()
         legsAnimationsCache.clear()

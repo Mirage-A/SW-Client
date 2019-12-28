@@ -1,70 +1,39 @@
 package com.mirage.core.game.maps
 
-/**
- * Неизменяемая информация об игровой карте.
- * Содержит только параметры карты (размеры, тайлы), а не объекты.
- */
+/** Immutable game map data */
 data class GameMap(
 
         /** Name of this scene on loading screen */
         val name: String?,
-
         /** Description of this scene on loading screen */
         val description: String?,
-        /**
-         * Ширина карты в тайлах
-         */
+        /** Width in tiles */
         val width: Int,
-        /**
-         * Высота карты в тайлах
-         */
+        /** Height in tiles */
         val height: Int,
-        /**
-         * Координата точки спауна игроков
-         */
+
         val spawnX: Float,
-        /**
-         * Координата точки спауна игроков
-         */
+
         val spawnY: Float,
-        /**
-         * Название файла с текстурами тайлов
-         */
+        /** Name of file with tile textures */
         val tileSetName: String,
-        /**
-         * ID тайла, который отрисовывается, когда камера выходит за края карты
-         */
+        /** ID of default tile. Default tile is drawn outside of map bounds */
         val defaultTileID: Int,
-        /**
-         * Список из ID тайлов.
-         * ID тайла - номер его текстуры в файле с текстурами тайлов.
-         * @see tileSetName
-         */
+        /** List of IDs of tiles in tileset */
         private val tiles: List<Int>,
         /**
-         * Список из ID проходимости тайлов.
-         * По умолчанию:
-         * 1 - можно пройти
-         * 2 - нельзя пройти, но снаряды пролетают
-         * 3 - нельзя пройти, снаряды не пролетают
+         * Walkability of tiles
+         * 1 - walkable
+         * 2 - not walkable, but shootable
+         * 3 - not walkable, not shootable
          */
         private val collisions: List<Int>
 ) {
 
-    /**
-     * Возвращает ID тайла по данным координатам.
-     * ID тайла означает его номер в файле [tileSetName] с текстурами тайлов.
-     */
     fun getTileID(x: Int, y: Int): Int = tiles[x + y * width]
 
-    /**
-     * Является ли тайл по данным координатам проходимым
-     */
     fun isTileWalkable(x: Int, y: Int): Boolean = collisions[x + y * width] == 1
 
-    /**
-     * Является ли тайл по данным координатам простреливаемым
-     */
     fun isTileShootable(x: Int, y: Int): Boolean = collisions[x + y * width] == 1 || collisions[x + y * width] == 2
 
 }

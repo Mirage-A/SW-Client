@@ -1,15 +1,14 @@
-package com.mirage.core.game.states
+package com.mirage.ui.fragments.gameview
 
+import com.mirage.core.game.objects.*
 import com.mirage.core.utils.TimeMillis
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.SimplifiedEntity
-import com.mirage.core.game.objects.SimplifiedObject
 import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.utils.MAX_EXTRAPOLATION_INTERVAL
 import java.util.*
 import kotlin.math.min
 
-data class Snapshot(
+private data class Snapshot(
         val stateDifference: StateDifference,
         val createdTimeMillis: TimeMillis
 ) : Comparable<Snapshot> {
@@ -17,7 +16,7 @@ data class Snapshot(
 }
 
 /** Contains latest game states and performs interpolation and extrapolation of game states for following rendering */
-class SnapshotManager(
+internal class SnapshotManager(
         /** This method is invoked when new snapshot is being rendered */
         private val onNextSnapshot: (oldState: SimplifiedState, difference: StateDifference) -> Unit = { _, _ -> }
 ) {

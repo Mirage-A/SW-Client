@@ -1,6 +1,6 @@
 package com.mirage.logic.state
 
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.utils.mutableMap
 
 class ExtendedState(

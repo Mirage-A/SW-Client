@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.files.FileHandle
 import com.google.gson.Gson
 import com.mirage.core.game.objects.properties.EquipmentData
-import com.mirage.core.preferences.EquipmentSlot
+import com.mirage.core.game.objects.properties.EquipmentSlot
 import java.io.File
 import java.io.InputStream
 import java.io.Reader

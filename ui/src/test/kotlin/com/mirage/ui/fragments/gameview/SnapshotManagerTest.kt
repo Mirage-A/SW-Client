@@ -1,7 +1,10 @@
-package com.mirage.core.game.states
+package com.mirage.ui.fragments.gameview
 
+import com.mirage.core.game.objects.Difference
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.utils.MAX_EXTRAPOLATION_INTERVAL
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
@@ -29,14 +32,12 @@ internal class SnapshotManagerTest {
         // 0 мс, пустая сцена
         val firstState = SimplifiedState()
         val firstDiff = StateDifference()
-        val firstSnapshot = GameStateSnapshot(firstState, firstDiff, 0L)
 
         // 1000 мс, добавлены 2 объекта с координатами (0, 0) и (10, 10)
         val secondDiff = StateDifference(
                 entitiesDifference = Difference(new = mapOf(0L to obj, 1L to obj.with(x = 10f, y = 10f)))
         )
         val secondState = secondDiff.projectOn(firstState)
-        val secondSnapshot = GameStateSnapshot(secondState, secondDiff, 1000L)
 
         // 2000 мс, оба объекта переместились на точку (10, 0)
         val thirdDiff = StateDifference(
@@ -45,7 +46,6 @@ internal class SnapshotManagerTest {
                 )
         )
         val thirdState = thirdDiff.projectOn(secondState)
-        val thirdSnapshot = GameStateSnapshot(thirdState, thirdDiff, 2000L)
 
         // 3000 мс, первый объект исчез, второй объект переместился на точку (0, 0)
         val fourthDiff = StateDifference(
@@ -55,13 +55,12 @@ internal class SnapshotManagerTest {
                 )
         )
         val fourthState = fourthDiff.projectOn(thirdState)
-        val fourthSnapshot = GameStateSnapshot(fourthState, fourthDiff, 3000L)
 
         val snapshotManager = SnapshotManager()
-        snapshotManager.setInitialState(firstSnapshot.finalState, firstSnapshot.createdTimeMillis)
-        snapshotManager.addSnapshot(thirdSnapshot.stateDifference, thirdSnapshot.createdTimeMillis)
-        snapshotManager.addSnapshot(fourthSnapshot.stateDifference, fourthSnapshot.createdTimeMillis)
-        snapshotManager.addSnapshot(secondSnapshot.stateDifference, secondSnapshot.createdTimeMillis)
+        snapshotManager.setInitialState(firstState, 0L)
+        snapshotManager.addSnapshot(thirdDiff, 2000L)
+        snapshotManager.addSnapshot(fourthDiff, 3000L)
+        snapshotManager.addSnapshot(secondDiff, 1000L)
 
         // На момент -500 мс данных нет
         assertDoesNotThrow {

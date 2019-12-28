@@ -4,7 +4,7 @@ import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.SimplifiedBuilding
 import com.mirage.core.game.objects.SimplifiedEntity
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 
 //TODO Remove this class
 object TestSamples {

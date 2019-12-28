@@ -1,8 +1,5 @@
-package com.mirage.core.game.states
+package com.mirage.core.game.objects
 
-import com.mirage.core.game.objects.SimplifiedBuilding
-import com.mirage.core.game.objects.SimplifiedEntity
-import com.mirage.core.game.objects.SimplifiedObject
 import java.util.*
 import kotlin.collections.HashMap
 

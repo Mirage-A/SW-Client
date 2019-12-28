@@ -5,7 +5,7 @@ import com.mirage.core.utils.fromJson
 import com.mirage.logic.state.ExtendedBuilding
 import com.mirage.logic.state.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.utils.TestSamples
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals

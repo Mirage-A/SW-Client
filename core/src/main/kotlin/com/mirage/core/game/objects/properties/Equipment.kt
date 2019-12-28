@@ -2,7 +2,6 @@ package com.mirage.core.game.objects.properties
 
 import com.mirage.core.utils.Assets
 import com.mirage.core.utils.IntervalMillis
-import com.mirage.core.preferences.EquipmentSlot
 
 private const val unarmedDamage = 5
 private const val unarmedRange = 2f
@@ -152,6 +151,15 @@ data class EquipmentData(
         appendln(modifiersList.joinToString())
         appendln(description)
     }
+}
+
+enum class EquipmentSlot {
+    HELMET,
+    CHEST,
+    LEGGINGS,
+    CLOAK,
+    MAIN_HAND,
+    OFF_HAND
 }
 
 

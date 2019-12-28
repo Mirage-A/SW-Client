@@ -4,7 +4,7 @@ import com.mirage.core.utils.GameMapName
 import com.mirage.core.utils.QuestProgress
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.utils.TestSamples
 
 internal class GameState(val gameMapName: GameMapName) {

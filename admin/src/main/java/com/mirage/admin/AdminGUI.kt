@@ -44,7 +44,7 @@ internal class AdminGUI(private val rooms: List<Room>) : JFrame() {
         printInTerminal("\n" + text)
     }
 
-    fun printError(errorText: String) = printlnInTerminal(errorText) //TODO Красненький цвет
+    fun printError(errorText: String) = printlnInTerminal(errorText) //TODO Red color
 
     fun clearTerminal() {
         terminalTextArea.text = ""

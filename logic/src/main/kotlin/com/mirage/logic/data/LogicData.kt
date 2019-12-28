@@ -1,9 +1,8 @@
 package com.mirage.logic.data
 
-import com.mirage.core.extensions.*
 import com.mirage.core.game.maps.GameMap
 import com.mirage.logic.state.ExtendedState
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ServerMessage
 import com.mirage.core.utils.*

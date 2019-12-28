@@ -7,8 +7,8 @@ import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.SimplifiedEntity
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.StateDifference
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.utils.DELTA_CENTER_Y
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.view.drawers.DrawersManager

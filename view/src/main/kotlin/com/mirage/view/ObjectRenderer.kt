@@ -6,7 +6,7 @@ import com.mirage.core.utils.rangeBetween
 import com.mirage.core.game.objects.SimplifiedBuilding
 import com.mirage.core.game.objects.SimplifiedEntity
 import com.mirage.core.game.objects.SimplifiedObject
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.virtualscreen.VirtualScreen
 import com.mirage.view.drawers.DrawersManager
 import com.mirage.view.utils.compareEntityAndBuilding

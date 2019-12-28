@@ -1,6 +1,5 @@
 package com.mirage.logic.processors
 
-import com.mirage.core.extensions.*
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.messaging.HumanoidEquipmentUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage

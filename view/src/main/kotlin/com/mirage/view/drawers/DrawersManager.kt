@@ -4,8 +4,8 @@ import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.SimplifiedEntity
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.StateDifference
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.virtualscreen.VirtualScreen
 
 interface DrawersManager {

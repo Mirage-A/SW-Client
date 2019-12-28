@@ -3,9 +3,8 @@ package com.mirage.ui.fragments.gameview
 import com.badlogic.gdx.Input
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.SnapshotManager
-import com.mirage.core.game.states.StateDifference
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.messaging.InteractionClientMessage
 import com.mirage.core.messaging.SetTargetClientMessage
 import com.mirage.core.utils.*
@@ -33,7 +32,9 @@ internal class GameViewFragment(
 
     private val snapshotManager: SnapshotManager = SnapshotManager { oldState, difference ->
         /** Updating drawers for new snapshot */
+        /** Updating drawers for new snapshot */
         gameView.updateDrawers(oldState, difference)
+        /** Processing equipment change requests */
         /** Processing equipment change requests */
         val iterator = equipmentChangeRequests.listIterator()
         while (iterator.hasNext()) {

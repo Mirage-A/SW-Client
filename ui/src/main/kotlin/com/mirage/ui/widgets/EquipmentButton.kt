@@ -1,8 +1,8 @@
 package com.mirage.ui.widgets
 
+import com.mirage.core.game.objects.properties.EquipmentSlot
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.Rectangle
-import com.mirage.core.preferences.EquipmentSlot
 import com.mirage.core.virtualscreen.VirtualScreen
 
 /** Button displaying a piece of equipment */

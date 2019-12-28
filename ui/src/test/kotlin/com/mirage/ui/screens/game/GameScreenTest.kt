@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.utils.*

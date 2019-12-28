@@ -1,6 +1,5 @@
 package com.mirage.logic
 
-import com.mirage.core.extensions.*
 import com.mirage.core.game.maps.GameMap
 import com.mirage.logic.state.ExtendedBuilding
 import com.mirage.logic.state.ExtendedEntity

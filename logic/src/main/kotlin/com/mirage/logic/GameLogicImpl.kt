@@ -1,6 +1,6 @@
 package com.mirage.logic
 
-import com.mirage.core.game.states.StateDifference
+import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage

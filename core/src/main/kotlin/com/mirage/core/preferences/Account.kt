@@ -1,5 +1,7 @@
 package com.mirage.core.preferences
 
+import com.mirage.core.game.objects.properties.EquipmentSlot
+
 class Account {
 
     val profiles = ArrayList<String>()

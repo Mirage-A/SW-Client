@@ -4,7 +4,7 @@ import com.mirage.core.utils.Point
 import com.mirage.core.utils.PlayerCreationRequest
 import com.mirage.core.utils.QuestProgress
 import com.mirage.core.game.objects.properties.Equipment
-import com.mirage.core.game.states.SimplifiedState
+import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.messaging.ServerMessage
