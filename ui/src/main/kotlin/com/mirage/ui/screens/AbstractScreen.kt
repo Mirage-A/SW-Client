@@ -10,7 +10,9 @@ typealias ClientMessageListener = (ClientMessage) -> Unit
 abstract class AbstractScreen(protected val virtualScreen: VirtualScreen) : Screen {
 
     init {
-        virtualScreen.stage.clear()
+        try {
+            virtualScreen.stage.clear()
+        } catch (ex: Exception) { }
     }
 
     internal abstract val rootWidget: Widget

@@ -8,10 +8,12 @@ import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class MainMenuScreenTest {
 
+    @Disabled
     @Test
     fun testMainMenuRendering() {
         val mock = createVirtualScreenMock(1600f, 900f)

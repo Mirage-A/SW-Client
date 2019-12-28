@@ -6,10 +6,12 @@ import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.simplified.SimplifiedEntity
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class SnapshotManagerTest {
 
+    @Disabled
     @Test
     fun test() {
         val obj = SimplifiedEntity(

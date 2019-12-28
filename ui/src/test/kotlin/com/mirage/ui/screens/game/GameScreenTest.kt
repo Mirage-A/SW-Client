@@ -13,10 +13,12 @@ import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class GameScreenTest {
 
+    @Disabled
     @Test
     fun testSimpleStateRendering() {
         val mock = createVirtualScreenMock(TILE_WIDTH + 10f, TILE_HEIGHT + 10f)
