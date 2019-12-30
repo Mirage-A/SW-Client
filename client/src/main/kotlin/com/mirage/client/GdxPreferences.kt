@@ -1,20 +1,26 @@
-package com.mirage.core.preferences
+package com.mirage.client
 
 import com.badlogic.gdx.Gdx
 import com.google.gson.Gson
+import com.mirage.core.preferences.Account
+import com.mirage.core.preferences.Preferences
+import com.mirage.core.preferences.Profile
+import com.mirage.core.preferences.Settings
 import com.mirage.core.utils.Log
 import com.mirage.core.utils.fromJson
 
-object Prefs {
+internal object GdxPreferences : Preferences {
 
     private val gson = Gson()
 
-    val settings: Settings
+    override val settings: Settings
 
-    val account: Account
+    override val account: Account
 
-    var profile: Profile
-        private set
+    private var currentProfile: Profile
+
+    override val profile: Profile
+        get() = currentProfile
 
     init {
         settings = try {
@@ -33,11 +39,11 @@ object Prefs {
             Account()
         }
 
-        val profileName = account.currentProfile
-        profile = if (profileName == null) Profile() else loadProfile(profileName)
+        val profileName = account.currentProfileName
+        currentProfile = if (profileName == null) Profile() else loadProfile(profileName)
     }
 
-    fun savePreferences() {
+    override fun savePreferences() {
         try {
             with(Gdx.app.getPreferences("SW-Settings")) {
                 putString("settings", gson.toJson(settings))
@@ -53,10 +59,10 @@ object Prefs {
         }
     }
 
-    fun switchProfile(newProfileName: String) {
+    override fun switchProfile(newProfileName: String) {
         saveCurrentProfile()
-        profile = loadProfile(newProfileName)
-        account.currentProfile = newProfileName
+        currentProfile = loadProfile(newProfileName)
+        account.currentProfileName = newProfileName
     }
 
     private fun loadProfile(profileName: String): Profile = try {
@@ -67,9 +73,9 @@ object Prefs {
         Profile()
     }
 
-    fun saveCurrentProfile() {
+    override fun saveCurrentProfile() {
         try {
-            val profileName = account.currentProfile ?: return
+            val profileName = account.currentProfileName ?: return
             with(Gdx.app.getPreferences("SW-Profile-$profileName")) {
                 putString("profile", gson.toJson(profile))
                 flush()

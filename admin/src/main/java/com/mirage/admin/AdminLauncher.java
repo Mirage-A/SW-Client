@@ -1,13 +1,13 @@
 package com.mirage.admin;
 
 
-import com.mirage.core.utils.ConfigurationKt;
+import com.mirage.core.utils.ClientPlatformKt;
 
 public class AdminLauncher {
 
     public static void main(String[] args) {
         System.setProperty("user.name", "CorrectUserName");
-        ConfigurationKt.setPLATFORM("server");
+        ClientPlatformKt.setPLATFORM("server");
         new Admin();
     }
 }

@@ -1,4 +1,4 @@
-package com.mirage.core.virtualscreen
+package com.mirage.client
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -15,21 +15,19 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ScalingViewport
 import com.mirage.core.utils.*
+import com.mirage.core.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
 
-open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
-                                initialVirtualHeight: Float = 0f,
-                                initialRealWidth: Float = 0f,
-                                initialRealHeight: Float = 0f) : VirtualScreen {
+internal object GdxVirtualScreen : VirtualScreen {
 
 
-    override var width: Float = initialVirtualWidth
-    override var height: Float = initialVirtualHeight
-    override var realWidth: Float = initialRealWidth
-    override var realHeight: Float = initialRealHeight
+    override var width: Float = 0f
+    override var height: Float = 0f
+    override var realWidth: Float = 0f
+    override var realHeight: Float = 0f
 
 
     private val camera: OrthographicCamera = OrthographicCamera()
@@ -92,7 +90,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     private fun loadTexture(name: String): Texture {
         try {
             val path = if (name.startsWith("../")) name.substring(3) + ".png" else "drawable/$name.png"
-            val file = Assets.loadFile(path)
+            val file = GdxAssets.loadFile(path)
             file ?: return emptyTexture.value
             val loadedTexture = Texture(file, false)
             loadedTexture.setFilter(minFilter, magFilter)
@@ -131,7 +129,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
 
     override fun setTileSet(tileSetName: String) {
         tileTexturesList = try {
-            val fullTexture = Texture(Assets.loadFile("drawable/tiles/$tileSetName.png"))
+            val fullTexture = Texture(GdxAssets.loadFile("drawable/tiles/$tileSetName.png"))
             val regions = TextureRegion.split(fullTexture, TILE_WIDTH.roundToInt(), TILE_HEIGHT.roundToInt())
             val res = regions.flatten()
             res.forEach { it.texture.setFilter(minFilter, magFilter) }
@@ -215,7 +213,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     override fun createTextField(hint: String, rect: Rectangle): VirtualScreen.TextField = GdxTextField(hint, rect)
 
 
-    inner class GdxLabel internal constructor(
+    class GdxLabel internal constructor(
             text: String,
             rect: Rectangle,
             private val fontCapHeight: Float = 15f
@@ -269,7 +267,7 @@ open class VirtualScreenGdxImpl(initialVirtualWidth: Float = 0f,
     }
 
 
-    inner class GdxTextField internal constructor(
+    class GdxTextField internal constructor(
             hint: String,
             rect: Rectangle,
             private val fontCapHeight: Float = 15f

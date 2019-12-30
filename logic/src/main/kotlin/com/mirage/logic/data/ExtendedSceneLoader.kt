@@ -1,7 +1,7 @@
 package com.mirage.logic.data
 
 import com.google.gson.reflect.TypeToken
-import com.mirage.core.utils.Assets
+import com.mirage.core.utils.GdxAssets
 import com.mirage.core.utils.Log
 import com.mirage.core.utils.Rectangle
 import com.mirage.core.utils.EntityID
@@ -45,7 +45,7 @@ internal class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameM
 
     fun loadAreas(): Iterable<ScriptArea> =
             try {
-                loadAreas(Assets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
+                loadAreas(GdxAssets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
             } catch (ex: Exception) {
                 Log.e("Error while loading areas from scene: $gameMapName")
                 ArrayList()
@@ -70,13 +70,13 @@ internal class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameM
             }
 
     fun loadAreaScript(scriptName: String): Reader? =
-            Assets.loadReader("scenes/$gameMapName/areas/$scriptName.lua")
+            GdxAssets.loadReader("scenes/$gameMapName/areas/$scriptName.lua")
 
     fun loadInitialState(): ExtendedState =
             try {
-                loadInitialState(Assets.loadReader(
+                loadInitialState(GdxAssets.loadReader(
                         "scenes/$gameMapName/buildings.json")!!,
-                        Assets.loadReader("scenes/$gameMapName/entities.json")!!
+                        GdxAssets.loadReader("scenes/$gameMapName/entities.json")!!
                 )
             } catch (ex: Exception) {
                 Log.e("Error while loading initial objects from scene: $gameMapName")

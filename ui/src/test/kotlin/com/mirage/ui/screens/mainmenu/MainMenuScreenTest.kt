@@ -3,8 +3,8 @@ package com.mirage.ui.screens.mainmenu
 import com.mirage.core.utils.Rectangle
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.ExitClientMessage
-import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.core.VirtualScreen
+import com.mirage.core.virtualscreen.GdxVirtualScreen
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -48,7 +48,7 @@ internal class MainMenuScreenTest {
     }
 
     private fun createVirtualScreenMock(width: Float, height: Float, realWidth: Float = width, realHeight: Float = height): VirtualScreen {
-        val mock: VirtualScreenGdxImpl = mock()
+        val mock: GdxVirtualScreen = mock()
         whenever(mock.width) doReturn width
         whenever(mock.height) doReturn height
         whenever(mock.realWidth) doReturn realWidth

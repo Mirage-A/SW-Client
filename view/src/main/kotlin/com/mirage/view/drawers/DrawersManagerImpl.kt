@@ -9,7 +9,7 @@ import com.mirage.core.game.objects.SimplifiedBuilding
 import com.mirage.core.game.objects.SimplifiedEntity
 import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.game.objects.StateDifference
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.view.drawers.templates.EmptyDrawerTemplate
 import com.mirage.view.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.view.utils.loadBuildingDrawersFromTemplate

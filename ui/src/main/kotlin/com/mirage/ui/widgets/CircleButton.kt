@@ -2,7 +2,7 @@ package com.mirage.ui.widgets
 
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 
 
 /** Circle button, maybe bordered or with bounded label with some text.

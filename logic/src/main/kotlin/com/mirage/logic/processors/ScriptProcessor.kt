@@ -1,6 +1,6 @@
 package com.mirage.logic.processors
 
-import com.mirage.core.utils.Assets
+import com.mirage.core.utils.GdxAssets
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.TimeMillis
 import com.mirage.core.utils.runScript
@@ -13,7 +13,7 @@ import org.luaj.vm2.LuaValue
 /** Runs a script from file "assets/ASSET_NAME.lua" */
 internal fun runAssetScript(assetName: String, args: LuaTable, coercedScriptActions: LuaValue) {
     args.set("actions", coercedScriptActions)
-    val reader = Assets.loadReader("$assetName.lua") ?: return
+    val reader = GdxAssets.loadReader("$assetName.lua") ?: return
     runScript(reader, args)
 }
 

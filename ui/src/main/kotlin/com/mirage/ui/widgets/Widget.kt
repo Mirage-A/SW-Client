@@ -2,7 +2,7 @@ package com.mirage.ui.widgets
 
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 
 internal typealias SizeUpdater = (virtualWidth: Float, virtualHeight: Float) -> Rectangle
 

@@ -8,7 +8,7 @@ import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.messaging.InteractionClientMessage
 import com.mirage.core.messaging.SetTargetClientMessage
 import com.mirage.core.utils.*
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.screens.game.GameState
 import com.mirage.ui.widgets.Widget

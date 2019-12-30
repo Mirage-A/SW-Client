@@ -2,7 +2,7 @@ package com.mirage.ui.screens
 
 import com.badlogic.gdx.InputProcessor
 import com.mirage.core.messaging.ServerMessage
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 
 interface Screen : InputProcessor {
 

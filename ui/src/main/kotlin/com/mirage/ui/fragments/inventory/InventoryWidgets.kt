@@ -1,7 +1,7 @@
 package com.mirage.ui.fragments.inventory
 
 import com.mirage.core.game.objects.properties.EquipmentSlot
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.widgets.*
 
 

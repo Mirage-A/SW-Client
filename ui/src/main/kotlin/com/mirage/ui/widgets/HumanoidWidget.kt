@@ -2,7 +2,7 @@ package com.mirage.ui.widgets
 
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.fragments.inventory.centerColumnWidthPart
 import com.mirage.ui.fragments.inventory.humanoidScale
 import com.mirage.ui.fragments.inventory.humanoidSize

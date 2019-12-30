@@ -2,7 +2,7 @@ package com.mirage.ui.widgets
 
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 

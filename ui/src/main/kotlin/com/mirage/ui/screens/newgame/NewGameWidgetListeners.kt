@@ -2,7 +2,7 @@ package com.mirage.ui.screens.newgame
 
 import com.mirage.core.utils.Log
 import com.mirage.core.messaging.ChangeSceneClientMessage
-import com.mirage.core.preferences.Prefs
+import com.mirage.core.preferences.GdxPreferences
 import com.mirage.ui.screens.ClientMessageListener
 import kotlin.math.min
 
@@ -37,11 +37,11 @@ private fun createNewProfile(name: String, selectedClass: String): Boolean {
     val filtered = name.filter { it.isLetterOrDigit() }
     if (filtered.isEmpty()) return false
     val validatedName = filtered.substring(0, min(filtered.length, 16))
-    if (validatedName in Prefs.account.profiles) return false
+    if (validatedName in GdxPreferences.account.profiles) return false
     Log.i("Creating profile {$validatedName} and class $selectedClass")
-    Prefs.account.profiles.add(validatedName)
-    Prefs.switchProfile(validatedName)
-    with(Prefs.profile) {
+    GdxPreferences.account.profiles.add(validatedName)
+    GdxPreferences.switchProfile(validatedName)
+    with(GdxPreferences.profile) {
         profileName = validatedName
         when (selectedClass) {
             "mage" -> {

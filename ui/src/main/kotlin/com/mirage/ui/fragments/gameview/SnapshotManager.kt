@@ -3,10 +3,12 @@ package com.mirage.ui.fragments.gameview
 import com.mirage.core.game.objects.*
 import com.mirage.core.utils.TimeMillis
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
-import com.mirage.core.utils.MAX_EXTRAPOLATION_INTERVAL
 import java.util.*
 import kotlin.math.min
+
+const val INTERPOLATION_DELAY_MILLIS = 250L
+
+const val MAX_EXTRAPOLATION_INTERVAL = 250L
 
 private data class Snapshot(
         val stateDifference: StateDifference,

@@ -4,18 +4,18 @@ import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 
-internal class AssetsTest {
+internal class GdxAssetsTest {
 
 
     @Test
     fun testFileLoader() {
         assertDoesNotThrow {
-            Assets.loadFile("wtfisthis/idontexist!.ppnngg")
+            GdxAssets.loadFile("wtfisthis/idontexist!.ppnngg")
         }
         assertDoesNotThrow {
-            Assets.loadFile("C:\\Windows\\System32\\ActiveHours.png")
+            GdxAssets.loadFile("C:\\Windows\\System32\\ActiveHours.png")
         }
-        assertNotNull(Assets.loadFile("drawable/objects/null.png"))
+        assertNotNull(GdxAssets.loadFile("drawable/objects/null.png"))
     }
 
 

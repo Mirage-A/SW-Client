@@ -6,7 +6,7 @@ import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.properties.WeaponType
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.view.drawers.DrawerTemplate
 import com.mirage.view.drawers.animation.*
 

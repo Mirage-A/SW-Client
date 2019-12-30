@@ -3,7 +3,7 @@ package com.mirage.view
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.utils.TILE_HEIGHT
 import com.mirage.core.utils.TILE_WIDTH
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

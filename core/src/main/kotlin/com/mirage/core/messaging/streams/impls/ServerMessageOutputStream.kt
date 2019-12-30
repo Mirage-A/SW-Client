@@ -3,7 +3,7 @@ package com.mirage.core.messaging.streams.impls
 import com.mirage.core.messaging.ServerMessage
 import com.mirage.core.messaging.serializeServerMessage
 import com.mirage.core.messaging.streams.ServerMessageWriter
-import com.mirage.core.utils.OUTER_DLMTR
+import com.mirage.core.messaging.OUTER_DLMTR
 import java.io.BufferedWriter
 import java.io.OutputStream
 import java.io.OutputStreamWriter

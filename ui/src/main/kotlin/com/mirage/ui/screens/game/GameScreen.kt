@@ -2,8 +2,8 @@ package com.mirage.ui.screens.game
 
 import com.mirage.core.utils.GameMapName
 import com.mirage.core.messaging.*
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.preferences.GdxPreferences
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.screens.AbstractScreen
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.Widget
@@ -39,7 +39,7 @@ class GameScreen(
             }
             is GlobalQuestUpdateMessage -> {
                 //TODO Show notification about quest progress
-                Prefs.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
+                GdxPreferences.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
                 gameWidgets.questWindow.updateQuestWindow()
             }
             is HumanoidEquipmentUpdateMessage -> {

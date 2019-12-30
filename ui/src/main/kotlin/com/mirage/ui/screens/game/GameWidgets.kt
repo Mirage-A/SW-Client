@@ -1,7 +1,7 @@
 package com.mirage.ui.screens.game
 
 import com.badlogic.gdx.Input
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.fragments.gameview.GameViewFragment
 import com.mirage.ui.fragments.quests.QuestFragment
 import com.mirage.ui.screens.ClientMessageListener

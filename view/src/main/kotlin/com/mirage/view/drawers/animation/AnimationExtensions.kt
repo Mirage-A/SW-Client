@@ -1,7 +1,7 @@
 package com.mirage.view.drawers.animation
 
 import com.mirage.core.utils.Point
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import kotlin.math.min
 
 internal fun getAnimationCurrentTime(animation: Animation, timePassed: Long) =

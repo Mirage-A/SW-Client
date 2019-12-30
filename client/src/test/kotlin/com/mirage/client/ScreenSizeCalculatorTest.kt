@@ -1,4 +1,4 @@
-package com.mirage.core.virtualscreen
+package com.mirage.client
 
 import com.mirage.core.utils.Rectangle
 import org.junit.jupiter.api.Assertions.assertEquals

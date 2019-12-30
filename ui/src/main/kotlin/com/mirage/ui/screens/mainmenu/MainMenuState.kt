@@ -1,7 +1,7 @@
 package com.mirage.ui.screens.mainmenu
 
-import com.mirage.core.preferences.Prefs
+import com.mirage.core.preferences.GdxPreferences
 
 internal class MainMenuState {
-    val newGame: Boolean = Prefs.account.currentProfile == null
+    val newGame: Boolean = GdxPreferences.account.currentProfileName == null
 }

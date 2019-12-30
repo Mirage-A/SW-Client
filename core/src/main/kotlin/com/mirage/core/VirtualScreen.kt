@@ -1,9 +1,23 @@
-package com.mirage.core.virtualscreen
+package com.mirage.core
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.Rectangle
+
+/**
+ * Standard screen size.
+ * All drawable assets are drawn for a screen of this size.
+ * Width/height ratio for all images stays equal for all real screens.
+ */
+const val DEFAULT_SCREEN_WIDTH = 1920f
+const val DEFAULT_SCREEN_HEIGHT = 1080f
+/**
+ * Size of a tile on virtual screen.
+ */
+const val TILE_WIDTH = 128f
+const val TILE_HEIGHT = 64f
+
+/** Difference between y-coordinate of a player's entity on virtual screen and y-coordinate of a center of screen */
+const val DELTA_CENTER_Y = 64f
 
 /**
  * Cross-platform virtual screen with ability to draw textures on it.
@@ -22,8 +36,6 @@ interface VirtualScreen {
     /** Real screen size */
     val realWidth: Float
     val realHeight: Float
-
-    val stage: Stage
 
     /** Translates coordinates of a point on real screen to virtual screen */
     fun projectRealPointOnVirtualScreen(realPoint: Point): Point = Point(

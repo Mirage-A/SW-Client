@@ -11,6 +11,8 @@ import com.mirage.logic.data.PlayerTransferRequest
 import com.mirage.logic.processors.*
 import java.util.*
 
+const val GAME_LOOP_TICK_INTERVAL = 100L //Интервал между повторениями цикла логики
+
 class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
 
     private val data = LogicData(gameMapName)

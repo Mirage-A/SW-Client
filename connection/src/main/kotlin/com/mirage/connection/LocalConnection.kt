@@ -4,7 +4,7 @@ import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.GameStateUpdateMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.messaging.ServerMessage
-import com.mirage.core.preferences.Prefs
+import com.mirage.core.preferences.Preferences
 import com.mirage.core.utils.*
 import com.mirage.logic.GameLogic
 import com.mirage.logic.GameLogicImpl
@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 /** [Connection] implementation which works with local game logic (single player game) */
-class LocalConnection(private val mapName: GameMapName) : Connection {
+class LocalConnection(private val preferences: Preferences) : Connection {
 
     @Volatile
     private var playerID: EntityID? = null
@@ -21,13 +21,13 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
     /** Messages received before initial state with player */
     private val bufferedMessages = ArrayDeque<ServerMessage>()
 
-    private val logic: GameLogic = GameLogicImpl(mapName)
+    private val logic: GameLogic = GameLogicImpl(preferences.profile.currentMap)
 
     override fun start() {
         Log.i("connection.start() invoked")
         val lock = ReentrantLock()
         val idReceivedCondition = lock.newCondition()
-        val questProgress = QuestProgress(Prefs.profile.globalQuestProgress)
+        val questProgress = QuestProgress(preferences.profile.globalQuestProgress)
         val newPlayerListener: PlayerCreationListener = {
             lock.withLock {
                 playerID = it
@@ -35,7 +35,14 @@ class LocalConnection(private val mapName: GameMapName) : Connection {
                 idReceivedCondition.signal()
             }
         }
-        logic.startLogic(listOf(PlayerCreationRequest(Prefs.profile.profileName, questProgress, Prefs.profile.currentEquipment, newPlayerListener)))
+        logic.startLogic(initialPlayerRequests = listOf(
+                PlayerCreationRequest(
+                        preferences.profile.profileName,
+                        questProgress,
+                        preferences.profile.currentEquipment,
+                        newPlayerListener
+                )
+        ))
         lock.withLock {
             idReceivedCondition.await()
         }

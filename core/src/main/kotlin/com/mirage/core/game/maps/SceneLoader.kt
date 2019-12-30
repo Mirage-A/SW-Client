@@ -1,22 +1,18 @@
 package com.mirage.core.game.maps
 
 import com.google.gson.Gson
-import com.mirage.core.utils.Assets
-import com.mirage.core.utils.Log
-import com.mirage.core.utils.GameMapName
-import com.mirage.core.utils.fromJson
-import com.mirage.core.utils.TestSamples
+import com.mirage.core.utils.*
 import java.io.Reader
 
 
-open class SceneLoader(protected val gameMapName: GameMapName) {
+open class SceneLoader(protected val assets: Assets, protected val gameMapName: GameMapName) {
 
 
     protected val gson = Gson()
 
     fun loadMap(): GameMap =
             try {
-                loadMap(Assets.loadReader("scenes/$gameMapName/map.json")!!)
+                loadMap(assets.loadReader("scenes/$gameMapName/map.json")!!)
             } catch (ex: Exception) {
                 Log.e("Error while loading map from scene: $gameMapName")
                 TestSamples.TEST_SMALL_MAP
@@ -32,9 +28,9 @@ open class SceneLoader(protected val gameMapName: GameMapName) {
             }
 
 
-    fun getEntityTemplateReader(name: String): Reader? = Assets.loadReader("scenes/$gameMapName/templates/entities/$name/entity.json")
+    fun getEntityTemplateReader(name: String): Reader? = assets.loadReader("scenes/$gameMapName/templates/entities/$name/entity.json")
 
-    fun getBuildingTemplateReader(name: String): Reader? = Assets.loadReader("scenes/$gameMapName/templates/buildings/$name/building.json")
+    fun getBuildingTemplateReader(name: String): Reader? = assets.loadReader("scenes/$gameMapName/templates/buildings/$name/building.json")
 
 
 }

@@ -2,7 +2,7 @@ package com.mirage.ui.widgets
 
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 
 /** Widget wrapper for LibGDX TextField. Only one TextFieldWidget can be active at a time */
 internal class TextFieldWidget(

@@ -1,7 +1,7 @@
 package com.mirage.ui.screens.newgame
 
 import com.mirage.core.utils.PLATFORM
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.widgets.*
 
 

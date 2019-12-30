@@ -2,12 +2,16 @@ package com.mirage.ui.fragments.inventory
 
 import com.mirage.core.utils.Point
 import com.mirage.core.game.objects.properties.PlayerAttributes
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
+import com.mirage.core.preferences.Preferences
 import com.mirage.ui.widgets.Widget
 
 
-internal class InventoryFragment(virtualScreen: VirtualScreen, onClose: () -> Unit = {}) : Widget {
+internal class InventoryFragment(
+        virtualScreen: VirtualScreen,
+        private val preferences: Preferences,
+        onClose: () -> Unit = {}
+) : Widget {
 
     private val inventoryState = InventoryState()
     private val subWidgets = InventoryWidgets(virtualScreen).apply {
@@ -17,7 +21,7 @@ internal class InventoryFragment(virtualScreen: VirtualScreen, onClose: () -> Un
 
     fun open() {
         with(inventoryState) {
-            initialEquipment = Prefs.profile.currentEquipment
+            initialEquipment = preferences.profile.currentEquipment
             equipment = initialEquipment.copy()
             selectedSlot = null
         }

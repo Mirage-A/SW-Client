@@ -2,7 +2,7 @@ package com.mirage.ui.screens
 
 import com.mirage.core.utils.Point
 import com.mirage.core.messaging.ClientMessage
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.widgets.Widget
 
 typealias ClientMessageListener = (ClientMessage) -> Unit

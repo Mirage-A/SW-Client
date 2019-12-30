@@ -1,6 +1,6 @@
 package com.mirage.view.drawers.animation
 
-import com.mirage.core.utils.Assets
+import com.mirage.core.utils.GdxAssets
 import java.util.*
 
 /**
@@ -17,7 +17,7 @@ object AnimationLoader {
         val cached = bodyAnimationsCache[action]
         return if (cached == null) {
             val animation = try {
-                Animation(Assets.loadAnimation("humanoid/body/$action"))
+                Animation(GdxAssets.loadAnimation("humanoid/body/$action"))
             } catch (ex: Exception) {
                 Animation()
             }
@@ -30,7 +30,7 @@ object AnimationLoader {
         val cached = legsAnimationsCache[action]
         return if (cached == null) {
             val animation = try {
-                Animation(Assets.loadAnimation("humanoid/legs/$action"))
+                Animation(GdxAssets.loadAnimation("humanoid/legs/$action"))
             } catch (ex: Exception) {
                 Animation()
             }
@@ -43,7 +43,7 @@ object AnimationLoader {
         val cached = objectAnimationsCache[name]
         return if (cached == null) {
             val animation = try {
-                Animation(Assets.loadAnimation("object/$name"))
+                Animation(GdxAssets.loadAnimation("object/$name"))
             } catch (ex: Exception) {
                 Animation()
             }

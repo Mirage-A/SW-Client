@@ -9,11 +9,9 @@ import com.mirage.connection.LocalConnection
 import com.mirage.core.messaging.ChangeSceneClientMessage
 import com.mirage.core.messaging.CloseConnectionMessage
 import com.mirage.core.messaging.ExitClientMessage
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.utils.INTERPOLATION_DELAY_MILLIS
+import com.mirage.ui.fragments.gameview.INTERPOLATION_DELAY_MILLIS
 import com.mirage.core.utils.PLATFORM
-import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.screens.Screen
 import com.mirage.ui.screens.game.GameScreen
 import com.mirage.ui.screens.loading.LoadingScreen
@@ -23,7 +21,7 @@ import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
 
-    private val virtualScreen: VirtualScreen = VirtualScreenGdxImpl()
+    private val virtualScreen: VirtualScreen = GdxVirtualScreen
     private var currentScreen: Screen? = null
         private set(value) {
             value?.resize(virtualScreen.width, virtualScreen.height)
@@ -37,7 +35,7 @@ object Client : ApplicationListener {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
-                            startSinglePlayerGame(Prefs.profile.currentMap)
+                            startSinglePlayerGame(GdxPreferences.profile.currentMap)
                         }
                         ChangeSceneClientMessage.Scene.MAIN_MENU -> {
                             openMainMenu()
@@ -62,7 +60,7 @@ object Client : ApplicationListener {
 
                         }
                         ChangeSceneClientMessage.Scene.SETTINGS_MENU -> {
-                            val fullScreen = Prefs.settings.desktopFullScreen.get()
+                            val fullScreen = GdxPreferences.settings.desktopFullScreen.get()
                             if (fullScreen) setDesktopWindowedMode()
                             else setDesktopFullScreen()
                         }
@@ -72,7 +70,7 @@ object Client : ApplicationListener {
                     }
                 }
                 is ExitClientMessage -> {
-                    Prefs.savePreferences()
+                    GdxPreferences.savePreferences()
                     exitProcess(msg.exitCode)
                 }
             }
@@ -87,7 +85,7 @@ object Client : ApplicationListener {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.MAIN_MENU -> openMainMenu()
-                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap)
+                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(GdxPreferences.profile.currentMap)
                     }
                 }
             }
@@ -130,7 +128,7 @@ object Client : ApplicationListener {
     override fun create() {
         //TODO Load profile
         if (PLATFORM == "desktop" || PLATFORM == "desktop-test") {
-            val fullScreen = Prefs.settings.desktopFullScreen.get()
+            val fullScreen = GdxPreferences.settings.desktopFullScreen.get()
             if (fullScreen) setDesktopFullScreen()
             else setDesktopWindowedMode()
         }
@@ -138,13 +136,13 @@ object Client : ApplicationListener {
     }
 
     override fun pause() {
-        Prefs.savePreferences()
+        GdxPreferences.savePreferences()
     }
 
     override fun resume() {}
 
     override fun dispose() {
-        Prefs.savePreferences()
+        GdxPreferences.savePreferences()
     }
 
     override fun render() {
@@ -164,12 +162,12 @@ object Client : ApplicationListener {
     }
 
     private fun setDesktopFullScreen() {
-        Prefs.settings.desktopFullScreen.set(true)
+        GdxPreferences.settings.desktopFullScreen.set(true)
         Gdx.graphics.setFullscreenMode(Gdx.graphics.displayMode)
     }
 
     private fun setDesktopWindowedMode() {
-        Prefs.settings.desktopFullScreen.set(false)
+        GdxPreferences.settings.desktopFullScreen.set(false)
         Gdx.graphics.setWindowedMode(800, 600)
     }
 

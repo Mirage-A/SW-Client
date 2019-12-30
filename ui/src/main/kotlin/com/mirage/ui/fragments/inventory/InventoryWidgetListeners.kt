@@ -1,17 +1,17 @@
 package com.mirage.ui.fragments.inventory
 
 import com.mirage.core.game.objects.properties.EquipmentSlot
-import com.mirage.core.utils.Assets
+import com.mirage.core.utils.GdxAssets
 import com.mirage.core.utils.Log
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.game.objects.properties.WeaponType
-import com.mirage.core.preferences.Prefs
+import com.mirage.core.preferences.GdxPreferences
 
 internal fun InventoryWidgets.initializeListeners(inventoryState: InventoryState, onClose: () -> Unit) {
     saveBtn.onPressed = {
         rootWidget.isVisible = false
-        Prefs.profile.currentEquipment = inventoryState.equipment
-        Prefs.saveCurrentProfile()
+        GdxPreferences.profile.currentEquipment = inventoryState.equipment
+        GdxPreferences.saveCurrentProfile()
         onClose()
     }
     cancelBtn.onPressed = {
@@ -37,7 +37,7 @@ private fun InventoryWidgets.updateSelectSlotBtns(inventoryState: InventoryState
 }
 
 private fun InventoryWidgets.updateItemBtns(inventoryState: InventoryState) {
-    val items = Prefs.account.availableEquipment[inventoryState.selectedSlot]
+    val items = GdxPreferences.account.availableEquipment[inventoryState.selectedSlot]
     if (items != null) {
         val itemsCount = items.size
         for (i in 0 until itemBtnsCount) {
@@ -71,7 +71,7 @@ private fun InventoryWidgets.selectEquipmentSlot(inventoryState: InventoryState,
     selectedSlotLabel.text = getSlotName(slot)
     pageNavigator.isVisible = true
     pageNavigator.pageIndex = 0
-    val availableItems = Prefs.account.availableEquipment[slot]
+    val availableItems = GdxPreferences.account.availableEquipment[slot]
     if (availableItems == null) {
         selectEquipmentSlot(inventoryState, null)
         return
@@ -96,7 +96,7 @@ private fun InventoryWidgets.selectEquipmentSlot(inventoryState: InventoryState,
 }
 
 private fun InventoryWidgets.openItemMessage(inventoryState: InventoryState, itemType: EquipmentSlot, itemName: String) {
-    val itemData = Assets.getEquipmentData(itemType, itemName)
+    val itemData = GdxAssets.getEquipmentData(itemType, itemName)
     itemMessage.setOkAction {
         with(inventoryState.equipment) {
             when (itemType) {

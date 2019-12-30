@@ -1,6 +1,6 @@
 package com.mirage.core.game.objects.properties
 
-import com.mirage.core.utils.Assets
+import com.mirage.core.utils.EquipmentLoader
 import com.mirage.core.utils.IntervalMillis
 
 private const val unarmedDamage = 5
@@ -17,14 +17,6 @@ data class Equipment(
         val offHand: String = "null",
         val weaponType: WeaponType = WeaponType.UNARMED
 ) {
-    fun getFullData(): Map<EquipmentSlot, EquipmentData> = linkedMapOf(
-            EquipmentSlot.HELMET to Assets.getEquipmentData(EquipmentSlot.HELMET, helmet),
-            EquipmentSlot.CHEST to Assets.getEquipmentData(EquipmentSlot.CHEST, chest),
-            EquipmentSlot.CLOAK to Assets.getEquipmentData(EquipmentSlot.CLOAK, cloak),
-            EquipmentSlot.LEGGINGS to Assets.getEquipmentData(EquipmentSlot.LEGGINGS, legs),
-            EquipmentSlot.MAIN_HAND to Assets.getEquipmentData(EquipmentSlot.MAIN_HAND, mainHand),
-            EquipmentSlot.OFF_HAND to Assets.getEquipmentData(EquipmentSlot.OFF_HAND, offHand)
-    )
 
     fun getItemName(slot: EquipmentSlot) = when (slot) {
         EquipmentSlot.HELMET -> helmet
@@ -36,9 +28,9 @@ data class Equipment(
     }
 }
 
-class PlayerAttributes(equipment: Equipment) {
+class PlayerAttributes(equipmentLoader: EquipmentLoader, equipment: Equipment) {
 
-    private val data = equipment.getFullData()
+    private val data = equipmentLoader.getEquipmentData(equipment)
 
     private val playerWeaponType = equipment.weaponType
 
@@ -49,14 +41,14 @@ class PlayerAttributes(equipment: Equipment) {
     init {
         when (equipment.weaponType) {
             WeaponType.ONE_HANDED, WeaponType.SHIELD, WeaponType.TWO_HANDED, WeaponType.BOW, WeaponType.STAFF -> {
-                val mainHandData = data[EquipmentSlot.MAIN_HAND] ?: EquipmentData()
+                val mainHandData = data[EquipmentSlot.MAIN_HAND] ?: ItemData()
                 attackDamage = mainHandData.attackDamage
                 attackCooldown = mainHandData.attackCooldown
                 attackRange = mainHandData.attackRange
             }
             WeaponType.DUAL -> {
-                val mainHandData = data[EquipmentSlot.MAIN_HAND] ?: EquipmentData()
-                val offHandData = data[EquipmentSlot.OFF_HAND] ?: EquipmentData()
+                val mainHandData = data[EquipmentSlot.MAIN_HAND] ?: ItemData()
+                val offHandData = data[EquipmentSlot.OFF_HAND] ?: ItemData()
                 attackDamage = mainHandData.attackDamage + offHandData.attackDamage
                 val dualDPMS = mainHandData.attackDamage.toDouble() / mainHandData.attackCooldown.toDouble() +
                         offHandData.attackDamage.toDouble() / offHandData.attackCooldown.toDouble()
@@ -104,7 +96,7 @@ class PlayerAttributes(equipment: Equipment) {
 
 }
 
-data class EquipmentData(
+data class ItemData(
         val name: String = "",
         val description: String = "",
         val weaponType: WeaponType? = null,
@@ -152,6 +144,8 @@ data class EquipmentData(
         appendln(description)
     }
 }
+
+typealias EquipmentData = Map<EquipmentSlot, ItemData>
 
 enum class EquipmentSlot {
     HELMET,

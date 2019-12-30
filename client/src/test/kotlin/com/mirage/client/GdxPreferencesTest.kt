@@ -1,4 +1,4 @@
-package com.mirage.core.preferences
+package com.mirage.client
 
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.backends.headless.HeadlessApplication
@@ -6,12 +6,12 @@ import com.mirage.core.utils.PLATFORM
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 
-internal class PrefsTest {
+internal class GdxPreferencesTest {
 
     @Test
     fun testProfileInfo() {
-        assertDoesNotThrow { Prefs }
-        assertDoesNotThrow { Prefs.savePreferences() }
+        assertDoesNotThrow { GdxPreferences }
+        assertDoesNotThrow { GdxPreferences.savePreferences() }
     }
 
     @Test
@@ -29,8 +29,8 @@ internal class PrefsTest {
         val platform = PLATFORM
         PLATFORM = "desktop"
 
-        assertDoesNotThrow { Prefs }
-        assertDoesNotThrow { Prefs.savePreferences() }
+        assertDoesNotThrow { GdxPreferences }
+        assertDoesNotThrow { GdxPreferences.savePreferences() }
 
         PLATFORM = platform
 

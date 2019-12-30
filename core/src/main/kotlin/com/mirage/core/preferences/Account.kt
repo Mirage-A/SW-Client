@@ -6,9 +6,8 @@ class Account {
 
     val profiles = ArrayList<String>()
 
-    /** To change current profile, use [Prefs.switchProfile] **/
-    var currentProfile: String? = null
-        internal set
+    /** To change current profile, use [Preferences.switchProfile] **/
+    var currentProfileName: String? = null
 
     val availableSkills = arrayListOf<String>()
 

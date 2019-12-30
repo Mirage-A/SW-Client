@@ -1,18 +1,19 @@
 package com.mirage.ui.fragments.quests
 
+import com.mirage.core.preferences.Preferences
 import com.mirage.core.utils.QuestProgress
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.utils.COMPLETED_QUEST_PHASE
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.PageNavigator
 import kotlin.math.max
 
-internal fun QuestWidgets.initializeListeners(questState: QuestState) {
-    updateQuestWindow(questState)
+const val COMPLETED_QUEST_PHASE = 1_000_000
+
+internal fun QuestWidgets.initializeListeners(preferences: Preferences, questState: QuestState) {
+    updateQuestWindow(preferences, questState)
 }
 
 
-internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
+internal fun QuestWidgets.updateQuestWindow(preferences: Preferences, questState: QuestState) {
     fun sortQuests(quests: QuestProgress) =
             // Active quests
             quests.filter { it.value in 1 until COMPLETED_QUEST_PHASE }.toList() +
@@ -51,14 +52,14 @@ internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
                                 questState.selectedGlobalQuest = null
                                 questState.selectedLocalQuest =
                                         if (questState.selectedLocalQuest == questName) null else questName
-                                updateSelectedQuest(questState)
+                                updateSelectedQuest(preferences, questState)
                             }
                         } else {
                             {
                                 questState.selectedLocalQuest = null
                                 questState.selectedGlobalQuest =
                                         if (questState.selectedGlobalQuest == questName) null else questName
-                                updateSelectedQuest(questState)
+                                updateSelectedQuest(preferences, questState)
                             }
                         }
                     }
@@ -69,7 +70,7 @@ internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
         pageUpdater(navigator.pageIndex)
     }
     updateQuestColumn(
-            Prefs.profile.globalQuestProgress,
+            preferences.profile.globalQuestProgress,
             globalQuestsPageNavigator,
             globalQuestBtns,
             QuestLoader.QuestType.GLOBAL
@@ -80,11 +81,11 @@ internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
             localQuestBtns,
             QuestLoader.QuestType.LOCAL
     )
-    updateSelectedQuest(questState)
+    updateSelectedQuest(preferences, questState)
 }
 
 
-private fun QuestWidgets.updateSelectedQuest(questState: QuestState) {
+private fun QuestWidgets.updateSelectedQuest(preferences: Preferences, questState: QuestState) {
     val isQuestSelected: Boolean
     val selectedQuestGuiName: String
     val selectedQuestGuiDescription: String
@@ -98,7 +99,7 @@ private fun QuestWidgets.updateSelectedQuest(questState: QuestState) {
         }
         localQ == null -> {
             val questName = globalQ ?: "null"
-            val questPhase = Prefs.profile.globalQuestProgress[questName]
+            val questPhase = preferences.profile.globalQuestProgress[questName]
             if (questPhase == null) {
                 isQuestSelected = false
                 selectedQuestGuiName = ""

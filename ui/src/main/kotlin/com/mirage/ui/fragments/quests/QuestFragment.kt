@@ -3,7 +3,7 @@ package com.mirage.ui.fragments.quests
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.GameMapName
 import com.mirage.core.utils.QuestProgress
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.widgets.Widget
 
 /** Window with information about current quest progress */
