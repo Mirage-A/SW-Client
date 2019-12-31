@@ -1,19 +1,14 @@
 package com.mirage.ui.fragments.inventory
 
-import com.mirage.core.preferences.EquipmentSlot
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.game.objects.properties.EquipmentSlot
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.widgets.*
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.ConfirmMessage
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.LabelWidget
-import com.mirage.ui.widgets.PageNavigator
 
 
 internal const val itemBtnsCount = 16
 
 /** Components of InventoryWidget */
-internal class InventoryWidgets(virtualScreen: VirtualScreen) {
+internal class InventoryWidgets(virtualScreen: VirtualScreen, inventoryState: InventoryState) {
 
     val centerBackground = ImageWidget("ui/inventory/inventory-center-background")
 
@@ -29,7 +24,7 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
 
     val leftBackground = ImageWidget("ui/inventory/left-background")/*TODO */
 
-    val humanoidWidget = HumanoidWidget()
+    val humanoidWidget = HumanoidWidget(inventoryState.assets)
 
     val equipmentSlots = listOf(
             EquipmentSlot.HELMET, EquipmentSlot.CHEST, EquipmentSlot.LEGGINGS,

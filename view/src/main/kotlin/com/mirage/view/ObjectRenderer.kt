@@ -1,17 +1,17 @@
 package com.mirage.view
 
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.utils.rangeBetween
+import com.mirage.core.game.objects.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedObject
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.VirtualScreen
 import com.mirage.view.drawers.DrawersManager
 import com.mirage.view.utils.compareEntityAndBuilding
 import com.mirage.view.utils.depthSort
 import com.mirage.view.utils.getVirtualScreenPointFromScene
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.datastructures.rangeBetween
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.objects.simplified.SimplifiedObject
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.virtualscreen.VirtualScreen
 import kotlin.math.abs
 
 
@@ -43,8 +43,7 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
                     val arrowDelta = abs(20f - (currentTimeMillis / 10L % 100L).toFloat() / 2.5f)
                     virtualScreen.draw("ui/scene/target-$targetRelation-arrow",
                             pos.x - cameraX, pos.y - cameraY + hitBox.height + 32f + 32f + arrowDelta)
-                }
-                else {
+                } else {
                     drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis, obj.moveDirection)
                 }
                 if (obj.interactionRange > 0f) {
@@ -53,8 +52,7 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
                     val range = rangeBetween(playerPositionOnScene, obj.position)
                     val modifier = if (id == targetID) {
                         if (range < obj.interactionRange) "opaque" else "transparent"
-                    }
-                    else {
+                    } else {
                         if (range < obj.interactionRange) "transparent" else "super-transparent"
                     }
                     val textureName = "ui/scene/interact-$modifier"
@@ -74,14 +72,14 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
  * Строение становится прозрачным, если внутри него или на расстоянии tp-range тайлов за ним находится сущность.
  * Сущность не может быть прозрачной.
  */
-private fun isOpaque(obj: SimplifiedObject, state: SimplifiedState) : Boolean {
+private fun isOpaque(obj: SimplifiedObject, state: SimplifiedState): Boolean {
     if (obj is SimplifiedBuilding) {
         for ((_, entity) in state.entities) {
             val rect = obj.rectangle
             val entityRect = entity.rectangle
             //TODO Придумать нормальный алгоритм проверки, нужно ли скрывать строение
             if ((-entity.x + entity.y + obj.x - obj.y < obj.transparencyRange * 2 &&
-                    compareEntityAndBuilding(entity, obj) == -1) || rect.overlaps(entityRect))
+                            compareEntityAndBuilding(entity, obj) == -1) || rect.overlaps(entityRect))
                 return false
         }
     }

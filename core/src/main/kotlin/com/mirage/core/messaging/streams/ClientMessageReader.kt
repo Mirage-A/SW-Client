@@ -12,6 +12,6 @@ interface ClientMessageReader {
      * Wait for a new message and read it
      * @return null if a message is incorrect
      */
-    fun read() : ClientMessage?
+    fun read(): ClientMessage?
 
 }

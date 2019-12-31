@@ -1,16 +1,13 @@
 package com.mirage.view.drawers.templates
 
-import com.mirage.view.drawers.DrawerTemplate
-import com.mirage.view.drawers.animation.*
-import com.mirage.core.Log
+import com.mirage.core.utils.Log
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.properties.WeaponType
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
+import com.mirage.view.drawers.DrawerTemplate
+import com.mirage.view.drawers.animation.*
 
-class AnimationDrawerTemplate(animationName: String) : DrawerTemplate {
-
-    private val animation = AnimationLoader.getObjectAnimation(animationName)
-
+class AnimationDrawerTemplate(private val animation: Animation) : DrawerTemplate {
 
     override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (!isOpaque) return

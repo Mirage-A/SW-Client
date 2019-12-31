@@ -1,7 +1,7 @@
 package com.mirage.view.drawers.animation
 
-import com.mirage.core.Log
-import com.mirage.core.datastructures.Point
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.Point
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.properties.WeaponType
 import org.dom4j.Element
@@ -9,33 +9,19 @@ import org.dom4j.io.SAXReader
 import java.io.InputStream
 
 
-/**
- * Анимация, созданная с помощью Animation Editor-а
- * Объект этого класса содержит всю информацию об анимации,
- * а также конструктор загрузки анимации из XML-файла (.xml)
- */
+/** Animation, created in SW Animation Editor */
 class Animation() {
-    /**
-     * Список кадров анимации
-     */
-    var frames : ArrayList<Frame> = ArrayList()
-    /**
-     * Длительность (период) анимации
-     */
+
+    var frames: ArrayList<Frame> = ArrayList()
+
     var duration = 1000
-    /**
-     * Является ли анимация периодической (иначе она останавливается на последнем кадре)
-     */
+
     var isRepeatable = true
-    /**
-     * Словарь из данных анимации: по moveDirection-у и WeaponType-у получаем список кадров
-     */
+
     var data = HashMap<MoveDirection, HashMap<WeaponType, ArrayList<Frame>>>()
 
-    /**
-     * Конструктор считывания анимации из файла XML (.xml)
-     */
-    constructor(inputStream : InputStream?) : this() {
+    /** Reads animation from inputStream of .xml file */
+    constructor(inputStream: InputStream?) : this() {
         for (moveDirection in MoveDirection.values()) {
             data[moveDirection] = HashMap()
             for (weaponType in WeaponType.values()) {
@@ -82,32 +68,19 @@ class Animation() {
             }
 
             frames = data[MoveDirection.RIGHT]!![WeaponType.UNARMED]!!
-        }
-        catch(ex: Exception) {
+        } catch (ex: Exception) {
             Log.e("Unexpected error occurred:\n" + ex.message)
         }
     }
 
+    data class Frame(var layers: ArrayList<Layer> = ArrayList())
 
-    /**
-     * Кадр анимации
-     */
-    data class Frame(var layers : ArrayList<Layer> = ArrayList())
-
-    /**
-     * Слой на кадре анимации
-     */
-    data class Layer (var imageName: String, var x : Float = 0f, var y : Float = 0f, var scale : Float = 1f, var scaleX : Float = 1f,
-                 var scaleY : Float = 1f, var angle : Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
-        /**
-         * Обрезает формат изображения и возвращает название слоя
-         */
+    data class Layer(var imageName: String, var x: Float = 0f, var y: Float = 0f, var scale: Float = 1f, var scaleX: Float = 1f,
+                     var scaleY: Float = 1f, var angle: Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
+        /** Cuts off ".png" suffix */
         fun getName() = imageName.substring(0, imageName.length - 4)
 
-        /**
-         * Возвращает точку - координаты слоя
-         */
-        fun getPosition() : Point {
+        fun getPosition(): Point {
             return Point(x, y)
         }
 

@@ -1,8 +1,8 @@
 package com.mirage.view.drawers
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 
 /** Visual representation of a template object. [DrawerTemplate] does not store state bound to a concrete object. */
 interface DrawerTemplate {

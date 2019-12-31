@@ -1,6 +1,6 @@
 package com.mirage.ui.screens.loading
 
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.fragments.inventory.InventoryFragment
 import com.mirage.ui.widgets.Button
 import com.mirage.ui.widgets.CompositeWidget
@@ -13,7 +13,7 @@ private const val sceneDescriptionFontSize = 32f
 
 internal class LoadingWidgets(virtualScreen: VirtualScreen, loadingState: LoadingState) {
 
-    val inventoryWindow = InventoryFragment(virtualScreen)
+    val inventoryWindow = InventoryFragment(virtualScreen, loadingState.assets, loadingState.preferences)
 
     val sceneArt = ImageWidget(textureName = "../scenes/${loadingState.gameMapName}/art")
 

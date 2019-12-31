@@ -1,8 +1,8 @@
 package com.mirage.ui.widgets
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.VirtualScreen
 
 internal class ConfirmMessage(
         virtualScreen: VirtualScreen,
@@ -32,16 +32,16 @@ internal class ConfirmMessage(
 
     private val background = ImageWidget(
             textureName = "ui/message-background",
-            sizeUpdater = {
-                _, _ -> Rectangle(0f, 0f, 800f, 500f)
+            sizeUpdater = { _, _ ->
+                Rectangle(0f, 0f, 800f, 500f)
             })
 
     private val titleLabel = LabelWidget(
             virtualScreen = virtualScreen,
             text = title,
             fontCapHeight = titleFontCapHeight,
-            sizeUpdater = {
-                _, _ -> Rectangle(0f, 175f, 530f, 84f)
+            sizeUpdater = { _, _ ->
+                Rectangle(0f, 175f, 530f, 84f)
             }
     )
 
@@ -49,22 +49,22 @@ internal class ConfirmMessage(
             virtualScreen = virtualScreen,
             text = description,
             fontCapHeight = descriptionFontCapHeight,
-            sizeUpdater = {
-                _, _ -> Rectangle(0f, 0f, 600f, 240f)
+            sizeUpdater = { _, _ ->
+                Rectangle(0f, 0f, 600f, 240f)
             }
     )
 
     private val okButton = Button(
             boundedLabel = LabelWidget(virtualScreen, okTitle, okCancelFontCapHeight),
-            sizeUpdater = {
-                _, _ -> Rectangle(-176f, -185f, 260f, 86f)
+            sizeUpdater = { _, _ ->
+                Rectangle(-176f, -185f, 260f, 86f)
             }
     )
 
     private val cancelButton = Button(
             boundedLabel = LabelWidget(virtualScreen, cancelTitle, okCancelFontCapHeight),
-            sizeUpdater = {
-                _, _ -> Rectangle(176f, -185f, 260f, 86f)
+            sizeUpdater = { _, _ ->
+                Rectangle(176f, -185f, 260f, 86f)
             }
     )
 

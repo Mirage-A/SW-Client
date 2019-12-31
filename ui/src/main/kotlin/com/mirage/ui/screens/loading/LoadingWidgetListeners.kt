@@ -1,13 +1,12 @@
 package com.mirage.ui.screens.loading
 
 import com.mirage.core.messaging.ChangeSceneClientMessage
-import com.mirage.core.preferences.Prefs
 import com.mirage.ui.screens.ClientMessageListener
 
 internal fun LoadingWidgets.initializeListeners(loadingState: LoadingState, listener: ClientMessageListener) {
     startGameBtn.onPressed = {
-        Prefs.profile.currentMap = loadingState.gameMapName
-        Prefs.savePreferences()
+        loadingState.preferences.profile.currentMap = loadingState.gameMapName
+        loadingState.preferences.savePreferences()
         listener(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
     }
     openInventoryBtn.onPressed = {

@@ -1,12 +1,12 @@
 package com.mirage.view.drawers
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.StateDifference
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
+import com.mirage.core.VirtualScreen
 
 interface DrawersManager {
 

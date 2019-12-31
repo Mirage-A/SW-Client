@@ -1,6 +1,6 @@
 package com.mirage.core.preferences
 
-import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.utils.QuestProgress
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.WeaponType
 

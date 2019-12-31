@@ -12,9 +12,10 @@ enum class WeaponType {
     TWO_HANDED,
     BOW,
     STAFF;
+
     companion object {
 
-        fun fromString(str: String) : WeaponType {
+        fun fromString(str: String): WeaponType {
             return when (str) {
                 "UNARMED" -> UNARMED
                 "ONE_HANDED" -> ONE_HANDED

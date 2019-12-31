@@ -1,35 +1,24 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.view.GameViewImpl
-import com.mirage.view.utils.getVirtualScreenPointFromScene
-import com.mirage.ui.screens.Screen
-import com.mirage.core.DELTA_CENTER_Y
-import com.mirage.core.TestSamples
-import com.mirage.core.datastructures.Point
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.game.maps.GameMap
-import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.states.GameStateSnapshot
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.SnapshotManager
-import com.mirage.core.game.states.StateDifference
+import com.mirage.core.utils.GameMapName
 import com.mirage.core.messaging.*
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.ui.screens.AbstractScreen
+import com.mirage.core.VirtualScreen
+import com.mirage.core.preferences.Preferences
+import com.mirage.core.preferences.Settings
+import com.mirage.core.utils.Assets
+import com.mirage.ui.screens.Screen
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.Widget
-import rx.Observable
-import kotlin.math.min
 
 class GameScreen(
         virtualScreen: VirtualScreen,
+        assets: Assets,
+        preferences: Preferences,
         gameMapName: GameMapName,
-        private val listener: ClientMessageListener
-) : AbstractScreen(virtualScreen) {
+        listener: ClientMessageListener
+) : Screen(virtualScreen, listener) {
 
-    private val gameState = GameState(gameMapName)
+    private val gameState = GameState(assets, gameMapName, preferences)
     private val gameWidgets = GameWidgets(virtualScreen, gameState, listener).apply {
         initializeSizeUpdaters()
         initializeListeners(gameState, listener)
@@ -54,7 +43,7 @@ class GameScreen(
             }
             is GlobalQuestUpdateMessage -> {
                 //TODO Show notification about quest progress
-                Prefs.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
+                gameState.preferences.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
                 gameWidgets.questWindow.updateQuestWindow()
             }
             is HumanoidEquipmentUpdateMessage -> {
@@ -71,7 +60,7 @@ class GameScreen(
         }
     }
 
-    override fun render(virtualScreen: VirtualScreen) {
+    override fun render() {
         with(gameState) {
             if (bufferedMoving != lastSentMoving) {
                 bufferedMoving?.let { newMoving ->

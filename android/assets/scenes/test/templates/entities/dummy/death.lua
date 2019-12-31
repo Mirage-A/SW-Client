@@ -6,4 +6,4 @@ local entity = u:getEntity(entityID)
 
 u:destroyEntity(args["entityID"])
 entity:setHealth(entity:getMaxHealth())
-u:runSceneScriptAfterTimeout("create-entity", {["entity"] = entity}, 2000)
+u:runSceneScriptAfterTimeout("create-entity", { ["entity"] = entity }, 2000)

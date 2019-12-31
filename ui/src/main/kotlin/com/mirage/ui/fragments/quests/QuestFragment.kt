@@ -1,15 +1,23 @@
 package com.mirage.ui.fragments.quests
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.QuestProgress
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.QuestProgress
+import com.mirage.core.VirtualScreen
+import com.mirage.core.preferences.Preferences
+import com.mirage.core.utils.Assets
 import com.mirage.ui.widgets.Widget
 
 /** Window with information about current quest progress */
-internal class QuestFragment(virtualScreen: VirtualScreen, gameMapName: GameMapName, localQuestProgress: QuestProgress) : Widget {
+internal class QuestFragment(
+        virtualScreen: VirtualScreen,
+        gameMapName: GameMapName,
+        localQuestProgress: QuestProgress,
+        preferences: Preferences,
+        assets: Assets
+) : Widget {
 
-    private val questState = QuestState(gameMapName, localQuestProgress)
+    private val questState = QuestState(gameMapName, localQuestProgress, preferences, QuestLoader(assets))
     private val subWidgets = QuestWidgets(virtualScreen).apply {
         initializeSizeUpdaters()
         initializeListeners(questState)

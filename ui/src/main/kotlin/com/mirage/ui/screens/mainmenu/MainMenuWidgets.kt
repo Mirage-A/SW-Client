@@ -1,12 +1,7 @@
 package com.mirage.ui.screens.mainmenu
 
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.CompositeWidget
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.LabelWidget
-import com.mirage.ui.widgets.PageNavigator
+import com.mirage.core.VirtualScreen
+import com.mirage.ui.widgets.*
 
 
 internal class MainMenuWidgets(virtualScreen: VirtualScreen, mainMenuState: MainMenuState) {
@@ -31,7 +26,7 @@ internal class MainMenuWidgets(virtualScreen: VirtualScreen, mainMenuState: Main
     )
 
     val profileNameArea = Button(
-            boundedLabel = LabelWidget(virtualScreen, Prefs.account.currentProfile ?: "", 30f),
+            boundedLabel = LabelWidget(virtualScreen, mainMenuState.preferences.account.currentProfileName ?: "", 30f),
             isVisible = !mainMenuState.newGame
     )
 

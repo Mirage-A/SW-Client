@@ -1,22 +1,21 @@
 package com.mirage.view.utils
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.game.objects.simplified.SimplifiedBuilding
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.objects.simplified.SimplifiedObject
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.game.objects.SimplifiedBuilding
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedObject
 import java.util.*
 
 
 /**
- * Сортировка списка объектов на карте по глубине (по порядку отрисовки)
- * Используется алгоритм топологической сортировки ориентированного графа
- * (На множестве объектов задан частичный порядок, а не линейный)
+ * Sorts list of game objects in their rendering order.
+ * This method uses graph topological sorting algorithm, since "rendering" order is not linear.
  */
 internal fun depthSort(objsList: MutableList<Pair<Long, SimplifiedObject>>) {
 
     val q = ArrayDeque<Pair<Long, SimplifiedObject>>()
-    val visited = BooleanArray(objsList.size) {false}
+    val visited = BooleanArray(objsList.size) { false }
     fun dfs(index: Int) {
         if (visited[index]) return
         visited[index] = true
@@ -36,23 +35,18 @@ internal fun depthSort(objsList: MutableList<Pair<Long, SimplifiedObject>>) {
 }
 
 /**
- * Возвращает 1, если точка p отрисовывается после прямоугольника rect
- * Возвращает -1, если точка p отрисовывается до прямоугольника rect
- * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
- * (т.е. объекты не сравнимы либо равны)
+ * Returns 1, if [p] must be rendered after [rect]
+ * Returns -1, if [p] must be rendered before [rect]
+ * Returns 0, if [p] and [rect] may be rendered in any relative order
  */
-private fun compare(p : Point, rect: Rectangle) : Int {
-    /**
-     * Находит значение функции f(x,y) = x + y - x0 - y0 для данной точки
-     * Знак функции позволяет узнать расположение точки (x,y) относительно диагональной прямой,
-     * проходящей через точку p
-     */
-    fun f(x: Float, y: Float) : Float = x + y - p.x - p.y
+private fun compare(p: Point, rect: Rectangle): Int {
+    /** This function computes position of point (x, y) relative to diagonal line, passing through [p] */
+    fun f(x: Float, y: Float): Float = x + y - p.x - p.y
 
-    //Если прямая и прямоугольник пересекаются
+    //If line and rectangle intersect
     if (f(rect.leftX, rect.bottomY) <= 0 && f(rect.rightX, rect.topY) >= 0) {
-        //Вычисляем другую функцию - функцию от точки p относительно прямой, соединяющей 2 угловые точки прямоугольника
-        val fun2 = - p.y * rect.width + p.x * rect.height + rect.bottomY * rect.width - rect.leftX * rect.height
+        //Then compute function from point p relative to line that contains [rect] diagonal
+        val fun2 = -p.y * rect.width + p.x * rect.height + rect.bottomY * rect.width - rect.leftX * rect.height
         if (fun2 > 0) return 1
         if (fun2 < 0) return -1
     }
@@ -60,12 +54,11 @@ private fun compare(p : Point, rect: Rectangle) : Int {
 }
 
 /**
- * Возвращает 1, если объект a отрисовывается после объекта b
- * Возвращает -1, если объект a отрисовывается до объекта b
- * Возвращает 0, если объекты могут отрисовываться в любом относительном порядке
- * (т.е. объекты не сравнимы либо равны)
+ * Returns 1, if [a] must be rendered after [b]
+ * Returns -1, if [a] must be rendered before [b]
+ * Returns 0, if [a] and [b] may be rendered in any relative order
  */
-private fun compareDisjoint(a: SimplifiedObject, b: SimplifiedObject) : Int {
+private fun compareDisjoint(a: SimplifiedObject, b: SimplifiedObject): Int {
     val rectA = a.rectangle
     val rectB = b.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -88,7 +81,7 @@ private fun compareDisjoint(a: SimplifiedObject, b: SimplifiedObject) : Int {
     }
 }
 
-internal fun compareEntityAndBuilding(entity: SimplifiedEntity, building: SimplifiedBuilding) : Int {
+internal fun compareEntityAndBuilding(entity: SimplifiedEntity, building: SimplifiedBuilding): Int {
     val rectA = entity.rectangle
     val rectB = building.rectangle
     val aIsPoint = rectA.width == 0f && rectA.height == 0f
@@ -111,7 +104,7 @@ internal fun compareEntityAndBuilding(entity: SimplifiedEntity, building: Simpli
     }
 }
 
-private fun compareRectangles(rectA: Rectangle, rectB: Rectangle) : Int {
+private fun compareRectangles(rectA: Rectangle, rectB: Rectangle): Int {
     var res = compare(Point(rectA.leftX, rectA.bottomY), rectB)
     if (res != 0) return res
     res = compare(Point(rectA.rightX, rectA.topY), rectB)
@@ -123,7 +116,7 @@ private fun compareRectangles(rectA: Rectangle, rectB: Rectangle) : Int {
     return 0
 }
 
-internal fun compare(a: SimplifiedObject, b: SimplifiedObject) : Int =
+internal fun compare(a: SimplifiedObject, b: SimplifiedObject): Int =
         if (a is SimplifiedEntity && b is SimplifiedBuilding) compareEntityAndBuilding(a, b)
         else if (a is SimplifiedBuilding && b is SimplifiedEntity) -compareEntityAndBuilding(b, a)
         else compareDisjoint(a, b)

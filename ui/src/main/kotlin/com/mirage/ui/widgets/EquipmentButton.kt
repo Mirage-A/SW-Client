@@ -1,9 +1,9 @@
 package com.mirage.ui.widgets
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.preferences.EquipmentSlot
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.game.objects.properties.EquipmentSlot
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.VirtualScreen
 
 /** Button displaying a piece of equipment */
 internal class EquipmentButton(

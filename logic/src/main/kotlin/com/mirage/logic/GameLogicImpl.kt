@@ -1,21 +1,21 @@
 package com.mirage.logic
 
+import com.mirage.core.game.objects.StateDifference
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.GameStateUpdateMessage
+import com.mirage.core.messaging.InitialGameStateMessage
+import com.mirage.core.messaging.ServerMessage
+import com.mirage.core.utils.*
+import com.mirage.logic.data.LogicData
+import com.mirage.logic.data.PlayerTransferRequest
 import com.mirage.logic.processors.*
-import com.mirage.logic.processors.processClientMessages
-import com.mirage.logic.processors.invokeDelayedScripts
-import com.mirage.logic.processors.moveObject
-import com.mirage.logic.processors.runAssetScript
-import com.mirage.core.GAME_LOOP_TICK_INTERVAL
-import com.mirage.core.Log
-import com.mirage.core.LoopTimer
-import com.mirage.core.extensions.*
-import com.mirage.core.game.states.StateDifference
-import com.mirage.core.messaging.*
 import java.util.*
 
-class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
+const val GAME_LOOP_TICK_INTERVAL = 100L //Интервал между повторениями цикла логики
 
-    private val data = LogicData(gameMapName)
+class GameLogicImpl(assets: Assets, gameMapName: GameMapName) : GameLogic {
+
+    private val data = LogicData(assets, gameMapName)
     private val scriptActions: LogicScriptActions = LogicScriptActionsImpl(data)
 
     override val playerTransfers: Queue<PlayerTransferRequest> = data.playerTransfers
@@ -23,13 +23,15 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
 
     private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) { time, delta -> updateState(time, delta) }
 
+    private val equipmentLoader = EquipmentLoader(assets)
+
     /**
      * Updates game state, filling [serverMessages] and [playerTransfers] queues.
      * @param delta Milliseconds passed from last invocation of this function.
      */
     private fun updateState(time: TimeMillis, delta: IntervalMillis) {
         if (delta > 200L) Log.i("Slow update: $delta ms")
-        with (data) {
+        with(data) {
             triggerInitScript()
             processNewPlayerRequests(time, delta, scriptActions.coerced)
             processRemovePlayerRequests(scriptActions.coerced)
@@ -44,14 +46,14 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
 
     private fun LogicData.triggerInitScript() {
         if (!initScriptInvoked) {
-            runAssetScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
+            assets.runScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
             initScriptInvoked = true
         }
     }
 
     private fun LogicData.triggerAllDeadScript() {
-        if (playerIDs.map { state.entities[it] }.all { it?.state ?: "dead" == "dead"}) {
-            runAssetScript("scenes/$gameMapName/all-players-dead", tableOf(), scriptActions.coerced)
+        if (playerIDs.map { state.entities[it] }.all { it?.state ?: "dead" == "dead" }) {
+            assets.runScript("scenes/$gameMapName/all-players-dead", tableOf(), scriptActions.coerced)
         }
     }
 
@@ -64,8 +66,7 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
                 val loadedBehavior = sceneLoader.loadBehavior(entity.template, entityID, data)
                 behaviors[entityID] = loadedBehavior
                 loadedBehavior
-            }
-            else savedBehavior
+            } else savedBehavior
             behavior.onUpdate(delta, data, scriptActions.coerced)
         }
     }
@@ -87,7 +88,7 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
     }
 
     override fun startLogic(initialPlayerRequests: Iterable<PlayerCreationRequest>) {
-        with (data) {
+        with(data) {
             for ((id, entity) in state.entities) {
                 behaviors[id] = sceneLoader.loadBehavior(entity.template, id, this)
             }
@@ -111,8 +112,6 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
     override fun handleMessage(id: EntityID, msg: ClientMessage) {
         data.clientMessages.add(Pair(id, msg))
     }
-
-
 
 
 }

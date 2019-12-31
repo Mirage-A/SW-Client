@@ -1,18 +1,26 @@
 package com.mirage.ui.screens.game
 
-import com.mirage.core.TestSamples
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.QuestProgress
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.QuestProgress
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.SnapshotManager
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.preferences.Preferences
+import com.mirage.core.preferences.Settings
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.TestSamples
 
-internal class GameState(val gameMapName: GameMapName) {
+internal class GameState(
+        val assets: Assets,
+        val gameMapName: GameMapName,
+        val preferences: Preferences
+) {
 
-    val gameMap = SceneLoader(gameMapName).loadMap()
+    val settings = preferences.settings
 
-    var lastReceivedState : SimplifiedState = TestSamples.TEST_NO_GAME_OBJECTS
+    val gameMap = SceneLoader(assets, gameMapName).loadMap()
+
+    var lastReceivedState: SimplifiedState = TestSamples.TEST_NO_GAME_OBJECTS
 
     val localQuestProgress: QuestProgress = QuestProgress()
 

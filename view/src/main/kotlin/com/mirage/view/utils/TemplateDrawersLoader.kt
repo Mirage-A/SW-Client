@@ -1,20 +1,25 @@
 package com.mirage.view.utils
 
 import com.google.gson.Gson
-import com.mirage.view.drawers.DrawerTemplate
-import com.mirage.view.drawers.templates.*
-import com.mirage.core.Log
-import com.mirage.core.extensions.fromJson
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.fromJson
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.WeaponType
+import com.mirage.view.drawers.DrawerTemplate
+import com.mirage.view.drawers.animation.AnimationLoader
+import com.mirage.view.drawers.templates.*
 import java.io.Reader
 
 /**
  * Загружает шаблонные представления для всех состояний шаблона [templateName]
  * @return Словарь, в котором по ключу - состоянию объекта получаем шаблонное представление.
  */
-internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String) : MutableMap<String, DrawerTemplate> {
+internal fun loadDrawersFromTemplateReader(
+        animationLoader: AnimationLoader,
+        reader: Reader,
+        templateName: String
+): MutableMap<String, DrawerTemplate> {
     val info = Gson().fromJson<TemplateDrawersInfo>(reader)
     val states = info?.drawers?.keys ?: run {
         Log.e("Error while loading drawers from template $templateName")
@@ -22,8 +27,8 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
     }
     val result = HashMap<String, DrawerTemplate>()
     val visitedStates = HashSet<String>()
-    fun loadState(state: String) : DrawerTemplate {
-        val drawerInfo : Map<String, String> = info.drawers[state] ?: return EmptyDrawerTemplate()
+    fun loadState(state: String): DrawerTemplate {
+        val drawerInfo: Map<String, String> = info.drawers[state] ?: return EmptyDrawerTemplate()
         return when (drawerInfo["type"]) {
             "empty" -> EmptyDrawerTemplate()
             "staticTexture" -> StaticTextureDrawerTemplate(drawerInfo["textureName"] ?: "null")
@@ -47,19 +52,21 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
                 val weaponType = drawerInfo["weaponType"] ?: "UNARMED"
                 val rightWeapon = drawerInfo["rightWeapon"] ?: "default"
                 val leftWeapon = drawerInfo["leftWeapon"] ?: "default"
-                HumanoidDrawerTemplate(Equipment(
+                HumanoidDrawerTemplate(animationLoader, Equipment(
                         helmet, chest, cloak, legs, rightWeapon, leftWeapon, WeaponType.fromString(weaponType)
                 ))
             }
-            "animation" -> (drawerInfo["animationName"])?.let { AnimationDrawerTemplate(it) } ?: EmptyDrawerTemplate()
+            "animation" -> (drawerInfo["animationName"])?.let {
+                AnimationDrawerTemplate(animationLoader.getObjectAnimation(it))
+            } ?: EmptyDrawerTemplate()
             "opaqueTransparent" -> {
-                val opaqueDrawer : DrawerTemplate = drawerInfo["opaqueDrawer"]?.let {
+                val opaqueDrawer: DrawerTemplate = drawerInfo["opaqueDrawer"]?.let {
                     loadState(it)
                 } ?: run {
                     Log.e("Error: template=$templateName state=$state: can't load opaqueDrawer.")
                     return EmptyDrawerTemplate()
                 }
-                val transparentDrawer : DrawerTemplate = drawerInfo["transparentDrawer"]?.let {
+                val transparentDrawer: DrawerTemplate = drawerInfo["transparentDrawer"]?.let {
                     loadState(it)
                 } ?: run {
                     Log.e("Error: template=$templateName state=$state: can't load transparentDrawer.")
@@ -79,22 +86,30 @@ internal fun loadDrawersFromTemplateReader(reader: Reader, templateName: String)
     return result
 }
 
-internal fun loadEntityDrawersFromTemplate(sceneLoader: SceneLoader, templateName: String) : MutableMap<String, DrawerTemplate> {
+internal fun loadEntityDrawersFromTemplate(
+        animationLoader: AnimationLoader,
+        sceneLoader: SceneLoader,
+        templateName: String
+): MutableMap<String, DrawerTemplate> {
     val reader = sceneLoader.getEntityTemplateReader(templateName)
     if (reader == null) {
         Log.e("Error: can't find entity template $templateName")
         return HashMap()
     }
-    return loadDrawersFromTemplateReader(reader, templateName)
+    return loadDrawersFromTemplateReader(animationLoader, reader, templateName)
 }
 
-internal fun loadBuildingDrawersFromTemplate(sceneLoader: SceneLoader, templateName: String) : MutableMap<String, DrawerTemplate> {
+internal fun loadBuildingDrawersFromTemplate(
+        animationLoader: AnimationLoader,
+        sceneLoader: SceneLoader,
+        templateName: String
+): MutableMap<String, DrawerTemplate> {
     val reader = sceneLoader.getBuildingTemplateReader(templateName)
     if (reader == null) {
         Log.e("Error: can't find building template $templateName")
         return HashMap()
     }
-    return loadDrawersFromTemplateReader(reader, templateName)
+    return loadDrawersFromTemplateReader(animationLoader, reader, templateName)
 }
 
 private class TemplateDrawersInfo(val drawers: HashMap<String, HashMap<String, String>>)

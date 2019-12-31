@@ -1,12 +1,12 @@
 package com.mirage.ui.fragments.quests
 
-import com.mirage.core.Assets
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.runScript
-import com.mirage.core.extensions.tableOf
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.GameMapName
+import com.mirage.core.utils.runScript
+import com.mirage.core.utils.tableOf
 import java.util.concurrent.atomic.AtomicReference
 
-object QuestLoader {
+class QuestLoader(private val assets: Assets) {
 
     /** Returns name of a quest which can be displayed in GUI */
     fun getGuiQuestName(questName: String, questPhase: Int, mapName: GameMapName, questType: QuestType): String {
@@ -25,14 +25,13 @@ object QuestLoader {
     }
 
     private fun evalScript(scriptPath: String, questName: String, questPhase: Int): String {
-        val reader = Assets.loadReader(scriptPath) ?: return "$questName $questPhase"
+        val reader = assets.loadReader(scriptPath) ?: return "$questName $questPhase"
         return try {
             val answer = AtomicReference("$questName $questPhase")
             val args = tableOf("name" to questName, "phase" to questPhase, "answer" to answer)
             runScript(reader, args)
             answer.get()
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             "$questName $questPhase"
         }
     }

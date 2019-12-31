@@ -2,7 +2,7 @@ package com.mirage.ui.screens.loading
 
 import com.mirage.core.DEFAULT_SCREEN_HEIGHT
 import com.mirage.core.DEFAULT_SCREEN_WIDTH
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import kotlin.math.max
 
 

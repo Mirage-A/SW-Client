@@ -1,8 +1,8 @@
 package com.mirage.ui.widgets
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.VirtualScreen
 
 /** Simple button, maybe bordered or with bounded label with some text.
  *  Invokes [onPressed] when this button is touched or when key with [keyCode] is pressed.

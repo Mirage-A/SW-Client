@@ -1,6 +1,6 @@
 package com.mirage.ui.fragments.quests
 
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Rectangle
 import kotlin.math.min
 
 
@@ -19,63 +19,63 @@ private const val defaultQuestBtnHeight = 40f
 internal const val questBtnCount = ((defaultContentHeight - 2 * questHeadLabelHeight) / defaultQuestBtnHeight).toInt()
 
 internal fun QuestWidgets.initializeSizeUpdaters() {
-    backgroundImage.sizeUpdater =  {
-        w, h -> getBackgroundRect(w, h)
+    backgroundImage.sizeUpdater = { w, h ->
+        getBackgroundRect(w, h)
     }
-    globalQuestsLabel.sizeUpdater =  {
-        w, h -> Rectangle(getGlobalQuestsX(w, h), getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) / 2f,
-            getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight * getWindowScale(w, h))
+    globalQuestsLabel.sizeUpdater = { w, h ->
+        Rectangle(getGlobalQuestsX(w, h), getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) / 2f,
+                getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight * getWindowScale(w, h))
     }
-    globalQuestsLeftArrow.sizeUpdater = {
-        w, h -> Rectangle(
-            -getContentRect(w, h).width / 2f + questArrowWidth / 2f + 4f,
-            getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
-            questArrowWidth, questArrowHeight
-    )
+    globalQuestsLeftArrow.sizeUpdater = { w, h ->
+        Rectangle(
+                -getContentRect(w, h).width / 2f + questArrowWidth / 2f + 4f,
+                getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
+                questArrowWidth, questArrowHeight
+        )
     }
-    globalQuestsRightArrow.sizeUpdater = {
-        w, h -> Rectangle(
-            getContentRect(w, h).width * (questListWidthPart - 0.5f) - questArrowWidth / 2f - 4f,
-            getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
-            questArrowWidth, questArrowHeight
-    )
+    globalQuestsRightArrow.sizeUpdater = { w, h ->
+        Rectangle(
+                getContentRect(w, h).width * (questListWidthPart - 0.5f) - questArrowWidth / 2f - 4f,
+                getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
+                questArrowWidth, questArrowHeight
+        )
     }
-    globalQuestsPageLabel.sizeUpdater = {
-        w, h -> Rectangle(getGlobalQuestsX(w, h), getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
-            getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight * getWindowScale(w, h))
+    globalQuestsPageLabel.sizeUpdater = { w, h ->
+        Rectangle(getGlobalQuestsX(w, h), getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
+                getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight * getWindowScale(w, h))
     }
     for ((i, btn) in globalQuestBtns.withIndex()) {
-        btn.sizeUpdater = {
-            w, h -> Rectangle(
-                getGlobalQuestsX(w, h),
-                getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 2 - defaultQuestBtnHeight * getWindowScale(w, h) * (i + 0.5f),
-                getContentRect(w, h).width * questListWidthPart,
-                defaultQuestBtnHeight * getWindowScale(w, h)
-        )
+        btn.sizeUpdater = { w, h ->
+            Rectangle(
+                    getGlobalQuestsX(w, h),
+                    getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 2 - defaultQuestBtnHeight * getWindowScale(w, h) * (i + 0.5f),
+                    getContentRect(w, h).width * questListWidthPart,
+                    defaultQuestBtnHeight * getWindowScale(w, h)
+            )
         }
     }
-    localQuestsLabel.sizeUpdater =  {
-        w, h -> Rectangle(getLocalQuestsX(w, h),
-            getContentRect(w, h).height / 2f - questHeadLabelHeight / 2f,
-            getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight)
+    localQuestsLabel.sizeUpdater = { w, h ->
+        Rectangle(getLocalQuestsX(w, h),
+                getContentRect(w, h).height / 2f - questHeadLabelHeight / 2f,
+                getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight)
     }
-    localQuestsLeftArrow.sizeUpdater = {
-        w, h -> Rectangle(
-            - (getContentRect(w, h).width * (questListWidthPart - 0.5f) - questArrowWidth / 2f - 4f),
-            getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
-            questArrowWidth, questArrowHeight
-    )
+    localQuestsLeftArrow.sizeUpdater = { w, h ->
+        Rectangle(
+                -(getContentRect(w, h).width * (questListWidthPart - 0.5f) - questArrowWidth / 2f - 4f),
+                getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
+                questArrowWidth, questArrowHeight
+        )
     }
-    localQuestsRightArrow.sizeUpdater = {
-        w, h -> Rectangle(
-            - (-getContentRect(w, h).width / 2f + questArrowWidth / 2f + 4f),
-            getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
-            questArrowWidth, questArrowHeight
-    )
+    localQuestsRightArrow.sizeUpdater = { w, h ->
+        Rectangle(
+                -(-getContentRect(w, h).width / 2f + questArrowWidth / 2f + 4f),
+                getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
+                questArrowWidth, questArrowHeight
+        )
     }
-    localQuestsPageLabel.sizeUpdater = {
-        w, h -> Rectangle(getLocalQuestsX(w, h), getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
-            getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight * getWindowScale(w, h))
+    localQuestsPageLabel.sizeUpdater = { w, h ->
+        Rectangle(getLocalQuestsX(w, h), getContentRect(w, h).height / 2f - questHeadLabelHeight * getWindowScale(w, h) * 3f / 2f,
+                getContentRect(w, h).width * questListWidthPart, questHeadLabelHeight * getWindowScale(w, h))
     }
     for ((i, btn) in localQuestBtns.withIndex()) {
         btn.sizeUpdater = { w, h ->

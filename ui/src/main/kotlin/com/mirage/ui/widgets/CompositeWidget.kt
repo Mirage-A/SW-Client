@@ -1,7 +1,7 @@
 package com.mirage.ui.widgets
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.VirtualScreen
 
 /** Composes given widgets into one. Input events are processed in straight order, rendering performs in reversed order */
 internal class CompositeWidget(vararg widget: Widget, override var isVisible: Boolean = true) : Widget {

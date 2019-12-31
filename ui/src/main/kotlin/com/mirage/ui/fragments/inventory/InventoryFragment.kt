@@ -1,31 +1,38 @@
 package com.mirage.ui.fragments.inventory
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.game.objects.properties.*
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.game.objects.properties.PlayerAttributes
+import com.mirage.core.VirtualScreen
+import com.mirage.core.preferences.Preferences
+import com.mirage.core.utils.Assets
+import com.mirage.core.utils.EquipmentLoader
 import com.mirage.ui.widgets.Widget
 
 
-internal class InventoryFragment(virtualScreen: VirtualScreen, onClose: () -> Unit = {}) : Widget {
+internal class InventoryFragment(
+        virtualScreen: VirtualScreen,
+        assets: Assets,
+        preferences: Preferences,
+        onClose: () -> Unit = {}
+) : Widget {
 
-    private val inventoryState = InventoryState()
-    private val subWidgets = InventoryWidgets(virtualScreen).apply {
+    private val inventoryState = InventoryState(assets, preferences)
+    private val subWidgets = InventoryWidgets(virtualScreen, inventoryState).apply {
         initializeSizeUpdaters()
         initializeListeners(inventoryState, onClose)
     }
 
     fun open() {
-        with (inventoryState) {
-            initialEquipment = Prefs.profile.currentEquipment
+        with(inventoryState) {
+            initialEquipment = preferences.profile.currentEquipment
             equipment = initialEquipment.copy()
             selectedSlot = null
         }
-        with (subWidgets) {
+        with(subWidgets) {
             pageNavigator.isVisible = false
             itemBtns.forEach { it.isVisible = false }
             selectedSlotLabel.text = "Inventory"
-            fullDataLabel.text = PlayerAttributes(inventoryState.equipment).toInventoryInfoString()
+            fullDataLabel.text = PlayerAttributes(inventoryState.equipmentLoader, inventoryState.equipment).toInventoryInfoString()
             humanoidWidget.equipment = inventoryState.equipment
         }
         isVisible = true

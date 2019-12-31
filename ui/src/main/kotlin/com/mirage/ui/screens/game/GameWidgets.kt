@@ -1,20 +1,10 @@
 package com.mirage.ui.screens.game
 
-import com.badlogic.gdx.Input
-import com.mirage.core.datastructures.Rectangle
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.fragments.gameview.GameViewFragment
 import com.mirage.ui.fragments.quests.QuestFragment
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.*
-import com.mirage.ui.widgets.Button
-import com.mirage.ui.widgets.CircleButton
-import com.mirage.ui.widgets.CompositeWidget
-import com.mirage.ui.widgets.ConfirmMessage
-import com.mirage.ui.widgets.ImageWidget
-import com.mirage.ui.widgets.ResourcePane
-import com.mirage.ui.widgets.TargetNameArea
-import com.mirage.ui.widgets.Widget
 
 
 private const val skillCoolDownFontSize = 20f
@@ -29,9 +19,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
 
     val gameView = GameViewFragment(gameState, listener)
 
-    val questWindow = QuestFragment(virtualScreen, gameState.gameMapName, gameState.localQuestProgress)
-
-    private val activeKeyCodes = arrayOf(Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_4, Input.Keys.NUM_5)
+    val questWindow = QuestFragment(virtualScreen, gameState.gameMapName, gameState.localQuestProgress, gameState.preferences, gameState.assets)
 
     val activeSkills: Array<Button> = Array(4) {
         Button(
@@ -40,7 +28,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
                 borderSize = skillBorderSize,
                 borderTextureName = "ui/game/skill-border",
                 isVisible = false,
-                keyCode = activeKeyCodes[it]
+                keyCode = gameState.settings.activeSkillKeys[it]
         )
     }
 
@@ -50,7 +38,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
             borderSize = skillBorderSize,
             borderTextureName = "ui/game/ultimate-border",
             isVisible = false,
-            keyCode = Input.Keys.NUM_3
+            keyCode = gameState.settings.ultimateSkillKey
     )
 
     val settingsBtn = Button(
@@ -72,7 +60,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
     val microMenu = CompositeWidget(settingsBtn, questsBtn)
     val settingsMenu = CompositeWidget(leaveGameBtn, isVisible = false)
 
-    val confirmExitMessage : ConfirmMessage = ConfirmMessage(
+    val confirmExitMessage: ConfirmMessage = ConfirmMessage(
             virtualScreen = virtualScreen,
             title = "Main menu",
             description = "Do you want to leave game and open main menu?\nUnsaved progress will be lost.",

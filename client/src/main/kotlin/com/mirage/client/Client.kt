@@ -3,41 +3,39 @@ package com.mirage.client
 import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.GL20
 import com.mirage.connection.Connection
 import com.mirage.connection.LocalConnection
+import com.mirage.core.messaging.ChangeSceneClientMessage
+import com.mirage.core.messaging.CloseConnectionMessage
+import com.mirage.core.messaging.ExitClientMessage
+import com.mirage.ui.fragments.gameview.INTERPOLATION_DELAY_MILLIS
+import com.mirage.core.VirtualScreen
+import com.mirage.core.utils.ClientPlatform
 import com.mirage.ui.screens.Screen
 import com.mirage.ui.screens.game.GameScreen
+import com.mirage.ui.screens.loading.LoadingScreen
 import com.mirage.ui.screens.mainmenu.MainMenuScreen
 import com.mirage.ui.screens.newgame.NewGameScreen
-import com.mirage.core.INTERPOLATION_DELAY_MILLIS
-import com.mirage.core.PLATFORM
-import com.mirage.core.game.maps.SceneLoader
-import com.mirage.core.messaging.*
-import com.mirage.core.preferences.Prefs
-import com.mirage.core.virtualscreen.VirtualScreen
-import com.mirage.core.virtualscreen.VirtualScreenGdxImpl
-import com.mirage.ui.screens.loading.LoadingScreen
 import kotlin.system.exitProcess
 
 object Client : ApplicationListener {
 
-    private val virtualScreen: VirtualScreen = VirtualScreenGdxImpl()
-    private var currentScreen: Screen? = null
+    private val virtualScreen: VirtualScreen = GdxVirtualScreen
+    private var currentScreen: Screen = object : Screen(virtualScreen, {}) {}
         private set(value) {
-            value?.resize(virtualScreen.width, virtualScreen.height)
+            value.resize(virtualScreen.width, virtualScreen.height)
             field = value
         }
     private var connection: Connection? = null
 
     private fun openLoadingScreen() {
-        val loadingScreen = LoadingScreen(virtualScreen) { msg ->
+        val loadingScreen = LoadingScreen(virtualScreen, GdxAssets, GdxPreferences) { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> {
-                            startSinglePlayerGame(Prefs.profile.currentMap)
+                            startSinglePlayerGame(GdxPreferences.profile.currentMap)
                         }
                         ChangeSceneClientMessage.Scene.MAIN_MENU -> {
                             openMainMenu()
@@ -46,12 +44,12 @@ object Client : ApplicationListener {
                 }
             }
         }
-        Gdx.input.inputProcessor = loadingScreen
+        Gdx.input.inputProcessor = loadingScreen.asInputProcessor()
         currentScreen = loadingScreen
     }
 
     private fun openMainMenu() {
-        val mainMenuScreen = MainMenuScreen(virtualScreen) { msg ->
+        val mainMenuScreen = MainMenuScreen(virtualScreen, GdxAssets, GdxPreferences) { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
@@ -62,7 +60,7 @@ object Client : ApplicationListener {
 
                         }
                         ChangeSceneClientMessage.Scene.SETTINGS_MENU -> {
-                            val fullScreen = Prefs.settings.desktopFullScreen.get()
+                            val fullScreen = GdxPreferences.settings.desktopFullScreen
                             if (fullScreen) setDesktopWindowedMode()
                             else setDesktopFullScreen()
                         }
@@ -72,33 +70,33 @@ object Client : ApplicationListener {
                     }
                 }
                 is ExitClientMessage -> {
-                    Prefs.savePreferences()
+                    GdxPreferences.savePreferences()
                     exitProcess(msg.exitCode)
                 }
             }
         }
-        Gdx.input.inputProcessor = mainMenuScreen
+        Gdx.input.inputProcessor = mainMenuScreen.asInputProcessor()
         currentScreen = mainMenuScreen
     }
 
     private fun startNewGame() {
-        val newGameScreen = NewGameScreen(virtualScreen) { msg ->
+        val newGameScreen = NewGameScreen(virtualScreen, GdxAssets, GdxPreferences) { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
                         ChangeSceneClientMessage.Scene.MAIN_MENU -> openMainMenu()
-                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(Prefs.profile.currentMap)
+                        ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME -> startSinglePlayerGame(GdxPreferences.profile.currentMap)
                     }
                 }
             }
         }
-        Gdx.input.inputProcessor = newGameScreen
+        Gdx.input.inputProcessor = newGameScreen.asInputProcessor()
         currentScreen = newGameScreen
     }
 
     private fun startSinglePlayerGame(mapName: String) {
-        val connection : Connection = LocalConnection(mapName)
-        val gameScreen = GameScreen(virtualScreen, mapName) { msg ->
+        val connection: Connection = LocalConnection(GdxAssets, GdxPreferences)
+        val gameScreen = GameScreen(virtualScreen, GdxAssets, GdxPreferences, mapName) { msg ->
             when (msg) {
                 is ChangeSceneClientMessage -> {
                     when (msg.newScene) {
@@ -122,15 +120,15 @@ object Client : ApplicationListener {
         connection.start()
         this.connection = connection
         currentScreen = gameScreen
-        Gdx.input.inputProcessor = gameScreen
+        Gdx.input.inputProcessor = gameScreen.asInputProcessor()
         Thread.sleep(INTERPOLATION_DELAY_MILLIS)
     }
 
 
     override fun create() {
         //TODO Load profile
-        if (PLATFORM == "desktop" || PLATFORM == "desktop-test") {
-            val fullScreen = Prefs.settings.desktopFullScreen.get()
+        if (ClientPlatform.platform != ClientPlatform.ANDROID) {
+            val fullScreen = GdxPreferences.settings.desktopFullScreen
             if (fullScreen) setDesktopFullScreen()
             else setDesktopWindowedMode()
         }
@@ -138,13 +136,13 @@ object Client : ApplicationListener {
     }
 
     override fun pause() {
-        Prefs.savePreferences()
+        GdxPreferences.savePreferences()
     }
 
     override fun resume() {}
 
     override fun dispose() {
-        Prefs.savePreferences()
+        GdxPreferences.savePreferences()
     }
 
     override fun render() {
@@ -154,22 +152,22 @@ object Client : ApplicationListener {
         gl.glClearColor(0f, 0f, 0f, 1f)
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         virtualScreen.begin()
-        currentScreen?.render(virtualScreen)
+        currentScreen.render()
         virtualScreen.end()
     }
 
     override fun resize(width: Int, height: Int) {
         virtualScreen.resize(width, height)
-        currentScreen?.resize(virtualScreen.width, virtualScreen.height)
+        currentScreen.resize(virtualScreen.width, virtualScreen.height)
     }
 
     private fun setDesktopFullScreen() {
-        Prefs.settings.desktopFullScreen.set(true)
+        GdxPreferences.settings.desktopFullScreen = true
         Gdx.graphics.setFullscreenMode(Gdx.graphics.displayMode)
     }
 
     private fun setDesktopWindowedMode() {
-        Prefs.settings.desktopFullScreen.set(false)
+        GdxPreferences.settings.desktopFullScreen = false
         Gdx.graphics.setWindowedMode(800, 600)
     }
 

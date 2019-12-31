@@ -1,23 +1,14 @@
 package com.mirage.ui.fragments.gameview
 
-import com.badlogic.gdx.Input
 import com.mirage.core.DELTA_CENTER_Y
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.rangeBetween
-import com.mirage.core.extensions.EntityID
-import com.mirage.core.extensions.GameMapName
-import com.mirage.core.extensions.IntervalMillis
-import com.mirage.core.extensions.TimeMillis
-import com.mirage.core.game.maps.GameMap
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
-import com.mirage.core.game.states.GameStateSnapshot
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.SnapshotManager
-import com.mirage.core.game.states.StateDifference
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.messaging.InteractionClientMessage
 import com.mirage.core.messaging.SetTargetClientMessage
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.*
+import com.mirage.core.VirtualScreen
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.screens.game.GameState
 import com.mirage.ui.widgets.Widget
@@ -35,13 +26,15 @@ internal class GameViewFragment(
 
     override var isVisible: Boolean = true
 
-    private val gameView: GameView = GameViewImpl(gameState.gameMapName, gameState.gameMap)
+    private val gameView: GameView = GameViewImpl(gameState.assets, gameState.gameMapName, gameState.gameMap)
 
     private val equipmentChangeRequests: MutableList<Pair<EntityID, Equipment>> = LinkedList()
 
     private val snapshotManager: SnapshotManager = SnapshotManager { oldState, difference ->
         /** Updating drawers for new snapshot */
+        /** Updating drawers for new snapshot */
         gameView.updateDrawers(oldState, difference)
+        /** Processing equipment change requests */
         /** Processing equipment change requests */
         val iterator = equipmentChangeRequests.listIterator()
         while (iterator.hasNext()) {
@@ -129,7 +122,7 @@ internal class GameViewFragment(
 
     override fun keyUp(keycode: Int): Boolean {
         when (keycode) {
-            Input.Keys.W -> {
+            gameState.settings.moveUpKey -> {
                 wReleasedTime = System.currentTimeMillis()
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
@@ -152,7 +145,7 @@ internal class GameViewFragment(
                     }
                 }
             }
-            Input.Keys.A -> {
+            gameState.settings.moveLeftKey -> {
                 aReleasedTime = System.currentTimeMillis()
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
@@ -175,7 +168,7 @@ internal class GameViewFragment(
                     }
                 }
             }
-            Input.Keys.S -> {
+            gameState.settings.moveDownKey -> {
                 sReleasedTime = System.currentTimeMillis()
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
@@ -198,7 +191,7 @@ internal class GameViewFragment(
                     }
                 }
             }
-            Input.Keys.D -> {
+            gameState.settings.moveRightKey -> {
                 dReleasedTime = System.currentTimeMillis()
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
@@ -228,7 +221,7 @@ internal class GameViewFragment(
 
     override fun keyDown(keycode: Int): Boolean {
         when (keycode) {
-            Input.Keys.W -> {
+            gameState.settings.moveUpKey -> {
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
                         MoveDirection.LEFT -> {
@@ -245,7 +238,7 @@ internal class GameViewFragment(
                     startMoving(MoveDirection.UP)
                 }
             }
-            Input.Keys.A -> {
+            gameState.settings.moveLeftKey -> {
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
                         MoveDirection.UP -> {
@@ -262,7 +255,7 @@ internal class GameViewFragment(
                     startMoving(MoveDirection.LEFT)
                 }
             }
-            Input.Keys.S -> {
+            gameState.settings.moveDownKey -> {
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
                         MoveDirection.LEFT -> {
@@ -279,7 +272,7 @@ internal class GameViewFragment(
                     startMoving(MoveDirection.DOWN)
                 }
             }
-            Input.Keys.D -> {
+            gameState.settings.moveRightKey -> {
                 if (gameState.bufferedMoving == true) {
                     when (gameState.bufferedMoveDirection) {
                         MoveDirection.UP -> {
@@ -296,13 +289,13 @@ internal class GameViewFragment(
                     startMoving(MoveDirection.RIGHT)
                 }
             }
-            Input.Keys.ESCAPE -> {
+            gameState.settings.cancelKey -> {
                 if (gameState.targetID != null) {
                     gameState.targetID = null
                     listener(SetTargetClientMessage(null))
                 }
             }
-            Input.Keys.E -> {
+            gameState.settings.interactKey -> {
                 val targetID = gameState.targetID
                 val player = lastRenderedState.entities[gameState.playerID]
                 val target = lastRenderedState.entities[targetID]

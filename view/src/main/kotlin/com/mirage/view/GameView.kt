@@ -1,12 +1,12 @@
 package com.mirage.view
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.extensions.EntityID
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.EntityID
 import com.mirage.core.game.objects.properties.Equipment
-import com.mirage.core.game.objects.simplified.SimplifiedEntity
-import com.mirage.core.game.states.SimplifiedState
-import com.mirage.core.game.states.StateDifference
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.game.objects.SimplifiedEntity
+import com.mirage.core.game.objects.SimplifiedState
+import com.mirage.core.game.objects.StateDifference
+import com.mirage.core.VirtualScreen
 
 /** Visual representation of the state of the game */
 interface GameView {
@@ -19,7 +19,7 @@ interface GameView {
 
     /**
      * Updates drawers to render next state.
-     * This method should be called on moving to next [com.mirage.core.game.states.GameStateSnapshot],
+     * This method should be called on moving to next snapshot,
      * or on receiving new [com.mirage.core.messaging.GameStateUpdateMessage].
      */
     fun updateDrawers(oldState: SimplifiedState, diff: StateDifference)

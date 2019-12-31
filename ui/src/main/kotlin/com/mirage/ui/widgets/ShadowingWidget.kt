@@ -1,8 +1,8 @@
 package com.mirage.ui.widgets
 
-import com.mirage.core.datastructures.Point
-import com.mirage.core.extensions.IntervalMillis
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.IntervalMillis
+import com.mirage.core.VirtualScreen
 import kotlin.math.min
 
 /**

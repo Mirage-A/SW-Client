@@ -1,16 +1,20 @@
 package com.mirage.view.drawers.templates
 
-import com.mirage.view.drawers.DrawerTemplate
-import com.mirage.view.drawers.animation.*
-import com.mirage.core.Log
-import com.mirage.core.datastructures.Point
-import com.mirage.core.datastructures.Rectangle
+import com.mirage.core.utils.Log
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.properties.MoveDirection
 import com.mirage.core.game.objects.properties.WeaponType
-import com.mirage.core.virtualscreen.VirtualScreen
+import com.mirage.core.VirtualScreen
+import com.mirage.view.drawers.DrawerTemplate
+import com.mirage.view.drawers.animation.*
 
-class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : DrawerTemplate {
+class HumanoidDrawerTemplate(
+        private val animationLoader: AnimationLoader,
+        val equipment: Equipment,
+        val scale: Float = 1f
+) : DrawerTemplate {
 
     private val weaponType: WeaponType = equipment.weaponType
 
@@ -37,17 +41,19 @@ class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : 
 
     override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (!isOpaque) return
-        val bodyAnimation = AnimationLoader.getBodyAnimation(action)
-        val legsAnimation = AnimationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
+        val bodyAnimation = animationLoader.getBodyAnimation(action)
+        val legsAnimation = animationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
 
-        val bodyFrames : List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType) ?: run {
-            Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
-            return
-        }
-        val legsFrames : List<Animation.Frame> = legsAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType) ?: run {
-            Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
-            return
-        }
+        val bodyFrames: List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
+                ?: run {
+                    Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
+                    return
+                }
+        val legsFrames: List<Animation.Frame> = legsAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
+                ?: run {
+                    Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
+                    return
+                }
         if (bodyFrames.isEmpty()) return
         if (legsFrames.isEmpty()) return
 
@@ -83,15 +89,14 @@ class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : 
                     }
                     drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress, scale)
                 }
-            }
-            else drawBodyLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
+            } else drawBodyLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
 
         }
     }
 
 
     /** Finds a bodypoint layer on frame and returns its position, or (0f, 0f) if it is absent */
-    private fun getBodyPoint(startFrame: Animation.Frame, endFrame : Animation.Frame, progress: Float) : Point {
+    private fun getBodyPoint(startFrame: Animation.Frame, endFrame: Animation.Frame, progress: Float): Point {
         val startLayerIndex = findLayer(startFrame, "bodypoint")
         val endLayerIndex = findLayer(endFrame, "bodypoint")
         if (startLayerIndex != -1 && endLayerIndex != -1) {
@@ -103,12 +108,12 @@ class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : 
 
 
     /** Draws a layer, processing special layers like bodypoint */
-    private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer : Animation.Layer, progress: Float, moveDirection: MoveDirection) {
+    private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer: Animation.Layer, progress: Float, moveDirection: MoveDirection) {
         val layerName = startLayer.getName()
         if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
             return
         }
-        val texture : String = when (layerName) {
+        val texture: String = when (layerName) {
             "lefthandtop", "righthandtop" -> handTopTexture
             "lefthandbottom", "righthandbottom" -> handBottomTexture
             "leftlegtop", "rightlegtop" -> legTopTexture
