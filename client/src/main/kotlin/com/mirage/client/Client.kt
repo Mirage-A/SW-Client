@@ -22,9 +22,9 @@ import kotlin.system.exitProcess
 object Client : ApplicationListener {
 
     private val virtualScreen: VirtualScreen = GdxVirtualScreen
-    private var currentScreen: Screen = object : Screen(virtualScreen, {}) {}
+    private var currentScreen: Screen? = null
         private set(value) {
-            value.resize(virtualScreen.width, virtualScreen.height)
+            value?.resize(virtualScreen.width, virtualScreen.height)
             field = value
         }
     private var connection: Connection? = null
@@ -126,12 +126,12 @@ object Client : ApplicationListener {
 
 
     override fun create() {
-        //TODO Load profile
         if (ClientPlatform.platform != ClientPlatform.ANDROID) {
             val fullScreen = GdxPreferences.settings.desktopFullScreen
             if (fullScreen) setDesktopFullScreen()
             else setDesktopWindowedMode()
         }
+        virtualScreen.resize(Gdx.graphics.width, Gdx.graphics.height)
         openMainMenu()
     }
 
@@ -152,13 +152,13 @@ object Client : ApplicationListener {
         gl.glClearColor(0f, 0f, 0f, 1f)
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         virtualScreen.begin()
-        currentScreen.render()
+        currentScreen?.render()
         virtualScreen.end()
     }
 
     override fun resize(width: Int, height: Int) {
         virtualScreen.resize(width, height)
-        currentScreen.resize(virtualScreen.width, virtualScreen.height)
+        currentScreen?.resize(virtualScreen.width, virtualScreen.height)
     }
 
     private fun setDesktopFullScreen() {
