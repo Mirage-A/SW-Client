@@ -10,7 +10,11 @@ import com.mirage.core.VirtualScreen
 import com.mirage.view.drawers.DrawerTemplate
 import com.mirage.view.drawers.animation.*
 
-class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : DrawerTemplate {
+class HumanoidDrawerTemplate(
+        private val animationLoader: AnimationLoader,
+        val equipment: Equipment,
+        val scale: Float = 1f
+) : DrawerTemplate {
 
     private val weaponType: WeaponType = equipment.weaponType
 
@@ -37,8 +41,8 @@ class HumanoidDrawerTemplate(val equipment: Equipment, val scale: Float = 1f) : 
 
     override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (!isOpaque) return
-        val bodyAnimation = AnimationLoader.getBodyAnimation(action)
-        val legsAnimation = AnimationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
+        val bodyAnimation = animationLoader.getBodyAnimation(action)
+        val legsAnimation = animationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
 
         val bodyFrames: List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
                 ?: run {

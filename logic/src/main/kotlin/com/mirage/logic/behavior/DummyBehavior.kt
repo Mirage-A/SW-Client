@@ -5,7 +5,7 @@ import com.mirage.core.utils.IntervalMillis
 import com.mirage.core.utils.tableOf
 import com.mirage.logic.state.ExtendedEntity
 import com.mirage.logic.data.LogicData
-import com.mirage.logic.processors.runAssetScript
+import com.mirage.logic.processors.runScript
 import org.luaj.vm2.LuaValue
 
 /** Behavior of a dummy that does nothing, but can take damage */
@@ -21,7 +21,7 @@ internal class DummyBehavior(private val id: EntityID, data: LogicData) : Behavi
         entity.health -= damage
         if (entity.health <= 0) {
             entity.health = 0
-            runAssetScript(
+            data.assets.runScript(
                     "scenes/${data.gameMapName}/templates/entities/${entity.template}/death",
                     tableOf("entityID" to id, "sourceID" to source),
                     coercedScriptActions

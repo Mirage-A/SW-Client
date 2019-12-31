@@ -2,19 +2,23 @@ package com.mirage.ui.screens.game
 
 import com.mirage.core.utils.GameMapName
 import com.mirage.core.messaging.*
-import com.mirage.core.preferences.GdxPreferences
 import com.mirage.core.VirtualScreen
-import com.mirage.ui.screens.AbstractScreen
+import com.mirage.core.preferences.Preferences
+import com.mirage.core.preferences.Settings
+import com.mirage.core.utils.Assets
+import com.mirage.ui.screens.Screen
 import com.mirage.ui.screens.ClientMessageListener
 import com.mirage.ui.widgets.Widget
 
 class GameScreen(
         virtualScreen: VirtualScreen,
+        assets: Assets,
+        preferences: Preferences,
         gameMapName: GameMapName,
-        private val listener: ClientMessageListener
-) : AbstractScreen(virtualScreen) {
+        listener: ClientMessageListener
+) : Screen(virtualScreen, listener) {
 
-    private val gameState = GameState(gameMapName)
+    private val gameState = GameState(assets, gameMapName, preferences)
     private val gameWidgets = GameWidgets(virtualScreen, gameState, listener).apply {
         initializeSizeUpdaters()
         initializeListeners(gameState, listener)
@@ -39,7 +43,7 @@ class GameScreen(
             }
             is GlobalQuestUpdateMessage -> {
                 //TODO Show notification about quest progress
-                GdxPreferences.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
+                gameState.preferences.profile.globalQuestProgress[msg.globalQuestName] = msg.newPhaseID
                 gameWidgets.questWindow.updateQuestWindow()
             }
             is HumanoidEquipmentUpdateMessage -> {
@@ -56,7 +60,7 @@ class GameScreen(
         }
     }
 
-    override fun render(virtualScreen: VirtualScreen) {
+    override fun render() {
         with(gameState) {
             if (bufferedMoving != lastSentMoving) {
                 bufferedMoving?.let { newMoving ->

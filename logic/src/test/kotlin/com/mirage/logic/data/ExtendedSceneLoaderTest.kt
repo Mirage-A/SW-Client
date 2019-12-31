@@ -22,6 +22,7 @@ internal class ExtendedSceneLoaderTest {
 
     }
 
+    /*
 
     @Test
     fun loadSceneTest() {
@@ -112,7 +113,8 @@ internal class ExtendedSceneLoaderTest {
                 state = "default"
         ), obj)
     }
-
+*/
+    /*
     @Test
     fun loadEntityByNameTemplateTest() {
         val obj = ExtendedSceneLoader("moving-micro-test").loadEntityTemplate("test-entity")
@@ -163,5 +165,5 @@ internal class ExtendedSceneLoaderTest {
     }
   ]""".trimMargin().reader())
         }
-    }
+    }*/
 }

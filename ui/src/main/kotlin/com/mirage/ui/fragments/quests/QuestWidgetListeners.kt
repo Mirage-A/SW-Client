@@ -8,12 +8,12 @@ import kotlin.math.max
 
 const val COMPLETED_QUEST_PHASE = 1_000_000
 
-internal fun QuestWidgets.initializeListeners(preferences: Preferences, questState: QuestState) {
-    updateQuestWindow(preferences, questState)
+internal fun QuestWidgets.initializeListeners(questState: QuestState) {
+    updateQuestWindow(questState)
 }
 
 
-internal fun QuestWidgets.updateQuestWindow(preferences: Preferences, questState: QuestState) {
+internal fun QuestWidgets.updateQuestWindow(questState: QuestState) {
     fun sortQuests(quests: QuestProgress) =
             // Active quests
             quests.filter { it.value in 1 until COMPLETED_QUEST_PHASE }.toList() +
@@ -38,7 +38,7 @@ internal fun QuestWidgets.updateQuestWindow(preferences: Preferences, questState
                     } else {
                         isVisible = true
                         val (questName, questPhase) = quests[startBtnIndex + i]
-                        boundedLabel?.text = QuestLoader.getGuiQuestName(questName, questPhase, questState.gameMapName, questType)
+                        boundedLabel?.text = questState.questLoader.getGuiQuestName(questName, questPhase, questState.gameMapName, questType)
                         val state = when {
                             questPhase >= COMPLETED_QUEST_PHASE -> "completed"
                             questPhase < 0 -> "failed"
@@ -52,14 +52,14 @@ internal fun QuestWidgets.updateQuestWindow(preferences: Preferences, questState
                                 questState.selectedGlobalQuest = null
                                 questState.selectedLocalQuest =
                                         if (questState.selectedLocalQuest == questName) null else questName
-                                updateSelectedQuest(preferences, questState)
+                                updateSelectedQuest(questState)
                             }
                         } else {
                             {
                                 questState.selectedLocalQuest = null
                                 questState.selectedGlobalQuest =
                                         if (questState.selectedGlobalQuest == questName) null else questName
-                                updateSelectedQuest(preferences, questState)
+                                updateSelectedQuest(questState)
                             }
                         }
                     }
@@ -70,7 +70,7 @@ internal fun QuestWidgets.updateQuestWindow(preferences: Preferences, questState
         pageUpdater(navigator.pageIndex)
     }
     updateQuestColumn(
-            preferences.profile.globalQuestProgress,
+            questState.preferences.profile.globalQuestProgress,
             globalQuestsPageNavigator,
             globalQuestBtns,
             QuestLoader.QuestType.GLOBAL
@@ -81,11 +81,11 @@ internal fun QuestWidgets.updateQuestWindow(preferences: Preferences, questState
             localQuestBtns,
             QuestLoader.QuestType.LOCAL
     )
-    updateSelectedQuest(preferences, questState)
+    updateSelectedQuest(questState)
 }
 
 
-private fun QuestWidgets.updateSelectedQuest(preferences: Preferences, questState: QuestState) {
+private fun QuestWidgets.updateSelectedQuest(questState: QuestState) {
     val isQuestSelected: Boolean
     val selectedQuestGuiName: String
     val selectedQuestGuiDescription: String
@@ -99,17 +99,17 @@ private fun QuestWidgets.updateSelectedQuest(preferences: Preferences, questStat
         }
         localQ == null -> {
             val questName = globalQ ?: "null"
-            val questPhase = preferences.profile.globalQuestProgress[questName]
+            val questPhase = questState.preferences.profile.globalQuestProgress[questName]
             if (questPhase == null) {
                 isQuestSelected = false
                 selectedQuestGuiName = ""
                 selectedQuestGuiDescription = ""
             } else {
                 isQuestSelected = true
-                selectedQuestGuiName = QuestLoader.getGuiQuestName(
+                selectedQuestGuiName = questState.questLoader.getGuiQuestName(
                         questName, questPhase, questState.gameMapName, QuestLoader.QuestType.GLOBAL
                 )
-                selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(
+                selectedQuestGuiDescription = questState.questLoader.getGuiQuestDescription(
                         questName, questPhase, questState.gameMapName, QuestLoader.QuestType.GLOBAL
                 )
             }
@@ -122,10 +122,10 @@ private fun QuestWidgets.updateSelectedQuest(preferences: Preferences, questStat
                 selectedQuestGuiDescription = ""
             } else {
                 isQuestSelected = true
-                selectedQuestGuiName = QuestLoader.getGuiQuestName(
+                selectedQuestGuiName = questState.questLoader.getGuiQuestName(
                         localQ, questPhase, questState.gameMapName, QuestLoader.QuestType.LOCAL
                 )
-                selectedQuestGuiDescription = QuestLoader.getGuiQuestDescription(
+                selectedQuestGuiDescription = questState.questLoader.getGuiQuestDescription(
                         localQ, questPhase, questState.gameMapName, QuestLoader.QuestType.LOCAL
                 )
             }

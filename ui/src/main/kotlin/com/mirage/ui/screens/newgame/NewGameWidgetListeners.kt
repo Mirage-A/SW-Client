@@ -2,7 +2,7 @@ package com.mirage.ui.screens.newgame
 
 import com.mirage.core.utils.Log
 import com.mirage.core.messaging.ChangeSceneClientMessage
-import com.mirage.core.preferences.GdxPreferences
+import com.mirage.core.preferences.Preferences
 import com.mirage.ui.screens.ClientMessageListener
 import kotlin.math.min
 
@@ -19,7 +19,7 @@ internal fun NewGameWidgets.initializeListeners(newGameState: NewGameState, list
     confirmBtn.onPressed = {
         if (newGameState.selectedClass != "none") {
             //TODO For Android, use Gdx.input.getTextInput
-            if (createNewProfile(profileNameField.text, newGameState.selectedClass)) {
+            if (newGameState.preferences.createNewProfile(profileNameField.text, newGameState.selectedClass)) {
                 listener(ChangeSceneClientMessage(ChangeSceneClientMessage.Scene.SINGLEPLAYER_GAME))
             }
         }
@@ -33,15 +33,15 @@ internal fun NewGameWidgets.initializeListeners(newGameState: NewGameState, list
  * [selectedClass] can be equal to "mage", "rogue" or "warrior".
  * @return true if profile was successfully created.
  */
-private fun createNewProfile(name: String, selectedClass: String): Boolean {
+private fun Preferences.createNewProfile(name: String, selectedClass: String): Boolean {
     val filtered = name.filter { it.isLetterOrDigit() }
     if (filtered.isEmpty()) return false
     val validatedName = filtered.substring(0, min(filtered.length, 16))
-    if (validatedName in GdxPreferences.account.profiles) return false
+    if (validatedName in account.profiles) return false
     Log.i("Creating profile {$validatedName} and class $selectedClass")
-    GdxPreferences.account.profiles.add(validatedName)
-    GdxPreferences.switchProfile(validatedName)
-    with(GdxPreferences.profile) {
+    account.profiles.add(validatedName)
+    switchProfile(validatedName)
+    with(profile) {
         profileName = validatedName
         when (selectedClass) {
             "mage" -> {

@@ -9,7 +9,7 @@ import com.mirage.core.utils.*
 import com.mirage.logic.data.DelayedScriptRequest
 import com.mirage.logic.data.LogicData
 import com.mirage.logic.data.PlayerTransferRequest
-import com.mirage.logic.processors.runAssetScript
+import com.mirage.logic.processors.runScript
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
 import org.luaj.vm2.lib.jse.CoerceJavaToLua
@@ -19,7 +19,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
     override val coerced: LuaValue = CoerceJavaToLua.coerce(this)
 
     override fun runSceneScript(scriptName: String, args: LuaTable) {
-        runAssetScript("scenes/${data.gameMapName}/scripts/$scriptName", args, coerced)
+        data.assets.runScript("scenes/${data.gameMapName}/scripts/$scriptName", args, coerced)
     }
 
     override fun runSceneScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long) {
@@ -61,7 +61,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
             it.health -= damage
             if (it.health <= 0) {
                 it.health = 0
-                runAssetScript(
+                data.assets.runScript(
                         "scenes/${data.gameMapName}/templates/entities/${it.template}/death",
                         tableOf("sourceID" to sourceID, "entityID" to entityID),
                         coerced
@@ -72,7 +72,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
 
     override fun destroyEntity(entityID: EntityID) {
         val entity = data.state.entities[entityID] ?: return
-        runAssetScript(
+        data.assets.runScript(
                 "scenes/${data.gameMapName}/templates/entities/${entity.template}/destroy",
                 tableOf("entityID" to entityID),
                 coerced
@@ -114,7 +114,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
             it[questName] = newPhase
             data.serverMessages.add(Pair(playerID, GlobalQuestUpdateMessage(questName, newPhase)))
             val args = tableOf("playerID" to playerID, "phase" to newPhase)
-            runAssetScript("global-quests/$questName/update", args, coerced)
+            data.assets.runScript("global-quests/$questName/update", args, coerced)
         }
     }
 
@@ -123,7 +123,7 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
             it[questName] = newPhase
             data.serverMessages.add(Pair(playerID, LocalQuestUpdateMessage(questName, newPhase)))
             val args = tableOf("playerID" to playerID, "phase" to newPhase)
-            runAssetScript("scenes/${data.gameMapName}/quests/$questName/update", args, coerced)
+            data.assets.runScript("scenes/${data.gameMapName}/quests/$questName/update", args, coerced)
         }
     }
 

@@ -1,11 +1,10 @@
-package com.mirage.core.utils
+package com.mirage.client
 
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 
 internal class GdxAssetsTest {
-
 
     @Test
     fun testFileLoader() {

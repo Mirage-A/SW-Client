@@ -149,5 +149,23 @@ interface VirtualScreen {
         fun draw()
 
         fun resizeFont(virtualWidth: Float, virtualHeight: Float)
+
+        fun keyDown(keycode: Int): Boolean
+
+        fun keyUp(keycode: Int): Boolean
+
+        fun keyTyped(character: Char): Boolean
+
+        fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean
+
+        fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean
+
+        fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean
+
+        fun mouseMoved(screenX: Int, screenY: Int): Boolean
+
+        fun scrolled(amount: Int): Boolean
+
+
     }
 }

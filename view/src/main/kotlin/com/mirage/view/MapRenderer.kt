@@ -1,9 +1,9 @@
 package com.mirage.view
 
+import com.mirage.core.TILE_WIDTH
 import com.mirage.core.utils.Point
 import com.mirage.core.utils.trunc
 import com.mirage.core.game.maps.GameMap
-import com.mirage.core.utils.TILE_WIDTH
 import com.mirage.core.VirtualScreen
 import com.mirage.view.utils.getScenePointFromVirtualScreen
 import com.mirage.view.utils.getVirtualScreenPointFromScene

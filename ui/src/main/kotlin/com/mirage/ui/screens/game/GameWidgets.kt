@@ -1,6 +1,5 @@
 package com.mirage.ui.screens.game
 
-import com.badlogic.gdx.Input
 import com.mirage.core.VirtualScreen
 import com.mirage.ui.fragments.gameview.GameViewFragment
 import com.mirage.ui.fragments.quests.QuestFragment
@@ -20,9 +19,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
 
     val gameView = GameViewFragment(gameState, listener)
 
-    val questWindow = QuestFragment(virtualScreen, gameState.gameMapName, gameState.localQuestProgress)
-
-    private val activeKeyCodes = arrayOf(Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_4, Input.Keys.NUM_5)
+    val questWindow = QuestFragment(virtualScreen, gameState.gameMapName, gameState.localQuestProgress, gameState.preferences, gameState.assets)
 
     val activeSkills: Array<Button> = Array(4) {
         Button(
@@ -31,7 +28,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
                 borderSize = skillBorderSize,
                 borderTextureName = "ui/game/skill-border",
                 isVisible = false,
-                keyCode = activeKeyCodes[it]
+                keyCode = gameState.settings.activeSkillKeys[it]
         )
     }
 
@@ -41,7 +38,7 @@ internal class GameWidgets(virtualScreen: VirtualScreen, gameState: GameState, l
             borderSize = skillBorderSize,
             borderTextureName = "ui/game/ultimate-border",
             isVisible = false,
-            keyCode = Input.Keys.NUM_3
+            keyCode = gameState.settings.ultimateSkillKey
     )
 
     val settingsBtn = Button(

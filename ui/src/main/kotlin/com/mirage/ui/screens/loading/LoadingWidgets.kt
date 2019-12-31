@@ -13,7 +13,7 @@ private const val sceneDescriptionFontSize = 32f
 
 internal class LoadingWidgets(virtualScreen: VirtualScreen, loadingState: LoadingState) {
 
-    val inventoryWindow = InventoryFragment(virtualScreen)
+    val inventoryWindow = InventoryFragment(virtualScreen, loadingState.assets, loadingState.preferences)
 
     val sceneArt = ImageWidget(textureName = "../scenes/${loadingState.gameMapName}/art")
 

@@ -1,8 +1,8 @@
 package com.mirage.view.utils
 
+import com.mirage.core.TILE_HEIGHT
+import com.mirage.core.TILE_WIDTH
 import com.mirage.core.utils.Point
-import com.mirage.core.utils.TILE_HEIGHT
-import com.mirage.core.utils.TILE_WIDTH
 
 
 fun getVirtualScreenPointFromScene(scenePoint: Point): Point {

@@ -1,29 +1,25 @@
 package com.mirage.logic.behavior
 
-import com.mirage.core.utils.rangeBetween
-import com.mirage.core.utils.EntityID
-import com.mirage.core.utils.IntervalMillis
-import com.mirage.core.utils.SkillNames
-import com.mirage.core.utils.tableOf
-import com.mirage.logic.state.ExtendedEntity
 import com.mirage.core.game.objects.properties.Equipment
+import com.mirage.logic.state.ExtendedEntity
 import com.mirage.core.game.objects.properties.PlayerAttributes
 import com.mirage.core.messaging.*
+import com.mirage.core.utils.*
 import com.mirage.logic.data.LogicData
 import com.mirage.logic.processors.moveObject
-import com.mirage.logic.processors.runAssetScript
+import com.mirage.logic.processors.runScript
 import org.luaj.vm2.LuaValue
 
 /** Represents player behavior. This implementation should be used for all player entities. */
 internal class PlayerBehavior(
         private val id: EntityID,
         equipment: Equipment,
+        private val attributes: PlayerAttributes,
         private val skillNames: SkillNames,
         data: LogicData
 ) : Behavior {
 
     private val entity = data.state.entities[id] ?: ExtendedEntity()
-    private val attributes = PlayerAttributes(equipment)
 
     private var targetID: EntityID? = null
 
@@ -63,7 +59,7 @@ internal class PlayerBehavior(
                     val player = state.entities[id]
                     val entity = state.entities[msg.entityID]
                     if (player != null && entity != null && rangeBetween(player.position, entity.position) < entity.interactionRange) {
-                        runAssetScript(
+                        assets.runScript(
                                 "scenes/$gameMapName/templates/entities/${entity.template}/interaction",
                                 tableOf("playerID" to id, "entityID" to msg.entityID),
                                 coercedScriptActions

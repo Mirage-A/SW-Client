@@ -10,12 +10,16 @@ import com.mirage.core.game.objects.SimplifiedEntity
 import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.game.objects.StateDifference
 import com.mirage.core.VirtualScreen
+import com.mirage.view.drawers.animation.AnimationLoader
 import com.mirage.view.drawers.templates.EmptyDrawerTemplate
 import com.mirage.view.drawers.templates.HumanoidDrawerTemplate
 import com.mirage.view.utils.loadBuildingDrawersFromTemplate
 import com.mirage.view.utils.loadEntityDrawersFromTemplate
 
-class DrawersManagerImpl(private val sceneLoader: SceneLoader) : DrawersManager {
+class DrawersManagerImpl(
+        private val animationLoader: AnimationLoader,
+        private val sceneLoader: SceneLoader
+) : DrawersManager {
 
     /**
      * Словарь, в котором кэшируются шаблонные представления.
@@ -39,11 +43,11 @@ class DrawersManagerImpl(private val sceneLoader: SceneLoader) : DrawersManager 
 
     /** Загружает шаблонные представления для всех состояний шаблона [templateName] и кэширует их */
     private fun loadBuildingTemplateDrawers(templateName: String) {
-        cachedBuildingDrawerTemplates[templateName] = loadBuildingDrawersFromTemplate(sceneLoader, templateName)
+        cachedBuildingDrawerTemplates[templateName] = loadBuildingDrawersFromTemplate(animationLoader, sceneLoader, templateName)
     }
 
     private fun loadEntityTemplateDrawers(templateName: String) {
-        cachedEntityDrawerTemplates[templateName] = loadEntityDrawersFromTemplate(sceneLoader, templateName)
+        cachedEntityDrawerTemplates[templateName] = loadEntityDrawersFromTemplate(animationLoader, sceneLoader, templateName)
     }
 
     override fun getEntityHitbox(entityID: Long): Rectangle? = entityDrawers[entityID]?.hitBox
@@ -113,7 +117,7 @@ class DrawersManagerImpl(private val sceneLoader: SceneLoader) : DrawersManager 
     override fun updateEquipment(entityID: Long, entity: SimplifiedEntity, equipment: Equipment, currentTimeMillis: Long) {
         println("Equipment changed $entityID $equipment")
         this.equipment[entityID] = equipment
-        val drawer: Drawer = DrawerImpl(HumanoidDrawerTemplate(equipment))
+        val drawer: Drawer = DrawerImpl(HumanoidDrawerTemplate(animationLoader, equipment))
         drawer.setAction(entity.action, currentTimeMillis)
         drawer.setMoving(entity.isMoving, currentTimeMillis)
         entityDrawers[entityID] = drawer
@@ -156,7 +160,7 @@ class DrawersManagerImpl(private val sceneLoader: SceneLoader) : DrawersManager 
 
             val objEquipment = equipment[entityID]
             drawer = if (template is HumanoidDrawerTemplate && objEquipment != null && objEquipment != template.equipment) {
-                DrawerImpl(HumanoidDrawerTemplate(objEquipment), currentTimeMillis)
+                DrawerImpl(HumanoidDrawerTemplate(animationLoader, objEquipment), currentTimeMillis)
             } else DrawerImpl(template, currentTimeMillis)
         }
         drawer.setAction(entity.action, currentTimeMillis)

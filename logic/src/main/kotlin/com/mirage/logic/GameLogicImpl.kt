@@ -13,15 +13,17 @@ import java.util.*
 
 const val GAME_LOOP_TICK_INTERVAL = 100L //Интервал между повторениями цикла логики
 
-class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
+class GameLogicImpl(assets: Assets, gameMapName: GameMapName) : GameLogic {
 
-    private val data = LogicData(gameMapName)
+    private val data = LogicData(assets, gameMapName)
     private val scriptActions: LogicScriptActions = LogicScriptActionsImpl(data)
 
     override val playerTransfers: Queue<PlayerTransferRequest> = data.playerTransfers
     override val serverMessages: Queue<Pair<EntityID, ServerMessage>> = data.serverMessages
 
     private val loopTimer = LoopTimer(GAME_LOOP_TICK_INTERVAL) { time, delta -> updateState(time, delta) }
+
+    private val equipmentLoader = EquipmentLoader(assets)
 
     /**
      * Updates game state, filling [serverMessages] and [playerTransfers] queues.
@@ -44,14 +46,14 @@ class GameLogicImpl(gameMapName: GameMapName) : GameLogic {
 
     private fun LogicData.triggerInitScript() {
         if (!initScriptInvoked) {
-            runAssetScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
+            assets.runScript("scenes/$gameMapName/init", tableOf(), scriptActions.coerced)
             initScriptInvoked = true
         }
     }
 
     private fun LogicData.triggerAllDeadScript() {
         if (playerIDs.map { state.entities[it] }.all { it?.state ?: "dead" == "dead" }) {
-            runAssetScript("scenes/$gameMapName/all-players-dead", tableOf(), scriptActions.coerced)
+            assets.runScript("scenes/$gameMapName/all-players-dead", tableOf(), scriptActions.coerced)
         }
     }
 

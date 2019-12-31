@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 
 internal class TemplateDrawersLoaderKtTest {
 
+    /*
     @Test
     fun test1() {
         val templateReader = """{
@@ -22,5 +23,5 @@ internal class TemplateDrawersLoaderKtTest {
 }""".reader()
         val template = loadDrawersFromTemplateReader(templateReader, "someTestyName")
         println(template)
-    }
+    }*/
 }

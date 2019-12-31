@@ -8,7 +8,7 @@ import com.mirage.ui.widgets.*
 internal const val itemBtnsCount = 16
 
 /** Components of InventoryWidget */
-internal class InventoryWidgets(virtualScreen: VirtualScreen) {
+internal class InventoryWidgets(virtualScreen: VirtualScreen, inventoryState: InventoryState) {
 
     val centerBackground = ImageWidget("ui/inventory/inventory-center-background")
 
@@ -24,7 +24,7 @@ internal class InventoryWidgets(virtualScreen: VirtualScreen) {
 
     val leftBackground = ImageWidget("ui/inventory/left-background")/*TODO */
 
-    val humanoidWidget = HumanoidWidget()
+    val humanoidWidget = HumanoidWidget(inventoryState.assets)
 
     val equipmentSlots = listOf(
             EquipmentSlot.HELMET, EquipmentSlot.CHEST, EquipmentSlot.LEGGINGS,

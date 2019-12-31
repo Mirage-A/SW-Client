@@ -1,5 +1,9 @@
 package com.mirage.client
 
+import com.mirage.core.DEFAULT_SCREEN_HEIGHT
+import com.mirage.core.DEFAULT_SCREEN_WIDTH
+import com.mirage.core.TILE_HEIGHT
+import com.mirage.core.TILE_WIDTH
 import com.mirage.core.utils.*
 import kotlin.math.abs
 import kotlin.math.min

@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ScalingViewport
+import com.mirage.core.*
 import com.mirage.core.utils.*
-import com.mirage.core.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -46,7 +46,7 @@ internal object GdxVirtualScreen : VirtualScreen {
         }
     }
 
-    override val stage: Stage by lazy(LazyThreadSafetyMode.NONE) {
+    private val stage: Stage by lazy(LazyThreadSafetyMode.NONE) {
         Stage(ScalingViewport(Scaling.stretch, width, height, camera), batch)
     }
 
@@ -207,11 +207,19 @@ internal object GdxVirtualScreen : VirtualScreen {
 
     override fun createLabel(text: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.Label = GdxLabel(text, rect, fontCapHeight)
 
-    override fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField =
-            GdxTextField(hint, rect, fontCapHeight).also { stage.addActor(it.textField) }
+    override fun createTextField(hint: String, rect: Rectangle, fontCapHeight: Float): VirtualScreen.TextField {
+        stage.clear()
+        val field = GdxTextField(hint, rect, fontCapHeight)
+        stage.addActor(field.textField)
+        return field
+    }
 
-    override fun createTextField(hint: String, rect: Rectangle): VirtualScreen.TextField = GdxTextField(hint, rect)
-
+    override fun createTextField(hint: String, rect: Rectangle): VirtualScreen.TextField {
+        stage.clear()
+        val field = GdxTextField(hint, rect)
+        stage.addActor(field.textField)
+        return field
+    }
 
     class GdxLabel internal constructor(
             text: String,
@@ -331,6 +339,26 @@ internal object GdxVirtualScreen : VirtualScreen {
                     skin.getDrawable("background")
             )
         }
+
+        override fun keyDown(keycode: Int): Boolean = stage.keyDown(keycode)
+
+        override fun keyUp(keycode: Int): Boolean = stage.keyUp(keycode)
+
+        override fun keyTyped(character: Char): Boolean = stage.keyTyped(character)
+
+        override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean =
+                stage.touchDown(screenX, screenY, pointer, button)
+
+        override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean =
+                stage.touchUp(screenX, screenY, pointer, button)
+
+        override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean =
+                stage.touchDragged(screenX, screenY, pointer)
+
+        override fun mouseMoved(screenX: Int, screenY: Int): Boolean =
+            stage.mouseMoved(screenX, screenY)
+
+        override fun scrolled(amount: Int): Boolean = stage.scrolled(amount)
 
     }
 }

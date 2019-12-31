@@ -1,16 +1,11 @@
 package com.mirage.logic.data
 
 import com.google.gson.reflect.TypeToken
-import com.mirage.core.utils.GdxAssets
-import com.mirage.core.utils.Log
-import com.mirage.core.utils.Rectangle
-import com.mirage.core.utils.EntityID
-import com.mirage.core.utils.GameMapName
-import com.mirage.core.utils.fromJson
 import com.mirage.core.game.maps.SceneLoader
 import com.mirage.logic.state.ExtendedBuilding
 import com.mirage.logic.state.ExtendedEntity
 import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.utils.*
 import com.mirage.logic.state.ExtendedState
 import com.mirage.logic.behavior.Behavior
 import com.mirage.logic.behavior.DummyBehavior
@@ -18,7 +13,7 @@ import com.mirage.logic.behavior.NullBehavior
 import java.io.Reader
 import java.lang.reflect.Type
 
-internal class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameMapName) {
+internal class ExtendedSceneLoader(assets: Assets, gameMapName: GameMapName) : SceneLoader(assets, gameMapName) {
 
     private val cachedEntityTemplates = HashMap<String, ExtendedEntity>()
     private val cachedBuildingTemplates = HashMap<String, ExtendedBuilding>()
@@ -45,7 +40,7 @@ internal class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameM
 
     fun loadAreas(): Iterable<ScriptArea> =
             try {
-                loadAreas(GdxAssets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
+                loadAreas(assets.loadReader("scenes/$gameMapName/areas/areas.json")!!)
             } catch (ex: Exception) {
                 Log.e("Error while loading areas from scene: $gameMapName")
                 ArrayList()
@@ -70,13 +65,13 @@ internal class ExtendedSceneLoader(gameMapName: GameMapName) : SceneLoader(gameM
             }
 
     fun loadAreaScript(scriptName: String): Reader? =
-            GdxAssets.loadReader("scenes/$gameMapName/areas/$scriptName.lua")
+            assets.loadReader("scenes/$gameMapName/areas/$scriptName.lua")
 
     fun loadInitialState(): ExtendedState =
             try {
-                loadInitialState(GdxAssets.loadReader(
+                loadInitialState(assets.loadReader(
                         "scenes/$gameMapName/buildings.json")!!,
-                        GdxAssets.loadReader("scenes/$gameMapName/entities.json")!!
+                        assets.loadReader("scenes/$gameMapName/entities.json")!!
                 )
             } catch (ex: Exception) {
                 Log.e("Error while loading initial objects from scene: $gameMapName")

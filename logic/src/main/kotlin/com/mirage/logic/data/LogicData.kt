@@ -15,15 +15,18 @@ import java.util.concurrent.ConcurrentLinkedQueue
  * State of a single game logic instance
  */
 internal data class LogicData(
+
+        val assets: Assets,
         val gameMapName: GameMapName,
+
+        val sceneLoader: ExtendedSceneLoader = ExtendedSceneLoader(assets, gameMapName),
+        val equipmentLoader: EquipmentLoader = EquipmentLoader(assets),
 
         val serverMessages: Queue<Pair<EntityID, ServerMessage>> = ConcurrentLinkedQueue(),
         val playerTransfers: Queue<PlayerTransferRequest> = ConcurrentLinkedQueue(),
 
         /** Queue which stores new messages from clients */
         val clientMessages: Queue<Pair<EntityID, ClientMessage>> = ConcurrentLinkedQueue(),
-
-        val sceneLoader: ExtendedSceneLoader = ExtendedSceneLoader(gameMapName),
 
         val gameMap: GameMap = sceneLoader.loadMap(),
         val state: ExtendedState = sceneLoader.loadInitialState(),

@@ -1,11 +1,12 @@
 package com.mirage.ui.screens.game
 
+import com.mirage.core.TILE_HEIGHT
+import com.mirage.core.TILE_WIDTH
 import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.messaging.ClientMessage
 import com.mirage.core.messaging.InitialGameStateMessage
 import com.mirage.core.utils.*
 import com.mirage.core.VirtualScreen
-import com.mirage.core.virtualscreen.GdxVirtualScreen
 import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test
 
 internal class GameScreenTest {
 
+    /*
     @Disabled
     @Test
     fun testSimpleStateRendering() {
@@ -61,5 +63,5 @@ internal class GameScreenTest {
         whenever(mock.createLabel(any(), any<Rectangle>())).thenReturn(mock<VirtualScreen.Label>())
         whenever(mock.createLabel(any(), any(), any())).thenReturn(mock<VirtualScreen.Label>())
         return mock
-    }
+    }*/
 }

@@ -1,13 +1,13 @@
 package com.mirage.view.drawers.animation
 
-import com.mirage.core.utils.GdxAssets
+import com.mirage.core.utils.Assets
 import java.util.*
 
 /**
- * This object should be used to load animations from assets.
+ * This class should be used to load animations from assets.
  * All animations are cached after first loading.
  */
-object AnimationLoader {
+class AnimationLoader(private val assets: Assets) {
 
     private var bodyAnimationsCache: MutableMap<String, Animation> = HashMap()
     private var legsAnimationsCache: MutableMap<String, Animation> = HashMap()
@@ -17,7 +17,7 @@ object AnimationLoader {
         val cached = bodyAnimationsCache[action]
         return if (cached == null) {
             val animation = try {
-                Animation(GdxAssets.loadAnimation("humanoid/body/$action"))
+                Animation(assets.loadInputStream("animations/humanoid/body/$action.xml"))
             } catch (ex: Exception) {
                 Animation()
             }
@@ -30,7 +30,7 @@ object AnimationLoader {
         val cached = legsAnimationsCache[action]
         return if (cached == null) {
             val animation = try {
-                Animation(GdxAssets.loadAnimation("humanoid/legs/$action"))
+                Animation(assets.loadInputStream("animations/humanoid/legs/$action.xml"))
             } catch (ex: Exception) {
                 Animation()
             }
@@ -43,7 +43,7 @@ object AnimationLoader {
         val cached = objectAnimationsCache[name]
         return if (cached == null) {
             val animation = try {
-                Animation(GdxAssets.loadAnimation("object/$name"))
+                Animation(assets.loadInputStream("animations/object/$name.xml"))
             } catch (ex: Exception) {
                 Animation()
             }

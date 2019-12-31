@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 /** [Connection] implementation which works with local game logic (single player game) */
-class LocalConnection(private val preferences: Preferences) : Connection {
+class LocalConnection(assets: Assets, private val preferences: Preferences) : Connection {
 
     @Volatile
     private var playerID: EntityID? = null
@@ -21,7 +21,7 @@ class LocalConnection(private val preferences: Preferences) : Connection {
     /** Messages received before initial state with player */
     private val bufferedMessages = ArrayDeque<ServerMessage>()
 
-    private val logic: GameLogic = GameLogicImpl(preferences.profile.currentMap)
+    private val logic: GameLogic = GameLogicImpl(assets, preferences.profile.currentMap)
 
     override fun start() {
         Log.i("connection.start() invoked")

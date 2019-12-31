@@ -1,19 +1,15 @@
 package com.mirage.logic.processors
 
-import com.mirage.core.utils.GdxAssets
-import com.mirage.core.utils.Point
-import com.mirage.core.utils.TimeMillis
-import com.mirage.core.utils.runScript
-import com.mirage.core.utils.tableOf
+import com.mirage.core.utils.*
 import com.mirage.logic.data.LogicData
 import org.luaj.vm2.LuaTable
 import org.luaj.vm2.LuaValue
 
 
 /** Runs a script from file "assets/ASSET_NAME.lua" */
-internal fun runAssetScript(assetName: String, args: LuaTable, coercedScriptActions: LuaValue) {
+internal fun Assets.runScript(assetName: String, args: LuaTable, coercedScriptActions: LuaValue) {
     args.set("actions", coercedScriptActions)
-    val reader = GdxAssets.loadReader("$assetName.lua") ?: return
+    val reader = loadReader("$assetName.lua") ?: return
     runScript(reader, args)
 }
 
@@ -29,7 +25,7 @@ internal fun LogicData.processScriptAreas(coercedScriptActions: LuaValue) {
                 if (wasInArea != isInArea) {
                     val scriptName = if (isInArea) area.onEnter else area.onLeave
                     scriptName ?: continue
-                    runAssetScript(
+                    assets.runScript(
                             "scenes/$gameMapName/areas/$scriptName",
                             tableOf("entityID" to id),
                             coercedScriptActions
@@ -44,6 +40,6 @@ internal fun LogicData.processScriptAreas(coercedScriptActions: LuaValue) {
 internal fun LogicData.invokeDelayedScripts(currentTime: TimeMillis, coercedScriptActions: LuaValue) {
     while (delayedScripts.isNotEmpty() && delayedScripts.peek().invocationTime < currentTime) {
         val (_, name, args) = delayedScripts.poll()
-        runAssetScript("scenes/$gameMapName/scripts/$name", args, coercedScriptActions)
+        assets.runScript("scenes/$gameMapName/scripts/$name", args, coercedScriptActions)
     }
 }

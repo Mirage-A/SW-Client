@@ -1,7 +1,7 @@
 package com.mirage.ui.screens.newgame
 
-import com.mirage.core.utils.PLATFORM
 import com.mirage.core.VirtualScreen
+import com.mirage.core.utils.ClientPlatform
 import com.mirage.ui.widgets.*
 
 
@@ -46,14 +46,14 @@ internal class NewGameWidgets(virtualScreen: VirtualScreen) {
 
     val nameAreaBackground = ImageWidget(
             textureName = "ui/new-game/text-field-background",
-            isVisible = PLATFORM == "desktop" || PLATFORM == "desktop-test"
+            isVisible = ClientPlatform.platform != ClientPlatform.ANDROID
     )
 
     val profileNameField = TextFieldWidget(
             virtualScreen = virtualScreen,
             hint = "Enter your name",
             fontCapHeight = 20f,
-            isVisible = PLATFORM == "desktop" || PLATFORM == "desktop-test"
+            isVisible = ClientPlatform.platform != ClientPlatform.ANDROID
     )
 
     val rootWidget = CompositeWidget(
