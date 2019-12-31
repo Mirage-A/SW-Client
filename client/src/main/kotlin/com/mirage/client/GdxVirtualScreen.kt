@@ -60,11 +60,12 @@ internal object GdxVirtualScreen : VirtualScreen {
         height = newSize.height
         realWidth = newRealWidth.toFloat()
         realHeight = newRealHeight.toFloat()
+        camera.position.x = 0f
+        camera.position.y = 0f
         camera.viewportWidth = width
         camera.viewportHeight = height
         camera.update()
         batch.projectionMatrix = camera.combined
-        //TODO stage viewport resize
         stage.viewport.camera = camera
         stage.viewport.setScreenSize(newRealWidth, newRealHeight)
         stage.viewport.setWorldSize(newSize.width, newSize.height)
@@ -274,7 +275,6 @@ internal object GdxVirtualScreen : VirtualScreen {
 
     }
 
-
     class GdxTextField internal constructor(
             hint: String,
             rect: Rectangle,
@@ -356,7 +356,7 @@ internal object GdxVirtualScreen : VirtualScreen {
                 stage.touchDragged(screenX, screenY, pointer)
 
         override fun mouseMoved(screenX: Int, screenY: Int): Boolean =
-            stage.mouseMoved(screenX, screenY)
+                stage.mouseMoved(screenX, screenY)
 
         override fun scrolled(amount: Int): Boolean = stage.scrolled(amount)
 
