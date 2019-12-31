@@ -1,23 +1,28 @@
 package com.mirage.ui.widgets
 
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.VirtualScreen
 
-class LabelWidget(val label: VirtualScreen.Label, var sizeUpdater: (Float, Float) -> Rectangle) : Widget {
+internal class LabelWidget(
+        virtualScreen: VirtualScreen,
+        text: String = "",
+        fontCapHeight: Float = 16f,
+        var sizeUpdater: SizeUpdater? = null,
+        override var isVisible: Boolean = true
+) : Widget {
 
-    var isVisible = true
+    private val label = virtualScreen.createLabel(text, fontCapHeight)
+
+    var text: String
+        get() = label.text
+        set(value) {
+            label.text = value
+        }
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        label.rect = sizeUpdater(virtualWidth, virtualHeight)
+        label.rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
         label.resizeFont(virtualWidth, virtualHeight)
     }
-
-    override fun touchUp(virtualPoint: Point): Boolean = false
-
-    override fun touchDown(virtualPoint: Point): Boolean = false
-
-    override fun mouseMoved(virtualPoint: Point) {}
 
     override fun draw(virtualScreen: VirtualScreen) {
         if (isVisible) label.draw()

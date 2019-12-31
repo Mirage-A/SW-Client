@@ -1,12 +1,13 @@
 apply plugin: "kotlin"
 
 dependencies {
-    implementation project(':gameview')
+    implementation project(':view')
     implementation project(":ui")
     implementation project(":connection")
-    implementation project(":utils")
-    
+    implementation project(":core")
+
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation 'com.google.code.gson:gson:2.8.5'
 
 }
 test {

@@ -1,8 +1,8 @@
 apply plugin: "kotlin"
 
 dependencies {
-    implementation project(":gamelogic")
-    implementation project(":utils")
+    implementation project(":logic")
+    implementation project(":core")
 }
 test {
     useJUnitPlatform()

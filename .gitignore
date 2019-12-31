@@ -1,6 +1,13 @@
 ## Java
 /ideas
+/release
 /asdf
+/shattered-world.jar
+/shattered-world.exe
+/launch4j.log
+/linux-launch.sh
+/windows-launch.bat
+*/build
 *.class
 *.war
 *.ear

@@ -1,44 +1,46 @@
 package com.mirage.ui.widgets
 
-import com.mirage.utils.datastructures.Point
-import com.mirage.utils.datastructures.Rectangle
-import com.mirage.utils.virtualscreen.VirtualScreen
+import com.mirage.core.utils.Point
+import com.mirage.core.utils.Rectangle
+import com.mirage.core.VirtualScreen
 import kotlin.math.max
 import kotlin.math.min
 
-class ResourcePane(
-        var borderTextureName: String,
-        var lostResourceTextureName: String,
-        var resourceTextureName: String,
-        var rect: Rectangle = Rectangle(),
-        var boundedLabel: VirtualScreen.Label? = null,
-        var innerMargin: Float,
-        var sizeUpdater: ((Float, Float) -> Rectangle)? = null
+internal class ResourcePane(
+        var borderTextureName: String = "ui/game/health-border",
+        var lostResourceTextureName: String = "ui/game/health-lost",
+        var resourceTextureName: String = "ui/game/health",
+        var boundedLabel: LabelWidget? = null,
+        var innerMargin: Float = 0f,
+        sizeUpdater: SizeUpdater? = null,
+        override var isVisible: Boolean = true
 ) : Widget {
 
-    var isHighlighted = false
-    var isVisible = true
+    var sizeUpdater: SizeUpdater? = sizeUpdater
+        set(value) {
+            boundedLabel?.sizeUpdater = value
+            field = value
+        }
+
+    private var isHighlighted = false
 
     var currentResource: Int = 0
     var maxResource: Int = 0
 
-    private val resourceRect: Rectangle
-        get() = Rectangle(rect.x, rect.y, rect.width - innerMargin * 2f, rect.height - innerMargin * 2f)
+    private var rect: Rectangle = Rectangle()
 
-    init {
-        boundedLabel?.rect = resourceRect
-    }
+    private val resourceRect: Rectangle
+        get() = rect.innerRect(innerMargin)
 
     override fun resize(virtualWidth: Float, virtualHeight: Float) {
-        sizeUpdater?.invoke(virtualWidth, virtualHeight)?.let {
-            rect = it
-            boundedLabel?.rect = resourceRect
-        }
+        rect = sizeUpdater?.invoke(virtualWidth, virtualHeight) ?: Rectangle()
+        boundedLabel?.resize(virtualWidth, virtualHeight)
     }
 
-    override fun mouseMoved(virtualPoint: Point) {
-        if (!isVisible) return
+    override fun mouseMoved(virtualPoint: Point): Boolean {
+        if (!isVisible) return false
         isHighlighted = rect.contains(virtualPoint)
+        return isHighlighted
     }
 
     override fun draw(virtualScreen: VirtualScreen) {
@@ -50,12 +52,12 @@ class ResourcePane(
         virtualScreen.draw(resourceTextureName, currentResourceRect)
         if (isHighlighted) {
             boundedLabel?.text = "$currentResource/$maxResource"
-            boundedLabel?.draw()
+            boundedLabel?.draw(virtualScreen)
         }
     }
 
-    override fun touchDown(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchDown(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
-    override fun touchUp(virtualPoint: Point): Boolean = rect.contains(virtualPoint)
+    override fun touchUp(virtualPoint: Point): Boolean = isVisible && rect.contains(virtualPoint)
 
 }

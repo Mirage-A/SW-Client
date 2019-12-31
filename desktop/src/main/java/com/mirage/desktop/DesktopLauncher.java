@@ -1,15 +1,10 @@
 package com.mirage.desktop;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mirage.client.Client;
-import com.mirage.utils.Assets;
-import com.mirage.utils.ConfigurationKt;
-import com.mirage.utils.preferences.Prefs;
+import com.mirage.core.utils.ClientPlatform;
 
 import java.io.File;
 
@@ -23,14 +18,13 @@ class DesktopLauncher {
         config.foregroundFPS = 90;
         if (new File("android/assets/").exists()) {
             //Во время тестирования в IDE
-            ConfigurationKt.setPLATFORM("desktop-test");
+            ClientPlatform.Companion.setPlatform(ClientPlatform.DESKTOP_TEST);
             System.out.println("Test mode enabled. Assets path: " + new File("android/assets/").getAbsolutePath());
             config.addIcon("android/assets/drawable/windows_icon.png", Files.FileType.Internal);
             config.addIcon("android/assets/drawable/mac_icon.png", Files.FileType.Internal);
-        }
-        else {
+        } else {
             //Во время запуска собранного jar-файла
-            ConfigurationKt.setPLATFORM("desktop");
+            ClientPlatform.Companion.setPlatform(ClientPlatform.DESKTOP);
             System.out.println("Release mode enabled.");
             config.addIcon("drawable/windows_icon.png", Files.FileType.Internal);
             config.addIcon("drawable/mac_icon.png", Files.FileType.Internal);

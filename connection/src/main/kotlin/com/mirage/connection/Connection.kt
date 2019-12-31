@@ -1,9 +1,8 @@
 package com.mirage.connection
 
-import com.mirage.utils.extensions.IntervalMillis
-import com.mirage.utils.messaging.ClientMessage
-import com.mirage.utils.messaging.ServerMessage
-import rx.Observable
+import com.mirage.core.utils.IntervalMillis
+import com.mirage.core.messaging.ClientMessage
+import com.mirage.core.messaging.ServerMessage
 
 interface Connection {
 

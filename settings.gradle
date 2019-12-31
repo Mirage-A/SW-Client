@@ -1,1 +1,1 @@
-include 'desktop', 'client', 'gamelogic', 'gameview', 'ui', 'utils', 'connection', 'admin', 'server'
+include 'desktop', 'client', 'logic', 'view', 'ui', 'core', 'connection', 'admin', 'server'
