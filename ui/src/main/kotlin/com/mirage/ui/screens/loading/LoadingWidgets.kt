@@ -29,7 +29,11 @@ internal class LoadingWidgets(virtualScreen: VirtualScreen, loadingState: Loadin
 
     val openInventoryBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Open inventory", 30f))
 
-    val openSkillsBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Open skills menu", 30f))
+    val openSkillsBtn = Button(
+            boundedLabel = LabelWidget(virtualScreen, "Open skills menu", 30f),
+            //TODO Remove
+            isVisible = false
+    )
 
     val mainMenuBtn = Button(boundedLabel = LabelWidget(virtualScreen, "Main menu", 30f))
 

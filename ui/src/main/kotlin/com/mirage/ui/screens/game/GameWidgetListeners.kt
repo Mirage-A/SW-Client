@@ -42,6 +42,8 @@ internal fun GameWidgets.initializeListeners(gameState: GameState, listener: Cli
 
 /** Updates skill buttons images and cooldown text */
 private fun GameWidgets.updateSkillBtns(gameState: GameState) {
+    //TODO Remove 'return' to show skill buttons
+    return
     for (i in 0 until 5) {
         val skill = gameState.skillNames[i]
         val btn = if (i == 4) ultimateSkillBtn else activeSkills[i]

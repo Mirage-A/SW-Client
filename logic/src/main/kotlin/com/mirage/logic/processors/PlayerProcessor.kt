@@ -26,7 +26,7 @@ internal fun LogicData.processNewPlayerRequests(currentTime: TimeMillis, deltaTi
         playerGlobalQuestProgress[id] = it.questProgress
         playerLocalQuestProgress[id] = QuestProgress()
         val skills = listOf("flame-strike", "flame-strike", "flame-strike", "flame-strike", "meteor")
-        behaviors[id] = PlayerBehavior(id, it.equipment, attributes, skills, this)
+        behaviors[id] = PlayerBehavior(id, attributes, skills, this)
         serverMessages.add(Pair(id, InitialGameStateMessage(
                 gameMapName, state.simplifiedDeepCopy(), id, currentTime - deltaTime
         )))

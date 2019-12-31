@@ -5,6 +5,7 @@ import com.mirage.core.utils.IntervalMillis
 
 private const val unarmedDamage = 5
 private const val unarmedRange = 2f
+private const val unarmedAttackDuration = 1000L
 private const val unarmedCooldown = 2000L
 
 
@@ -32,9 +33,10 @@ class PlayerAttributes(equipmentLoader: EquipmentLoader, equipment: Equipment) {
 
     private val data = equipmentLoader.getEquipmentData(equipment)
 
-    private val playerWeaponType = equipment.weaponType
+    val weaponType = equipment.weaponType
 
     val attackDamage: Int
+    val attackDuration: IntervalMillis
     val attackCooldown: IntervalMillis
     val attackRange: Float
 
@@ -43,6 +45,7 @@ class PlayerAttributes(equipmentLoader: EquipmentLoader, equipment: Equipment) {
             WeaponType.ONE_HANDED, WeaponType.SHIELD, WeaponType.TWO_HANDED, WeaponType.BOW, WeaponType.STAFF -> {
                 val mainHandData = data[EquipmentSlot.MAIN_HAND] ?: ItemData()
                 attackDamage = mainHandData.attackDamage
+                attackDuration = mainHandData.attackDuration
                 attackCooldown = mainHandData.attackCooldown
                 attackRange = mainHandData.attackRange
             }
@@ -50,6 +53,9 @@ class PlayerAttributes(equipmentLoader: EquipmentLoader, equipment: Equipment) {
                 val mainHandData = data[EquipmentSlot.MAIN_HAND] ?: ItemData()
                 val offHandData = data[EquipmentSlot.OFF_HAND] ?: ItemData()
                 attackDamage = mainHandData.attackDamage + offHandData.attackDamage
+                val dualDPDelayMS = mainHandData.attackDamage.toDouble() / mainHandData.attackDuration.toDouble() +
+                        offHandData.attackDamage.toDouble() / offHandData.attackDuration.toDouble()
+                attackDuration = (1.0 / (dualDPDelayMS / attackDamage.toDouble())).toLong()
                 val dualDPMS = mainHandData.attackDamage.toDouble() / mainHandData.attackCooldown.toDouble() +
                         offHandData.attackDamage.toDouble() / offHandData.attackCooldown.toDouble()
                 attackCooldown = (1.0 / (dualDPMS / attackDamage.toDouble())).toLong()
@@ -57,6 +63,7 @@ class PlayerAttributes(equipmentLoader: EquipmentLoader, equipment: Equipment) {
             }
             WeaponType.UNARMED -> {
                 attackDamage = unarmedDamage
+                attackDuration = unarmedAttackDuration
                 attackCooldown = unarmedCooldown
                 attackRange = unarmedRange
             }
@@ -73,7 +80,7 @@ class PlayerAttributes(equipmentLoader: EquipmentLoader, equipment: Equipment) {
     val onDefenseScripts = data.values.mapNotNull { it.onDefenseScript }
 
     fun toInventoryInfoString(): String = buildString {
-        appendln(when (playerWeaponType) {
+        appendln(when (weaponType) {
             WeaponType.UNARMED -> "Unarmed"
             WeaponType.ONE_HANDED -> "One-handed melee"
             WeaponType.SHIELD -> "One-handed & shield"
@@ -101,6 +108,7 @@ data class ItemData(
         val description: String = "",
         val weaponType: WeaponType? = null,
         val attackDamage: Int = 0,
+        val attackDuration: IntervalMillis = 0,
         val attackCooldown: IntervalMillis = 0,
         val attackRange: Float = 0f,
         val health: Int = 0,

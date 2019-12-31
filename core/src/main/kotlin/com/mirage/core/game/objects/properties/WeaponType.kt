@@ -1,9 +1,6 @@
 package com.mirage.core.game.objects.properties
 
-
-/**
- * Weapon type of a humanoid entity
- */
+/** Weapon type of a humanoid entity */
 enum class WeaponType {
     UNARMED,
     ONE_HANDED,
@@ -30,4 +27,7 @@ enum class WeaponType {
     }
 
     fun isTwoHanded() = this in arrayOf(TWO_HANDED, BOW, STAFF)
+
+
+
 }
