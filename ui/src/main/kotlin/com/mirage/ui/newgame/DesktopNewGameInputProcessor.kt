@@ -28,6 +28,7 @@ class DesktopNewGameInputProcessor(private val uiState: NewGameUIState) : NewGam
         uiState.rogueBtn.textureName = "ui/new-game/rogue-icon"
         uiState.mageBtn.borderTextureName = "ui/new-game/description-background"
         uiState.mageBtn.textureName = "ui/new-game/mage-icon"
+        val a = 2
     }
 
     private fun chooseWarrior() {
