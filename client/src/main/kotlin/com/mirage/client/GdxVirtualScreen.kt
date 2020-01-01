@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ScalingViewport
 import com.mirage.core.*
 import com.mirage.core.utils.*
+import com.mirage.view.utils.getVirtualScreenPointFromScene
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -217,6 +218,13 @@ internal object GdxVirtualScreen : VirtualScreen {
     override fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean) {
         val texture = getTexture(textureName)
         batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY)
+    }
+
+    override fun smartObjectDraw(textureName: String, x: Float, y: Float, objectTileWidth: Float, objectTileHeight: Float) {
+        val texture = getTexture(textureName)
+        val bottomPoint = Point(objectTileWidth / 2f, -objectTileHeight / 2f)
+        val deltaY = getVirtualScreenPointFromScene(bottomPoint).y
+        batch.draw(texture, x - texture.width / 2f, y + deltaY)
     }
 
     override fun begin() = batch.begin()

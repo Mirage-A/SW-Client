@@ -12,8 +12,8 @@ class DrawerImpl(private val drawerTemplate: DrawerTemplate, currentTimeMillis: 
     private var isMoving: Boolean = false
     private var lastMovingChangeTime: Long = currentTimeMillis
 
-    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection) {
-        drawerTemplate.draw(virtualScreen, x, y, isOpaque,
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection) {
+        drawerTemplate.draw(virtualScreen, x, y, width, height, isOpaque,
                 action, currentTimeMillis - lastActionChangeTime,
                 isMoving, currentTimeMillis - lastMovingChangeTime, moveDirection)
     }

@@ -29,14 +29,14 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
         val pos = getVirtualScreenPointFromScene(obj.position)
         when (obj) {
             is SimplifiedBuilding ->
-                drawersManager.drawBuilding(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis)
+                drawersManager.drawBuilding(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), obj.width, obj.height, isOpaque, currentTimeMillis)
             is SimplifiedEntity -> {
                 if (id == targetID) {
                     val targetRelation = if (isTargetEnemy) "enemy" else "ally"
                     val hitBox = drawersManager.getEntityHitbox(id) ?: Rectangle()
                     virtualScreen.draw("ui/scene/target-$targetRelation-circle-back", pos.x - cameraX, pos.y - cameraY,
                             hitBox.width, 64f)
-                    drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis, obj.moveDirection)
+                    drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), obj.width, obj.height, isOpaque, currentTimeMillis, obj.moveDirection)
 
                     virtualScreen.draw("ui/scene/target-$targetRelation-circle-front", pos.x - cameraX, pos.y - cameraY,
                             hitBox.width, 64f)
@@ -44,7 +44,7 @@ internal fun renderGameState(virtualScreen: VirtualScreen, state: SimplifiedStat
                     virtualScreen.draw("ui/scene/target-$targetRelation-arrow",
                             pos.x - cameraX, pos.y - cameraY + hitBox.height + 32f + 32f + arrowDelta)
                 } else {
-                    drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), isOpaque, currentTimeMillis, obj.moveDirection)
+                    drawersManager.drawEntity(id, virtualScreen, (pos.x - cameraX), (pos.y - cameraY), obj.width, obj.height, isOpaque, currentTimeMillis, obj.moveDirection)
                 }
                 if (obj.interactionRange > 0f) {
                     val hitBox = drawersManager.getEntityHitbox(id) ?: Rectangle()

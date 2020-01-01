@@ -107,6 +107,7 @@ interface VirtualScreen {
 
     fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float)
 
+
     /**
      * Draws a texture (this method is useful for rendering animation layers)
      * @param textureName Texture name
@@ -125,7 +126,11 @@ interface VirtualScreen {
      * This method is not recommended to be used.
      * ([x], [y]) is not a center of texture here.
      */
+    @Deprecated("depends on gdx implementation, will be removed soon")
     fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean)
+
+    /** Draws object texture with smart positioning (should be used for buildings with static texture as drawer) */
+    fun smartObjectDraw(textureName: String, x: Float, y: Float, objectTileWidth: Float, objectTileHeight: Float)
 
     /** Text label */
     interface Label {

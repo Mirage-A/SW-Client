@@ -31,6 +31,8 @@ internal class HumanoidWidget(assets: Assets) : Widget {
                 virtualScreen,
                 -w * centerColumnWidthPart / 2f - (w / 2f - w * centerColumnWidthPart / 2f) / 2f,
                 -humanoidSize / 2f,
+                0f,
+                0f,
                 true,
                 "idle",
                 0L,

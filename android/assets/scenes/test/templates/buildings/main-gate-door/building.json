@@ -2,10 +2,10 @@
   "name": "main-gate-door",
   "template": "main-gate-door",
   "type": "BUILDING",
-  "width": 6.0,
+  "width": 4.0,
   "height": 0.0,
   "state": "closed",
-  "isRigid": false,
+  "isRigid": true,
   "transparencyRange": 5.0,
   "drawers": {
     "closed": {

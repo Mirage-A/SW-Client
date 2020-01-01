@@ -39,7 +39,7 @@ class HumanoidDrawerTemplate(
             else "null"
 
 
-    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (!isOpaque) return
         val bodyAnimation = animationLoader.getBodyAnimation(action)
         val legsAnimation = animationLoader.getLegsAnimation(if (isMoving) "running" else "idle")

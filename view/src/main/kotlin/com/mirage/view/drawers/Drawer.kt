@@ -13,6 +13,8 @@ interface Drawer {
     fun draw(virtualScreen: VirtualScreen,
              x: Float,
              y: Float,
+             width: Float,
+             height: Float,
              isOpaque: Boolean,
              currentTimeMillis: Long,
              moveDirection: MoveDirection = MoveDirection.DOWN_RIGHT

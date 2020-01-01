@@ -12,9 +12,9 @@ interface DrawersManager {
 
     fun getEntityHitbox(entityID: Long): Rectangle?
 
-    fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long)
+    fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, currentTimeMillis: Long)
 
-    fun drawEntity(entityID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection)
+    fun drawEntity(entityID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection)
 
     fun loadDrawers(initialState: SimplifiedState, currentTimeMillis: Long = System.currentTimeMillis())
 

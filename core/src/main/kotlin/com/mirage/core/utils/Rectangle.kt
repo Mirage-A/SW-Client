@@ -22,7 +22,7 @@ data class Rectangle(val x: Float = 0f, val y: Float = 0f, val width: Float = 0f
         )
 
 
-    /** Checks if intersection of two rectangles has positive square */
+    /** Checks two rectangles strictly intersect */
     fun overlaps(other: Rectangle): Boolean =
             (x - width / 2 < other.x + other.width / 2) &&
                     (x + width / 2 > other.x - other.width / 2) &&

@@ -9,7 +9,7 @@ import com.mirage.view.drawers.animation.*
 
 class AnimationDrawerTemplate(private val animation: Animation) : DrawerTemplate {
 
-    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
+    override fun draw(virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, action: String, actionTimePassedMillis: Long, isMoving: Boolean, movingTimePassedMillis: Long, moveDirection: MoveDirection) {
         if (!isOpaque) return
 
         val frames: List<Animation.Frame> = animation.data[MoveDirection.RIGHT]?.get(WeaponType.UNARMED) ?: run {

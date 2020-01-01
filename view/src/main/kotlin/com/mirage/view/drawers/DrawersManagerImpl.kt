@@ -52,20 +52,20 @@ class DrawersManagerImpl(
 
     override fun getEntityHitbox(entityID: Long): Rectangle? = entityDrawers[entityID]?.hitBox
 
-    override fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long) {
+    override fun drawBuilding(buildingID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, currentTimeMillis: Long) {
         val drawer: Drawer = buildingDrawers[buildingID] ?: run {
             Log.e("Drawer not loaded. buildingID=$buildingID")
             return
         }
-        drawer.draw(virtualScreen, x, y, isOpaque, currentTimeMillis)
+        drawer.draw(virtualScreen, x, y, width, height, isOpaque, currentTimeMillis)
     }
 
-    override fun drawEntity(entityID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection) {
+    override fun drawEntity(entityID: Long, virtualScreen: VirtualScreen, x: Float, y: Float, width: Float, height: Float, isOpaque: Boolean, currentTimeMillis: Long, moveDirection: MoveDirection) {
         val drawer: Drawer = entityDrawers[entityID] ?: run {
             Log.e("Drawer not loaded. entityID=$entityID")
             return
         }
-        drawer.draw(virtualScreen, x, y, isOpaque, currentTimeMillis, moveDirection)
+        drawer.draw(virtualScreen, x, y, width, height, isOpaque, currentTimeMillis, moveDirection)
     }
 
     override fun loadDrawers(initialState: SimplifiedState, currentTimeMillis: Long) {
