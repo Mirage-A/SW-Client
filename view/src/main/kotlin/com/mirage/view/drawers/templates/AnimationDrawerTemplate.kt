@@ -29,7 +29,8 @@ class AnimationDrawerTemplate(private val animation: Animation) : DrawerTemplate
             val endLayer = endFrame.layers[layerIndex]
             val layerName = startLayer.getName()
 
-            drawLayer(virtualScreen, layerName, x, y, startLayer, endLayer, progress)
+            if (startLayer.isVisible && endLayer.isVisible)
+                drawLayer(virtualScreen, layerName, x, y, startLayer, endLayer, progress)
         }
     }
 

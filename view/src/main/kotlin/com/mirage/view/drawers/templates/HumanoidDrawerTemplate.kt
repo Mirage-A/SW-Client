@@ -75,13 +75,14 @@ class HumanoidDrawerTemplate(
             val startLayer = bodyStartFrame.layers[bodyLayerIndex]
             val endLayer = bodyEndFrame.layers[bodyLayerIndex]
             val layerName = startLayer.getName()
-            drawPlayerLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
+            if (startLayer.isVisible && endLayer.isVisible)
+                drawPlayerLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
             if (layerName == "~body") { // Legs are always drawn right after body
-                val legsProgress = getAnimationProgress(legsAnimation.frames, legsAnimation.duration, legsTime)
                 for (legsLayerIndex in 0 until legsStartFrame.layers.size) {
                     val legsStartLayer = legsStartFrame.layers[legsLayerIndex]
                     val legsEndLayer = legsEndFrame.layers[legsLayerIndex]
-                    drawPlayerLayer(virtualScreen, x, y, legsStartLayer, legsEndLayer, legsProgress, moveDirection)
+                    if (legsStartLayer.isVisible && legsEndLayer.isVisible)
+                        drawPlayerLayer(virtualScreen, x, y, legsStartLayer, legsEndLayer, legsProgress, moveDirection)
                 }
             }
 
@@ -101,7 +102,7 @@ class HumanoidDrawerTemplate(
     }
 
 
-    /** Draws a layer, processing special layers like bodypoint */
+    /** Draws a layer, processing special layers like ~bodypoint */
     private fun drawPlayerLayer(virtualScreen: VirtualScreen, x: Float, y: Float, startLayer: Animation.Layer, endLayer: Animation.Layer, progress: Float, moveDirection: MoveDirection) {
         val layerName = startLayer.imageName
         val texture: String = when {
