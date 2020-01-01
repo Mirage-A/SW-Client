@@ -195,6 +195,25 @@ internal object GdxVirtualScreen : VirtualScreen {
                 false, false)
     }
 
+    override fun draw(textureName: String, x: Float, y: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float, flipX: Boolean) {
+        val texture = getTexture(textureName)
+        //TODO Возможно, вместо basicWidth следует использовать texture.width
+        batch.draw(texture,
+                x - texture.width / 2f,
+                y - texture.height / 2f,
+                texture.width / 2f,
+                texture.height / 2f,
+                texture.width.toFloat(),
+                texture.height.toFloat(),
+                scale * scaleX,
+                scale * scaleY,
+                Math.toDegrees(angle.toDouble()).toFloat(),
+                0, 0,
+                texture.width,
+                texture.height,
+                flipX, false)
+    }
+
     override fun draw(textureName: String, x: Float, y: Float, originX: Float, originY: Float, width: Float, height: Float, scaleX: Float, scaleY: Float, rotation: Float, srcX: Int, srcY: Int, srcWidth: Int, srcHeight: Int, flipX: Boolean, flipY: Boolean) {
         val texture = getTexture(textureName)
         batch.draw(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY)

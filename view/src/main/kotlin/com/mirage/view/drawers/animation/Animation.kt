@@ -57,8 +57,7 @@ class Animation() {
                                     lyr.attributeValue("scaleX").toFloat(),
                                     lyr.attributeValue("scaleY").toFloat(),
                                     lyr.attributeValue("angle").toFloat(),
-                                    lyr.attributeValue("basicWidth").toInt(),
-                                    lyr.attributeValue("basicHeight").toInt()
+                                    lyr.attributeValue("flipX")?.toBoolean() ?: false
                             )
                             frame.layers.add(layer)
                         }
@@ -76,9 +75,9 @@ class Animation() {
     data class Frame(var layers: ArrayList<Layer> = ArrayList())
 
     data class Layer(var imageName: String, var x: Float = 0f, var y: Float = 0f, var scale: Float = 1f, var scaleX: Float = 1f,
-                     var scaleY: Float = 1f, var angle: Float = 0f, var basicWidth: Int = 0, var basicHeight: Int = 0) {
-        /** Cuts off ".png" suffix */
-        fun getName() = imageName.substring(0, imageName.length - 4)
+                     var scaleY: Float = 1f, var angle: Float = 0f, var flipX: Boolean = false) {
+
+        fun getName() = imageName
 
         fun getPosition(): Point {
             return Point(x, y)

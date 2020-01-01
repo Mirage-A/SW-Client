@@ -75,21 +75,15 @@ class HumanoidDrawerTemplate(
             val startLayer = bodyStartFrame.layers[bodyLayerIndex]
             val endLayer = bodyEndFrame.layers[bodyLayerIndex]
             val layerName = startLayer.getName()
-            if (layerName == "leftleg" || layerName == "rightleg") {
-                val topIndex = findLayer(legsStartFrame, "${layerName}top")
-                val bottomIndex = findLayer(legsStartFrame, "${layerName}bottom")
-                if (topIndex < bottomIndex) {
-                    if (topIndex != -1) {
-                        drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress, scale)
-                    }
-                    drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress, scale)
-                } else if (bottomIndex < topIndex) {
-                    if (bottomIndex != -1) {
-                        drawLayer(virtualScreen, legBottomTexture, x, y, legsStartFrame.layers[bottomIndex], legsEndFrame.layers[bottomIndex], legsProgress, scale)
-                    }
-                    drawLayer(virtualScreen, legTopTexture, x, y, legsStartFrame.layers[topIndex], legsEndFrame.layers[topIndex], legsProgress, scale)
+            drawPlayerLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
+            if (layerName == "~body") { // Legs are always drawn right after body
+                val legsProgress = getAnimationProgress(legsAnimation.frames, legsAnimation.duration, legsTime)
+                for (legsLayerIndex in 0 until legsStartFrame.layers.size) {
+                    val legsStartLayer = legsStartFrame.layers[legsLayerIndex]
+                    val legsEndLayer = legsEndFrame.layers[legsLayerIndex]
+                    drawPlayerLayer(virtualScreen, x, y, legsStartLayer, legsEndLayer, legsProgress, moveDirection)
                 }
-            } else drawBodyLayer(virtualScreen, bodyX, bodyY, startLayer, endLayer, bodyProgress, moveDirection)
+            }
 
         }
     }
@@ -97,8 +91,8 @@ class HumanoidDrawerTemplate(
 
     /** Finds a bodypoint layer on frame and returns its position, or (0f, 0f) if it is absent */
     private fun getBodyPoint(startFrame: Animation.Frame, endFrame: Animation.Frame, progress: Float): Point {
-        val startLayerIndex = findLayer(startFrame, "bodypoint")
-        val endLayerIndex = findLayer(endFrame, "bodypoint")
+        val startLayerIndex = findLayer(startFrame, "~bodypoint")
+        val endLayerIndex = findLayer(endFrame, "~bodypoint")
         if (startLayerIndex != -1 && endLayerIndex != -1) {
             return curValue(startFrame.layers[startLayerIndex].getPosition(),
                     endFrame.layers[endLayerIndex].getPosition(), progress) * scale
@@ -108,25 +102,30 @@ class HumanoidDrawerTemplate(
 
 
     /** Draws a layer, processing special layers like bodypoint */
-    private fun drawBodyLayer(virtualScreen: VirtualScreen, bodyX: Float, bodyY: Float, startLayer: Animation.Layer, endLayer: Animation.Layer, progress: Float, moveDirection: MoveDirection) {
-        val layerName = startLayer.getName()
-        if ((layerName == "leftleg") or (layerName == "rightleg") or (layerName == "bodypoint")) {
-            return
+    private fun drawPlayerLayer(virtualScreen: VirtualScreen, x: Float, y: Float, startLayer: Animation.Layer, endLayer: Animation.Layer, progress: Float, moveDirection: MoveDirection) {
+        val layerName = startLayer.imageName
+        val texture: String = when {
+            layerName.startsWith("~head-") -> {
+                val customMoveDirection = MoveDirection.fromString(layerName.substring(6))
+                headTextures[customMoveDirection] ?: return
+            }
+            layerName.startsWith("~") -> when (layerName) {
+                "~bodypoint" -> return
+                "~legtop" -> legTopTexture
+                "~legbottom" -> legBottomTexture
+                "~handtop" -> handTopTexture
+                "~handbottom" -> handBottomTexture
+                "~onehanded", "~mainhand", "~twohanded", "~staff", "~bow" -> rightWeaponTexture
+                "~offhand", "~shield" -> leftWeaponTexture
+                "~cloak" -> cloakTexture
+                "~body" -> bodyTexture
+                "~neck" -> neckTexture
+                "~head" -> headTextures[moveDirection] ?: return
+                else -> return
+            }
+            else -> layerName
         }
-        val texture: String = when (layerName) {
-            "lefthandtop", "righthandtop" -> handTopTexture
-            "lefthandbottom", "righthandbottom" -> handBottomTexture
-            "leftlegtop", "rightlegtop" -> legTopTexture
-            "leftlegbottom", "rightlegbottom" -> legBottomTexture
-            "onehandedright", "twohanded", "bow", "staff" -> rightWeaponTexture
-            "onehandedleft", "shield" -> leftWeaponTexture
-            "cloak" -> cloakTexture
-            "body" -> bodyTexture
-            "neck" -> neckTexture
-            "head" -> headTextures[moveDirection] ?: "null"
-            else -> startLayer.imageName.substring(0, startLayer.imageName.length - 4)
-        }
-        drawLayer(virtualScreen, texture, bodyX, bodyY, startLayer, endLayer, progress, scale)
+        drawLayer(virtualScreen, texture, x, y, startLayer, endLayer, progress, scale)
     }
 
     override val hitBox: Rectangle

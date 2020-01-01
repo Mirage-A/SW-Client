@@ -37,27 +37,12 @@ internal fun drawLayer(virtualScreen: VirtualScreen, textureName: String, x: Flo
             textureName = textureName,
             x = x + curValue(startLayer.x, endLayer.x, progress) * scale,
             y = y - curValue(startLayer.y, endLayer.y, progress) * scale,
-            basicWidth = curValue(startLayer.basicWidth, endLayer.basicWidth, progress),
-            basicHeight = curValue(startLayer.basicHeight, endLayer.basicHeight, progress),
             scale = curValue(startLayer.scale, endLayer.scale, progress) * scale,
             scaleX = curValue(startLayer.scaleX, endLayer.scaleX, progress),
             scaleY = curValue(startLayer.scaleY, endLayer.scaleY, progress),
-            angle = curValue(angle1, angle2, progress)
+            angle = curValue(angle1, angle2, progress),
+            flipX = startLayer.flipX
     )
-    /*
-    virtualScreen.draw(textureName,
-            x + curValue(startLayer.x, endLayer.x, progress) - curValue(startLayer.basicWidth, endLayer.basicWidth, progress) / 2,
-            y - curValue(startLayer.y, endLayer.y, progress) - curValue(startLayer.basicHeight, endLayer.basicHeight, progress) / 2,
-            curValue(startLayer.basicWidth, endLayer.basicWidth, progress) / 2,
-            curValue(startLayer.basicHeight, endLayer.basicHeight, progress) / 2,
-            curValue(startLayer.basicWidth, endLayer.basicWidth, progress),
-            curValue(startLayer.basicHeight, endLayer.basicHeight, progress),
-            curValue(startLayer.scale * startLayer.scaleX, endLayer.scale * endLayer.scaleX, progress),
-            curValue(startLayer.scale * startLayer.scaleY, endLayer.scale * endLayer.scaleY, progress),
-            curValue(Math.toDegrees(angle1.toDouble()).toFloat(), Math.toDegrees(angle2.toDouble()).toFloat(), progress),
-            0, 0,
-            startLayer.basicWidth,
-            startLayer.basicHeight, false, false)*/
 }
 
 

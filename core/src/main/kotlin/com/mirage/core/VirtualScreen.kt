@@ -105,19 +105,20 @@ interface VirtualScreen {
     /** Draws a texture [textureName] inside rectangle [rect] */
     fun draw(textureName: String, rect: Rectangle)
 
+    fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float)
+
     /**
      * Draws a texture (this method is useful for rendering animation layers)
      * @param textureName Texture name
      * @param x X-coordinate of texture center on virtual screen
      * @param y Y-coordinate of texture center on virtual screen
-     * @param basicWidth Width of source image
-     * @param basicHeight Height of source image
      * @param scale Scale coefficient of all texture
      * @param scaleX Scale coefficient on X-axis
      * @param scaleY Scale coefficient on Y-axis
      * @param angle Rotation angle of texture
+     * @param flipX if true, texture is mirrored horizontally
      */
-    fun draw(textureName: String, x: Float, y: Float, basicWidth: Float, basicHeight: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float)
+    fun draw(textureName: String, x: Float, y: Float, scale: Float, scaleX: Float, scaleY: Float, angle: Float, flipX: Boolean)
 
     /**
      * This method delegates to a [SpriteBatch.draw] method.
