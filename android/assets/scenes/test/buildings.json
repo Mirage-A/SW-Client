@@ -6,6 +6,12 @@
     "y": 16.5
   },
   {
+    "template": "main-gate-right-door",
+    "name": "main-gate-right-door",
+    "x": 18.0,
+    "y": 15.0
+  },
+  {
     "template": "wall",
     "x": 2.0,
     "y": 16.5

@@ -4,7 +4,7 @@
   "type": "BUILDING",
   "width": 8.0,
   "height": 3.0,
-  "isRigid": true,
+  "isRigid": false,
   "transparencyRange": 5.0,
   "drawers": {
     "default": {

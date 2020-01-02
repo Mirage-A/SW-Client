@@ -2,17 +2,20 @@ local args = ...
 
 local u = args["actions"]
 
-local gate = u:findBuilding("main-gate")
+local gateDoorID = u:findBuildingID("main-gate-door")
 local gateDoor = u:findBuilding("main-gate-door")
 
 local state = gateDoor:getState()
 
 if state == "closed" then
     gateDoor:setState("opening")
-    gate:setRigid(false)
-    u:runSceneScriptAfterTimeout("main-gate-finish-opening", { ["gateDoor"] = gateDoor }, 1000)
+    u:runSceneScriptAfterTimeout("main-gate-finish-opening", { ["gateDoor"] = gateDoor, ["gateDoorID"] = gateDoorID }, 1000)
 elseif state == "opened" then
+    gateDoor:setX(gateDoor:getX() + 2)
+    gateDoor:setY(gateDoor:getY() + 2)
+    gateDoor:setWidth(4)
+    gateDoor:setHeight(0)
+    u:markBuildingAsTeleported(gateDoorID)
     gateDoor:setState("closing")
-    gate:setRigid(true)
     u:runSceneScriptAfterTimeout("main-gate-finish-closing", { ["gateDoor"] = gateDoor }, 1000)
 end

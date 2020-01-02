@@ -57,6 +57,12 @@ class GameScreen(
                 gameWidgets.gameOverMessage.isVisible = msg.message != null
                 gameWidgets.gameOverBackground.isVisible = true
             }
+            is BuildingTeleportMessage -> {
+                gameWidgets.gameView.markBuildingAsTeleported(msg.buildingID)
+            }
+            is EntityTeleportMessage -> {
+                gameWidgets.gameView.markEntityAsTeleported(msg.entityID)
+            }
         }
     }
 

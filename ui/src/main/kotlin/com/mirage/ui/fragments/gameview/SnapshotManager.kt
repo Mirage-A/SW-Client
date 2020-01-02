@@ -3,6 +3,8 @@ package com.mirage.ui.fragments.gameview
 import com.mirage.core.game.objects.*
 import com.mirage.core.utils.TimeMillis
 import com.mirage.core.game.objects.properties.MoveDirection
+import com.mirage.core.utils.BuildingID
+import com.mirage.core.utils.EntityID
 import java.util.*
 import kotlin.math.min
 
@@ -12,6 +14,8 @@ const val MAX_EXTRAPOLATION_INTERVAL = 250L
 
 private data class Snapshot(
         val stateDifference: StateDifference,
+        val teleportedBuildings: Set<BuildingID>,
+        val teleportedEntities: Set<EntityID>,
         val createdTimeMillis: TimeMillis
 ) : Comparable<Snapshot> {
     override fun compareTo(other: Snapshot): Int = createdTimeMillis.compareTo(other.createdTimeMillis)
@@ -39,12 +43,12 @@ internal class SnapshotManager(
         this.initialState = initialState
         initialStateCreatedTimeMillis = createdTimeMillis
         snapshots.clear()
-        snapshots.add(Snapshot(StateDifference(), createdTimeMillis))
+        snapshots.add(Snapshot(StateDifference(), setOf(), setOf(), createdTimeMillis))
     }
 
     /** Adds new snapshot to buffer */
-    fun addSnapshot(difference: StateDifference, createdTimeMillis: TimeMillis) {
-        val snapshot = Snapshot(difference, createdTimeMillis)
+    fun addSnapshot(difference: StateDifference, teleportedBuildings: Set<BuildingID>, teleportedEntities: Set<EntityID>, createdTimeMillis: TimeMillis) {
+        val snapshot = Snapshot(difference, teleportedBuildings, teleportedEntities, createdTimeMillis)
         var index = snapshots.binarySearch(snapshot)
         if (index < 0) index = -index - 1
         snapshots.add(index, snapshot)
@@ -60,7 +64,11 @@ internal class SnapshotManager(
         if (snapshots.isEmpty()) return extrapolateSnapshot(initialState, renderTime - initialStateCreatedTimeMillis)
         val progress = (renderTime - initialStateCreatedTimeMillis).toFloat() /
                 (snapshots[0].createdTimeMillis - initialStateCreatedTimeMillis).toFloat()
-        return interpolateSnapshots(initialState, snapshots[0].stateDifference, progress)
+        return interpolateSnapshots(
+                initialState, snapshots[0].stateDifference,
+                snapshots[0].teleportedBuildings, snapshots[0].teleportedEntities,
+                progress
+        )
     }
 
 
@@ -81,26 +89,33 @@ internal class SnapshotManager(
 
 
 /** Interpolates two states */
-private fun interpolateSnapshots(initialState: SimplifiedState, difference: StateDifference, progress: Float): SimplifiedState {
+private fun interpolateSnapshots(
+        initialState: SimplifiedState, difference: StateDifference,
+        teleportedBuildings: Set<BuildingID>, teleportedEntities: Set<EntityID>,
+        progress: Float
+): SimplifiedState {
     if (progress < 0f) return initialState
     if (progress > 1f) return difference.projectOn(initialState)
     return SimplifiedState(
-            buildings = interpolateObjects(initialState.buildings, difference.buildingsDifference, progress),
-            entities = interpolateObjects(initialState.entities, difference.entitiesDifference, progress)
+            buildings = interpolateObjects(initialState.buildings, difference.buildingsDifference, teleportedBuildings, progress),
+            entities = interpolateObjects(initialState.entities, difference.entitiesDifference, teleportedEntities, progress)
     )
 }
 
 private inline fun <reified T : SimplifiedObject> interpolateObjects(
-        objects: Map<Long, T>, difference: Difference<T>, progress: Float
+        objects: Map<Long, T>, difference: Difference<T>, teleported: Set<Long>, progress: Float
 ): Map<Long, T> = objects
         .filterKeys { !difference.removed.contains(it) }
         .mapValues {
             val newObj = difference.changed[it.key]
-            if (newObj == null) it.value
-            else it.value.with(
-                    x = interpolateValues(it.value.x, newObj.x, progress),
-                    y = interpolateValues(it.value.y, newObj.y, progress)
-            ) as T
+            when {
+                newObj == null -> it.value
+                it.key in teleported -> it.value
+                else -> it.value.with(
+                        x = interpolateValues(it.value.x, newObj.x, progress),
+                        y = interpolateValues(it.value.y, newObj.y, progress)
+                ) as T
+            }
         }
 
 private fun interpolateValues(first: Float, second: Float, progress: Float): Float =

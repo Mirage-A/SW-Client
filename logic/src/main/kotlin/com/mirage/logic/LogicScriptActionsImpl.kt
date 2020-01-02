@@ -19,10 +19,12 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
     override val coerced: LuaValue = CoerceJavaToLua.coerce(this)
 
     override fun runSceneScript(scriptName: String, args: LuaTable) {
+        args["actions"] = coerced
         data.assets.runScript("scenes/${data.gameMapName}/scripts/$scriptName", args, coerced)
     }
 
     override fun runSceneScriptAfterTimeout(scriptName: String, args: LuaTable, timeout: Long) {
+        args["actions"] = coerced
         data.delayedScripts.add(DelayedScriptRequest(System.currentTimeMillis() + timeout, scriptName, args))
     }
 
@@ -79,6 +81,14 @@ internal class LogicScriptActionsImpl(private val data: LogicData) : LogicScript
         )
         data.state.removeEntity(entityID)
         data.behaviors.remove(entityID)
+    }
+
+    override fun markEntityAsTeleported(entityID: EntityID) {
+        data.serverMessages.add(-1L to EntityTeleportMessage(entityID))
+    }
+
+    override fun markBuildingAsTeleported(buildingID: BuildingID) {
+        data.serverMessages.add(-1L to BuildingTeleportMessage(buildingID))
     }
 
     override fun print(msg: Any?) = Log.i(msg)

@@ -2,6 +2,7 @@ package com.mirage.logic
 
 import com.mirage.core.utils.EntityID
 import com.mirage.core.game.maps.GameMap
+import com.mirage.core.utils.BuildingID
 import com.mirage.logic.state.ExtendedBuilding
 import com.mirage.logic.state.ExtendedEntity
 import com.mirage.logic.state.ExtendedState
@@ -57,6 +58,9 @@ internal interface LogicScriptActions {
 
     /** Removes entity [entityID] from scene, triggering its destroy script */
     fun destroyEntity(entityID: EntityID)
+
+    fun markEntityAsTeleported(entityID: EntityID)
+    fun markBuildingAsTeleported(buildingID: BuildingID)
 
     /** Logs an object [msg] using standard logger */
     fun print(msg: Any?)

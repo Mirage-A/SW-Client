@@ -4,12 +4,12 @@
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="8">
-        <layer0 imageName="~handtop" x="-0.28653294" y="-30.398281" scale="0.75" scaleX="0.94" scaleY="0.98" angle="0.017855406" flipX="false" isVisible="true"/>
+        <layer0 imageName="~handtop" x="-55.833332" y="-21.666666" scale="1.11" scaleX="0.44" scaleY="0.12" angle="0.8544705" flipX="false" isVisible="true"/>
         <layer1 imageName="~handbottom" x="0.14613175" y="-8.7621765" scale="0.79" scaleX="0.87" scaleY="1.04" angle="0.044415236" flipX="false" isVisible="true"/>
         <layer2 imageName="~body" x="0.14285707" y="-16.821428" scale="0.8" scaleX="0.92" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
         <layer3 imageName="~neck" x="0.46428573" y="-45.107143" scale="0.49" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
         <layer4 imageName="~handtop" x="-0.4383955" y="-28.246418" scale="0.82" scaleX="0.93" scaleY="1.03" angle="0.020830393" flipX="false" isVisible="true"/>
-        <layer5 imageName="~handbottom" x="0.8595989" y="-6.90831" scale="0.84" scaleX="0.94" scaleY="1.01" angle="0.039978743" flipX="false" isVisible="true"/>
+        <layer5 imageName="~handbottom" x="-65.0" y="29.166666" scale="0.84" scaleX="0.94" scaleY="1.01" angle="2.5016046" flipX="false" isVisible="true"/>
         <layer6 imageName="~cloak" x="-11.60745" y="-0.8853874" scale="0.39" scaleX="0.28" scaleY="2.0" angle="-0.040378433" flipX="false" isVisible="true"/>
         <layer7 imageName="~head" x="-3.7142859" y="-59.071426" scale="0.78" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="false"/>
       </frame0>

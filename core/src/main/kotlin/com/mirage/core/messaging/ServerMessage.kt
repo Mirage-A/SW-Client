@@ -3,6 +3,8 @@ package com.mirage.core.messaging
 import com.mirage.core.game.objects.properties.Equipment
 import com.mirage.core.game.objects.SimplifiedState
 import com.mirage.core.game.objects.StateDifference
+import com.mirage.core.utils.BuildingID
+import com.mirage.core.utils.EntityID
 
 sealed class ServerMessage {
     companion object {
@@ -17,7 +19,9 @@ sealed class ServerMessage {
                 GlobalQuestUpdateMessage::class.java,
                 LocalQuestUpdateMessage::class.java,
                 DisplayTextMessage::class.java,
-                StartDialogMessage::class.java
+                StartDialogMessage::class.java,
+                EntityTeleportMessage::class.java,
+                BuildingTeleportMessage::class.java
         )
 
         internal val codeToClassMap: Map<Int, Class<*>> = HashMap<Int, Class<*>>().apply {
@@ -83,4 +87,14 @@ data class DisplayTextMessage(
 
 data class StartDialogMessage(
         val dialogName: String
+) : ServerMessage()
+
+/** Marks [entityID] as teleported entity, meaning that client will not interpolate its movement during current tick */
+data class EntityTeleportMessage(
+        val entityID: EntityID
+) : ServerMessage()
+
+/** Marks [buildingID] as teleported building, meaning that client will not interpolate its movement during current tick */
+data class BuildingTeleportMessage(
+        val buildingID: BuildingID
 ) : ServerMessage()

@@ -4,16 +4,16 @@
   <RIGHT>
     <UNARMED>
       <frame0 layersCount="2">
-        <layer0 imageName="objects/main-gate-door" x="6.289856" y="1.2753601" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
-        <layer1 imageName="objects\main-gate-door" x="0.0" y="0.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="true" isVisible="false"/>
+        <layer0 imageName="objects/main-gate-door" x="1.0" y="-128.06451" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer1 imageName="objects\main-gate-door" x="0.0" y="0.0" scale="0.01" scaleX="0.01" scaleY="0.01" angle="0.0" flipX="true" isVisible="false"/>
       </frame0>
       <frame1 layersCount="2">
-        <layer0 imageName="objects/main-gate-door" x="-120.18841" y="5.9710145" scale="0.59" scaleX="0.1" scaleY="2.0" angle="0.0" flipX="false" isVisible="true"/>
-        <layer1 imageName="objects\main-gate-door" x="-134.40579" y="2.347826" scale="0.59" scaleX="0.1" scaleY="2.0" angle="0.0" flipX="true" isVisible="true"/>
+        <layer0 imageName="objects/main-gate-door" x="-126.0" y="-133.0" scale="1.0" scaleX="0.01" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer1 imageName="objects\main-gate-door" x="-129.0" y="-137.0" scale="1.0" scaleX="0.01" scaleY="1.0" angle="0.0" flipX="true" isVisible="true"/>
       </frame1>
       <frame2 layersCount="2">
-        <layer0 imageName="objects/main-gate-door" x="-112.0" y="-5.0" scale="0.49" scaleX="0.25" scaleY="2.0" angle="0.0" flipX="false" isVisible="false"/>
-        <layer1 imageName="objects\main-gate-door" x="-261.3623" y="1.565218" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="true" isVisible="true"/>
+        <layer0 imageName="objects/main-gate-door" x="-112.0" y="-5.0" scale="0.01" scaleX="0.01" scaleY="0.01" angle="0.0" flipX="false" isVisible="false"/>
+        <layer1 imageName="objects\main-gate-door" x="-255.0" y="-131.0" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="true" isVisible="true"/>
       </frame2>
     </UNARMED>
     <ONE_HANDED/>

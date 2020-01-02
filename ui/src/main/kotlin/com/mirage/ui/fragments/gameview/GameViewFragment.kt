@@ -32,9 +32,7 @@ internal class GameViewFragment(
 
     private val snapshotManager: SnapshotManager = SnapshotManager { oldState, difference ->
         /** Updating drawers for new snapshot */
-        /** Updating drawers for new snapshot */
         gameView.updateDrawers(oldState, difference)
-        /** Processing equipment change requests */
         /** Processing equipment change requests */
         val iterator = equipmentChangeRequests.listIterator()
         while (iterator.hasNext()) {
@@ -73,11 +71,24 @@ internal class GameViewFragment(
     }
 
     fun addSnapshot(difference: StateDifference, createdTimeMillis: TimeMillis) {
-        snapshotManager.addSnapshot(difference, createdTimeMillis)
+        snapshotManager.addSnapshot(difference, teleportedBuildings.toSet(), teleportedEntities.toSet(), createdTimeMillis)
+        teleportedBuildings.clear()
+        teleportedEntities.clear()
     }
 
     fun setEquipment(humanoidID: EntityID, equipment: Equipment) {
         equipmentChangeRequests.add(humanoidID to equipment)
+    }
+
+    private val teleportedBuildings: MutableList<BuildingID> = ArrayList()
+    private val teleportedEntities: MutableList<EntityID> = ArrayList()
+
+    fun markBuildingAsTeleported(buildingID: BuildingID) {
+        teleportedBuildings.add(buildingID)
+    }
+
+    fun markEntityAsTeleported(entityID: EntityID) {
+        teleportedEntities.add(entityID)
     }
 
     override fun draw(virtualScreen: VirtualScreen) {

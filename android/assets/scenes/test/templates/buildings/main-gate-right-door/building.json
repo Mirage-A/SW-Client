@@ -1,0 +1,15 @@
+{
+  "name": "main-gate-right-door",
+  "template": "main-gate-right-door",
+  "type": "BUILDING",
+  "width": 4.0,
+  "height": 0.0,
+  "isRigid": true,
+  "transparencyRange": 5.0,
+  "drawers": {
+    "default": {
+      "type": "staticTexture",
+      "textureName": "main-gate-right-door"
+    }
+  }
+}
