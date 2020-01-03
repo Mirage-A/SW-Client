@@ -9,12 +9,15 @@ internal fun getAnimationCurrentTime(animation: Animation, timePassed: Long) =
         else min(timePassed, animation.duration - 1L)
 
 internal fun getStartFrame(frames: List<Animation.Frame>, duration: Int, currentTime: Long): Animation.Frame =
-        frames[(currentTime * (frames.size - 1) / duration).toInt()]
+        if (frames.isEmpty()) Animation.Frame()
+        else frames[(currentTime * (frames.size - 1) / duration).toInt()]
 
 internal fun getEndFrame(frames: List<Animation.Frame>, duration: Int, currentTime: Long): Animation.Frame =
-        frames[min((currentTime * (frames.size - 1) / duration).toInt() + 1, frames.size - 1)]
+        if (frames.isEmpty()) Animation.Frame()
+        else frames[min((currentTime * (frames.size - 1) / duration).toInt() + 1, frames.size - 1)]
 
 internal fun getAnimationProgress(frames: List<Animation.Frame>, duration: Int, currentTime: Long): Float {
+    if (frames.size <= 1) return 0f
     val interval = duration / (frames.size - 1f)
     return currentTime % interval / interval
 }

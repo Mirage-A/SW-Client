@@ -2,7 +2,11 @@
 
 <animation type="BODY" name="idle" duration="1000" isRepeatable="true">
   <RIGHT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="1">
+        <layer0 imageName="objects\main-gate" x="-19.833332" y="-12.333334" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>

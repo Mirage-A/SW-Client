@@ -43,7 +43,6 @@ class HumanoidDrawerTemplate(
         if (!isOpaque) return
         val bodyAnimation = animationLoader.getBodyAnimation(action)
         val legsAnimation = animationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
-
         val bodyFrames: List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
                 ?: run {
                     Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
@@ -54,8 +53,6 @@ class HumanoidDrawerTemplate(
                     Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
                     return
                 }
-        if (bodyFrames.isEmpty()) return
-        if (legsFrames.isEmpty()) return
 
         val bodyTime = getAnimationCurrentTime(bodyAnimation, actionTimePassedMillis)
         val bodyStartFrame = getStartFrame(bodyFrames, bodyAnimation.duration, bodyTime)
