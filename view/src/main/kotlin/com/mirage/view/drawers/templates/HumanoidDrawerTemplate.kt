@@ -105,7 +105,7 @@ class HumanoidDrawerTemplate(
         val texture: String = when {
             layerName.startsWith("~head-") -> {
                 val customMoveDirection = MoveDirection.fromString(layerName.substring(6))
-                headTextures[customMoveDirection] ?: return
+                headTextures[customMoveDirection.fromViewToScene()] ?: return
             }
             layerName.startsWith("~") -> when (layerName) {
                 "~bodypoint" -> return

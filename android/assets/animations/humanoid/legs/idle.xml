@@ -2,7 +2,15 @@
 
 <animation type="LEGS" name="idle" duration="1000" isRepeatable="true">
   <RIGHT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="0.3841229" y="-20.736235" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer1 imageName="~legtop" x="0.15236878" y="-45.478874" scale="0.9" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer2 imageName="~legbottom" x="0.103713214" y="-16.03585" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer3 imageName="~legtop" x="0.103713214" y="-42.8758" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="0.0" y="-56.953907" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -11,7 +19,15 @@
     <STAFF/>
   </RIGHT>
   <UP_RIGHT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="-3.7618437" y="-19.510883" scale="0.95" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer1 imageName="~legtop" x="-3.4020486" y="-45.991035" scale="0.95" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer2 imageName="~legbottom" x="5.051095" y="-16.751825" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer3 imageName="~legtop" x="5.1751823" y="-43.90511" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="0.04865551" y="-57.265045" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -20,7 +36,15 @@
     <STAFF/>
   </UP_RIGHT>
   <UP>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~bodypoint" x="0.04214561" y="-57.022987" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer1 imageName="~legtop" x="-7.2796936" y="-44.337166" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer2 imageName="~legtop" x="6.704981" y="-43.720306" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer3 imageName="~legbottom" x="-7.130268" y="-17.068966" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer4 imageName="~legbottom" x="6.8122606" y="-17.091953" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -29,7 +53,15 @@
     <STAFF/>
   </UP>
   <UP_LEFT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="3.7618437" y="-19.510883" scale="0.95" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer1 imageName="~legtop" x="3.4020486" y="-45.991035" scale="0.95" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer2 imageName="~legbottom" x="-5.051095" y="-16.751825" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer3 imageName="~legtop" x="-5.1751823" y="-43.90511" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="-0.04865551" y="-57.265045" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -38,7 +70,15 @@
     <STAFF/>
   </UP_LEFT>
   <LEFT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="-0.3841229" y="-20.736235" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer1 imageName="~legtop" x="-0.15236878" y="-45.478874" scale="0.9" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer2 imageName="~legbottom" x="-0.103713214" y="-16.03585" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer3 imageName="~legtop" x="-0.103713214" y="-42.8758" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="-0.0" y="-56.953907" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -47,7 +87,15 @@
     <STAFF/>
   </LEFT>
   <DOWN_LEFT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="-3.7618437" y="-19.510883" scale="0.95" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer1 imageName="~legtop" x="-3.4020486" y="-45.991035" scale="0.95" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer2 imageName="~legbottom" x="5.051095" y="-16.751825" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer3 imageName="~legtop" x="5.1751823" y="-43.90511" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="0.04865551" y="-57.265045" scale="1.0" scaleX="1.0" scaleY="1.0" angle="-0.0" flipX="true" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -56,7 +104,15 @@
     <STAFF/>
   </DOWN_LEFT>
   <DOWN>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="-6.8122606" y="-17.091953" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer1 imageName="~legbottom" x="7.130268" y="-17.068966" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer2 imageName="~legtop" x="-6.704981" y="-43.720306" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer3 imageName="~legtop" x="7.2796936" y="-44.337166" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="-0.04214561" y="-57.022987" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
@@ -65,7 +121,15 @@
     <STAFF/>
   </DOWN>
   <DOWN_RIGHT>
-    <UNARMED/>
+    <UNARMED>
+      <frame0 layersCount="5">
+        <layer0 imageName="~legbottom" x="3.7618437" y="-19.510883" scale="0.95" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer1 imageName="~legtop" x="3.4020486" y="-45.991035" scale="0.95" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer2 imageName="~legbottom" x="-5.051095" y="-16.751825" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer3 imageName="~legtop" x="-5.1751823" y="-43.90511" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+        <layer4 imageName="~bodypoint" x="-0.04865551" y="-57.265045" scale="1.0" scaleX="1.0" scaleY="1.0" angle="0.0" flipX="false" isVisible="true"/>
+      </frame0>
+    </UNARMED>
     <ONE_HANDED/>
     <SHIELD/>
     <DUAL/>
