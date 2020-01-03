@@ -55,10 +55,10 @@ internal class SnapshotManagerTest {
         val fourthState = fourthDiff.projectOn(thirdState)
 
         val snapshotManager = SnapshotManager()
-        snapshotManager.setInitialState(firstState, 0L)
-        snapshotManager.addSnapshot(thirdDiff, 2000L)
-        snapshotManager.addSnapshot(fourthDiff, 3000L)
-        snapshotManager.addSnapshot(secondDiff, 1000L)
+        snapshotManager.setInitialState(firstState, createdTimeMillis = 0L)
+        snapshotManager.addSnapshot(thirdDiff, createdTimeMillis = 2000L)
+        snapshotManager.addSnapshot(fourthDiff, createdTimeMillis = 3000L)
+        snapshotManager.addSnapshot(secondDiff, createdTimeMillis = 1000L)
 
         // На момент -500 мс данных нет
         assertDoesNotThrow {

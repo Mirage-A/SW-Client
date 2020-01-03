@@ -47,7 +47,7 @@ internal class SnapshotManager(
     }
 
     /** Adds new snapshot to buffer */
-    fun addSnapshot(difference: StateDifference, teleportedBuildings: Set<BuildingID>, teleportedEntities: Set<EntityID>, createdTimeMillis: TimeMillis) {
+    fun addSnapshot(difference: StateDifference, teleportedBuildings: Set<BuildingID> = emptySet(), teleportedEntities: Set<EntityID> = emptySet(), createdTimeMillis: TimeMillis) {
         val snapshot = Snapshot(difference, teleportedBuildings, teleportedEntities, createdTimeMillis)
         var index = snapshots.binarySearch(snapshot)
         if (index < 0) index = -index - 1
