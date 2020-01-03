@@ -43,16 +43,23 @@ class HumanoidDrawerTemplate(
         if (!isOpaque) return
         val bodyAnimation = animationLoader.getBodyAnimation(action)
         val legsAnimation = animationLoader.getLegsAnimation(if (isMoving) "running" else "idle")
-        val bodyFrames: List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
-                ?: run {
-                    Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
-                    return
-                }
-        val legsFrames: List<Animation.Frame> = legsAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
-                ?: run {
-                    Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
-                    return
-                }
+        var bodyFrames: List<Animation.Frame> = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
+                ?: ArrayList()
+        if (bodyFrames.isEmpty()) {
+            bodyFrames = bodyAnimation.data[moveDirection.fromSceneToView()]?.get(WeaponType.UNARMED)
+                    ?: run {
+                        Log.e("Error while loading body animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
+                        return
+                    }
+        }
+        var legsFrames: List<Animation.Frame> = legsAnimation.data[moveDirection.fromSceneToView()]?.get(weaponType)
+                ?: ArrayList()
+        if (legsFrames.isEmpty())
+            legsFrames = legsAnimation.data[moveDirection.fromSceneToView()]?.get(WeaponType.UNARMED)
+                    ?: run {
+                        Log.e("Error while loading legs animation (moveDirection=$moveDirection weaponType=$weaponType action=$action)")
+                        return
+                    }
 
         val bodyTime = getAnimationCurrentTime(bodyAnimation, actionTimePassedMillis)
         val bodyStartFrame = getStartFrame(bodyFrames, bodyAnimation.duration, bodyTime)
