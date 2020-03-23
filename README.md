@@ -18,12 +18,11 @@
 
 Активно используются:
  - Kotlin
- - LibGDX
- - RxJava
- - Lua (+ LuaJ)
- - GSON
  - JUnit, Mockito
  - Gradle, Git, Travis CI, Codecov
+ - GSON
+ - Lua (+ LuaJ)
+ - LibGDX
  
 Активно изучаются и будут использоваться:
  - Kotlin Coroutines
